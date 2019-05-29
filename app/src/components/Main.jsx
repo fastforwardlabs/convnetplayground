@@ -5,12 +5,12 @@ import {
     HashRouter
 } from "react-router-dom";
  
-
+import "./template.css"
  
 // import Sidebar from "./Sidebar";
 import AppHeader from "./header/AppHeader";
 import Footer from "./footer/Footer";
-import DataEx from "../content/dataex/DataEx";
+import SemanticEx from "../content/semanticex/SemanticEx";
 import ModelEx from "../content/modelex/ModelEx";
 // import About from "../sections/About"
 // import Game from "../sections/Game"
@@ -44,8 +44,8 @@ class Main extends Component {
             <HashRouter>
                 <AppHeader></AppHeader> 
                   <div className="container-fluid p10">   
-                  <Route exact path="/" component={DataEx} />
-                  <Route exact path="/datasets" component={DataEx} />
+                  <Route exact path="/" component={SemanticEx} />
+                  <Route exact path="/datasets" component={SemanticEx} />
                   <Route exact path="/models" component={ModelEx} />
                             {/* <Route path="/about" component={About} />
                             <Route path="/demo" component={Demo} />

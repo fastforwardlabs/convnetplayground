@@ -1,0 +1,111 @@
+
+/* Text Highlights */
+
+
+.bluehightlight {
+    padding: 10px;
+    background: rgb(190, 213, 250);
+    margin: 0px 0px 0px 0px;
+}
+
+.orangehighlight {
+    padding: 10px;
+    background: rgb(240, 134, 3);
+    margin: 0px 0px 0px 0px;
+    color: white;
+}
+
+.lh10 {
+    line-height: 1.4rem;
+}
+
+/*  Layout Spacing margin, etc */
+.iblock {
+    display: inline-block;
+}
+.redcolor {
+    color: red;
+}
+.border {
+    border: 1px solid green ;
+}
+
+.floatleft {
+    float: left;
+}
+
+.floatright {
+    float: right;
+}
+
+.p10 {
+    padding: 10px;
+}
+.m10 {
+    margin: 10px;
+}
+
+.p20 {
+    padding: 20px;
+}
+.m20 {
+    margin: 20px;
+}
+
+.pb10 {
+    padding-bottom: 10px;
+}
+
+.pt10 {
+    padding-top: 10px;
+}
+
+
+.pb20 {
+    padding-bottom: 20px;
+}
+
+.pt20 {
+    padding-top: 20px;
+}
+
+.mt10 {
+    margin-top: 10px;
+}
+
+.mt20 {
+    margin-top: 20px;
+}
+
+.mb10 {
+    margin-bottom: 10px;
+}
+
+.mr10 {
+    margin-right: 10px;
+}
+
+.mr20 {
+    margin-right: 20px;
+}
+
+.ml10 {
+    margin-left: 10px;
+}
+
+.rad5 {
+    border-radius: 5px;
+}
+
+.rad4 {
+    border-radius: 4px;
+}
+
+.rad3 {
+    border-radius: 3px;
+}
+
+
+.rad2 {
+    border-radius: 2px;
+}

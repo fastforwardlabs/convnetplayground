@@ -25,12 +25,12 @@ class AppHeader extends Component {
                 <Header aria-label="Image Analysis Explorer">
                 <SkipToContent />
                 <HeaderName href="/" prefix="">
-                Image Analysis Explorer
+                Image Playground
                 </HeaderName>
                 <HeaderNavigation aria-label="Image Analysis Explorer">
                 {/* <HeaderMenuItem element={Link} to="/" className="navbarlink "> Datasets </HeaderMenuItem> */}
                 {/* <HeaderMenuItem  element={Link} to="/models" className="navbarlink "> Models</HeaderMenuItem> */}
-                <div className="navbarlinks  "><NavLink exact to="/"> Datasets </NavLink></div>
+                <div className="navbarlinks  "><NavLink exact to="/"> Semantic Search </NavLink></div>
                 <div className="navbarlinks "><NavLink to="/models"> Models </NavLink></div>
                 <div className="navbarlinks "><NavLink to="/extra"> Extras </NavLink></div>
                 </HeaderNavigation>

@@ -2,21 +2,12 @@
 
 
 import tensorflow as tf
-from tensorflow.keras.models import Model
-from tensorflow.keras.preprocessing import image
-from tensorflow.keras.applications.vgg16 import VGG16
-from tensorflow.keras.applications.vgg16 import preprocess_input
-import numpy as np
+from utils import dataset_utils as d_utils
+from utils import model_utils as m_utils
 
 
+tf.logging.set_verbosity(tf.logging.INFO)  
 
-def load_model(model_type):
-
-    # laod imagenet pretrained weights
-    model = VGG16(weights='imagenet', include_top=False)
-
-    return model
-
-
-def get_intermediate_model(model, layer_name):
-    return Model(input=model.input, outputs= model.get_layer(layer_name).output)
+# m_utils.generate_embeddings("vgg16","cifar100","datasets/cifar100/test")
+# m_utils.generate_similarity_scores()
+m_utils.run_plot(similarity_path="similarity/vgg16/cifar100/block5_pool.json", selected_image="499")
