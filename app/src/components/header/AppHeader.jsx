@@ -10,7 +10,7 @@ import {
 } from 'carbon-components-react/lib/components/UIShell';
 
 import {
-    NavLink
+    Link, NavLink
 } from "react-router-dom";
 
 import "./header.css"
@@ -22,19 +22,23 @@ class AppHeader extends Component {
     render() {
         return (
             <div>
-                <Header aria-label="Carbon Tutorial">
+                <Header aria-label="Image Analysis Explorer">
                 <SkipToContent />
                 <HeaderName href="/" prefix="">
                 Image Analysis Explorer
                 </HeaderName>
-                <HeaderNavigation aria-label="Carbon Tutorial">
-                <HeaderMenuItem className="navbarlink selected"> <NavLink exact to="/">Datasets</NavLink> </HeaderMenuItem>
-                <HeaderMenuItem className="navbarlink "><NavLink exact to="/models"> Models </NavLink> </HeaderMenuItem>
+                <HeaderNavigation aria-label="Image Analysis Explorer">
+                {/* <HeaderMenuItem element={Link} to="/" className="navbarlink "> Datasets </HeaderMenuItem> */}
+                {/* <HeaderMenuItem  element={Link} to="/models" className="navbarlink "> Models</HeaderMenuItem> */}
+                <div className="navbarlinks  "><NavLink exact to="/"> Datasets </NavLink></div>
+                <div className="navbarlinks "><NavLink to="/models"> Models </NavLink></div>
+                <div className="navbarlinks "><NavLink to="/extra"> Extras </NavLink></div>
                 </HeaderNavigation>
                 <HeaderGlobalBar>
                 <HeaderGlobalAction aria-label="Notifications">
                     <Notification20 />
                 </HeaderGlobalAction>
+               
                 {/* <HeaderGlobalAction aria-label="User Avatar">
                     <UserAvatar20 />
                 </HeaderGlobalAction> */}

@@ -36,13 +36,14 @@ class Main extends Component {
 
     componentDidMount() {
         // ReactGA.pageview(window.location.hash)
+        document.title = "Image Analysis Explorer | Explore Convolutional Neural Nets for Imagee Analysis";
     }
 
     render() {
         return (
             <HashRouter>
                 <AppHeader></AppHeader> 
-                  <div class="container-fluid"> hi 
+                  <div className="container-fluid p10">   
                   <Route exact path="/" component={DataEx} />
                   <Route exact path="/datasets" component={DataEx} />
                   <Route exact path="/models" component={ModelEx} />

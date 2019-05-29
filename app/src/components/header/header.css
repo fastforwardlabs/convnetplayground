@@ -1,12 +1,17 @@
 
-.selected{
+.navbarlinks a.active, .selected {
     border-bottom: 4px #0062FF solid;
 }
-.navbarlink a{
+.navbarlinks a{
     text-decoration: none;
     color: #fff;
     width: 100%;
     height: 100%;
+    line-height: 3.4em;
     display: block;
-    padding: 10px 0px 10px 10px;
+    padding: 0px 12px 0px 12px;
+}
+
+.navbarlinks a:hover{
+    background-color: #3D3D3D;
 }
