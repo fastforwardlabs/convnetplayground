@@ -3,6 +3,12 @@
     width: 6em;
     border: 1px solid #CDCDCD;
     margin: 0px 10px 0px 0px;
+    opacity: 0.5;
+}
+
+.datasetbox.active{
+    border-bottom: 4px #0062FF solid;
+    opacity: 1;
 }
 
 .datasettitles{

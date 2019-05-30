@@ -19,6 +19,16 @@
     line-height: 1.4rem;
 }
 
+.sectiontitle{
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.horrule {
+    height: 1px;
+    border-bottom: 1px solid rgba(145, 142, 142, 0.4);
+}
+
 /*  Layout Spacing margin, etc */
 .iblock {
     display: inline-block;
@@ -108,4 +118,15 @@
 
 .rad2 {
     border-radius: 2px;
+}
+
+.opacity100{
+    opacity: 1;
+}
+.opacity50{
+    opacity: 0.5;
+}
+
+.clickable{
+    cursor: pointer;
 }

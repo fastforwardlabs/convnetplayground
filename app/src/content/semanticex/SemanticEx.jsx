@@ -32,7 +32,9 @@ class SemanticEx extends Component {
         and hence "search" for similar images. How do different architectures compare? What layers perform better and when?
         What similarity metrics work best? This demo helps you investigate these questions! `
 
-        this.datasetslist = [ {name: "CIFAR100x"}, {name: "ICONIC3K"}, {name: "IMAGENET3K"} ]
+        this.datasetslist = [ {name: "CIFAR100x", opacitystyle:"active"}, 
+        {name: "ICONIC3K", opacitystyle:""}, 
+        {name: "IMAGENET3K", opacitystyle:""} ]
     }
     
     componentDidMount() {
@@ -40,14 +42,22 @@ class SemanticEx extends Component {
     }
 
     clickDatasetImage(){
+        alert("click here")
 
     }
+
+    clickDatasetImage(){
+        alert("click here")
+
+    }
+
+
     render() {
         let datasetImageList = this.datasetslist.map(dsdata => {  
             return (
-                <div className="iblock datasetfullbox ">
+                <div className="iblock datasetfullbox clickable ">
                     <div className="datasettitles"> {dsdata.name}</div>
-                    <img key={dsdata}  onClick={this.clickDatasetImage.bind(this)} src={require("../../images/0.jpg")} alt="" className="datasetbox rad2 dsselected " />                  
+                    <img key={dsdata}  onClick={this.clickDatasetImage.bind(this)} src={require("../../images/0.jpg")} alt="" className= { "datasetbox rad2 " + dsdata.opacitystyle} />                  
                 </div>
             )
         });
@@ -64,7 +74,8 @@ class SemanticEx extends Component {
 
         return (
             <div>
-                 {/* <div className="mb10 heading-02 "> Semantic Search</div> */}
+                 <div className="pb10 sectiontitle"> Semantic Search</div>
+                 <div className="horrule"></div>
                  <ToastNotification
                     title = {"Semantic Search"}
                     subtitle = {"How it works."}
@@ -82,7 +93,8 @@ class SemanticEx extends Component {
                  </div> */}
                 
                
-                <div className="mb10 mt10" > Select a dataset </div>
+                <div className="mt20 pb10 sectiontitle" > Select a dataset </div>
+                <div className="horrule mb10"></div>
                 <div className="datasetselectdiv">
                     {datasetImageList}
                 </div>

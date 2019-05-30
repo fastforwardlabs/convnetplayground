@@ -22,12 +22,12 @@ class AppHeader extends Component {
     render() {
         return (
             <div>
-                <Header aria-label="Image Analysis Explorer">
+                <Header aria-label="Convolutional Neural Network Playground">
                 <SkipToContent />
                 <HeaderName href="/" prefix="">
-                Image Playground
+                ConvNet Playground
                 </HeaderName>
-                <HeaderNavigation aria-label="Image Analysis Explorer">
+                <HeaderNavigation aria-label="Convolutional Neural Network Playground">
                 {/* <HeaderMenuItem element={Link} to="/" className="navbarlink "> Datasets </HeaderMenuItem> */}
                 {/* <HeaderMenuItem  element={Link} to="/models" className="navbarlink "> Models</HeaderMenuItem> */}
                 <div className="navbarlinks  "><NavLink exact to="/"> Semantic Search </NavLink></div>
