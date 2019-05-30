@@ -8,11 +8,25 @@
     margin: 0px 0px 0px 0px;
 }
 
+.lightbluehightlight {
+    padding: 10px;
+    background: #EDF4FF;
+    margin: 0px 0px 0px 0px;
+}
+
 .orangehighlight {
     padding: 10px;
     background: rgb(240, 134, 3);
     margin: 0px 0px 0px 0px;
     color: white;
+}
+
+.topblueborder {
+    border-top: 3px solid #0062FF;
+}
+
+.bottomblueborder {
+    border-bottom: 3px solid #0062FF;
 }
 
 .lh10 {
@@ -129,4 +143,48 @@
 
 .clickable{
     cursor: pointer;
+}
+
+.flex {
+    display: flex;
+}
+
+.flexfull {
+    flex: 1;
+}
+
+.flex1 {
+    flex: 0.1;
+}
+
+.flex2 {
+    flex: 0.2;
+}
+
+.flex3 {
+    flex: 0.3;
+}
+
+.flex4 {
+    flex: 0.4;
+}
+
+.flex5 {
+    flex: 0.5;
+}
+
+.flex6 {
+    flex: 0.6;
+}
+
+.flex7 {
+    flex: 0.7;
+}
+
+.flex8 {
+    flex: 0.8;
+}
+
+.flex9 {
+    flex: 0.9
 }

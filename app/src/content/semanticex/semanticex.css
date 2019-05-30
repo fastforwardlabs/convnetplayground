@@ -1,6 +1,5 @@
 .datasetbox{
-    height: 6em;
-    width: 6em;
+    height: 6em; 
     border: 1px solid #CDCDCD;
     margin: 0px 10px 0px 0px;
     opacity: 0.5;
@@ -23,4 +22,13 @@
 
 .dsselected {
     border-bottom: 4px #0062FF solid;
+}
+
+.mainsimilarityimage{
+    height: 10em;
+}
+
+.simiimage{
+    height: 6em; 
+    margin: 0px 5px 3px 0px;
 }

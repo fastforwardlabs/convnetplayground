@@ -12,6 +12,7 @@ import AppHeader from "./header/AppHeader";
 import Footer from "./footer/Footer";
 import SemanticEx from "../content/semanticex/SemanticEx";
 import ModelEx from "../content/modelex/ModelEx";
+import AlgebraEx from "../content/algebraex/AlgebraEx"
 // import About from "../sections/About"
 // import Game from "../sections/Game"
 // import Doodle from "../sections/Doodle"
@@ -47,11 +48,8 @@ class Main extends Component {
                   <Route exact path="/" component={SemanticEx} />
                   <Route exact path="/datasets" component={SemanticEx} />
                   <Route exact path="/models" component={ModelEx} />
-                            {/* <Route path="/about" component={About} />
-                            <Route path="/demo" component={Demo} />
-                            <Route path="/game" component={Game} />
-                            <Route path="/doodle" component={Doodle} />
-                            <Route path="/video" component={VideoDemo} /> */}
+                  <Route exact path="/algebra" component={AlgebraEx} />
+                            
                   </div>
                 <div id="footer"> <Footer /> </div>
             </HashRouter>
