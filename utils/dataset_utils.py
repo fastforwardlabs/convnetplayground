@@ -6,6 +6,7 @@
 
 
 import tensorflow as tf 
+from tensorflow.keras.datasets import cifar100 
 import os 
 import utils.file_utils as f_utils
 from PIL import Image
@@ -27,11 +28,11 @@ def save_files(directory_path, images):
         tf.logging.info("  >> Finished saving images to path " + directory_path)
 
 
-def generate_dataset(dataset="cifar100"): 
-    if dataset == "cifar100":
-        cifar_root_dir = "datasets/cifar100"
-        train_path = os.path.join(cifar_root_dir, "train")
-        test_path = os.path.join(cifar_root_dir, "test")
+def generate_dataset(dataset_params): 
+    if dataset_params["name"] == "cifar100":
+        dataset_root_dir = dataset_params["path"]
+        train_path = os.path.join(dataset_root_dir, "train")
+        test_path = os.path.join(dataset_root_dir, "test")
    
 #   download CIFAR100 files from the keras dataset repo 
         (x_train, y_train), (x_test, y_test) = cifar100.load_data(label_mode='fine')
@@ -40,7 +41,7 @@ def generate_dataset(dataset="cifar100"):
         save_files(train_path,x_train)
         save_files(test_path,x_test) 
         
-        tf.logging.info("  >> Cifar images saved to  datasets directory " + cifar_root_dir)
+        tf.logging.info("  >> Cifar images saved to  datasets directory " + dataset_root_dir)
 
 
 
