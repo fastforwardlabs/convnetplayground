@@ -30,8 +30,9 @@
 }
 
 .lh10 {
-    line-height: 1.4rem;
+    line-height: 1.25rem;
 }
+
 
 .sectiontitle{
     font-size: 1.2em;
@@ -43,6 +44,9 @@
     border-bottom: 1px solid rgba(145, 142, 142, 0.4);
 }
 
+.boldtext{
+    font-weight: bold;
+}
 /*  Layout Spacing margin, etc */
 .iblock {
     display: inline-block;
@@ -147,6 +151,11 @@
 
 .flex {
     display: flex;
+}
+
+.flexwrap{
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
 
 .flexfull {
