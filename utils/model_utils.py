@@ -6,40 +6,63 @@
     # * embeddings - /embeddings
     # * similarity - /embeddings
 import tensorflow as tf 
-from PIL import Image
 import numpy as np
 import os
-import matplotlib.pyplot as plt
 import gc
 import pickle
 from scipy import spatial
-import json
-import math
+import json 
 import utils.file_utils as f_utils
 
  
 from tensorflow.keras.models import Model
-
 from tensorflow.keras.applications.vgg16 import VGG16
-
 import numpy as np
 
 
 
 def get_model(model_name="vgg16"):
-  if (model_name == "vgg16"):
-    from tensorflow.keras.applications.vgg16 import preprocess_input
-    model = (VGG16(weights='imagenet', include_top=False), preprocess_input), 
-  return model
-  
+    if (model_name == "vgg16"):
+        from tensorflow.keras.applications.vgg16 import preprocess_input
+        model = VGG16(weights='imagenet', include_top=False)
+        return (model, preprocess_input)
+    elif (model_name == "resnet50"):
+        from tensorflow.keras.applications.resnet50 import ResNet50
+        from tensorflow.keras.applications.resnet50 import preprocess_input
+        model = ResNet50(weights="imagenet", include_top=False)
+        return (model, preprocess_input)
+
+
+def get_supported_models():
+    model_architectures = ["vgg16","resnet50"]
+    return  model_architectures
+
+
+def get_all_model_details():
+    model_architectures = get_supported_models()
+    model_details = []
+    for model_name in model_architectures:
+        model, preprocess = get_model(model_name=model_name)
+        layer_names = get_model_layer_names(model, model_name)
+        model_details.append({"name": model_name, "layers":layer_names})
+
+    return model_details
+    
 def get_model_layer_names (model, model_name):
-  layer_list = []
-  #   for vgg layers only select pool layers
-  if (model_name == "vgg16"):
-    for layer in model.layers: 
-      if ("pool" in layer.name):
-        layer_list.append(layer.name)
-  return layer_list
+    layer_list = []
+    #   for vgg layers only select pool layers
+    if (model_name == "vgg16"):
+        for layer in model.layers: 
+            if ("pool" in layer.name):
+                layer_list.append(layer.name)
+        layer_list = ["block1_conv1", "block1_pool",  "block3_conv1", "block3_pool",  "block4_conv1", "block4_pool",  "block5_conv1","block5_pool"]
+        return layer_list
+    elif (model_name == "resnet50"):
+        # for layer in model.layers:
+        #     if("activation" in layer.name):
+        #         layer_list.append(layer.name)
+        layer_list = ["res2a_branch2a", "res2b_branch2a",  "res3b_branch2a", "res4a_branch2a",  "res4e_branch2a", "res5a_branch2a",  "res5c_branch2c"]
+        return layer_list
 
 def get_intermediate_models(model,layer_list):
     intermediate_model_list = []
@@ -60,28 +83,3 @@ model_architectures = ["densenet121","densenet169","densenet201",
                        "vgg16","vgg19", "xception"]
  
     
-def plot_similar(image_index, image_base_path, similarity, max_display):
-    similarity_images_index = similarity[0]
-    similarity_images_index = similarity_images_index[:max_display]
-    similarity_scores = similarity[1]
-    f_image = Image.open(os.path.join(image_base_path, str(image_index) + ".jpg"))
-    fig = plt.figure(figsize=(10, 10))
-    columns = rows = math.sqrt(len(similarity_images_index)) + 1
-    # rows = column
-    ax = fig.add_subplot(rows, columns, 1)
-    ax.set_title("Main Image " + image_index + ".jpg", fontweight="bold",
-                 size=10)
-    plt.imshow(f_image)
-
-    for i in range(0, len(similarity_images_index)):
-        ax = fig.add_subplot(rows, columns, i+2)
-        ax.set_title(similarity_images_index[i] + ".jpg " + "[" + similarity_scores[i] + "]" )
-        curr_img = Image.open(os.path.join(image_base_path, str(similarity_images_index[i]) + ".jpg"))
-        plt.imshow(curr_img)
-    fig.tight_layout()
-    plt.show()
-
-def run_plot(similarity_path="similarity/vgg16/cifar100/block1_pool.json", selected_image="0"):
-    with open(similarity_path) as f:  
-        data = json.load(f)    
-        plot_similar(selected_image,"datasets/cifar100/test", data[selected_image], 20)
