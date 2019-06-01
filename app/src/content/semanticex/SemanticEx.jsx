@@ -1,26 +1,7 @@
 import React, { Component } from "react";
 import { ToastNotification, InlineNotification, Tooltip } from 'carbon-components-react';
 import "./semanticex.css"
-
-// const kinds = {
-//     'Error (error)': 'error',
-//     'Info (info)': 'info',
-//     'Success (success)': 'success',
-//     'Warning (warning)': 'warning',
-//   };
-// const notificationProps = () => ({
-//     kind: select('The notification kind (kind)', kinds, 'info'),
-//     lowContrast: boolean('Use low contrast variant (lowContrast)', false),
-//     role: text('ARIA role (role)', 'alert'),
-//     title: text('Title (title)', 'Notification title'),
-//     subtitle: text('Subtitle (subtitle)', 'Subtitle text goes here.'),
-//     iconDescription: text(
-//         'Icon description (iconDescription)',
-//         'describes the close button'
-//     ),
-//     hideCloseButton: boolean('Hide close button (hideCloseButton)', false),
-//     onCloseButtonClick: action('onCloseButtonClick'), });
-
+ 
 function abbreviateString(value, maxLength){ 
     if (value.length <= maxLength){
         return value
@@ -33,21 +14,15 @@ class SemanticEx extends Component {
     constructor(props) {
         super(props);
 
+        const similarityData = require('../../assets/semsearch/details.json');
+        console.log(similarityData["datasets"])
+
         this.state = {
             selecteddataset: 0,
             selectedmodel: 0,
             selectedlayer:0,
-            datasetsList : [
-                { name: "CIFAR100x", css: "active", iconpath: "", description: "CIFAR1000 is a subset of the CIFAR10 dataset containing 32*32 images across 10 categories."},        
-                { name: "ICONIC3K", css: "",  iconpath: "", description: "ICONIC3K is a custom dataset assembled from curated iconic images sourced from Flickr."},
-                { name: "IMAGENET3K", css: "",  iconpath: "", description: "IMAGENET3K is a subset of the imagenet dataset on which all of the models used for feature extraction is based on." }
-            ],
-            modelsList: [
-                {name:"VGG16", css: "active", layers:["block1_pool","block2_pool","block3_pool","block4_pool","block5_pool"], description: "A 16 layer model"},
-                {name:"ResNet",  css: "",layers:["resndt_conv1","resndt_conv1","block3_pool","block4_pool","block5_pool"], description: "A class of Models with Skip Connections"},
-                {name:"Inception", css: "", layers:["inception_conv1","block2_pool","block3_pool","block4_pool","block5_pool"], description: "A model by the Keras Guys"},
-                {name:"GoogleNet",  css: "",layers:["googlenet_conv2","block2_pool","block3_pool","block4_pool","block5_pool"], description: "A large model with lots of layers"}
-            ]
+            datasetsList : similarityData["datasets"],
+            modelsList: similarityData["models"]
         }
 
 
@@ -150,7 +125,7 @@ class SemanticEx extends Component {
                         <div className="datasetselectdiv">
                             {datasetImageList}
                         </div>
-                        <div className=" iblock boldtext  iblock boldtext datasetdescription  p10 lightbluehightlight">{this.state.datasetsList[this.state.selecteddataset].name}</div>
+                        <div className=" iblock boldtext  iblock boldtext datasetdescription  p10 lightbluehightlight">{this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()}</div>
                     </div>
                     <div className="flex5 mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Model </div>
