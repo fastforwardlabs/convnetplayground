@@ -76,9 +76,9 @@ class SemanticEx extends Component {
             modelsList: modelDetails["models"],
             distanceMetricList: modelDetails["metrics"]
         }
-        setTimeout(() => {
-            this.updateSimilarity() 
-        }, 2000);
+        // setTimeout(() => {
+        this.updateSimilarity() 
+        // }, 2000);
        
     }
 
@@ -134,10 +134,12 @@ class SemanticEx extends Component {
 
     render() {
         let datasetImageList = this.state.datasetsList.map((dsdata, index) => {
+            let iconPath = process.env.PUBLIC_URL + "/assets/semsearch/images/" + dsdata.icon
+    
             return (
                 <div key={dsdata.name + "fullbox" + index} className="iblock datasetfullbox clickable mb10">
                     <div className="datasettitles"> {dsdata.name.toUpperCase()}</div>
-                    <img onClick={this.clickDatasetImage.bind(this)} src={require("../../images/0.jpg")} alt="" className={"datasetbox rad2 " + (this.state.selecteddataset == index ? "active" : "")} indexvalue={index} />
+                    <img onClick={this.clickDatasetImage.bind(this)} src={iconPath} alt="" className={"datasetbox rad2 " + (this.state.selecteddataset == index ? "active" : "")} indexvalue={index} />
                 </div>
             )
         });
@@ -153,6 +155,7 @@ class SemanticEx extends Component {
         });
 
         let layerImageList = this.state.modelsList[this.state.selectedmodel].layers.map((ldata, index) => {
+            
             return (
                 <div key={ldata + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
                     <div className="datasettitles"> {abbreviateString(ldata.name, 11).toLowerCase()}</div>
@@ -241,12 +244,12 @@ class SemanticEx extends Component {
                         <div className="scrollwindow  ">
                             <div className="windowcontent"> {layerImageList} </div>
                         </div>
-                        <div className="flex">
-                            <div className="flex1  mr10">
+                        <div className="flex flexwrap ">
+                            <div className="flex1  mr10 ">
                             <div className=" iblock boldtext datasetdescription  p10 lightbluehightlight"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}</div>
                             </div>
-                            <div className="flex10 ">
-                                <div className="smalldesc boldtext"> Layer [ {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index }  of {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].totallayers }  ] {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type } </div>
+                            <div className="flex9 ">
+                                <div className="smalldesc boldtext pt4"> Layer [ {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index }  of {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].totallayers }  ] {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type } </div>
                                 <div className="smalldesc pt3"> {makeFriendly(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].paremtercount)} trainable parameters </div>
                             </div>
                         </div>
@@ -265,7 +268,10 @@ class SemanticEx extends Component {
                 </div>
 
 
-                <div className="mt20 mb10 sectiontitle"> Perform a Similarity Search</div>
+                <div className="mt20 mb10 ">
+                    <div className="sectiontitle iblock mr10"> Similarity search </div>
+                    <div className="iblock"> Select and image.</div>
+                </div>
                 <div className="horrule mb10"></div>
                 <div className="flex">
                     <div className="iblock  flex1 mr10">

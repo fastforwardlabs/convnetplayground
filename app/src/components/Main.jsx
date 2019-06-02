@@ -36,7 +36,7 @@ class Main extends Component {
 
     componentDidMount() {
         // ReactGA.pageview(window.location.hash)
-        document.title = "Image Analysis Explorer | Explore Convolutional Neural Nets for Imagee Analysis";
+        // document.title = "Image Analysis Explorer | Explore Convolutional Neural Nets for Imagee Analysis";
     }
 
     render() {

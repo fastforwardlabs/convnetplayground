@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 # This code snippet has functions to generate datasets
 # List of supported datasets
-    # * cifar100 - /datasets/cifar100
-    # * iconicxK - /datasets/iconicxK 
+# * cifar100 - /datasets/cifar100
+# * iconicxK - /datasets/iconicxK
 
 
-import tensorflow as tf 
-from tensorflow.keras.datasets import cifar100 
-import os 
+import tensorflow as tf
+from tensorflow.keras.datasets import cifar100, cifar10
+import os
 import utils.file_utils as f_utils
 from PIL import Image
-   
-      
+
+
 def save_files(directory_path, images):
     """[Save a list of image files to a given dataset filepath]
 
@@ -22,31 +22,54 @@ def save_files(directory_path, images):
 
     if not os.path.exists(directory_path):
         f_utils.mkdir(directory_path)
-        for i,img in enumerate(images): 
+        for i, img in enumerate(images):
             img = Image.fromarray(images[i], 'RGB')
-            img.save( directory_path + "/" + str(i) + '.jpg')
-        tf.logging.info("  >> Finished saving images to path " + directory_path)
+            img.save(directory_path + "/" + str(i) + '.jpg')
+        tf.logging.info(
+            "  >> Finished saving images to path " + directory_path)
 
 
-def generate_dataset(dataset_params): 
+def generate_dataset(dataset_params):
     if dataset_params["name"] == "cifar100":
         dataset_root_dir = dataset_params["path"]
         train_path = os.path.join(dataset_root_dir, "train")
         test_path = os.path.join(dataset_root_dir, "test")
-   
-#   download CIFAR100 files from the keras dataset repo 
+
+        #   download CIFAR100 files from the keras dataset repo
         (x_train, y_train), (x_test, y_test) = cifar100.load_data(label_mode='fine')
-        
+
         # creating train and test folder
-        save_files(train_path,x_train)
-        save_files(test_path,x_test) 
-        
+        save_files(train_path, x_train)
+        save_files(test_path, x_test)
+
         tf.logging.info("  >> Cifar images saved to  datasets directory " + dataset_root_dir)
+    elif dataset_params["name"] == "cifar10":
+        (x_train, y_train), (x_test, y_test) = cifar10.load_data()
+
+        category_counter = {}
+        num_per_category = round(dataset_params["dataset_size"] / 10)
+        c_counter = 0
+        f_utils.mkdir(dataset_params["path"])
+
+        for i, val in enumerate(list(y_train)):
+            val = val[0]
+            if (val in category_counter.keys()):
+                if(category_counter[val] < num_per_category):
+                    category_counter[val] = category_counter[val] + 1
+                    img = Image.fromarray(x_train[i], 'RGB')
+                    img.save(dataset_params["path"] + "/" + str(c_counter) + '.jpg')
+                    c_counter += 1
+                    if c_counter >= dataset_params["dataset_size"]:
+                        break
+            else:
+                category_counter[val] = 0
+        
+        tf.logging.info("  >> Cifar10 images saved to  datasets directory " + dataset_params["path"])
 
 def get_supported_datasets():
-    supported_datasets = [ 
-        {"name": "cifar100"},
-        {"name": "Iconic3k"},
-        {"name": "Imagenet3k"}
-        ]
+    supported_datasets = [
+        {"name": "cifar10", "icon":"cifar.jpg"},
+        {"name": "Iconic3k", "icon":"0.jpg"},
+        {"name": "Imagenet3k", "icon":"imagenet.jpg"}
+    ]
     return supported_datasets
