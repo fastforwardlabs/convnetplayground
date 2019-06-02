@@ -38,6 +38,16 @@ def get_supported_models():
                             {"name": "resnet50"}]
     return  model_architectures
 
+def get_all_layer_details(model, layer_list):
+    layer_details = {}
+    for i,layer in enumerate(model.layers): 
+        layer_details[layer.name] = {"name": layer.name, "type":layer.__class__.__name__, "paremtercount":layer.count_params(), "layer_index":i , "totallayers": len(model.layers)}
+    
+    detailed_layer_list = []
+    for layer in layer_list:
+        detailed_layer_list.append(layer_details[layer])
+    return detailed_layer_list
+
 
 def get_all_model_details():
     model_architectures = get_supported_models()
@@ -45,9 +55,15 @@ def get_all_model_details():
     for model_detail in model_architectures:
         model, preprocess = get_model(model_name=model_detail["name"])
         layer_names = get_model_layer_names(model, model_detail["name"])
-        model_details.append({"name": model_detail["name"], "layers":layer_names})
+        model_details.append({"name": model_detail["name"], "layers":get_all_layer_details(model, layer_names)})
 
     return model_details
+
+    
+
+  
+# get_all_layer_details(model, ["block1_pool"])
+
     
 def get_model_layer_names (model, model_name):
     layer_list = []
@@ -71,7 +87,7 @@ def get_intermediate_models(model,layer_list):
         intermediate_model = Model(inputs=model.input, outputs=model.get_layer(layer_name).output)
         intermediate_model_list.append({"model": intermediate_model, "name": layer_name}) 
     
-    tf.logging.info("  >> Finished generating " + str(len(intermediate_model_list)) + " intermediate models")
+    # tf.logging.info("  >> Finished generating " + str(len(intermediate_model_list)) + " intermediate models")
     return intermediate_model_list
 
 model_architectures = ["densenet121","densenet169","densenet201",
