@@ -20,10 +20,14 @@ We use the Keras library modelzoo which contains keras implementations of severa
 For each of the extracted feature we compute a similarity score using multiple similarity distance metrics.
 
 
-## Prototype Design
+## Prototype Interface Design
 
 The prototype interface is designed as a learning experience where the user is introduced to several concepts related to how CNNs work.
 
-### Semsearch
+### Semantic Search
 
 For each selected image, the user is able to view the top 50 most similar images in the dataset. The similarity metric is conveyed as a percentage bar below each image.
+
+
+### Model Explorer
+In this section the user is introduced to a list of well known CNN models and are able to explore visualizations of the layers and neurons within each model.
