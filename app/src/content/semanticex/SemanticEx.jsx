@@ -1,57 +1,127 @@
 import React, { Component } from "react";
-import { ToastNotification, InlineNotification, Tooltip } from 'carbon-components-react';
+// import { ToastNotification, InlineNotification, Tooltip } from 'carbon-components-react';
 import "./semanticex.css"
- 
-function abbreviateString(value, maxLength){ 
-    if (value.length <= maxLength){
+
+function abbreviateString(value, maxLength) {
+    if (value.length <= maxLength) {
         return value
     } else {
-        return value.substring(0,maxLength) + " .."
-    } 
+        return value.substring(0, maxLength) + " .."
+    }
+}
+
+function boundWidth(widthVal){
+    if (widthVal < 0){
+        return 0;
+    }else if (widthVal >1){
+        return 1;
+    }else {
+        return widthVal;
+    }
+}
+
+function intlFormat(num){
+  return new Intl.NumberFormat().format(Math.round(num*10)/10);
+}
+function makeFriendly(num){
+  if( Math.abs( num) >= 1000000)
+    return intlFormat(num/1000000)+'M';
+  if(Math.abs(num) >= 1000)
+    return intlFormat(num/1000)+'k';
+  return intlFormat(num);
+}
+
+function loadJSONData(url) {
+     return fetch(url)
+        .then(
+            function (response) {
+                if (response.status !== 200) {
+                    console.log('Looks like there was a problem. Status Code: ' + response.status);
+                    return;
+                } 
+                // Examine the text in the response
+                return response.json().then(function (data) { 
+                    return data
+                });
+            }
+        )
+        .catch(function (err) {
+            console.log('Fetch Error :-S', err);
+        });
 }
 
 class SemanticEx extends Component {
     constructor(props) {
         super(props);
 
-        const similarityData = require('../../assets/semsearch/details.json');
-        console.log(similarityData["datasets"])
-
+        const modelDetails = require('../../assets/semsearch/details.json');
+        // console.log (similarityArray)
+        const initialSimilarityPath = "../../assets/semsearch/similarity/" + modelDetails["datasets"][0].name + "/" + modelDetails["models"][0].name + "/" + modelDetails["metrics"][0] + "/" + modelDetails["models"][0].layers[0] + ".json"
+        const similarityArray = require('../../assets/semsearch/similarity/cifar100/vgg16/cosine/block1_conv1.json');
+        // require('../../assets/semsearch/similarity/cifar100/vgg16/cosine/block5_pool.json');
+        // console.log(similarityArray)
+        
+        
         this.state = {
             selecteddataset: 0,
             selectedmodel: 0,
             selectedsimimage: 0,
-            selectedlayer:0,
-            datasetsList : similarityData["datasets"],
-            modelsList: similarityData["models"]
+            selectedlayer: 0,
+            selectedmetric: 0,
+            similarityArray: similarityArray,
+            datasetsList: modelDetails["datasets"],
+            modelsList: modelDetails["models"],
+            distanceMetricList: modelDetails["metrics"]
         }
-
-
-        
-
+        setTimeout(() => {
+            this.updateSimilarity() 
+        }, 2000);
+       
     }
 
     componentDidMount() {
         document.title = "ConvNet Playground | Semantic Search Explorer";
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if ( this.state.selectedmodel !== prevState.selectedmodel || this.state.selectedmetric !== prevState.selectedmetric || this.state.selectedlayer !== prevState.selectedlayer || this.state.selecteddataset !== prevState.selecteddataset) {
+            this.updateSimilarity()
+        }
+      }
+
     clickDatasetImage(e) {
-
-        this.setState({selecteddataset: e.target.getAttribute("indexvalue")})
+        this.setState({ selecteddataset: e.target.getAttribute("indexvalue") })
     }
 
-    clickModelImage(e){ 
-        this.setState({selectedmodel: e.target.getAttribute("indexvalue")})     
+    clickModelImage(e) {
+        this.setState({ selectedmodel: e.target.getAttribute("indexvalue") }) 
     }
 
-    clickLayerImage(e){ 
-
-        this.setState({selectedlayer: e.target.getAttribute("indexvalue")})
-
+    clickLayerImage(e) {
+        this.setState({ selectedlayer: e.target.getAttribute("indexvalue") }) 
     }
 
-    clickAllDatasetImage(e) {
-        this.setState({selectedsimimage: e.target.getAttribute("indexvalue")})
+    clickMetricImage(e) {
+        this.setState({ selectedmetric: e.target.getAttribute("indexvalue") }) 
+    }
+
+    clickSimilarImage(e) {
+        this.setState({ selectedsimimage: e.target.getAttribute("indexvalue") })
+        
+    }
+
+
+
+    updateSimilarity() {
+
+        let similarityPath = process.env.PUBLIC_URL +  "/assets/semsearch/similarity/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + this.state.modelsList[this.state.selectedmodel].name + "/" + this.state.distanceMetricList[this.state.selectedmetric] + "/" + this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer] + ".json"
+        let loadedJSON =  loadJSONData(similarityPath)      
+        let self = this 
+        loadedJSON.then(function(data){ 
+            if(data){
+                self.setState({similarityArray:data}) 
+            } 
+        })
 
     }
 
@@ -61,7 +131,7 @@ class SemanticEx extends Component {
             return (
                 <div key={dsdata.name + "fullbox" + index} className="iblock datasetfullbox clickable mb10">
                     <div className="datasettitles"> {dsdata.name.toUpperCase()}</div>
-                    <img  onClick={this.clickDatasetImage.bind(this)} src={require("../../images/0.jpg")} alt="" className={"datasetbox rad2 " + (this.state.selecteddataset == index? "active": "")} indexvalue={index}  />
+                    <img onClick={this.clickDatasetImage.bind(this)} src={require("../../images/0.jpg")} alt="" className={"datasetbox rad2 " + (this.state.selecteddataset == index ? "active" : "")} indexvalue={index} />
                 </div>
             )
         });
@@ -71,7 +141,7 @@ class SemanticEx extends Component {
             return (
                 <div key={mdata.name + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
                     <div className="datasettitles"> {mdata.name.toUpperCase()}</div>
-                    <img  onClick={this.clickModelImage.bind(this)} src={require("../../images/model.png")} alt="" className={"datasetbox rad2 " + (this.state.selectedmodel == index? "active": "")} indexvalue={index}  />
+                    <img onClick={this.clickModelImage.bind(this)} src={require("../../images/model.png")} alt="" className={"datasetbox rad2 " + (this.state.selectedmodel == index ? "active" : "")} indexvalue={index} />
                 </div>
             )
         });
@@ -79,23 +149,41 @@ class SemanticEx extends Component {
         let layerImageList = this.state.modelsList[this.state.selectedmodel].layers.map((ldata, index) => {
             return (
                 <div key={ldata + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
-                    <div className="datasettitles"> {abbreviateString(ldata,11).toLowerCase()}</div>
-                    <img  onClick={this.clickLayerImage.bind(this)} src={require("../../images/layer.png")} alt="" className={"datasetbox rad2 " + (this.state.selectedlayer == index? "active": "")} indexvalue={index}  />
+                    <div className="datasettitles"> {abbreviateString(ldata, 11).toLowerCase()}</div>
+                    <img onClick={this.clickLayerImage.bind(this)} src={require("../../images/layer.png")} alt="" className={"datasetbox rad2 " + (this.state.selectedlayer == index ? "active" : "")} indexvalue={index} />
                 </div>
             )
         });
 
-        let holdarray = Array.from(Array(50).keys());
-        
-        let allDatasetImageList = holdarray.map((alldata, index) => {
-            let imagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/cifar100/train/" + index + ".jpg"
-            // console.log("imagePath")
+        let metricImageList = this.state.distanceMetricList.map((metric, index) => {
             return (
-                <div  key={alldata + "winper"} className="iblock datasetfullbox "> 
-                    <img key={alldata + "image" +index} onClick={this.clickAllDatasetImage.bind(this)} src={imagePath} alt="" className={"simiimage clickable rad2 " + (this.state.selectedsimimage == index? "active": "")} indexvalue={index}   />
+                <div key={metric + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
+                    <div className="datasettitles"> {abbreviateString(metric, 11).toLowerCase()}</div>
+                    <img onClick={this.clickMetricImage.bind(this)} src={require("../../images/layer.png")} alt="" className={"datasetbox rad2 " + (this.state.selectedmetric == index ? "active" : "")} indexvalue={index} />
                 </div>
             )
         });
+
+        // console.log(this.state.similarityArray[this.state.selectedsimimage]) 
+       
+         
+        let similarImagesList = this.state.similarityArray[this.state.selectedsimimage].map((alldata, index) => {
+            let imagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/cifar100/train/" + alldata[0] + ".jpg"
+            // console.log(alldata)
+            let similarityScore = (alldata[1] * 1).toFixed(2)
+            return (
+                <div key={alldata[0] + "winper"} className="iblock similarityfullbox mr5 mb5 positionrelative">
+                    <img key={alldata[0] + "image" + alldata[0]} onClick={this.clickSimilarImage.bind(this)} src={imagePath} alt="" className={"simiimage clickable rad2 "} indexvalue={alldata[0]} />
+                    <div className="outersimbar">
+                        <div className="innersimbar" style={{ width: (boundWidth(similarityScore) *100) + "%" }}></div>
+                    </div>
+                    <div className="similarityscorebox">{ makeFriendly(similarityScore) } </div>
+                    {/* <div>{ "w:" + boundWidth(similarityScore)*100  }</div> */}
+                </div>
+            )
+        });
+       
+        
 
         let semsearchIntro = `Layers in a trained convolutional neural network (CNN) can be used to extract features from images.
         Semantic search explores the use these extracted features in computing the "similarity" between images.  `
@@ -103,28 +191,28 @@ class SemanticEx extends Component {
         let convnetLayer = `How do features extracted using different model architectures compare? What layers perform better and when?
         What similarity distance metrics work best? This demo helps you investigate these questions!`
 
-        let introHeight= "8.5rem"
+        // let introHeight= "8.5rem"
 
         let selectedImagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/cifar100/train/" + this.state.selectedsimimage + ".jpg"
         return (
             <div>
-                 
+
                 <div className="pb10 sectiontitle"> What is Semantic Search?</div>
                 <div className="horrule"></div>
                 <div className="flex mt10">
                     <div className="flex5 mr10 mynotif lightbluehightlight p20">
-                            <div className="boldtext mb10"> Semantic Search</div>
-                            <div className="lh10">{semsearchIntro}</div>
+                        <div className="boldtext mb10"> Semantic Search</div>
+                        <div className="lh10">{semsearchIntro}</div>
                     </div>
                     <div className="flex5  mynotif lightbluehightlight p20">
-                            <div className="boldtext mb10"> Model architectures and Layers</div>
-                            <div className="lh10">{convnetLayer}</div>
+                        <div className="boldtext mb10"> Model architectures and Layers</div>
+                        <div className="lh10">{convnetLayer}</div>
                     </div>
-    
+
                 </div>
-                
+
                 <div className="flex flexwrap">
-                    <div className="flex4 mr10">
+                    <div className="flex2 mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Dataset </div>
                         <div className="horrule mb10"></div>
                         <div className="datasetselectdiv">
@@ -132,7 +220,7 @@ class SemanticEx extends Component {
                         </div>
                         <div className=" iblock boldtext  iblock boldtext datasetdescription  p10 lightbluehightlight">{this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()}</div>
                     </div>
-                    <div className="flex5 mr10">
+                    <div className="flex3 mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Model </div>
                         <div className="horrule mb10"></div>
                         <div className="datasetselectdiv">
@@ -140,30 +228,44 @@ class SemanticEx extends Component {
                         </div>
                         <div className=" iblock boldtext datasetdescription  p10 lightbluehightlight">{this.state.modelsList[this.state.selectedmodel].name.toUpperCase()}</div>
                     </div>
-                    <div className="flex5">
+                    <div className="flex3">
                         <div className="mt20 pb10 sectiontitle" > Select Layer </div>
                         <div className="horrule mb10"></div>
                         <div className="scrollwindow  ">
-                             <div className="windowcontent"> {layerImageList} </div>
+                            <div className="windowcontent"> {layerImageList} </div>
                         </div>
                         <div className=" iblock boldtext datasetdescription  p10 lightbluehightlight"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].toUpperCase()}</div>
                     </div>
 
+                    <div className="flex2">
+                        <div className="mt20 pb10 sectiontitle" > Distance Metric </div>
+                        <div className="horrule mb10"></div>
+                        <div className="scrollwindow  ">
+                            <div className="windowcontent"> {metricImageList} </div>
+                        </div>
+                        <div className=" iblock boldtext datasetdescription  p10 lightbluehightlight"> {this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()}</div>
+                    </div>
+
                 </div>
-                
-                
+
+
                 <div className="mt20 mb10 sectiontitle"> Perform a Similarity Search</div>
                 <div className="horrule mb10"></div>
                 <div className="flex">
-                   <div className="iblock  flex1 mr10">
-                    <img src={selectedImagePath} className="mainsimilarityimage rad4  iblock" alt=""/>
-                    <div className=" mt10  boldtext datasetdescription  p10 lightbluehightlight"> SELECTED IMAGE </div>
-                    <div className="mt10 mainsimilaritydesc">  Based on features extracted from model <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span> 
-                    and layer <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].toUpperCase()} </span> 
-                    and  <span className=" boldtext"> COSINE </span> distance metric. 
-                    The  images on the right are the most similar.</div>
-                   </div>
-                    <div className="iblock flex10">{allDatasetImageList}</div>
+                    <div className="iblock  flex1 mr10">
+                        <img src={selectedImagePath} className="mainsimilarityimage rad4  iblock" alt="" />
+                        <div className=" mt10  boldtext datasetdescription  p10 lightbluehightlight"> SEARCH IMAGE </div>
+                        <div> searchimi number {this.state.selectedsimimage}</div>
+                    </div>
+                    <div className=" flexfull">
+                        <div className="mb10 mainsimilaritydesc lightbluehightlight p10">
+                            Based on features extracted using <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span>
+                            , layer <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].toUpperCase()} </span>
+                            and  <span className=" boldtext"> COSINE </span> distance metric, the  images below are the most similar.
+
+                        </div>
+                        <div>{similarImagesList}</div>
+                    </div>
                 </div>
             </div>
         );
