@@ -34,17 +34,18 @@ def get_model(model_name="vgg16"):
 
 
 def get_supported_models():
-    model_architectures = ["vgg16","resnet50"]
+    model_architectures = [{"name": "vgg16"},
+                            {"name": "resnet50"}]
     return  model_architectures
 
 
 def get_all_model_details():
     model_architectures = get_supported_models()
     model_details = []
-    for model_name in model_architectures:
-        model, preprocess = get_model(model_name=model_name)
-        layer_names = get_model_layer_names(model, model_name)
-        model_details.append({"name": model_name, "layers":layer_names})
+    for model_detail in model_architectures:
+        model, preprocess = get_model(model_name=model_detail["name"])
+        layer_names = get_model_layer_names(model, model_detail["name"])
+        model_details.append({"name": model_detail["name"], "layers":layer_names})
 
     return model_details
     
@@ -61,7 +62,7 @@ def get_model_layer_names (model, model_name):
         # for layer in model.layers:
         #     if("activation" in layer.name):
         #         layer_list.append(layer.name)
-        layer_list = ["res2a_branch2a", "res2b_branch2a",  "res3b_branch2a", "res4a_branch2a",  "res4e_branch2a", "res5a_branch2a",  "res5c_branch2c"]
+        layer_list = ["res2a_branch2a", "res2b_branch2a",  "res3b_branch2a", "res4a_branch2a",  "res4e_branch2a", "res4c_branch2a", "res5a_branch2a",  "res5c_branch2c"]
         return layer_list
 
 def get_intermediate_models(model,layer_list):

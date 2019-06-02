@@ -43,5 +43,10 @@ def generate_dataset(dataset_params):
         
         tf.logging.info("  >> Cifar images saved to  datasets directory " + dataset_root_dir)
 
-
-
+def get_supported_datasets():
+    supported_datasets = [ 
+        {"name": "cifar100"},
+        {"name": "Iconic3k"},
+        {"name": "Imagenet3k"}
+        ]
+    return supported_datasets

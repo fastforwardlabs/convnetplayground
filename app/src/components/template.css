@@ -109,8 +109,15 @@
     margin-bottom: 10px;
 }
 
+.mb5 {
+    margin-bottom: 5px;
+}
+
 .mr10 {
     margin-right: 10px;
+}
+.mr5 {
+    margin-right: 5px;
 }
 
 .mr20 {
@@ -196,4 +203,12 @@
 
 .flex9 {
     flex: 0.9
+}
+
+.positionrelative{
+    position: relative;
+}
+
+.positionabsolute{
+    position: absolute;
 }

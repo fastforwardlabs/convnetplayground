@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ToastNotification, InlineNotification } from 'carbon-components-react';
+import { InlineNotification } from 'carbon-components-react';
 
 class ModelEx extends Component {
 

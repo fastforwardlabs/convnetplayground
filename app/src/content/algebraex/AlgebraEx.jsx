@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ToastNotification, InlineNotification } from 'carbon-components-react';
+import { InlineNotification } from 'carbon-components-react';
 import "./algebraex.css"
  
 
@@ -34,41 +34,35 @@ class AlgebraEx extends Component {
     clickDatasetImage() {
         alert("click here")
 
-    }
-
-    clickDatasetImage() {
-        alert("click here")
-
-    }
+    } 
 
 
     render() {
-        let datasetImageList = this.datasetslist.map(dsdata => {
-            return (
-                <div className="iblock datasetfullbox clickable ">
-                    <div className="datasettitles"> {dsdata.name}</div>
-                    <img key={dsdata} onClick={this.clickDatasetImage.bind(this)} src={require("../../images/0.jpg")} alt="" className={"datasetbox rad2 " + dsdata.css} />
-                </div>
-            )
-        });
+        // let datasetImageList = this.datasetslist.map(dsdata => {
+        //     return (
+        //         <div className="iblock datasetfullbox clickable ">
+        //             <div className="datasettitles"> {dsdata.name}</div>
+        //             <img key={dsdata} onClick={this.clickDatasetImage.bind(this)} src={require("../../images/0.jpg")} alt="" className={"datasetbox rad2 " + dsdata.css} />
+        //         </div>
+        //     )
+        // });
 
-        let holdarray = Array.from(Array(50).keys());
-        let allDatasetImageList = holdarray.map(dsdata => {
-            return (
-                <div className="iblock datasetfullbox ">
-                    <div className="datasettitles"> {dsdata.name}</div>
-                    <img key={dsdata} onClick={this.clickDatasetImage.bind(this)} src={require("../../images/0.jpg")} alt="" className="datasetbox rad2 dsselected " />
-                </div>
-            )
-        });
+        // let holdarray = Array.from(Array(50).keys());
+        // let allDatasetImageList = holdarray.map(dsdata => {
+        //     return (
+        //         <div className="iblock datasetfullbox ">
+        //             <div className="datasettitles"> {dsdata.name}</div>
+        //             <img key={dsdata} onClick={this.clickDatasetImage.bind(this)} src={require("../../images/0.jpg")} alt="" className="datasetbox rad2 dsselected " />
+        //         </div>
+        //     )
+        // });
 
         return (
             <div>
                 <div className="pb10 sectiontitle"> Image Algebra</div>
                 <div className="horrule"></div>
                 <InlineNotification
-                    title={"Image Algebra"}
-                    subtitle={"How it works."}
+                    title={"Image Algebra"} 
                     kind={"info"} 
                     subtitle={this.algebraIntro}
                     style={{ minWidth: '100%', marginBottom: '.5rem' }}
