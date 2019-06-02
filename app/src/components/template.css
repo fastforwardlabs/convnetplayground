@@ -87,7 +87,16 @@
 .pt10 {
     padding-top: 10px;
 }
+.pt2 {
+    padding-top: 2px;
+}
 
+.pt3{
+    padding-top: 3px;
+}
+.pt4 {
+    padding-top: 4px;
+}
 
 .pb20 {
     padding-bottom: 20px;

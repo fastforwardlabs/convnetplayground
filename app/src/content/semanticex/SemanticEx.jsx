@@ -24,6 +24,9 @@ function intlFormat(num){
   return new Intl.NumberFormat().format(Math.round(num*10)/10);
 }
 function makeFriendly(num){
+  if(num < 1 && num > 0){
+      return num
+  }
   if( Math.abs( num) >= 1000000)
     return intlFormat(num/1000000)+'M';
   if(Math.abs(num) >= 1000)
@@ -91,10 +94,12 @@ class SemanticEx extends Component {
 
     clickDatasetImage(e) {
         this.setState({ selecteddataset: e.target.getAttribute("indexvalue") })
+        this.setState({ selectedmodel: 0 }) 
     }
 
     clickModelImage(e) {
         this.setState({ selectedmodel: e.target.getAttribute("indexvalue") }) 
+        this.setState({ selectedlayer: 0 }) 
     }
 
     clickLayerImage(e) {
@@ -114,8 +119,9 @@ class SemanticEx extends Component {
 
     updateSimilarity() {
 
-        let similarityPath = process.env.PUBLIC_URL +  "/assets/semsearch/similarity/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + this.state.modelsList[this.state.selectedmodel].name + "/" + this.state.distanceMetricList[this.state.selectedmetric] + "/" + this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer] + ".json"
-        let loadedJSON =  loadJSONData(similarityPath)      
+        let similarityPath = process.env.PUBLIC_URL +  "/assets/semsearch/similarity/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + this.state.modelsList[this.state.selectedmodel].name + "/" + this.state.distanceMetricList[this.state.selectedmetric] + "/" + this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name + ".json"
+        let loadedJSON =  loadJSONData(similarityPath)  
+        console.log(similarityPath)    
         let self = this 
         loadedJSON.then(function(data){ 
             if(data){
@@ -149,7 +155,7 @@ class SemanticEx extends Component {
         let layerImageList = this.state.modelsList[this.state.selectedmodel].layers.map((ldata, index) => {
             return (
                 <div key={ldata + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
-                    <div className="datasettitles"> {abbreviateString(ldata, 11).toLowerCase()}</div>
+                    <div className="datasettitles"> {abbreviateString(ldata.name, 11).toLowerCase()}</div>
                     <img onClick={this.clickLayerImage.bind(this)} src={require("../../images/layer.png")} alt="" className={"datasetbox rad2 " + (this.state.selectedlayer == index ? "active" : "")} indexvalue={index} />
                 </div>
             )
@@ -168,9 +174,9 @@ class SemanticEx extends Component {
        
          
         let similarImagesList = this.state.similarityArray[this.state.selectedsimimage].map((alldata, index) => {
-            let imagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/cifar100/train/" + alldata[0] + ".jpg"
-            // console.log(alldata)
-            let similarityScore = (alldata[1] * 1).toFixed(2)
+            let imagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + alldata[0] + ".jpg"
+            // console.log(imagePath)
+            let similarityScore = (alldata[1] * 1).toFixed(3)
             return (
                 <div key={alldata[0] + "winper"} className="iblock similarityfullbox mr5 mb5 positionrelative">
                     <img key={alldata[0] + "image" + alldata[0]} onClick={this.clickSimilarImage.bind(this)} src={imagePath} alt="" className={"simiimage clickable rad2 "} indexvalue={alldata[0]} />
@@ -193,7 +199,8 @@ class SemanticEx extends Component {
 
         // let introHeight= "8.5rem"
 
-        let selectedImagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/cifar100/train/" + this.state.selectedsimimage + ".jpg"
+        let selectedImagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + this.state.selectedsimimage + ".jpg"
+        // process.env.PUBLIC_URL + "/assets/semsearch/datasets/cifar100/train/" + this.state.selectedsimimage + ".jpg"
         return (
             <div>
 
@@ -234,7 +241,16 @@ class SemanticEx extends Component {
                         <div className="scrollwindow  ">
                             <div className="windowcontent"> {layerImageList} </div>
                         </div>
-                        <div className=" iblock boldtext datasetdescription  p10 lightbluehightlight"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].toUpperCase()}</div>
+                        <div className="flex">
+                            <div className="flex1  mr10">
+                            <div className=" iblock boldtext datasetdescription  p10 lightbluehightlight"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}</div>
+                            </div>
+                            <div className="flex10 ">
+                                <div className="smalldesc boldtext"> Layer [ {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index }  of {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].totallayers }  ] {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type } </div>
+                                <div className="smalldesc pt3"> {makeFriendly(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].paremtercount)} trainable parameters </div>
+                            </div>
+                        </div>
+                        
                     </div>
 
                     <div className="flex2">
@@ -260,13 +276,16 @@ class SemanticEx extends Component {
                     <div className=" flexfull">
                         <div className="mb10 mainsimilaritydesc lightbluehightlight p10">
                             Based on features extracted using <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span>
-                            , layer <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].toUpperCase()} </span>
+                            , layer <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()} </span>
                             and  <span className=" boldtext"> COSINE </span> distance metric, the  images below are the most similar.
 
                         </div>
                         <div>{similarImagesList}</div>
                     </div>
                 </div>
+                <br/>
+                <br/>
+                <br/>
             </div>
         );
     }
