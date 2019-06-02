@@ -26,7 +26,12 @@ The prototype interface is designed as a learning experience where the user is i
 
 ### Semantic Search
 
-For each selected image, the user is able to view the top 50 most similar images in the dataset. The similarity metric is conveyed as a percentage bar below each image.
+The interface provides access to 3 main datasets on which the user can view results of similarity rankings.
+They can select a dataset, a model, a layer from the given model and a similarity metric value. For each model, de
+
+As these configurations are selected the user is presented with a similarity search results based on their selections. For the given dataset, the first image is selected by default and the top 50 most similar images based on the configuration are shown.
+
+The similarity metric is conveyed as a percentage bar below each image.
 
 
 ### Model Explorer
