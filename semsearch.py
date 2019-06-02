@@ -31,7 +31,7 @@ def generate_embeddings():
     model_names = m_utils.get_supported_models()
     for model_name in model_names:
         dataset_input_path = os.path.join(base_path_public,"datasets/cifar100/train")
-        dataset_params = {"name":"cifar100",   "path": dataset_input_path  , "dataset_size":10}
+        dataset_params = {"name":"cifar100",   "path": dataset_input_path  , "dataset_size":200}
         model_params =  {"name": model_name["name"]}
 
         embedding_output_path = os.path.join(base_path_local,"embeddings", dataset_params["name"],model_params["name"])
@@ -77,11 +77,11 @@ def visualize_similarity():
 
 
 # generate_datasets()
-# generate_embeddings()
-# generate_similarity_metrics()
-# generate_model_details()
+generate_embeddings()
+generate_similarity_metrics()
+generate_model_details()
 # model , pre= m_utils.get_model("resnet50")
 # llist = m_utils.get_model_layer_names(model,"resnet50")
 # print(llist)
 
-visualize_similarity()
+# visualize_similarity()

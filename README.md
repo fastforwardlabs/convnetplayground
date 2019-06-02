@@ -1,14 +1,10 @@
-# semsearch
-A semantic search module for image cagetorization
+# ConveNet Playground
+
+> A prototype that allows you explore how convolutional neural network models. It covers areas like feature extraction and semantic search (image retrieval), visualizations of internal components of CNNs etc.
 
 
-
-# Tasks
-
-[ x ] Explore tensorflow hub or keras for pretrained model loading.
-[ x ] Extract features using selected model.
-[ x] Semantic seach interface
-
+[<img src="docs/screen.jpg" width="100%">](https://fastforwardlabs.github.io/semsearch/)
+https://github.com/fastforwardlabs/semsearch
 
 ## How it works
 
@@ -17,7 +13,7 @@ A semantic search module for image cagetorization
 
 
 ### Extracting Images with Pretrained Neural Networks
-We use the keras library modelzoo which contains keras implementations of several well known convolutional neural networks for image analysis. We load a pretrained version of these implementations with weights learned from training on imagenet.
+We use the Keras library modelzoo which contains keras implementations of several well known convolutional neural networks for image analysis. We load a pretrained version of these implementations with weights learned from training on imagenet.
 
 ### Similarity Score Rating
 
@@ -30,4 +26,4 @@ The prototype interface is designed as a learning experience where the user is i
 
 ### Semsearch
 
-For each selected image, the user is able to view the top 50 most similar images in the dataset. The level of similarity is conveyed by an orange bar below each image icon.
+For each selected image, the user is able to view the top 50 most similar images in the dataset. The similarity metric is conveyed as a percentage bar below each image.

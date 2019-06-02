@@ -255,7 +255,7 @@ class SemanticEx extends Component {
                     <div className="iblock  flex1 mr10">
                         <img src={selectedImagePath} className="mainsimilarityimage rad4  iblock" alt="" />
                         <div className=" mt10  boldtext datasetdescription  p10 lightbluehightlight"> SEARCH IMAGE </div>
-                        <div> searchimi number {this.state.selectedsimimage}</div>
+                        {/* <div> searchimi number {this.state.selectedsimimage}</div> */}
                     </div>
                     <div className=" flexfull">
                         <div className="mb10 mainsimilaritydesc lightbluehightlight p10">
