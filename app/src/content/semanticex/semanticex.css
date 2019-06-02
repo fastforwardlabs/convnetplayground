@@ -36,22 +36,25 @@
 
 .mainsimilarityimage{
     height: 13em;
+    border-bottom: 4px #0062FF solid;
 }
 .mainsimilaritydesc{
     font-size: 1em;
-    line-height: 1.28em;
-    padding: 0px 0px 0px 0px
+    line-height: 1.28em; 
+    
 }
 
 .simiimage{
     height: 5em; 
-    margin: 0px 5px 3px 0px;
-    opacity: 0.7;
-    border-bottom: 4px solid #CDCDCD;
+    margin: 0px 0px 0px 0px; 
+    /* border-bottom: 4px solid #CDCDCD; */
 }
 
 .simiimage:hover{
-    opacity: 1;
+    opacity: 0.3;
+    /* border-bottom: 4px #0062FF solid; */
+    /* transition: opacity 0.3s;
+    -webkit-transition: opacity 0.3s; */
 }
 .simiimage.active{
     border-bottom: 4px #0062FF solid;
@@ -59,4 +62,30 @@
 }
 .dispblock{
     display: block;
+}
+
+.outersimbar{
+    background: #FFD78F;
+    height: 4px;
+}
+
+.innersimbar{
+    background: #FFA500;
+    height: 4px;
+}
+
+.similarityscorebox{
+    position: absolute;
+    top:2em;
+    left: 0em;
+    font-weight: bold;
+    pointer-events: none;
+    width: 100%;
+    text-align: center;
+    opacity: 0;
+}
+
+.similarityfullbox:hover > .similarityscorebox{
+    opacity: 1;
+
 }
