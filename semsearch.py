@@ -41,12 +41,11 @@ def generate_datasets(dataset_size):
 
 """[Generate embeddings]
 """
-def generate_embeddings(num_items):
+def generate_embeddings(dataset_params):
     model_details = m_utils.get_supported_models()
     similarity_metrics = feat_utils.list_distance_metrics()
     for model_detail in model_details:
-        dataset_input_path = os.path.join(base_path_public,"datasets/cifar10")
-        dataset_params = {"name":"cifar10",   "path": dataset_input_path  , "dataset_size":num_items}
+        dataset_input_path = os.path.join(base_path_public,dataset_params["path"])
         model_params =  {"name": model_detail["name"]}
 
         embedding_output_path = os.path.join(base_path_local,"embeddings", dataset_params["name"],model_params["name"])
@@ -85,7 +84,10 @@ def visualize_similarity():
     v_utils.plot_similar(selected_image,dataset_output_path, similarity_data[selected_image], max_display)
 
 
-# generate_datasets(50)
+dataset_params = {"name":"tinyimagenet",   "path": os.path.join(base_path_public,"datasets/tinyimagenet")   , "dataset_size":50}
+generate_embeddings(dataset_params)
+# d_utils.rename_files(os.path.join(base_path_public, "datasets/tinyimagenet"))
+
 # generate_embeddings(50)
 # generate_similarity_metrics()
 generate_model_details()
