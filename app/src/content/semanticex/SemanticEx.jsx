@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Modal } from 'carbon-components-react';
+import Notification20 from '@carbon/icons-react/lib/notification/20';
 import "./semanticex.css"
 
 function abbreviateString(value, maxLength) {
@@ -74,7 +75,8 @@ class SemanticEx extends Component {
             similarityArray: similarityArray,
             datasetsList: modelDetails["datasets"],
             modelsList: modelDetails["models"],
-            distanceMetricList: modelDetails["metrics"]
+            distanceMetricList: modelDetails["metrics"],
+            showorientationmodal: true
         }
         // setTimeout(() => {
         this.updateSimilarity() 
@@ -83,7 +85,7 @@ class SemanticEx extends Component {
     }
 
     componentDidMount() {
-        document.title = "ConvNet Playground | Semantic Search Explorer";
+        document.title = "ConvNet Playground | Semantic Search Explorer"; 
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -115,7 +117,11 @@ class SemanticEx extends Component {
         
     }
 
-
+    toggleOrientationModal(e){
+        this.setState({showorientationmodal: !(this.state.showorientationmodal)})
+        console.log(this.state.showorientationmodal)
+    }
+     
 
     updateSimilarity() {
 
@@ -207,16 +213,28 @@ class SemanticEx extends Component {
         return (
             <div>
 
-                <Modal className="orientationmodal" 
+                { (this.state.showorientationmodal) && <Modal className="orientationmodal" 
                     open={true}
                     passiveModal={true}
                     modalHeading= "Convnet Playground"  
                     modalLabel= "Welcome!"
+                    ref={(ref) => this.orientationModal = ref}
+                    onRequestClose = {this.toggleOrientationModal.bind(this)}
                     >
-                    
-                </Modal>
+                    This important modal will contain a nicer explanation of how this interface works.
+                    <hr/>
+                    [In a Nutshell] The user select their configuration (dataset, model, layer, metric) and then view 
+                    how these result in different image similarity rankings.
 
-                <div className="pb10 sectiontitle"> What is Semantic Search?</div>
+                    Enjoy!
+                    
+                </Modal>} 
+
+                <div className="pb10 "> 
+                    <div  className="iblock pb10 sectiontitle">What is Semantic Search?</div>
+                    <div onClick= {this.toggleOrientationModal.bind(this)}  className="iblock  floatright  clickable showmodal"> ? More Info  </div>
+                
+                </div>
                 <div className="horrule"></div>
                 <div className="flex mt10">
                     <div className="flex5 mr10 mynotif lightbluehightlight p20">
