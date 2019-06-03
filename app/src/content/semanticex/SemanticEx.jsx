@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import { ToastNotification, InlineNotification, Tooltip } from 'carbon-components-react';
+import { Modal } from 'carbon-components-react';
 import "./semanticex.css"
 
 function abbreviateString(value, maxLength) {
@@ -206,6 +206,15 @@ class SemanticEx extends Component {
         // process.env.PUBLIC_URL + "/assets/semsearch/datasets/cifar100/train/" + this.state.selectedsimimage + ".jpg"
         return (
             <div>
+
+                <Modal className="orientationmodal" 
+                    open={true}
+                    passiveModal={true}
+                    modalHeading= "Convnet Playground"  
+                    modalLabel= "Welcome!"
+                    >
+                    
+                </Modal>
 
                 <div className="pb10 sectiontitle"> What is Semantic Search?</div>
                 <div className="horrule"></div>
