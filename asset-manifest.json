@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/fastforwardlabs/convnetplayground/static/css/main.3c0899b0.chunk.css",
+    "main.js": "/fastforwardlabs/convnetplayground/static/js/main.d19ce145.chunk.js",
+    "main.js.map": "/fastforwardlabs/convnetplayground/static/js/main.d19ce145.chunk.js.map",
+    "runtime~main.js": "/fastforwardlabs/convnetplayground/static/js/runtime~main.58145e54.js",
+    "runtime~main.js.map": "/fastforwardlabs/convnetplayground/static/js/runtime~main.58145e54.js.map",
+    "static/js/2.93dc26b9.chunk.js": "/fastforwardlabs/convnetplayground/static/js/2.93dc26b9.chunk.js",
+    "static/js/2.93dc26b9.chunk.js.map": "/fastforwardlabs/convnetplayground/static/js/2.93dc26b9.chunk.js.map",
+    "index.html": "/fastforwardlabs/convnetplayground/index.html",
+    "precache-manifest.3f2437e8ebb32a21ffa5fbfdd0d13b3a.js": "/fastforwardlabs/convnetplayground/precache-manifest.3f2437e8ebb32a21ffa5fbfdd0d13b3a.js",
+    "service-worker.js": "/fastforwardlabs/convnetplayground/service-worker.js",
+    "static/css/main.3c0899b0.chunk.css.map": "/fastforwardlabs/convnetplayground/static/css/main.3c0899b0.chunk.css.map",
+    "static/media/layer.png": "/fastforwardlabs/convnetplayground/static/media/layer.9952a8d0.png",
+    "static/media/model.png": "/fastforwardlabs/convnetplayground/static/media/model.20a139c6.png"
+  }
+}
