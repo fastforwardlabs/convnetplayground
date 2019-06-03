@@ -36,11 +36,7 @@ def get_model(model_name="vgg16"):
 def get_supported_models():
     model_architectures = [{"name": "vgg16"},
                             {"name": "resnet50"},
-                            {"name": "resnet50"},
-                            {"name": "resnet50"},
-                            {"name": "resnet50"},
-                            {"name": "resnet50"},
-
+                            {"name": "resnet50"}
                             ]
     return  model_architectures
 

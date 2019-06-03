@@ -85,7 +85,7 @@ def visualize_similarity():
 
 
 dataset_params = {"name":"tinyimagenet",   "path": os.path.join(base_path_public,"datasets/tinyimagenet")   , "dataset_size":50}
-generate_embeddings(dataset_params)
+# generate_embeddings(dataset_params)
 # d_utils.rename_files(os.path.join(base_path_public, "datasets/tinyimagenet"))
 
 # generate_embeddings(50)

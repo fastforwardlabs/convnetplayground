@@ -68,8 +68,15 @@ def generate_dataset(dataset_params):
 
 def get_supported_datasets():
     supported_datasets = [
+        {"name": "tinyimagenet", "icon":"imagenet.jpg"},
         {"name": "cifar10", "icon":"cifar.jpg"},
-        {"name": "Iconic3k", "icon":"0.jpg"},
-        {"name": "Imagenet3k", "icon":"imagenet.jpg"}
+        # {"name": "Iconic3k", "icon":"0.jpg"}
     ]
     return supported_datasets
+
+def rename_files(dataset_path):
+    tf.logging.info(">> Renaming files in the directory " + dataset_path)
+    image_files = os.listdir(dataset_path)
+    image_files.sort()
+    for i,image_file in enumerate(image_files):
+        os.rename(os.path.join(dataset_path, image_file), os.path.join(dataset_path, str(i-1) + ".jpg"))
