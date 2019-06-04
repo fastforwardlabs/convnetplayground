@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Modal } from 'carbon-components-react';
 import Notification20 from '@carbon/icons-react/lib/notification/20';
 import "./semanticex.css"
+import OrientationModal from "../../components/orientationmodal/OrietnationModal"
 
 function abbreviateString(value, maxLength) {
     if (value.length <= maxLength) {
@@ -215,18 +216,17 @@ class SemanticEx extends Component {
 
                 { (this.state.showorientationmodal) && <Modal className="orientationmodal" 
                     open={true}
-                    passiveModal={true}
+                    size="lg"
+                    // style={{maxWidth: '1600px', width: '100%'}}
+                    passiveModal={false}
+                    primaryButtonText = "Get Started"
+                    secondaryButtonText = "Close"
                     modalHeading= "Convnet Playground"  
                     modalLabel= "Welcome!"
                     ref={(ref) => this.orientationModal = ref}
                     onRequestClose = {this.toggleOrientationModal.bind(this)}
                     >
-                    This important modal will contain a nicer explanation of how this interface works.
-                    <hr/>
-                    [In a Nutshell] The user select their configuration (dataset, model, layer, metric) and then view 
-                    how these result in different image similarity rankings.
-
-                    Enjoy!
+                    <OrientationModal></OrientationModal>
                     
                 </Modal>} 
 
