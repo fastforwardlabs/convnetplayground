@@ -99,10 +99,10 @@
 .orientationmodal{
     /* width: 180%; */
 }
-
+div.bx--modal{ 
+}
 div.bx--modal-container{
-    width: 100%;
-    padding: 0px;
+    width: 100%; 
 }
 
 .showmodal{ 

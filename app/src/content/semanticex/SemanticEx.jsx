@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Modal } from 'carbon-components-react';
 import Notification20 from '@carbon/icons-react/lib/notification/20';
 import "./semanticex.css"
-import OrientationModal from "../../components/orientationmodal/OrietnationModal"
+import SemanticModalContent from "../../components/modals/SemanticModal"
 
 function abbreviateString(value, maxLength) {
     if (value.length <= maxLength) {
@@ -77,7 +77,7 @@ class SemanticEx extends Component {
             datasetsList: modelDetails["datasets"],
             modelsList: modelDetails["models"],
             distanceMetricList: modelDetails["metrics"],
-            showorientationmodal: true
+            showorientationmodal: false
         }
         // setTimeout(() => {
         this.updateSimilarity() 
@@ -118,9 +118,9 @@ class SemanticEx extends Component {
         
     }
 
-    toggleOrientationModal(e){
+    toggleSemanticModal(e){
         this.setState({showorientationmodal: !(this.state.showorientationmodal)})
-        console.log(this.state.showorientationmodal)
+        // console.log(this.state.showorientationmodal)
     }
      
 
@@ -128,7 +128,7 @@ class SemanticEx extends Component {
 
         let similarityPath = process.env.PUBLIC_URL +  "/assets/semsearch/similarity/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + this.state.modelsList[this.state.selectedmodel].name + "/" + this.state.distanceMetricList[this.state.selectedmetric] + "/" + this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name + ".json"
         let loadedJSON =  loadJSONData(similarityPath)  
-        console.log(similarityPath)    
+        // console.log(similarityPath)    
         let self = this 
         loadedJSON.then(function(data){ 
             if(data){
@@ -220,19 +220,20 @@ class SemanticEx extends Component {
                     // style={{maxWidth: '1600px', width: '100%'}}
                     passiveModal={false}
                     primaryButtonText = "Get Started"
-                    secondaryButtonText = "Close"
-                    modalHeading= "Convnet Playground"  
-                    modalLabel= "Welcome!"
+                    // secondaryButtonText = "Do not show this again"
+                    modalHeading= "Semantic Search"  
+                    modalLabel= "How this demo works"
+                    onRequestSubmit = {this.toggleSemanticModal.bind(this)}
                     ref={(ref) => this.orientationModal = ref}
-                    onRequestClose = {this.toggleOrientationModal.bind(this)}
+                    onRequestClose = {this.toggleSemanticModal.bind(this)}
                     >
-                    <OrientationModal></OrientationModal>
+                    <SemanticModalContent></SemanticModalContent>
                     
                 </Modal>} 
 
                 <div className="pb10 "> 
                     <div  className="iblock pb10 sectiontitle">What is Semantic Search?</div>
-                    <div onClick= {this.toggleOrientationModal.bind(this)}  className="iblock  floatright  clickable showmodal"> ? More Info  </div>
+                    <div onClick= {this.toggleSemanticModal.bind(this)}  className="iblock  floatright  clickable showmodal"> ? More Info  </div>
                 
                 </div>
                 <div className="horrule"></div>
@@ -310,7 +311,7 @@ class SemanticEx extends Component {
                         <div className="mb10 mainsimilaritydesc lightbluehightlight p10">
                             Based on features extracted using <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span>
                             , layer <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()} </span>
-                            and  <span className=" boldtext"> COSINE </span> distance metric, the  images below are the most similar.
+                            and  <span className=" boldtext"> COSINE </span> distance metric, the  images below are ranked from most similar to least similar.
 
                         </div>
                         <div>{similarImagesList}</div>

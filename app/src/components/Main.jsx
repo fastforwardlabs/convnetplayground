@@ -3,6 +3,9 @@ import {
     Route, 
     HashRouter
 } from "react-router-dom";
+
+import { Modal } from 'carbon-components-react';
+import OrientationModal from "./modals/OrietnationModal"
  
 import "./template.css"
  
@@ -34,15 +37,45 @@ import AlgebraEx from "../content/algebraex/AlgebraEx"
 
 class Main extends Component {
 
+    constructor(props) {
+        super(props); 
+        
+        this.state = { 
+            showorientationmodal: true
+        } 
+       
+    }
+
     componentDidMount() {
         // ReactGA.pageview(window.location.hash)
         // document.title = "Image Analysis Explorer | Explore Convolutional Neural Nets for Imagee Analysis";
+    }
+
+    toggleOrientationModal(e){
+        this.setState({showorientationmodal: !(this.state.showorientationmodal)})
+        // console.log(this.state.showorientationmodal)
     }
 
     render() {
         return (
             <HashRouter>
                 <AppHeader></AppHeader> 
+                { (this.state.showorientationmodal) && <Modal className="orientationmodal" 
+                    open={true}
+                    size="lg"
+                    // style={{maxWidth: '1600px', width: '100%'}}
+                    passiveModal={false}
+                    primaryButtonText = "Get Started"
+                    // secondaryButtonText = "Do not show this again"
+                    modalHeading= "Convnet Playground"  
+                    modalLabel= "Welcome!"
+                    onRequestSubmit = {this.toggleOrientationModal.bind(this)}
+                    ref={(ref) => this.orientationModal = ref}
+                    onRequestClose = {this.toggleOrientationModal.bind(this)}
+                    >
+                    <OrientationModal></OrientationModal>
+                    
+                </Modal>} 
                   <div className="container-fluid p10">   
                   <Route exact path="/" component={SemanticEx} />
                   <Route exact path="/datasets" component={SemanticEx} />

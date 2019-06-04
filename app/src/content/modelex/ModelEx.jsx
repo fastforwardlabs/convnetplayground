@@ -25,16 +25,37 @@ class ModelEx extends Component {
         document.title = "ConvNet Playground | Model Explorer";
     }
     render() {
+        let modelInterpretabilityIntro = `Layers in a trained convolutional neural network (CNN) can be used to extract features from images.
+        Semantic search explores the use these extracted features in computing the "similarity" between images.  `
+
+        let optimizationVisualization = `How can we "peek" into a CNN and get an idea of what each neuron in a layer has learned to visualize?
+        One way to accomplish this is the use of optimization approaches to feature visualizations. Within this approach,
+        we begin with random noise and update it (based on gradients) to maximally excite each neuron. 
+        We use the lucid library to accomplish this and results are shown for a few models below.
+        `
+
         return (
             <div>
                 <div className="pb10 sectiontitle"> Model Explorer </div>
                 <div className="horrule"></div>
-                <InlineNotification
+                {/* <InlineNotification
                     title={"Image Algebra"} 
                     kind={"info"} 
                     subtitle={this.pageIntro}
                     style={{ minWidth: '100%', marginBottom: '.5rem' }}
-                />
+                /> */}
+
+                <div className="flex mt10">
+                    <div className="flex5 mr10 mynotif lightbluehightlight p20">
+                        <div className="boldtext mb10"> Model Interpretability</div>
+                        <div className="lh10">{modelInterpretabilityIntro}</div>
+                    </div>
+                    <div className="flex5  mynotif lightbluehightlight p20">
+                        <div className="boldtext mb10"> Optimization-based Feature Visualization</div>
+                        <div className="lh10">{optimizationVisualization}</div>
+                    </div>
+
+                </div>
                
 
 
