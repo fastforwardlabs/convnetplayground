@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6854eb7f1986bdecd713f73a95e2c14f",
+    "revision": "634fb05e3bdeec37885ff6691420a620",
     "url": "/convnetplayground/index.html"
   },
   {
-    "revision": "7da2b368020ddcc00dc6",
+    "revision": "5efb2d757ed5175eb5b5",
     "url": "/convnetplayground/static/css/main.e39d1ecd.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/convnetplayground/static/js/2.3751ced4.chunk.js"
   },
   {
-    "revision": "7da2b368020ddcc00dc6",
-    "url": "/convnetplayground/static/js/main.e7e8f85e.chunk.js"
+    "revision": "5efb2d757ed5175eb5b5",
+    "url": "/convnetplayground/static/js/main.9660f634.chunk.js"
   },
   {
     "revision": "b67669fc80d8180dd340",
