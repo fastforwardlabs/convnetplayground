@@ -11,10 +11,15 @@ class ModelEx extends Component {
         let mList = [{name:"vgg16", layers:[{name:"b1_conv", layer_index:"4", parametercount:3000, type:"Conv2D"}, {name:"block3_conv2", layer_index:"4", parametercount:3000, type:"Conv2D"} ]},
                     {name:"vgg19",layers:[{name:"b1_conv", layer_index:"4", parametercount:3000, type:"Conv2D"}, {name:"block5_Conv4", layer_index:"4", parametercount:3000, type:"Conv2D"} ]},
                     {name:"resnet50",layers:[{name:"r5_abr", layer_index:"4", parametercount:13000, type:"Conv2D"}, {name:"b1_cor4_rgt_nv", layer_index:"4", parametercount:3000, type:"Conv2D"} ]}]
+
+        let nList = []
+                    
         this.state = {
             selectedmodel: 0, 
             selectedlayer: 0,
-            modelsList:mList
+            modelsList:mList,
+            neuronList: nList,
+            showmodelmodal: false
         }
 
 
@@ -37,6 +42,14 @@ class ModelEx extends Component {
     clickLayerImage(e) {
         this.setState({ selectedlayer: e.target.getAttribute("indexvalue") }) 
     }
+
+
+    toggleModelsModal(e){
+        this.setState({showmodelmodal: !(this.state.showmodelmodal)})
+        // console.log(this.state.showmodelmodal)
+    }
+
+
     render() {
         let modelInterpretabilityIntro = `Interpretable models are models we can "understand". 
         Interpretability explores approaches to better understand neural networks. For example, 
@@ -68,7 +81,13 @@ class ModelEx extends Component {
 
         return (
             <div>
-                <div className="pb10 sectiontitle"> Model Explorer </div>
+                 
+                <div className=" flex  "> 
+                    <div  className="iblock sectiontitle flexfull   pt4 ">Model Explorer</div>
+                    <div className="flex5  ">
+                    <div onClick={this.toggleModelsModal.bind(this)}  className="iblock floatright  clickable showmodal"> ? More Info  </div>
+                    </div>
+                </div> 
                 <div className="horrule"></div>
                 {/* <InlineNotification
                     title={"Image Algebra"} 
@@ -118,6 +137,15 @@ class ModelEx extends Component {
                         
                     </div>
                 </div>
+
+
+                <div className="mt20 mb10 ">
+                    <div className="sectiontitle iblock mr10"> Neurons in Layer </div>
+                    <div className="iblock"> A selection of 30 neurons on the current layer.</div>
+                </div>
+
+                <div className="horrule mb10"></div>
+
                
 
 

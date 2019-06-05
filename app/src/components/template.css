@@ -1,7 +1,9 @@
 
 /* Text Highlights */
 
-
+.textvalignmiddle{
+    vertical-align: middle;
+}
 .bluehightlight {
     padding: 10px;
     background: rgb(190, 213, 250);

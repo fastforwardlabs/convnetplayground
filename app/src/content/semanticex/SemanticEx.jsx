@@ -181,10 +181,11 @@ class SemanticEx extends Component {
                     
                 </Modal>} 
 
-                <div className="pb10 "> 
-                    <div  className="iblock pb10 sectiontitle">What is Semantic Search?</div>
-                    <div onClick= {this.toggleSemanticModal.bind(this)}  className="iblock  floatright  clickable showmodal"> ? More Info  </div>
-                
+                <div className=" flex  "> 
+                    <div  className="iblock sectiontitle flexfull   pt4 ">What is Semantic Search?</div>
+                    <div className="flex5  ">
+                    <div onClick={this.toggleSemanticModal.bind(this)}  className="iblock floatright  clickable showmodal"> ? More Info  </div>
+                    </div>
                 </div>
                 <div className="horrule"></div>
                 <div className="flex mt10">

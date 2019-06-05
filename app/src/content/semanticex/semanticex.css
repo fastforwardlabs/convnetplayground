@@ -9,11 +9,14 @@
 .datasetbox:hover{
     /* border-bottom: 4px #0062FF solid; */
     opacity: 1;
+   
 }
 
 .datasetbox.active{
     border-bottom: 4px #0062FF solid;
     opacity: 1;
+    height: 6.5em; 
+    width: 6.5em;
 }
 
 .mynotif{
@@ -107,6 +110,7 @@ div.bx--modal-container{
 
 .showmodal{ 
     padding: 7px;
+    margin: 0px 0px 5px 0px
 }
 
 .showmodal:hover{
