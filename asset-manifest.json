@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/convnetplayground/static/css/main.54843d96.chunk.css",
+    "main.css": "/convnetplayground/static/css/main.f81115eb.chunk.css",
     "main.js": "/convnetplayground/static/js/main.846ce9a1.chunk.js",
     "main.js.map": "/convnetplayground/static/js/main.846ce9a1.chunk.js.map",
     "runtime~main.js": "/convnetplayground/static/js/runtime~main.a0cd9486.js",
@@ -8,9 +8,9 @@
     "static/js/2.c4797a17.chunk.js": "/convnetplayground/static/js/2.c4797a17.chunk.js",
     "static/js/2.c4797a17.chunk.js.map": "/convnetplayground/static/js/2.c4797a17.chunk.js.map",
     "index.html": "/convnetplayground/index.html",
-    "precache-manifest.5c04ce9ba0d79ae333ef69309ab1411a.js": "/convnetplayground/precache-manifest.5c04ce9ba0d79ae333ef69309ab1411a.js",
+    "precache-manifest.d0216a7db1844f4b0fb939deed0a966a.js": "/convnetplayground/precache-manifest.d0216a7db1844f4b0fb939deed0a966a.js",
     "service-worker.js": "/convnetplayground/service-worker.js",
-    "static/css/main.54843d96.chunk.css.map": "/convnetplayground/static/css/main.54843d96.chunk.css.map",
+    "static/css/main.f81115eb.chunk.css.map": "/convnetplayground/static/css/main.f81115eb.chunk.css.map",
     "static/media/layer.png": "/convnetplayground/static/media/layer.9952a8d0.png",
     "static/media/model.png": "/convnetplayground/static/media/model.20a139c6.png"
   }
