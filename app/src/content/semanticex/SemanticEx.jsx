@@ -3,57 +3,7 @@ import { Modal } from 'carbon-components-react';
 import Notification20 from '@carbon/icons-react/lib/notification/20';
 import "./semanticex.css"
 import SemanticModalContent from "../../components/modals/SemanticModal"
-
-function abbreviateString(value, maxLength) {
-    if (value.length <= maxLength) {
-        return value
-    } else {
-        return value.substring(0, maxLength) + " .."
-    }
-}
-
-function boundWidth(widthVal){
-    if (widthVal < 0){
-        return 0;
-    }else if (widthVal >1){
-        return 1;
-    }else {
-        return widthVal;
-    }
-}
-
-function intlFormat(num){
-  return new Intl.NumberFormat().format(Math.round(num*10)/10);
-}
-function makeFriendly(num){
-  if(num < 1 && num > 0){
-      return num
-  }
-  if( Math.abs( num) >= 1000000)
-    return intlFormat(num/1000000)+'M';
-  if(Math.abs(num) >= 1000)
-    return intlFormat(num/1000)+'k';
-  return intlFormat(num);
-}
-
-function loadJSONData(url) {
-     return fetch(url)
-        .then(
-            function (response) {
-                if (response.status !== 200) {
-                    console.log('Looks like there was a problem. Status Code: ' + response.status);
-                    return;
-                } 
-                // Examine the text in the response
-                return response.json().then(function (data) { 
-                    return data
-                });
-            }
-        )
-        .catch(function (err) {
-            console.log('Fetch Error :-S', err);
-        });
-}
+import {abbreviateString, loadJSONData, makeFriendly, boundWidth} from "../../components/helperfunctions/HelperFunctions"
 
 class SemanticEx extends Component {
     constructor(props) {
@@ -278,7 +228,7 @@ class SemanticEx extends Component {
                             </div>
                             <div className="flex9 ">
                                 <div className="smalldesc boldtext pt4"> Layer [ {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index }  of {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].totallayers }  ] {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type } </div>
-                                <div className="smalldesc pt3"> {makeFriendly(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].paremtercount)} trainable parameters </div>
+                                <div className="smalldesc pt3"> {makeFriendly(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].parametercount)} trainable parameters </div>
                             </div>
                         </div>
                         
