@@ -25,10 +25,11 @@ class ModelEx extends Component {
         document.title = "ConvNet Playground | Model Explorer";
     }
     render() {
-        let modelInterpretabilityIntro = `Layers in a trained convolutional neural network (CNN) can be used to extract features from images.
-        Semantic search explores the use these extracted features in computing the "similarity" between images.  `
+        let modelInterpretabilityIntro = `Interpretable models are models we can "understand". 
+        Interpretability explores approaches to better understand neural networks. For example, 
+        how can we "peek" into a CNN to get an idea of what each neuron in a layer has learned to detect? `    
 
-        let optimizationVisualization = `How can we "peek" into a CNN and get an idea of what each neuron in a layer has learned to visualize?
+        let optimizationVisualization = `  
         One way to accomplish this is the use of optimization approaches to feature visualizations. Within this approach,
         we begin with random noise and update it (based on gradients) to maximally excite each neuron. 
         We use the lucid library to accomplish this and results are shown for a few models below.

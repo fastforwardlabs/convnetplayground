@@ -74,7 +74,7 @@ def get_model_layer_names (model, model_name):
         for layer in model.layers: 
             if ("pool" in layer.name):
                 layer_list.append(layer.name)
-        layer_list = ["block1_conv1", "block1_pool",  "block3_conv4", "block3_pool",  "block4_conv4", "block4_pool",  "block5_conv5","block5_pool"]
+        layer_list = ["block1_conv1", "block1_pool",  "block3_conv1", "block3_pool",  "block4_conv1", "block4_pool",  "block5_conv1","block5_pool"]
         return layer_list
     elif (model_name == "resnet50"):
         # for layer in model.layers:
