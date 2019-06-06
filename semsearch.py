@@ -10,6 +10,8 @@ import os
 
 tf.logging.set_verbosity(tf.logging.INFO) 
 base_path = "app/public/assets/semsearch"
+base_path_public_models = "app/public/assets/models"
+base_path_src_models = "app/src/assets/models"
 base_path_public = "app/public/assets/semsearch"
 base_path_src = "app/src/assets/semsearch"
 base_path_local = ""
@@ -52,7 +54,7 @@ def generate_embeddings(dataset_params):
         embeddings_output_params= {"path":  embedding_output_path }
 
         model, preprocess_input = m_utils.get_model(model_detail["name"])
-        layer_list = m_utils.get_model_layer_names(model, model_detail["name"]) 
+        layer_list = m_utils.get_model_layer_names(model_detail["name"]) 
         intermediate_models = m_utils.get_intermediate_models(model,layer_list)
 
         for intermediate_model in intermediate_models:
@@ -90,9 +92,18 @@ dataset_params = {"name":"tinyimagenet",   "path": os.path.join(base_path_public
 
 # generate_embeddings(50)
 # generate_similarity_metrics()
-generate_model_details()
+# generate_model_details()
 # model , pre= m_utils.get_model("resnet50")
 # llist = m_utils.get_model_layer_names(model,"resnet50")
 # print(llist)
 
 # visualize_similarity()
+
+
+def generate_model_viz_details():
+   
+    model_params = {"model_dir": base_path_public_models, "output_path": os.path.join(base_path_src_models, "models.json")}
+    m_utils.get_model_viz_details(model_params)
+
+
+generate_model_viz_details()
