@@ -36,14 +36,18 @@ def get_model(model_name="vgg16"):
 def get_supported_models():
     model_architectures = [{"name": "vgg16"},
                             {"name": "resnet50"},
-                            {"name": "resnet50"}
+                            # {"name": "resnet152"},
+                            # {"name": "mobilenet"},
+                            # {"name": "xception"},
+                            # {"name": "inceptionv3"},
+                            # {"name": "densenet121"},
                             ]
     return  model_architectures
 
 def get_all_layer_details(model, layer_list):
     layer_details = {}
     for i,layer in enumerate(model.layers): 
-        layer_details[layer.name] = {"name": layer.name, "type":layer.__class__.__name__, "paremtercount":layer.count_params(), "layer_index":i , "totallayers": len(model.layers)}
+        layer_details[layer.name] = {"name": layer.name, "type":layer.__class__.__name__, "parametercount":layer.count_params(), "layer_index":i , "totallayers": len(model.layers)}
     
     detailed_layer_list = []
     for layer in layer_list:
@@ -56,7 +60,7 @@ def get_all_model_details():
     model_details = []
     for model_detail in model_architectures:
         model, preprocess = get_model(model_name=model_detail["name"])
-        layer_names = get_model_layer_names(model, model_detail["name"])
+        layer_names = get_model_layer_names(model_detail["name"])
         model_details.append({"name": model_detail["name"], "layers":get_all_layer_details(model, layer_names)})
 
     return model_details
@@ -67,19 +71,13 @@ def get_all_model_details():
 # get_all_layer_details(model, ["block1_pool"])
 
     
-def get_model_layer_names (model, model_name):
+def get_model_layer_names (model_name):
     layer_list = []
     #   for vgg layers only select pool layers
     if (model_name == "vgg16"):
-        for layer in model.layers: 
-            if ("pool" in layer.name):
-                layer_list.append(layer.name)
-        layer_list = ["block1_conv1", "block1_pool",  "block3_conv1", "block3_pool",  "block4_conv1", "block4_pool",  "block5_conv1","block5_pool"]
+        layer_list = ["block1_conv1", "block1_pool",  "block3_conv3", "block3_pool",  "block4_conv3", "block4_pool",  "block5_conv3","block5_pool"]
         return layer_list
     elif (model_name == "resnet50"):
-        # for layer in model.layers:
-        #     if("activation" in layer.name):
-        #         layer_list.append(layer.name)
         layer_list = ["res2a_branch2a", "res2b_branch2a",  "res3b_branch2a", "res4a_branch2a",  "res4e_branch2a", "res4c_branch2a", "res5a_branch2a",  "res5c_branch2c"]
         return layer_list
 
@@ -102,3 +100,20 @@ model_architectures = ["densenet121","densenet169","densenet201",
                        "vgg16","vgg19", "xception"]
  
     
+def get_model_viz_details(model_params): 
+    detail_holder={}
+    model_name = "vgg16"
+    dir_path =   os.path.join(model_params["model_dir"],model_name)
+    f_utils.mkdir(dir_path)
+    layer_list = os.listdir(dir_path )
+    print(layer_list, dir_path)
+    for layer in layer_list:
+        neuron_list = os.listdir( os.path.join(dir_path,layer) )
+
+        neuron_list.sort()
+        detail_holder[layer] = neuron_list
+    
+    print(model_name)
+    detail_holder = {"vgg16": detail_holder}
+    f_utils.save_json_file(model_params["output_path"], detail_holder)
+    tf.logging.info("  >> Finished saving model and layer details" )
