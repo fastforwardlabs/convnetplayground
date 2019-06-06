@@ -1,28 +1,36 @@
 import React, { Component } from "react";
 import { InlineNotification } from 'carbon-components-react';
 import {abbreviateString, loadJSONData, makeFriendly, boundWidth} from "../../components/helperfunctions/HelperFunctions"
-
+import "./modelex.css"
 class ModelEx extends Component {
 
 
     constructor(props) {
         super(props);
 
+        const modelDetailsViz = require('../../assets/models/models.json');
+        const modelDetails = require('../../assets/semsearch/details.json');
+       
+
         let mList = [{name:"vgg16", layers:[{name:"b1_conv", layer_index:"4", parametercount:3000, type:"Conv2D"}, {name:"block3_conv2", layer_index:"4", parametercount:3000, type:"Conv2D"} ]},
                     {name:"vgg19",layers:[{name:"b1_conv", layer_index:"4", parametercount:3000, type:"Conv2D"}, {name:"block5_Conv4", layer_index:"4", parametercount:3000, type:"Conv2D"} ]},
                     {name:"resnet50",layers:[{name:"r5_abr", layer_index:"4", parametercount:13000, type:"Conv2D"}, {name:"b1_cor4_rgt_nv", layer_index:"4", parametercount:3000, type:"Conv2D"} ]}]
 
         let nList = []
+
+        // console.log( modelDetailsViz[modelDetails["models"][0].name])
+
                     
         this.state = {
             selectedmodel: 0, 
             selectedlayer: 0,
-            modelsList:mList,
+            modelsList: modelDetails["models"],
+            layersList: modelDetailsViz[modelDetails["models"][0].name],
             neuronList: nList,
             showmodelmodal: false
         }
 
-
+        this.layerList = modelDetailsViz
         this.pageIntro = ` Convolutional Neural Network models are comprised of layers which learn heirarchical 
         representations. What kind of representations or features does each layer learn? 
         Well, let us explore the following models. `
@@ -78,6 +86,27 @@ class ModelEx extends Component {
                 </div>
             )
         });
+        let selectedModel = this.state.modelsList[this.state.selectedmodel].name
+        let currentLayers = this.layerList[selectedModel] 
+        let selectedlayer = this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name
+        let neuronList = currentLayers[selectedlayer]
+        console.log(selectedModel)
+        console.log(selectedlayer)
+        console.log(currentLayers[selectedlayer])
+        let neuronImageList
+        if (neuronList) {
+            neuronImageList = currentLayers[selectedlayer].map((ldata, index) => {    
+            let imagePath = process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + ldata  
+            // console.log(imagePath)
+            return (
+                <div key={ldata + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
+                    <div className="datasettitles"> Neuron { ldata.split(".")[0] }</div>
+                    <img   src={imagePath} alt="" className={"neuronbox rad2 "} indexvalue={index} />
+                </div>
+            )
+        });
+        }
+        
 
         return (
             <div>
@@ -140,13 +169,15 @@ class ModelEx extends Component {
 
 
                 <div className="mt20 mb10 ">
-                    <div className="sectiontitle iblock mr10"> Neurons in Layer </div>
+                    <div className="sectiontitle iblock mr10"> Neurons in {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()} Layer </div>
                     <div className="iblock"> A selection of 30 neurons on the current layer.</div>
                 </div>
 
                 <div className="horrule mb10"></div>
 
-               
+                <div>
+                    {neuronImageList}
+                </div>
 
 
                  
