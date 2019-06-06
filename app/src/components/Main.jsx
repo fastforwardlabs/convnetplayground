@@ -41,7 +41,7 @@ class Main extends Component {
         super(props); 
         
         this.state = { 
-            showorientationmodal: true
+            // showorientationmodal: true
         } 
        
     }

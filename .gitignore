@@ -1,6 +1,7 @@
 datasets
 embeddings
 similarity
+models
 napp
 # Byte-compiled / optimized / DLL files
 __pycache__/

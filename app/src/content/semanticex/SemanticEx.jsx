@@ -27,7 +27,8 @@ class SemanticEx extends Component {
             datasetsList: modelDetails["datasets"],
             modelsList: modelDetails["models"],
             distanceMetricList: modelDetails["metrics"],
-            showorientationmodal: false
+            showorientationmodal: false,
+            topx:5
         }
         // setTimeout(() => {
         this.updateSimilarity() 
@@ -136,8 +137,9 @@ class SemanticEx extends Component {
         let similarImagesList = this.state.similarityArray[this.state.selectedsimimage].map((alldata, index) => {
             let imagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + alldata[0] + ".jpg"
             // console.log(imagePath)
-            let similarityScore = (alldata[1] * 1).toFixed(3)
-            return (
+            let similarityScore = (alldata[1] * 1).toFixed(3) 
+            let isTopX = index == this.state.topx ? true: false
+            let returnVlaue = ( 
                 <div key={alldata[0] + "winper"} className="iblock similarityfullbox mr5 mb5 positionrelative">
                     <img key={alldata[0] + "image" + alldata[0]} onClick={this.clickSimilarImage.bind(this)} src={imagePath} alt="" className={"simiimage clickable rad2 "} indexvalue={alldata[0]} />
                     <div className="outersimbar">
@@ -147,6 +149,20 @@ class SemanticEx extends Component {
                     {/* <div>{ "w:" + boundWidth(similarityScore)*100  }</div> */}
                 </div>
             )
+
+            return (returnVlaue)
+
+            // if (isTopX){
+            //     return ( 
+            //         <div className="">
+                         
+            //             {/* {returnVlaue} */}
+            //         </div>
+            //     )
+            // }else{
+            //     return (returnVlaue)
+            // }
+            
         });
        
         
@@ -249,7 +265,7 @@ class SemanticEx extends Component {
 
                 <div className="mt20 mb10 ">
                     <div className="sectiontitle iblock mr10"> Similarity search </div>
-                    <div className="iblock"> Select and image.</div>
+                    <div className="iblock"> Select an image to view most similar based on model output.</div>
                 </div>
                 <div className="horrule mb10"></div>
                 <div className="flex">
