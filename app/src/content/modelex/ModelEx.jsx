@@ -79,19 +79,30 @@ class ModelEx extends Component {
         `
 
         let modelImageList = this.state.modelsList.map((mdata, index) => {
+            let selectedModel = this.state.modelsList[index].name 
+            let selectedlayer = this.state.modelsList[index].layers[this.state.modelsList[index].layers.length -1].name
+        
+            let imagePath = process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/0.jpg" 
+            // console.log(imagePath)
             return (
+
                 <div key={mdata.name + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
                     <div className="datasettitles"> {mdata.name.toUpperCase()}</div>
-                    <img onClick={this.clickModelImage.bind(this)} src={require("../../images/model.png")} alt="" className={"datasetbox rad2 " + (this.state.selectedmodel == index ? "active" : "")} indexvalue={index} />
+                    <img onClick={this.clickModelImage.bind(this)} src={imagePath} alt="" className={"datasetbox rad2 " + (this.state.selectedmodel == index ? "active" : "")} indexvalue={index} />
                 </div>
             )
         });
 
         let layerImageList = this.state.modelsList[this.state.selectedmodel].layers.map((ldata, index) => {    
+            let selectedModel = this.state.modelsList[this.state.selectedmodel].name 
+            let selectedlayer = this.state.modelsList[this.state.selectedmodel].layers[index].name
+            let neuronList = this.layerList[selectedModel] [selectedlayer]
+            let imagePath = process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + neuronList[neuronList.length -1]  + ".jpg" 
+             
             return (
                 <div key={ldata + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
                     <div className="datasettitles"> {abbreviateString(ldata.name, 11).toLowerCase()}</div>
-                    <img onClick={this.clickLayerImage.bind(this)} src={require("../../images/layer.png")} alt="" className={"datasetbox rad2 " + (this.state.selectedlayer == index ? "active" : "")} indexvalue={index} />
+                    <img onClick={this.clickLayerImage.bind(this)} src={imagePath} alt="" className={"datasetbox rad2 " + (this.state.selectedlayer == index ? "active" : "")} indexvalue={index} />
                 </div>
             )
         });
