@@ -104,6 +104,11 @@ class SemanticEx extends Component {
 
 
         let modelImageList = this.state.modelsList.map((mdata, index) => {
+            let selectedModel = this.state.modelsList[index].name 
+            let selectedlayer = this.state.modelsList[index].layers[this.state.modelsList[index].layers.length -1].name
+        
+            let imagePath = process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/0.jpg" 
+            
             return (
                 <div key={mdata.name + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
                     <div className="datasettitles"> {mdata.name.toUpperCase()}</div>
@@ -199,24 +204,24 @@ class SemanticEx extends Component {
 
                 <div className=" flex  "> 
                     <div  className="iblock sectiontitle flexfull   pt4 ">What is Semantic Search?</div>
-                    <div className="flex5  ">
+                    <div className="flex  ">
                     <div onClick={this.toggleSemanticModal.bind(this)}  className="iblock floatright  clickable showmodal"> ? More Info  </div>
                     </div>
                 </div>
                 <div className="horrule"></div>
                 <div className="flex mt10">
-                    <div className="flex5 mr10 mynotif lightbluehightlight p20">
+                    <div className="flex5 mr10 mynotif lightbluehightlight  p20">
                         <div className="boldtext mb10"> Semantic Search</div>
-                        <div className="lh10">{semsearchIntro}</div>
+                        <div className="lh10 maxh16">{semsearchIntro}</div>
                     </div>
-                    <div className="flex5  mynotif lightbluehightlight p20">
+                    <div className="flex6  mynotif lightbluehightlight p20">
                         <div className="boldtext mb10"> Model architectures and Layers</div>
-                        <div className="lh10">{convnetLayer}</div>
+                        <div className="lh10 maxh16">{convnetLayer}</div>
                     </div>
 
                 </div>
 
-                <div className="flex flexwrap">
+                <div className="flex ">
                     <div className="flex2 mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Dataset </div>
                         <div className="horrule mb10"></div>
@@ -225,18 +230,18 @@ class SemanticEx extends Component {
                         </div>
                         <div className=" iblock boldtext  iblock boldtext datasetdescription  p10 lightbluehightlight">{this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()}</div>
                     </div>
-                    <div className="flex3 mr10">
+                    <div className="flex3  mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Model </div>
                         <div className="horrule mb10"></div>
-                        <div className="datasetselectdiv">
+                        <div className="datasetselectdiv layerwindow">
                             {modelImageList}
                         </div>
                         <div className=" iblock boldtext datasetdescription  p10 lightbluehightlight">{this.state.modelsList[this.state.selectedmodel].name.toUpperCase()}</div>
                     </div>
-                    <div className="flex3">
+                    <div className="flex4  ">
                         <div className="mt20 pb10 sectiontitle" > Select Layer </div>
                         <div className="horrule mb10"></div>
-                        <div className="scrollwindow  ">
+                        <div className="scrollwindow layerwindow mr10">
                             <div className="windowcontent"> {layerImageList} </div>
                         </div>
                         <div className="flex flexwrap ">
@@ -254,7 +259,7 @@ class SemanticEx extends Component {
                     <div className="flex2">
                         <div className="mt20 pb10 sectiontitle" > Distance Metric </div>
                         <div className="horrule mb10"></div>
-                        <div className="scrollwindow  ">
+                        <div className="scrollwindow layerwindow ">
                             <div className="windowcontent"> {metricImageList} </div>
                         </div>
                         <div className=" iblock boldtext datasetdescription  p10 lightbluehightlight"> {this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()}</div>

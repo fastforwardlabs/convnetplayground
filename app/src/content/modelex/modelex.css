@@ -40,7 +40,7 @@
 }
 
 .layerwindow{
-    height: 15em;
+    max-height: 16em;
     /* border: 2px solid green; */
     overflow: scroll;
 }
@@ -50,11 +50,11 @@
 }
 
 .layerwindow::-webkit-scrollbar:vertical {
-    width: 11px;
+    width: 8px;
 }
 
 .layerwindow::-webkit-scrollbar:horizontal {
-    height: 11px;
+    height: 8px;
 }
 
 .layerwindow::-webkit-scrollbar-thumb {

@@ -149,11 +149,11 @@ class ModelEx extends Component {
                 <div className="flex mt10">
                     <div className="flex5 mr10 mynotif lightbluehightlight p20">
                         <div className="boldtext mb10"> Model Interpretability</div>
-                        <div className="lh10">{modelInterpretabilityIntro}</div>
+                        <div className="lh10 maxh16">{modelInterpretabilityIntro}</div>
                     </div>
                     <div className="flex5  mynotif lightbluehightlight p20">
                         <div className="boldtext mb10"> Optimization-based Feature Visualization</div>
-                        <div className="lh10">{optimizationVisualization}</div>
+                        <div className="lh10 maxh16">{optimizationVisualization}</div>
                     </div>
 
                 </div>
@@ -162,7 +162,7 @@ class ModelEx extends Component {
                     <div className="flex5 mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Model </div>
                         <div className="horrule mb10"></div>
-                        <div className="datasetselectdiv">
+                        <div className="layerwindow">
                             {modelImageList}
                         </div>
                         <div className=" iblock boldtext datasetdescription  p10 lightbluehightlight">{this.state.modelsList[this.state.selectedmodel].name.toUpperCase()}</div>
@@ -172,7 +172,7 @@ class ModelEx extends Component {
                     <div className="flex5">
                         <div className="mt20 pb10 sectiontitle" > Select Layer </div>
                         <div className="horrule mb10"></div>
-                        <div className="layerwindow ">
+                        <div className="layerwindow  ">
                             <div className="windowcontent"> {layerImageList} </div>
                         </div>
                         <div className="flex flexwrap ">

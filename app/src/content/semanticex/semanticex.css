@@ -18,7 +18,10 @@
     height: 6.2em; 
     width: 6.2em;
 }
-
+.maxh16{
+    max-height:  10em;
+    overflow: scroll;
+}
 .mynotif{
     border-left: 4px  #054ADA solid;
 }

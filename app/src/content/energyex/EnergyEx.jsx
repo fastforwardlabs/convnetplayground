@@ -61,7 +61,7 @@ class showmodelmodal extends Component {
                 <div className="pb10 sectiontitle"> Energy Explorer</div>
                 <div className="horrule"></div>
                 <InlineNotification
-                    title={"Image Algebra"} 
+                    title={"Energy Costs for Model Predictions"} 
                     kind={"info"} 
                     subtitle={this.algebraIntro}
                     style={{ minWidth: '100%', marginBottom: '.5rem' }}
