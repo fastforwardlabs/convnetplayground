@@ -116,7 +116,7 @@ def get_model_viz_details(model_params):
         dir_path =   os.path.join(model_params["model_dir"],model_name)
         f_utils.mkdir(dir_path)
         layer_list = os.listdir(dir_path )
-        layer_list.sort()
+        # layer_list.sort()
         layer_array = []
         for layer in layer_list: 
             if layer in model_layers_dict:
@@ -126,7 +126,7 @@ def get_model_viz_details(model_params):
 
             neuron_list.sort(key=float)
             detail_holder[layer] = neuron_list
- 
+        layer_array = sorted(layer_array, key  = lambda i: i["layer_index"])
         model_holder.append({"name": model_name, "layers": layer_array})
         all_detail_holder[model_name] = detail_holder
     model_holder = {"models": model_holder}
