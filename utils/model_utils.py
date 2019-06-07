@@ -75,7 +75,7 @@ def get_model_layer_names (model_name):
     layer_list = []
     #   for vgg layers only select pool layers
     if (model_name == "vgg16"):
-        layer_list = ["block1_conv1", "block1_pool",  "block3_conv3", "block3_pool",  "block4_conv3", "block4_pool",  "block5_conv3","block5_pool"]
+        layer_list = ["block1_conv1", "block1_pool",  "block3_conv1", "block3_pool",  "block4_conv1", "block4_pool",  "block5_conv1","block5_pool"]
         return layer_list
     elif (model_name == "resnet50"):
         layer_list = ["res2a_branch2a", "res2b_branch2a",  "res3b_branch2a", "res4a_branch2a",  "res4e_branch2a", "res4c_branch2a", "res5a_branch2a",  "res5c_branch2c"]
@@ -109,8 +109,9 @@ def get_model_viz_details(model_params):
     print(layer_list, dir_path)
     for layer in layer_list:
         neuron_list = os.listdir( os.path.join(dir_path,layer) )
+        neuron_list = [x.split(".")[0] for x in neuron_list]
 
-        neuron_list.sort()
+        neuron_list.sort(key=float)
         detail_holder[layer] = neuron_list
     
     print(model_name)
