@@ -51,15 +51,15 @@
     height: 5em; 
     margin: 0px 0px 0px 0px; 
     /* border-bottom: 4px solid #CDCDCD; */
-    transition: all .2s ease-in-out; 
+    /* transition: all .2s ease-in-out;  */
 }
 
 .simiimage:hover{
-    /* opacity: 0.3; */
+    opacity: 0.3;
     /* border-bottom: 4px #0062FF solid; */
     /* transition: opacity 0.3s;
     -webkit-transition: opacity 0.3s; */
-    transform: scale(1.5);
+    /* transform: scale(1.5); */
 }
 .simiimage.active{
     border-bottom: 4px #0062FF solid;

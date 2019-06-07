@@ -150,18 +150,18 @@ class SemanticEx extends Component {
                 </div>
             )
 
-            return (returnVlaue)
+            // return (returnVlaue)
 
-            // if (isTopX){
-            //     return ( 
-            //         <div className="">
+            if (isTopX){
+                return ( 
+                    <div className="">
                          
-            //             {/* {returnVlaue} */}
-            //         </div>
-            //     )
-            // }else{
-            //     return (returnVlaue)
-            // }
+                        {/* {returnVlaue} */}
+                    </div>
+                )
+            }else{
+                return (returnVlaue)
+            }
             
         });
        
@@ -184,7 +184,7 @@ class SemanticEx extends Component {
                     open={true}
                     size="lg"
                     // style={{maxWidth: '1600px', width: '100%'}}
-                    passiveModal={false}
+                    passiveModal={true}
                     primaryButtonText = "Get Started"
                     // secondaryButtonText = "Do not show this again"
                     modalHeading= "Semantic Search"  

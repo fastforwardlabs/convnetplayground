@@ -14,8 +14,27 @@
 }
 
 .neuronbox.active{
-    border-bottom: 4px rgb(16, 24, 37) solid;
+    border-bottom: 4px #0062FF solid;
     opacity: 1;
     /* height: 6.2em; 
     width: 6.2em; */
+}
+
+.enlargedneuron{
+    height: 16em;
+    width: 16em;
+}
+
+.enlargeddiv{
+    position: absolute;
+    top: 2em;
+    right:2em;
+    /* border: 2px solid green; */
+    z-index: 6000;
+    background:rgba(255, 255, 255, 0.7);
+    padding: 0.6em; 
+}
+
+.enlargeddesc{
+
 }

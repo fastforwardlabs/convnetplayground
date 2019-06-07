@@ -39,6 +39,9 @@ export function loadJSONData(url) {
                     return;
                 } 
                 // Examine the text in the response
+            //    response.text().then(function(data){
+            //        console.log(data)
+            //    })
                 return response.json().then(function (data) { 
                     return data
                 });

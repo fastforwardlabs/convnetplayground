@@ -19,7 +19,11 @@ class SemanticModalContent extends Component {
                 We provide 10 models and a selection of layers from each model. 
                 These include VGG16, ResNet50, .. . 
                 <br/> Click on a model or layer to select it and layer to display additional information.
-              
+
+                <div className="boldtext mt10"> Distance Metric </div>
+                Once we extract vector representation of our image using layers from a model, how do we measure how similar each vector is to the other?
+                Several distance metrics are offered (cosine, hamming, euclidean, jaccard, minkowski).
+                <br/> Hint: Cosine works best.  
             </div>
         );
     }
