@@ -101,20 +101,34 @@ model_architectures = ["densenet121","densenet169","densenet201",
  
     
 def get_model_viz_details(model_params): 
-    detail_holder={}
-    model_name = "vgg16"
-    dir_path =   os.path.join(model_params["model_dir"],model_name)
-    f_utils.mkdir(dir_path)
-    layer_list = os.listdir(dir_path )
-    print(layer_list, dir_path)
-    for layer in layer_list:
-        neuron_list = os.listdir( os.path.join(dir_path,layer) )
-        neuron_list = [x.split(".")[0] for x in neuron_list]
-
-        neuron_list.sort(key=float)
-        detail_holder[layer] = neuron_list
     
-    print(model_name)
-    detail_holder = {"vgg16": detail_holder}
-    f_utils.save_json_file(model_params["output_path"], detail_holder)
+    model_name = "vgg16"
+    
+    # print(layer_list, dir_path)
+    layer_details = f_utils.load_json_file("app/src/assets/models/layer_details.json")
+   
+    model_holder = []
+    all_detail_holder = {}
+    for model_name in os.listdir(model_params["model_dir"]):
+        detail_holder={}
+        model_layers_dict = layer_details[model_name]
+
+        dir_path =   os.path.join(model_params["model_dir"],model_name)
+        f_utils.mkdir(dir_path)
+        layer_list = os.listdir(dir_path )
+        layer_list.sort()
+        layer_array = []
+        for layer in layer_list: 
+            layer_array.append(model_layers_dict[layer])
+            neuron_list = os.listdir( os.path.join(dir_path,layer) )
+            neuron_list = [x.split(".")[0] for x in neuron_list]
+
+            neuron_list.sort(key=float)
+            detail_holder[layer] = neuron_list
+        model_holder.append({"name": model_name, "layers": layer_array})
+        all_detail_holder[model_name] = detail_holder
+    model_holder = {"models": model_holder}
+    f_utils.save_json_file("app/src/assets/models/model_details.json", model_holder)
+   
+    f_utils.save_json_file(model_params["output_path"], all_detail_holder)
     tf.logging.info("  >> Finished saving model and layer details" )
