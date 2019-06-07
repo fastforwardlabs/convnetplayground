@@ -154,7 +154,7 @@ class SemanticEx extends Component {
 
             if (isTopX){
                 return ( 
-                    <div className="">
+                    <div key={alldata[0] + "winper"}  className="">
                          
                         {/* {returnVlaue} */}
                     </div>
@@ -245,7 +245,7 @@ class SemanticEx extends Component {
                             </div>
                             <div className="flex9 ">
                                 <div className="smalldesc boldtext pt4"> Layer [ {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index }  of {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].totallayers }  ] {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type } </div>
-                                <div className="smalldesc pt3"> {makeFriendly(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].parametercount)} trainable parameters </div>
+                                <div className="smalldesc pt3"> {makeFriendly(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].parametercount)} trainable parameters, {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} neurons </div>
                             </div>
                         </div>
                         

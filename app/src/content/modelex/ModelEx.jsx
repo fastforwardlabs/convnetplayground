@@ -161,7 +161,7 @@ class ModelEx extends Component {
                     <div className="flex5">
                         <div className="mt20 pb10 sectiontitle" > Select Layer </div>
                         <div className="horrule mb10"></div>
-                        <div className="scrollwindow  ">
+                        <div className="layerwindow ">
                             <div className="windowcontent"> {layerImageList} </div>
                         </div>
                         <div className="flex flexwrap ">
@@ -170,7 +170,7 @@ class ModelEx extends Component {
                             </div>
                             <div className="flex9 ">
                                 <div className="smalldesc boldtext pt4"> Layer [ {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index }  of {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].totallayers }  ] {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type } </div>
-                                <div className="smalldesc pt3"> {makeFriendly(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].parametercount)} trainable parameters </div>
+                                <div className="smalldesc pt3"> {makeFriendly(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].parametercount)} trainable parameters, {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} neurons  </div>
                             </div>
                         </div>
                         
@@ -185,14 +185,21 @@ class ModelEx extends Component {
 
                 <div className="horrule mb10"></div>
 
-                <div>
-                    {neuronImageList}
+                <div className="flex flexwrap">
+                    <div className="flex1">
+                        <div className="enlargeddiv rad2 mr10">
+                            <div className="boldtext enlargeddesc mb10  p10 lightbluehightlight">{this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}: {this.state.neuronList[this.state.selectedneuron].split(".")[0]} / {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} </div>
+                            <img className="enlargedneuron rad4" src={process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + this.state.neuronList[this.state.selectedneuron] + ".jpg"}  alt=""/>
+                            
+                        </div>
+                        </div>
+                    <div className="flexfull">
+                        {neuronImageList}
+                    </div>
+                   
                 </div>
 
-                <div className="enlargeddiv rad2">
-                    <img className="enlargedneuron rad4" src={process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + this.state.neuronList[this.state.selectedneuron] + ".jpg"}  alt=""/>
-                    <div className="boldtext enlargeddesc mt10 p10 lightbluehightlight">{this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}: {this.state.neuronList[this.state.selectedneuron].split(".")[0]} </div>
-                </div>
+               
 
 
                 <br/>

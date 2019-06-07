@@ -119,12 +119,14 @@ def get_model_viz_details(model_params):
         layer_list.sort()
         layer_array = []
         for layer in layer_list: 
-            layer_array.append(model_layers_dict[layer])
+            if layer in model_layers_dict:
+                layer_array.append(model_layers_dict[layer])
             neuron_list = os.listdir( os.path.join(dir_path,layer) )
             neuron_list = [x.split(".")[0] for x in neuron_list]
 
             neuron_list.sort(key=float)
             detail_holder[layer] = neuron_list
+ 
         model_holder.append({"name": model_name, "layers": layer_array})
         all_detail_holder[model_name] = detail_holder
     model_holder = {"models": model_holder}
