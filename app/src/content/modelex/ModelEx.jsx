@@ -9,13 +9,8 @@ class ModelEx extends Component {
         super(props);
 
         const modelDetailsViz = require('../../assets/models/models.json');
-        const modelDetails = require('../../assets/semsearch/details.json');
+        const modelDetails = require('../../assets/models/model_details.json');
        
-
-        let mList = [{name:"vgg16", layers:[{name:"b1_conv", layer_index:"4", parametercount:3000, type:"Conv2D"}, {name:"block3_conv2", layer_index:"4", parametercount:3000, type:"Conv2D"} ]},
-                    {name:"vgg19",layers:[{name:"b1_conv", layer_index:"4", parametercount:3000, type:"Conv2D"}, {name:"block5_Conv4", layer_index:"4", parametercount:3000, type:"Conv2D"} ]},
-                    {name:"resnet50",layers:[{name:"r5_abr", layer_index:"4", parametercount:13000, type:"Conv2D"}, {name:"b1_cor4_rgt_nv", layer_index:"4", parametercount:3000, type:"Conv2D"} ]}]
-
         let nList = []
 
         // console.log( modelDetailsViz[modelDetails["models"][0].name])
@@ -24,6 +19,7 @@ class ModelEx extends Component {
         this.state = {
             selectedmodel: 0, 
             selectedlayer: 0,
+            selectedneuron:0, 
             modelsList: modelDetails["models"],
             layersList: modelDetailsViz[modelDetails["models"][0].name],
             neuronList: nList,
@@ -49,7 +45,20 @@ class ModelEx extends Component {
 
     clickLayerImage(e) {
         this.setState({ selectedlayer: e.target.getAttribute("indexvalue") }) 
+        this.setState({ selectedneuron: 0 }) 
     }
+
+    
+    clickNeuronImage(e) {
+       
+        // this.setState({selectedneuronpath: e.target.getAttribute("pathinfo")  })
+        this.setState({ selectedneuron: e.target.getAttribute("indexvalue") }) 
+        // this.setState({ selectedneuronindex: e.target.getAttribute("neuronindex") }) 
+        
+        // console.log(this.state.neuronList)
+
+    }
+
 
 
     toggleModelsModal(e){
@@ -90,18 +99,19 @@ class ModelEx extends Component {
         let currentLayers = this.layerList[selectedModel] 
         let selectedlayer = this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name
         let neuronList = currentLayers[selectedlayer]
-        console.log(selectedModel)
-        console.log(selectedlayer)
-        console.log(currentLayers[selectedlayer])
+
+        this.state.neuronList = neuronList
+        
         let neuronImageList
         if (neuronList) {
             neuronImageList = currentLayers[selectedlayer].map((ldata, index) => {    
-            let imagePath = process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + ldata  
+            let imagePath = process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + ldata + ".jpg" 
             // console.log(imagePath)
+            let neuronIndex = ldata.split(".")[0]
             return (
                 <div key={ldata + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
-                    <div className="datasettitles"> Neuron { ldata.split(".")[0] }</div>
-                    <img   src={imagePath} alt="" className={"neuronbox rad2 "} indexvalue={index} />
+                    <div className="datasettitles"> Neuron { neuronIndex }</div>
+                    <img  onClick={this.clickNeuronImage.bind(this)}   src={imagePath} alt="" className={"neuronbox rad2 " + (this.state.selectedneuron == index ? "active" : "")} indexvalue={index} pathinfo={imagePath} neuronindex={neuronIndex} />
                 </div>
             )
         });
@@ -179,8 +189,15 @@ class ModelEx extends Component {
                     {neuronImageList}
                 </div>
 
+                <div className="enlargeddiv rad2">
+                    <img className="enlargedneuron rad4" src={process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + this.state.neuronList[this.state.selectedneuron] + ".jpg"}  alt=""/>
+                    <div className="boldtext enlargeddesc mt10 p10 lightbluehightlight">{this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}: {this.state.neuronList[this.state.selectedneuron].split(".")[0]} </div>
+                </div>
 
-                 
+
+                <br/>
+                <br/>
+                <br/>
             </div>
         );
     }
