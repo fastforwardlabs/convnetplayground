@@ -67,6 +67,10 @@ class showmodelmodal extends Component {
                     style={{ minWidth: '100%', marginBottom: '.5rem' }}
                 />
                
+               <div>
+                   Convolutions account for over 90% of all energy requirements of most CNN models.
+                   
+               </div>
 
 
                  

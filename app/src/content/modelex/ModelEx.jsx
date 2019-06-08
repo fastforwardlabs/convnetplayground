@@ -170,7 +170,7 @@ class ModelEx extends Component {
                         </div>
                         <div>
                             <div className=" iblock boldtext datasetdescription mr10 p10 lightbluehightlight">{this.state.modelsList[this.state.selectedmodel].name.toUpperCase()}</div>
-                            <div className="iblock p10 lightbluehightlight clickable"> ? More model details</div>
+                            <div className="iblock p10 lightbluehightlight clickable"> ? More info</div>
                         </div>
                         
                     </div>
