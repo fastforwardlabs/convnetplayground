@@ -39,10 +39,15 @@
 
 }
 
+
 .layerwindow{
     max-height: 16em;
     /* border: 2px solid green; */
     overflow: scroll;
+}
+
+.layerwindowmodel{
+    max-height: 17.8em;
 }
 
 .layerwindow::-webkit-scrollbar, .neurondivbox::-webkit-scrollbar {

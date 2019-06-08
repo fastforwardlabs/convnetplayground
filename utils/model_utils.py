@@ -118,7 +118,12 @@ def get_model_viz_details(model_params):
         layer_list = os.listdir(dir_path )
         # layer_list.sort()
         layer_array = []
-        for layer in layer_list: 
+        all_layer_array = []
+        for layer in model_layers_dict.keys():
+            rowval = model_layers_dict[layer]
+            rowval["id"] = str(rowval["layer_index"]) + ""
+            all_layer_array.append(rowval)
+        for layer in layer_list:  
             if layer in model_layers_dict:
                 layer_array.append(model_layers_dict[layer])
             neuron_list = os.listdir( os.path.join(dir_path,layer) )
@@ -127,8 +132,10 @@ def get_model_viz_details(model_params):
             neuron_list.sort(key=float)
             detail_holder[layer] = neuron_list
         layer_array = sorted(layer_array, key  = lambda i: i["layer_index"])
-        model_holder.append({"name": model_name, "layers": layer_array})
+        all_layer_array = sorted(all_layer_array, key  = lambda i: i["layer_index"])
+        model_holder.append({"name": model_name, "layers": layer_array, "numlayers": len(model_layers_dict), "all_layers": all_layer_array })
         all_detail_holder[model_name] = detail_holder
+    model_holder = sorted(model_holder, key  = lambda i: i["numlayers"])
     model_holder = {"models": model_holder}
     f_utils.save_json_file("app/src/assets/models/model_details.json", model_holder)
    

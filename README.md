@@ -36,3 +36,7 @@ The similarity metric is conveyed as a percentage bar below each image.
 
 ### Model Explorer
 In this section the user is introduced to a list of well known CNN models and are able to explore visualizations of the layers and neurons within each model.
+
+Select Model
+
+We present implementations of a various model architectures using their standardized implementations provided in the Keras model zoo. These models are laid out in order of increasing complexity (number of layers). To explore the model in more detail, the user can select the "more info" button which provides an accessible table listing out each layer in the model.

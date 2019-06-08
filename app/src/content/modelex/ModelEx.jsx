@@ -1,19 +1,51 @@
 import React, { Component } from "react";
-import { InlineNotification } from 'carbon-components-react';
+import { DataTable, Modal } from 'carbon-components-react';
 import {abbreviateString, loadJSONData, makeFriendly, boundWidth} from "../../components/helperfunctions/HelperFunctions"
 import "./modelex.css"
+
+const {
+    TableContainer,
+    Table,
+    TableHead,
+    TableRow,
+    TableBody,
+    TableCell,
+    TableHeader,
+  } = DataTable
+
+ const initialRows = [
+    {
+      id: 'a',
+      field1: 'Field 1a',
+    },
+    {
+      id: 'b',
+      field1: 'Field 1b',
+    },
+    {
+      id: 'c',
+      field1: 'Field 1c',
+    },
+  ]; 
+  const headers = [ 
+    {key: 'layer_index',header: '',},
+    {key: 'name',header: 'Layer',},
+    {key: 'type',header: 'Type',},
+    {key: 'numneurons',header: 'Channels',},
+    {key: 'parametercount', header: 'Parameters',},
+  ]; 
 class ModelEx extends Component {
 
 
     constructor(props) {
         super(props);
 
-        const modelDetailsViz = require('../../assets/models/models.json');
+        const modelDetailsViz = require('../../assets/models/models.json'); 
         const modelDetails = require('../../assets/models/model_details.json');
        
         let nList = []
 
-        // console.log( modelDetailsViz[modelDetails["models"][0].name])
+        // console.log( modelDetails)
 
                     
         this.state = {
@@ -23,15 +55,15 @@ class ModelEx extends Component {
             modelsList: modelDetails["models"],
             layersList: modelDetailsViz[modelDetails["models"][0].name],
             neuronList: nList,
-            showmodelmodal: false
+            showmodelorientationmodal: false,
+            showmoremodelinfomodal: false,
         }
 
         this.layerList = modelDetailsViz
         this.pageIntro = ` Convolutional Neural Network models are comprised of layers which learn heirarchical 
         representations. What kind of representations or features does each layer learn? 
-        Well, let us explore the following models. `
-
-
+        Well, let us explore the following models. ` 
+        // this.allLayerDetails = modelDetails["all_layers"]
     }
 
     componentDidMount() {
@@ -63,10 +95,13 @@ class ModelEx extends Component {
     }
 
 
+    toggleModelMoreInfoModal(e){
+        this.setState({showmoremodelinfomodal: !(this.state.showmoremodelinfomodal)})
+    }
 
     toggleModelsModal(e){
-        this.setState({showmodelmodal: !(this.state.showmodelmodal)})
-        // console.log(this.state.showmodelmodal)
+        this.setState({showmodelorientationmodal: !(this.state.showmodelorientationmodal)})
+        // console.log(this.state.showmodelorientationmodal)
     }
 
 
@@ -91,6 +126,8 @@ class ModelEx extends Component {
 
                 <div key={mdata.name + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
                     <div className="datasettitles"> {mdata.name.toUpperCase()}</div>
+                    <div className="smalldesc pb5">{mdata.numlayers} layers </div>
+
                     <img onClick={this.clickModelImage.bind(this)} src={imagePath} alt="" className={"datasetbox rad2 " + (this.state.selectedmodel == index ? "active" : "")} indexvalue={index} />
                 </div>
             )
@@ -125,15 +162,64 @@ class ModelEx extends Component {
             return (
                 <div key={ldata + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
                     <div className="datasettitles"> Neuron { neuronIndex }</div>
-                    <img  onClick={this.clickNeuronImage.bind(this)}   src={imagePath} alt="" className={"neuronbox rad2 " + (this.state.selectedneuron == index ? "active" : "")} indexvalue={index} pathinfo={imagePath} neuronindex={neuronIndex} />
+                    <img  onMouseOver={this.clickNeuronImage.bind(this)}   src={imagePath} alt="" className={"neuronbox rad2 " + (this.state.selectedneuron == index ? "active" : "")} indexvalue={index} pathinfo={imagePath} neuronindex={neuronIndex} />
                 </div>
             )
         });
         }
         
+        // console.log(this.state.modelsList[this.state.selectedmodel].all_layers)
 
         return (
+            
             <div>
+
+                { (this.state.showmoremodelinfomodal) && <Modal className="orientationmodal" 
+                                    open={true}
+                                    size="lg"
+                                    // style={{maxWidth: '1600px', width: '100%'}}
+                                    passiveModal={true}
+                                    primaryButtonText = "Get Started"
+                                    // secondaryButtonText = "Do not show this again"
+                                    modalHeading= {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()}  
+                                    // modalLabel= "How this demo works"
+                                    onRequestSubmit = {this.toggleModelMoreInfoModal.bind(this)} 
+                                    onRequestClose = {this.toggleModelMoreInfoModal.bind(this)}
+                                    >
+                                    <div>
+                                    <DataTable
+                                        rows={this.state.modelsList[this.state.selectedmodel].all_layers}
+                                        headers={headers}
+                                        render={({ rows, headers, getHeaderProps }) => (
+                                            <TableContainer title="List of layers in Model">
+                                            <Table>
+                                                <TableHead>
+                                                <TableRow>
+                                                    {headers.map(header => (
+                                                    <TableHeader {...getHeaderProps({ header })}>
+                                                        {header.header}
+                                                    </TableHeader>
+                                                    ))}
+                                                </TableRow>
+                                                </TableHead>
+                                                <TableBody>
+                                                {rows.map(row => (
+                                                    <TableRow key={row.id}>
+                                                    {row.cells.map(cell => (
+                                                        <TableCell key={cell.id}>{cell.value}</TableCell>
+                                                    ))}
+                                                    </TableRow>
+                                                ))}
+                                                </TableBody>
+                                            </Table>
+                                            </TableContainer>
+                                        )}
+                                    /> 
+                                    </div>
+                                    
+                </Modal>} 
+
+                
                  
                 <div className=" flex  "> 
                     <div  className="iblock sectiontitle flexfull   pt4 ">Model Explorer</div>
@@ -165,12 +251,13 @@ class ModelEx extends Component {
                     <div className="flex5 mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Model </div>
                         <div className="horrule mb10"></div>
-                        <div className="layerwindow">
+                        <div className="layerwindow layerwindowmodel">
                             {modelImageList}
                         </div>
+                        
                         <div>
                             <div className=" iblock boldtext datasetdescription mr10 p10 lightbluehightlight">{this.state.modelsList[this.state.selectedmodel].name.toUpperCase()}</div>
-                            <div className="iblock p10 lightbluehightlight clickable"> ? More info</div>
+                            <div onClick={this.toggleModelMoreInfoModal.bind(this)} className="iblock p10 lightbluehightlight clickable"> ? More info</div>
                         </div>
                         
                     </div>
