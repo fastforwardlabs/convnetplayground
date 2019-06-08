@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/convnetplayground/static/css/main.95bfb275.chunk.css",
-    "main.js": "/convnetplayground/static/js/main.8797d896.chunk.js",
-    "main.js.map": "/convnetplayground/static/js/main.8797d896.chunk.js.map",
+    "main.css": "/convnetplayground/static/css/main.58327a60.chunk.css",
+    "main.js": "/convnetplayground/static/js/main.37c3a14c.chunk.js",
+    "main.js.map": "/convnetplayground/static/js/main.37c3a14c.chunk.js.map",
     "runtime~main.js": "/convnetplayground/static/js/runtime~main.a0cd9486.js",
     "runtime~main.js.map": "/convnetplayground/static/js/runtime~main.a0cd9486.js.map",
-    "static/js/2.16a74cd4.chunk.js": "/convnetplayground/static/js/2.16a74cd4.chunk.js",
-    "static/js/2.16a74cd4.chunk.js.map": "/convnetplayground/static/js/2.16a74cd4.chunk.js.map",
+    "static/js/2.9e9afbe5.chunk.js": "/convnetplayground/static/js/2.9e9afbe5.chunk.js",
+    "static/js/2.9e9afbe5.chunk.js.map": "/convnetplayground/static/js/2.9e9afbe5.chunk.js.map",
     "index.html": "/convnetplayground/index.html",
-    "precache-manifest.6c314c9c591fa10b2bd8eace732a9ee7.js": "/convnetplayground/precache-manifest.6c314c9c591fa10b2bd8eace732a9ee7.js",
+    "precache-manifest.0f227f26f0a646aea4690cd5cc662d5d.js": "/convnetplayground/precache-manifest.0f227f26f0a646aea4690cd5cc662d5d.js",
     "service-worker.js": "/convnetplayground/service-worker.js",
-    "static/css/main.95bfb275.chunk.css.map": "/convnetplayground/static/css/main.95bfb275.chunk.css.map",
+    "static/css/main.58327a60.chunk.css.map": "/convnetplayground/static/css/main.58327a60.chunk.css.map",
     "static/media/layer.png": "/convnetplayground/static/media/layer.9952a8d0.png",
     "static/media/model.png": "/convnetplayground/static/media/model.20a139c6.png"
   }
