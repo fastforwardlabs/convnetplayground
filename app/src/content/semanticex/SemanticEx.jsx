@@ -210,7 +210,7 @@ class SemanticEx extends Component {
                 </div>
                 <div className="horrule"></div>
                 <div className="flex mt10">
-                    <div className="flex5 mr10 mynotif lightbluehightlight  p20">
+                    <div className="flex4 mr10 mynotif lightbluehightlight  p20">
                         <div className="boldtext mb10"> Semantic Search</div>
                         <div className="lh10 maxh16">{semsearchIntro}</div>
                     </div>
@@ -230,7 +230,7 @@ class SemanticEx extends Component {
                         </div>
                         <div className=" iblock boldtext  iblock boldtext datasetdescription  p10 lightbluehightlight">{this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()}</div>
                     </div>
-                    <div className="flex3  mr10">
+                    <div className="flex2  mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Model </div>
                         <div className="horrule mb10"></div>
                         <div className="datasetselectdiv layerwindow">
