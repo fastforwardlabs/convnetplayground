@@ -41,7 +41,7 @@ class Main extends Component {
         super(props); 
         
         this.state = { 
-            showorientationmodal: true
+            // showorientationmodal: true
         } 
        
     }
@@ -66,7 +66,7 @@ class Main extends Component {
                     // style={{maxWidth: '1600px', width: '100%'}}
                     passiveModal={false}
                     primaryButtonText = "Get Started"
-                    // secondaryButtonText = "Do not show this again"
+                    secondaryButtonText = "Close"
                     modalHeading= "Convnet Playground"  
                     modalLabel= "Welcome!"
                     onRequestSubmit = {this.toggleOrientationModal.bind(this)}

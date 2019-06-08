@@ -45,20 +45,38 @@
     overflow: scroll;
 }
 
-.layerwindow::-webkit-scrollbar {
+.layerwindow::-webkit-scrollbar, .neurondivbox::-webkit-scrollbar {
     -webkit-appearance: none;
 }
 
-.layerwindow::-webkit-scrollbar:vertical {
+.layerwindow::-webkit-scrollbar:vertical, .neurondivbox::-webkit-scrollbar:vertical {
     width: 8px;
 }
 
-.layerwindow::-webkit-scrollbar:horizontal {
+.layerwindow::-webkit-scrollbar:horizontal, .neurondivbox::-webkit-scrollbar:horizontal {
     height: 8px;
 }
 
-.layerwindow::-webkit-scrollbar-thumb {
+.layerwindow::-webkit-scrollbar-thumb, .neurondivbox::-webkit-scrollbar-thumb {
     border-radius: 8px;
     border: 2px solid white; /* should match background, can't be transparent */
     background-color: rgba(0, 0, 0, .5);
+}
+
+.twitterbutton{
+    background: rgb(105, 105, 105) ;
+    padding: 10px;
+    display: block;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+.twitterbutton:hover{
+
+    background: rgb(54, 54, 54);
+}
+
+.neurondivbox{
+    max-height: 22em;
+    overflow: scroll;
 }

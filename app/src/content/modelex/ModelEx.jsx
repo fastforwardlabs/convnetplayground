@@ -35,7 +35,10 @@ class ModelEx extends Component {
     }
 
     componentDidMount() {
-        document.title = "ConvNet Playground | Model Explorer";
+        document.title = "ConvNet Playground | Model Explorer"; 
+        const queryString = require('query-string'); 
+        const qs = queryString.parse(this.props.location.search);
+        // this.sets
     }
 
     clickModelImage(e) {
@@ -158,7 +161,7 @@ class ModelEx extends Component {
 
                 </div>
 
-                <div className="flex flexwrap">
+                <div className="flex ">
                     <div className="flex5 mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Model </div>
                         <div className="horrule mb10"></div>
@@ -199,12 +202,13 @@ class ModelEx extends Component {
                 <div className="flex flexwrap">
                     <div className="flex1">
                         <div className="enlargeddiv rad2 mr10">
-                            <div className="boldtext enlargeddesc mb10  p10 lightbluehightlight">{this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}: {this.state.neuronList[this.state.selectedneuron].split(".")[0]} / {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} </div>
+                            <div  className="mb10" > <a className="twitterbutton" href=""> Share on twitter </a> </div>
+                            <div className="boldtext enlargeddesc mb5  smalldesc">{this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}: {this.state.neuronList[this.state.selectedneuron].split(".")[0]} / {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} </div>
                             <img className="enlargedneuron rad4" src={process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + this.state.neuronList[this.state.selectedneuron] + ".jpg"}  alt=""/>
                             
                         </div>
                         </div>
-                    <div className="flexfull">
+                    <div className="flexfull neurondivbox  ">
                         {neuronImageList}
                     </div>
                    
