@@ -256,7 +256,7 @@ class ModelEx extends Component {
                         </div>
                         
                         <div>
-                            <div className=" iblock boldtext datasetdescription mr10 p10 lightbluehightlight">{this.state.modelsList[this.state.selectedmodel].name.toUpperCase()}</div>
+                            <div className=" iblock  boldtext datasetdescription mr10 p10 lightbluehightlight">{this.state.modelsList[this.state.selectedmodel].name.toUpperCase()}</div>
                             <div onClick={this.toggleModelMoreInfoModal.bind(this)} className="iblock p10 lightbluehightlight clickable"> ? More info</div>
                         </div>
                         
@@ -271,7 +271,7 @@ class ModelEx extends Component {
                         </div>
                         <div className="flex flexwrap ">
                             <div className="flex1  mr10 ">
-                            <div className=" iblock boldtext datasetdescription  p10 lightbluehightlight"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}</div>
+                            <div className="whitespacenowrap  boldtext datasetdescription  p10 lightbluehightlight"> {abbreviateString(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name, 19).toUpperCase()}</div>
                             </div>
                             <div className="flex9 ">
                                 <div className="smalldesc boldtext pt4"> Layer [ {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index }  of {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].totallayers }  ] {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type } </div>

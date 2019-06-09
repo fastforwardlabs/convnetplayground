@@ -2,7 +2,8 @@ export function abbreviateString(value, maxLength) {
     if (value.length <= maxLength) {
         return value
     } else {
-        return value.substring(0, maxLength) + " .."
+        let retval = value.substring(0, maxLength) + " .."
+        return retval
     }
 }
 

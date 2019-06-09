@@ -39,6 +39,9 @@
 
 }
 
+.whitespacenowrap{
+    white-space: nowrap
+}
 
 .layerwindow{
     max-height: 16em;
