@@ -119,7 +119,10 @@ def get_model_viz_details(model_params):
    
     model_holder = []
     all_detail_holder = {}
-    for model_name in os.listdir(model_params["model_dir"]):
+    model_dir_names = os.listdir(model_params["model_dir"])
+    if (".DS_Store" in model_dir_names):
+        model_dir_names.remove(".DS_Store")
+    for model_name in model_dir_names:
         detail_holder={}
         model_layers_dict = layer_details[model_name]
 

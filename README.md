@@ -8,9 +8,18 @@ https://github.com/fastforwardlabs/semsearch
 
 ## How it works
 
+## Semantic Similarity Search
+
+
 ### Datasets
 
+Several datasets are used to demonstrate the process of semantic similarity search. 
 
+#### TinyImagenet200. 
+This dataset is a subset of the TinyImagenet dataset containing 200 images across 10 classes (20 images per class). The classess include "goldfish", "teapots", "faces", "shoes", "frogs" . These images are relatively small 64px * 64px, contain varying backgrounds and orientations within each class. They present a challenging test bed to evaluate the value of features extracted using a pretrained neural net.
+
+### Iconic200
+This dataset is manually curated for this project focuses on high resolution images that are likely to be observed in the real world. Classes are deliberately chosen to span images with similar concepts (various brands of cars).
 
 ### Extracting Images with Pretrained Neural Networks
 We use the Keras library modelzoo which contains keras implementations of several well known convolutional neural networks for image analysis. We load a pretrained version of these implementations with weights learned from training on imagenet.
