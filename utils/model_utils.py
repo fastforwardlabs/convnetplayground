@@ -86,6 +86,8 @@ def get_model_layer_names (model_name):
         layer_list = ["block1_conv1", "block1_conv2",  "conv2d_1", "block3_sepconv1",  "conv2d_3", "block7_sepconv2", "block12_sepconv3",  "block14_sepconv2"]
     elif (model_name == "densenet"):
         layer_list = ["conv1_conv", "conv2_block1_1_conv",  "conv2_block6_2_conv", "conv3_block5_1_conv",  "conv4_block23_2_conv", "conv5_block13_2_conv", "conv5_block16_1_conv",  "conv5_block16_2_conv"]
+    elif (model_name == "inceptionv3"):
+        layer_list = ["conv2d_1", "conv2d_3",  "conv2d_23", "conv2d_35",  "conv2d_54", "conv2d_75", "conv2d_86",  "mixed10"]
         
     return layer_list
 
