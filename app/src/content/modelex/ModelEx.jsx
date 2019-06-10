@@ -163,6 +163,16 @@ class ModelEx extends Component {
         document.removeEventListener("keydown", this.keyFunction, false);
     }
 
+    twitterShare(e){
+        e.preventDefault();
+        let neuron = this.state.neuronList[this.state.selectedneuron]
+        let modelname = this.state.modelsList[this.state.selectedmodel].name
+        let layer = this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name
+        let url = "https://twitter.com/intent/tweet?url=" + encodeURIComponent("https://fastforwardlabs.github.io/convnetplayground/#/models") +"&via=" + "ffl" + "&text=" + encodeURIComponent("A visualization of neuron " + neuron + " in the " + layer + " layer  of a " + modelname + " model. Interested in visualizations of neurons and layers in CNN or how they can be used to implement image search? Visit the ConvNet Playground prototype.") ;
+        console.log(url)
+        window.open(url, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600')
+    }
+
     render() {
         let modelInterpretabilityIntro = `Interpretable models are models we can "understand". 
         Interpretability explores approaches to better understand neural networks. For example, 
@@ -351,7 +361,7 @@ class ModelEx extends Component {
                 <div className="flex flexwrap">
                     <div className="flex1">
                         <div className="enlargeddiv rad2 mr10">
-                            <div  className="mb10" > <a className="twitterbutton" href=""> Share on twitter </a> </div>
+                            <div  onClick={this.twitterShare.bind(this)} className="mb10" > <a className="twitterbutton" href=""> Share on twitter </a> </div>
                             <div className="boldtext enlargeddesc mb5  smalldesc">{this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}: {this.state.neuronList[this.state.selectedneuron].split(".")[0]} / {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} </div>
                             <img className="enlargedneuron rad4" src={process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + this.state.neuronList[this.state.selectedneuron] + ".jpg"}  alt=""/>
                             
