@@ -21,8 +21,8 @@ class showmodelmodal extends Component {
 
 
         this.algebraIntro = ` CNNs work really well. They are data hungry and also energy hungry!
-         Knowing how much energy (and compute) is needed to run a prediction for each model architecture can be
-         an important heuristic for how you run the model`
+         Estimating how much energy (and compute) is needed to run a prediction for each model architecture can be
+         an important heuristic that informs how you build online prediction apis.`
 
     }
 
@@ -69,7 +69,7 @@ class showmodelmodal extends Component {
                
                <div>
                    Convolutions account for over 90% of all energy requirements of most CNN models.
-                   
+
                </div>
 
 

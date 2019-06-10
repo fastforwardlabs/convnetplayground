@@ -57,6 +57,7 @@ class ModelEx extends Component {
             neuronList: nList,
             showmodelorientationmodal: false,
             showmoremodelinfomodal: false,
+
         }
 
         this.layerList = modelDetailsViz
@@ -64,6 +65,45 @@ class ModelEx extends Component {
         representations. What kind of representations or features does each layer learn? 
         Well, let us explore the following models. ` 
         // this.allLayerDetails = modelDetails["all_layers"]
+        this.lastclicked = "model"
+
+        this.keyFunction = this.keyFunction.bind(this);
+    }
+
+    cycleLayerModel(val){
+        if (this.lastclicked == "model"){
+            let newState = Math.max((this.state.selectedmodel*1 + val) % this.state.modelsList.length, 0) 
+            // console.log(newState, this.state.modelsList.length, this.state.selectedmodel, val)
+            if (!(isNaN(newState))) {
+                this.setState({selectedmodel: newState})
+            }
+  
+        }else if (this.lastclicked == "layer"){
+            let newState = Math.max((this.state.selectedlayer*1 + val) % this.state.modelsList[this.state.selectedmodel].layers.length, 0) 
+            // console.log(newState, this.state.modelsList.length, this.state.selectedmodel, val)
+            if (!(isNaN(newState))) {
+                this.setState({selectedlayer: newState})
+            }
+  
+        }else if (this.lastclicked == "neuron"){
+            let newState = Math.max((this.state.selectedneuron*1 + val) % this.state.neuronList.length, 0) 
+            // console.log(newState, this.state.modelsList.length, this.state.selectedmodel, val)
+            if (!(isNaN(newState))) {
+                this.setState({selectedneuron: newState})
+            }
+  
+        }
+    }
+
+    keyFunction(event){
+        let inc = 0
+        if(event.keyCode === 37) {
+          this.cycleLayerModel(-1)
+        }
+        else if (event.keyCode === 39) {
+            this.cycleLayerModel(1)
+        }
+        
     }
 
     componentDidMount() {
@@ -71,16 +111,29 @@ class ModelEx extends Component {
         const queryString = require('query-string'); 
         const qs = queryString.parse(this.props.location.search);
         // this.sets
+        document.addEventListener("keydown", this.keyFunction, false);
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        // if ( this.state.selectedmodel !== prevState.selectedmodel ) {
+        //     console.log("model updated")
+        // }
+
+        // if (this.state.selectedlayer !== prevState.selectedlayer ) {
+        //     console.log("layer updated")
+        // }
     }
 
     clickModelImage(e) {
         this.setState({ selectedmodel: e.target.getAttribute("indexvalue") }) 
         this.setState({ selectedlayer: 0 }) 
+        this.lastclicked = "model"
     }
 
     clickLayerImage(e) {
         this.setState({ selectedlayer: e.target.getAttribute("indexvalue") }) 
         this.setState({ selectedneuron: 0 }) 
+        this.lastclicked = "layer"
     }
 
     
@@ -88,9 +141,7 @@ class ModelEx extends Component {
        
         // this.setState({selectedneuronpath: e.target.getAttribute("pathinfo")  })
         this.setState({ selectedneuron: e.target.getAttribute("indexvalue") }) 
-        // this.setState({ selectedneuronindex: e.target.getAttribute("neuronindex") }) 
-        
-        // console.log(this.state.neuronList)
+        this.lastclicked = "neuron"
 
     }
 
@@ -104,6 +155,13 @@ class ModelEx extends Component {
         // console.log(this.state.showmodelorientationmodal)
     }
 
+    kepressLayer(e){
+        console.log(e.keyCode)
+    }
+
+    componentWillUnmount(){
+        document.removeEventListener("keydown", this.keyFunction, false);
+    }
 
     render() {
         let modelInterpretabilityIntro = `Interpretable models are models we can "understand". 
@@ -142,7 +200,7 @@ class ModelEx extends Component {
             return (
                 <div key={ldata + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
                     <div className="datasettitles"> {abbreviateString(ldata.name, 11).toLowerCase()}</div>
-                    <img onClick={this.clickLayerImage.bind(this)} src={imagePath} alt="" className={"datasetbox rad2 " + (this.state.selectedlayer == index ? "active" : "")} indexvalue={index} />
+                    <img onKeyPress={this.kepressLayer.bind(this)} onClick={this.clickLayerImage.bind(this)} src={imagePath} alt="" className={"datasetbox rad2 " + (this.state.selectedlayer == index ? "active" : "")} indexvalue={index} />
                 </div>
             )
         });
@@ -191,7 +249,7 @@ class ModelEx extends Component {
                                         rows={this.state.modelsList[this.state.selectedmodel].all_layers}
                                         headers={headers}
                                         render={({ rows, headers, getHeaderProps }) => (
-                                            <TableContainer title="List of layers in Model">
+                                            <TableContainer className="boldtext" title={ "List of layers in  "  + this.state.modelsList[this.state.selectedmodel].name.toUpperCase() + " Model"} >
                                             <Table>
                                                 <TableHead>
                                                 <TableRow>
@@ -257,7 +315,7 @@ class ModelEx extends Component {
                         
                         <div>
                             <div className=" iblock  boldtext datasetdescription mr10 p10 lightbluehightlight">{this.state.modelsList[this.state.selectedmodel].name.toUpperCase()}</div>
-                            <div onClick={this.toggleModelMoreInfoModal.bind(this)} className="iblock p10 lightbluehightlight clickable"> ? More info</div>
+                            <div onClick={this.toggleModelMoreInfoModal.bind(this)} className="iblock p10 lightbluehightlight clickable"> ? More Info</div>
                         </div>
                         
                     </div>
