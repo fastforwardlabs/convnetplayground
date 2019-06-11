@@ -80,8 +80,8 @@ def get_all_model_details():
 
         # model, preprocess = get_model(model_name=model_detail["name"])
         # layer_names = get_model_layer_names(model_detail["name"])
-        model_details.append({"name": model_detail["name"], "layers":layer_array })
-
+        model_details.append({"name": model_detail["name"], "layers":layer_array, "numlayers": len(model_layers_dict) })
+    model_details = sorted(model_details, key  = lambda i: i["numlayers"])
     return model_details
 
     

@@ -135,7 +135,7 @@ def generate_similarity_scores(similarity_params,extracted_features):
 
 def list_distance_metrics():
     metrics = [ "braycurtis", "canberra", "chebyshev", "cityblock", "correlation", "cosine", "dice", "euclidean", "hamming", "jaccard", "jensenshannon", "kulsinski", "mahalanobis", "matching", "minkowski", "rogerstanimoto", "russellrao", "seuclidean", "sokalmichener", "sokalsneath", "sqeuclidean", "wminkowski", "yule"]
-    metrics =  ["cosine","hamming","euclidean","jaccard","minkowski"]
+    metrics =  ["cosine","euclidean","sqeuclidean","minkowski"]
     return metrics
     
 

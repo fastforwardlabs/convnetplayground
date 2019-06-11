@@ -9,6 +9,9 @@
     background: rgb(190, 213, 250);
     margin: 0px 0px 0px 0px;
 }
+.greyhighlight {
+    background: rgba(209, 209, 209, 0.9);
+}
 
 .lightbluehightlight {
     padding: 10px;
@@ -58,6 +61,9 @@
 }
 .border {
     border: 1px solid green ;
+}
+.greyborder {
+    border: 1px solid rgba(105, 105, 105,0.8);
 }
 
 .floatleft {

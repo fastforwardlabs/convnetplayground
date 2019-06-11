@@ -14,7 +14,7 @@ class SemanticModalContent extends Component {
         What similarity distance metrics work best? This demo helps you investigate these questions!
                 <br/> 
 
-                <div className="boldtext"> Datasets </div>
+                <div className="boldtext mt10"> Datasets </div>
                 [TinyImagenet] This dataset contains 64px * 64px images and is a subset of the Tiny Imagenet Visual Recognition Challenge dataset.
                 It consists of images from 10 categories (faces, shoes, teapots, goldfish, frogs, ..)
                 <br/>

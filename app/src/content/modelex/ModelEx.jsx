@@ -322,7 +322,7 @@ class ModelEx extends Component {
 
                 </div>
 
-                <div className="flex ">
+                <div className="flex flexwrap ">
                     <div className="flex5 mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Model </div>
                         <div className="horrule mb10"></div>

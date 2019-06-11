@@ -2,6 +2,7 @@
     height: 5em; 
     width: 5em;
     border-bottom: 4px solid #CDCDCD;
+    border-top: 4px solid #CDCDCD;
     margin: 0px 10px 0px 0px;
     opacity: 0.8;
     
@@ -14,9 +15,10 @@
 
 .datasetbox.active{
     border-bottom: 4px #0062FF solid;
+    border-top: 4px #0062FF solid;
     opacity: 1;
-    height: 6.2em; 
-    width: 6.2em;
+    /* height: 6.2em; 
+    width: 6.2em; */
 }
 .maxh16{
     max-height:  10em;
@@ -53,7 +55,7 @@
 .simiimage{
     height: 5em; 
     margin: 0px 0px 0px 0px; 
-    /* border-bottom: 4px solid #CDCDCD; */
+    border-bottom: 4px solid #CDCDCD;
     /* transition: all .2s ease-in-out;  */
 }
 
@@ -67,6 +69,8 @@
 .simiimage.active{
     border-bottom: 4px #0062FF solid;
     opacity: 1;
+    /* height: 6.2em; 
+    width: 6.2em; */
 }
 .dispblock{
     display: block;
@@ -124,4 +128,27 @@ div.bx--modal-container{
  
 .modelconfigbutton{
     background: rgba(209, 209, 209, 0.9);
+}
+.modelconfigdiv{
+    background:  rgba(209, 209, 209, 0.3);
+    
+}
+
+.modelconfigdiv > .layerwindow{
+    background:  rgba(209, 209, 209, 0.3);
+}
+
+.minwidth485{
+    /* min-width: 232px; */
+}
+
+.metrictitle{
+    top: 2.8em;
+    left:0em;
+    width: 100%;
+    text-align: center; 
+    font-size: 1.1em;
+    font-weight: bold;
+    z-index: 10000; 
+    pointer-events: none;
 }
