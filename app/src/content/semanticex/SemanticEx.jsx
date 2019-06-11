@@ -28,6 +28,7 @@ class SemanticEx extends Component {
             modelsList: modelDetails["models"],
             distanceMetricList: modelDetails["metrics"],
             showorientationmodal: false,
+            showmodelconfig: false,
             topx:5
         }
         // setTimeout(() => {
@@ -71,6 +72,12 @@ class SemanticEx extends Component {
 
     toggleSemanticModal(e){
         this.setState({showorientationmodal: !(this.state.showorientationmodal)})
+        // console.log(this.state.showorientationmodal)
+    }
+
+    toggleModelConfig
+    toggleModelConfig(e){
+        this.setState({showmodelconfig: !(this.state.showmodelconfig)})
         // console.log(this.state.showorientationmodal)
     }
      
@@ -203,13 +210,13 @@ class SemanticEx extends Component {
                 </Modal>} 
 
                 <div className=" flex  "> 
-                    <div  className="iblock sectiontitle flexfull   pt4 ">What is Semantic Search?</div>
+                    <div  className="iblock sectiontitle flexfull   pt4 "> Image Similarity Search </div>
                     <div className="flex  ">
-                    <div onClick={this.toggleSemanticModal.bind(this)}  className="iblock floatright  clickable showmodal"> ? More Info  </div>
+                    <div onClick={this.toggleSemanticModal.bind(this)}  className="iblock floatright  clickable showmore"> ? How Does it Work?  </div>
                     </div>
                 </div>
                 <div className="horrule"></div>
-                <div className="flex mt10">
+                {/* <div className="flex mt10">
                     <div className="flex4 mr10 mynotif lightbluehightlight  p20">
                         <div className="boldtext mb10"> Semantic Search</div>
                         <div className="lh10 maxh16">{semsearchIntro}</div>
@@ -219,9 +226,11 @@ class SemanticEx extends Component {
                         <div className="lh10 maxh16">{convnetLayer}</div>
                     </div>
 
-                </div>
+                </div> */}
 
-                <div className="flex ">
+                <div onClick={this.toggleModelConfig.bind(this)}   className="mt10 p10 clickable   modelconfigbutton"> { this.state.showmodelconfig? "[-]" : "[+]"} Model Configuration   </div>
+
+                { (this.state.showmodelconfig) &&  <div className="flex ">
                     <div className="flex2 mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Dataset </div>
                         <div className="horrule mb10"></div>
@@ -250,7 +259,7 @@ class SemanticEx extends Component {
                             </div>
                             <div className="flex9 ">
                                 <div className="smalldesc boldtext pt4"> Layer [ {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index }  of {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].totallayers }  ] {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type } </div>
-                                <div className="smalldesc pt3"> {makeFriendly(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].parametercount)} trainable parameters, {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} neurons </div>
+                                <div className="smalldesc pt3"> {makeFriendly(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].parametercount)} trainable parameters, {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} channels </div>
                             </div>
                         </div>
                         
@@ -265,7 +274,7 @@ class SemanticEx extends Component {
                         <div className=" iblock boldtext datasetdescription  p10 lightbluehightlight"> {this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()}</div>
                     </div>
 
-                </div>
+                </div> }
 
 
                 <div className="mt20 mb10 ">

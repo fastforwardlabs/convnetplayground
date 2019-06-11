@@ -165,10 +165,12 @@ class ModelEx extends Component {
 
     twitterShare(e){
         e.preventDefault();
+
         let neuron = this.state.neuronList[this.state.selectedneuron]
         let modelname = this.state.modelsList[this.state.selectedmodel].name
         let layer = this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name
-        let url = "https://twitter.com/intent/tweet?url=" + encodeURIComponent("https://fastforwardlabs.github.io/convnetplayground/#/models") +"&via=" + "ffl" + "&text=" + encodeURIComponent("A visualization of neuron " + neuron + " in the " + layer + " layer  of a " + modelname + " model. Interested in visualizations of neurons and layers in CNN or how they can be used to implement image search? Visit the ConvNet Playground prototype.") ;
+        let fflurl = "https://fastforwardlabs.github.io/convnetplayground/#/models?model=" + modelname + "&layer=" + layer + "&neuron=" + neuron
+        let url = "https://twitter.com/intent/tweet?url=" + encodeURIComponent(fflurl) +"&via=" + "ffl" + "&text=" + encodeURIComponent("A visualization of neuron " + neuron + " in the " + layer + " layer  of a " + modelname + " model. Interested in visualizations of layers in a CNN or how they can be used to implement image search? Visit the #convnetplayground prototype.") ;
         console.log(url)
         window.open(url, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600')
     }
@@ -179,11 +181,11 @@ class ModelEx extends Component {
         how can we "peek" into a CNN to get an idea of what each neuron in a layer has learned to detect? `    
 
         let optimizationVisualization = `  
-        One way to accomplish this is the use of optimization approaches to feature visualizations. Within this approach,
+        Within this approach to visualizing layers and neurons,
         we begin with random noise and update it (based on gradients) to maximally excite each neuron. 
-        We use the lucid library to accomplish this and results are shown for a few models below.
+        The  <a href="https://github.com/tensorflow/lucid/tree/master/lucid" target="_blank">Lucid</a> library is used to generate visualizations for layers in the models below.
         `
-
+       
         let modelImageList = this.state.modelsList.map((mdata, index) => {
             let selectedModel = this.state.modelsList[index].name 
             let selectedlayer = this.state.modelsList[index].layers[this.state.modelsList[index].layers.length -1].name
@@ -229,7 +231,7 @@ class ModelEx extends Component {
             let neuronIndex = ldata.split(".")[0]
             return (
                 <div key={ldata + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
-                    <div className="datasettitles"> Neuron { neuronIndex }</div>
+                    <div className="datasettitles"> Channel { neuronIndex }</div>
                     <img  onClick={this.clickNeuronImage.bind(this)}   src={imagePath} alt="" className={"neuronbox rad2 " + (this.state.selectedneuron == index ? "active" : "")} indexvalue={index} pathinfo={imagePath} neuronindex={neuronIndex} />
                 </div>
             )
@@ -292,7 +294,7 @@ class ModelEx extends Component {
                 <div className=" flex  "> 
                     <div  className="iblock sectiontitle flexfull   pt4 ">Model Explorer</div>
                     <div className="flex5  ">
-                    <div onClick={this.toggleModelsModal.bind(this)}  className="iblock floatright  clickable showmodal"> ? More Info  </div>
+                    <div onClick={this.toggleModelsModal.bind(this)}  className="iblock floatright  clickable showmore"> ? More Info  </div>
                     </div>
                 </div> 
                 <div className="horrule"></div>
@@ -305,12 +307,17 @@ class ModelEx extends Component {
 
                 <div className="flex mt10">
                     <div className="flex5 mr10 mynotif lightbluehightlight p20">
-                        <div className="boldtext mb10"> Model Interpretability</div>
+                        <div className="boldtext mb10"> Interpretability via Visualizations</div>
                         <div className="lh10 maxh16">{modelInterpretabilityIntro}</div>
                     </div>
                     <div className="flex5  mynotif lightbluehightlight p20">
                         <div className="boldtext mb10"> Optimization-based Feature Visualization</div>
-                        <div className="lh10 maxh16">{optimizationVisualization}</div>
+                        <div className="lh10 maxh16">
+                        Within this approach to visualizing layers and neurons,
+                        we begin with random noise and update it (based on gradients) to maximally excite each neuron. 
+                        The  <a href="https://github.com/tensorflow/lucid/tree/master/lucid" target="_blank">Lucid</a> library is used to generate visualizations for layers in the models below.
+                        `
+                        </div>
                     </div>
 
                 </div>
@@ -343,7 +350,7 @@ class ModelEx extends Component {
                             </div>
                             <div className="flex9 ">
                                 <div className="smalldesc boldtext pt4"> Layer [ {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index }  of {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].totallayers }  ] {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type } </div>
-                                <div className="smalldesc pt3"> {makeFriendly(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].parametercount)} trainable parameters, {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} neurons  </div>
+                                <div className="smalldesc pt3"> {makeFriendly(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].parametercount)} trainable parameters, {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} channels  </div>
                             </div>
                         </div>
                         
@@ -352,8 +359,8 @@ class ModelEx extends Component {
 
 
                 <div className="mt20 mb10 ">
-                    <div className="sectiontitle iblock mr10"> Neurons in {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()} Layer </div>
-                    <div className="iblock"> A selection of 30 neurons on the current layer.</div>
+                    <div className="sectiontitle iblock mr10"> Visualizations for layer {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()} Layer </div>
+                    <div className="iblock"> A selection of 30 channels in the current layer.</div>
                 </div>
 
                 <div className="horrule mb10"></div>

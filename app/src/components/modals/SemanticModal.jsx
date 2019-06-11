@@ -6,7 +6,13 @@ class SemanticModalContent extends Component {
             <div>
                  
                 <div className="horrule mb10 pt10"></div>
-                 
+
+                 <div className="boldtext"> Extracting Similarity Using Convolutional Networks </div>
+                 Layers in a trained convolutional neural network (CNN) can be used to extract features from images.
+        Semantic search explores the use these extracted features in computing the "similarity" between images. 
+        How do features extracted using different model architectures compare? What layers perform better and when?
+        What similarity distance metrics work best? This demo helps you investigate these questions!
+                <br/> 
 
                 <div className="boldtext"> Datasets </div>
                 [TinyImagenet] This dataset contains 64px * 64px images and is a subset of the Tiny Imagenet Visual Recognition Challenge dataset.

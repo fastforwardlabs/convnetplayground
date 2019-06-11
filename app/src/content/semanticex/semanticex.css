@@ -113,11 +113,15 @@ div.bx--modal-container{
     width: 100%; 
 }
 
-.showmodal{ 
+.showmore{ 
     padding: 7px;
     margin: 0px 0px 5px 0px
 }
 
-.showmodal:hover{
+.showmore:hover{
+    background: rgba(209, 209, 209, 0.9);
+}
+ 
+.modelconfigbutton{
     background: rgba(209, 209, 209, 0.9);
 }
