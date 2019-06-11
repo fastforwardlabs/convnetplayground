@@ -47,6 +47,7 @@ def generate_embeddings(dataset_params):
     model_details = m_utils.get_supported_models()
     similarity_metrics = feat_utils.list_distance_metrics()
     for model_detail in model_details:
+        tf.logging.info (" >>   >>> " + model_detail["name"] +  " >>   >>> " )
         dataset_input_path = os.path.join(base_path_public,dataset_params["path"])
         model_params =  {"name": model_detail["name"]}
 
@@ -86,16 +87,16 @@ def visualize_similarity():
     v_utils.plot_similar(selected_image,dataset_output_path, similarity_data[selected_image], max_display)
 
 
-# supported_datasets = d_utils.get_supported_datasets()
-# for  dataset in supported_datasets:
-#     dataset_params = {"name":dataset["name"],   "path": os.path.join(base_path_public,
-#                         "datasets/" + dataset["name"])   , "dataset_size":50}
-#     generate_embeddings(dataset_params)
-# # d_utils.rename_files(os.path.join(base_path_public, "datasets/tinyimagenet"))
+supported_datasets = d_utils.get_supported_datasets()
+for  dataset in supported_datasets:
+    dataset_params = {"name":dataset["name"],   "path": os.path.join(base_path_public,
+                        "datasets/" + dataset["name"])   , "dataset_size":200}
+    generate_embeddings(dataset_params)
+# d_utils.rename_files(os.path.join(base_path_public, "datasets/tinyimagenet"))
 
 # generate_embeddings(50)
 # generate_similarity_metrics()
-generate_model_details()
+# generate_model_details()
 # model , pre= m_utils.get_model("resnet50")
 # llist = m_utils.get_model_layer_names(model,"resnet50")
 # print(llist)
@@ -112,3 +113,5 @@ def generate_model_viz_details():
 # generate_model_viz_details()
 
 # print(m_utils.get_all_model_details())
+
+# d_utils.process_dataset(os.path.join(base_path_public, "datasets/iconic200"))

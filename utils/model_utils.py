@@ -13,7 +13,7 @@ import pickle
 from scipy import spatial
 import json 
 import utils.file_utils as f_utils
-
+import keras
  
 from tensorflow.keras.models import Model
 from tensorflow.keras.applications.vgg16 import VGG16
@@ -33,6 +33,8 @@ def get_model(model_name="vgg16"):
         return (tf.keras.applications.resnet50.ResNet50(weights="imagenet", include_top=False), tf.keras.applications.resnet50.preprocess_input)
     elif (model_name == "mobilenet"):
         return (tf.keras.applications.mobilenet.MobileNet(weights="imagenet", include_top=False), tf.keras.applications.mobilenet.preprocess_input)
+    # elif (model_name == "mobilenetv2"):
+    #     return (tf.keras.applications.mobilenet_v2.MobileNetV2(weights="imagenet", include_top=False), tf.keras.applications.mobilenet_v2.preprocess_input)
     elif (model_name == "xception"):
         return (tf.keras.applications.xception.Xception(weights="imagenet", include_top=False), tf.keras.applications.xception.preprocess_input)
     elif (model_name == "densenet121"):
@@ -46,7 +48,7 @@ def get_supported_models():
                             {"name": "vgg16"},
                             {"name": "vgg19"},
                             {"name": "resnet50"},
-                            {"name": "mobilenet"},
+                            {"name": "mobilenet"}, 
                             {"name": "xception"},
                             {"name": "densenet121"},
                             {"name": "inceptionv3"},
@@ -101,6 +103,8 @@ def get_model_layer_names (model_name):
         layer_list = ["res2a_branch2a", "res2b_branch2a",  "res3b_branch2a", "res4a_branch2a",  "res4e_branch2a", "res4c_branch2a", "res5a_branch2a",  "res5c_branch2c"]
     elif (model_name == "mobilenet"):
         layer_list = ["conv1", "conv_pw_2",  "conv_dw_3", "conv_dw_4",  "conv_dw_6", "conv_dw_9", "conv_pw_12",  "conv_pw_13"]
+    elif (model_name == "mobilenetv2"):
+        layer_list = ["Conv1", "block_1_project",  "block_4_expand", "block_6_project",  "block_10_expand", "block_12_project", "block_16_expand",  "Conv_1"]
     elif (model_name == "xception"):
         layer_list = ["block1_conv1", "block1_conv2",  "conv2d_1", "block3_sepconv1",  "conv2d_3", "block7_sepconv2", "block12_sepconv3",  "block14_sepconv2"]
     elif (model_name == "densenet121"):

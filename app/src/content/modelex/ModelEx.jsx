@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { DataTable, Modal } from 'carbon-components-react';
+import ModelsModalContent from "../../components/modals/ModelsModal"
 import {abbreviateString, loadJSONData, makeFriendly, boundWidth} from "../../components/helperfunctions/HelperFunctions"
 import "./modelex.css"
 
@@ -243,6 +244,21 @@ class ModelEx extends Component {
         return (
             
             <div>
+                {(this.state.showmodelorientationmodal) && <Modal className="orientationmodal"
+                    open={true}
+                    size="lg"
+                    // style={{maxWidth: '1600px', width: '100%'}}
+                    passiveModal={true}
+                    primaryButtonText="Get Started"
+                    // secondaryButtonText = "Do not show this again"
+                    modalHeading="Model Explorer"
+                    modalLabel="How it works"
+                    onRequestSubmit={this.toggleModelsModal.bind(this)} 
+                    onRequestClose={this.toggleModelsModal.bind(this)}
+                >
+                    <ModelsModalContent></ModelsModalContent>
+
+                </Modal>}
 
                 { (this.state.showmoremodelinfomodal) && <Modal className="orientationmodal" 
                                     open={true}

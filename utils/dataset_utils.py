@@ -10,7 +10,7 @@ from tensorflow.keras.datasets import cifar100, cifar10
 import os
 import utils.file_utils as f_utils
 from PIL import Image
-
+from shutil import copyfile
 
 def save_files(directory_path, images):
     """[Save a list of image files to a given dataset filepath]
@@ -44,6 +44,7 @@ def generate_dataset(dataset_params):
 
         tf.logging.info("  >> Cifar images saved to  datasets directory " + dataset_root_dir)
     elif dataset_params["name"] == "cifar10":
+        class_details = []
         (x_train, y_train), (x_test, y_test) = cifar10.load_data()
 
         category_counter = {}
@@ -55,6 +56,7 @@ def generate_dataset(dataset_params):
             val = val[0]
             if (val in category_counter.keys()):
                 if(category_counter[val] < num_per_category):
+                    class_details.append({str(c_counter):str(val)})
                     category_counter[val] = category_counter[val] + 1
                     img = Image.fromarray(x_train[i], 'RGB')
                     img.save(dataset_params["path"] + "/" + str(c_counter) + '.jpg')
@@ -63,11 +65,14 @@ def generate_dataset(dataset_params):
                         break
             else:
                 category_counter[val] = 0
+
+        f_utils.save_json_file(os.path.join(dataset_params["path"],"classes.json"), class_details)   
         
         tf.logging.info("  >> Cifar10 images saved to  datasets directory " + dataset_params["path"])
 
 def get_supported_datasets():
     supported_datasets = [
+        {"name": "iconic200", "icon":"imagenet.jpg"},
         {"name": "tinyimagenet", "icon":"imagenet.jpg"},
         {"name": "cifar10", "icon":"cifar.jpg"},
         # {"name": "Iconic3k", "icon":"0.jpg"}
@@ -80,3 +85,26 @@ def rename_files(dataset_path):
     image_files.sort()
     for i,image_file in enumerate(image_files):
         os.rename(os.path.join(dataset_path, image_file), os.path.join(dataset_path, str(i-1) + ".jpg"))
+
+def process_dataset(dataset_path):
+    class_names = os.listdir(dataset_path) 
+    path_holder = [] 
+    print(class_names) 
+    for class_name in class_names:
+        if class_name != ".DS_Store":
+            f_path = (os.path.join(dataset_path, class_name))
+            f_names = os.listdir(f_path)
+            for f_name in f_names:
+                if f_name != ".DS_Store":
+                    path  = os.path.join(f_path, f_name) 
+                    path_holder.append({"path": path, "class":class_name})
+
+    print(len(path_holder))
+    class_details = []
+    numer_holder =   [(i) for i in range(len(path_holder)) ]
+    for i,path in enumerate(path_holder):
+        class_details.append({i: path["class"]})
+        copyfile(path["path"], os.path.join(dataset_path, str(i) + ".jpg" ))
+
+            
+    f_utils.save_json_file(os.path.join(dataset_path,"classes.json"), class_details)   

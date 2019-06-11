@@ -358,7 +358,7 @@ class SemanticEx extends Component {
                         <div className="   mb10">{similarImagesList.slice(1, this.state.topx)}</div>
 
                        <div>
-                            <div className="sectiontitle mb10 iblock"> Dataset </div>
+                            <div className="sectiontitle mb10 iblock mr10"> Dataset </div>
                             <div className="iblock">Click an image to search for the most similar images. </div>
                        </div>
                         <div className="horrule mb10"></div>
