@@ -69,7 +69,7 @@ def generate_model_details():
     model_details = m_utils.get_all_model_details()
     dataset_details = d_utils.get_supported_datasets()
     semsearch_details = {"models":model_details, "datasets": dataset_details, "metrics": feat_utils.list_distance_metrics()}
-    print(semsearch_details)
+    # print(semsearch_details)
     semsearch_details_save_path = os.path.join(base_path_src, "details.json")
     f_utils.save_json_file(semsearch_details_save_path, semsearch_details)
     tf.logging.info(">> Finished saving model dteails " + semsearch_details_save_path)
@@ -86,13 +86,16 @@ def visualize_similarity():
     v_utils.plot_similar(selected_image,dataset_output_path, similarity_data[selected_image], max_display)
 
 
-dataset_params = {"name":"tinyimagenet",   "path": os.path.join(base_path_public,"datasets/tinyimagenet")   , "dataset_size":50}
-# generate_embeddings(dataset_params)
-# d_utils.rename_files(os.path.join(base_path_public, "datasets/tinyimagenet"))
+# supported_datasets = d_utils.get_supported_datasets()
+# for  dataset in supported_datasets:
+#     dataset_params = {"name":dataset["name"],   "path": os.path.join(base_path_public,
+#                         "datasets/" + dataset["name"])   , "dataset_size":50}
+#     generate_embeddings(dataset_params)
+# # d_utils.rename_files(os.path.join(base_path_public, "datasets/tinyimagenet"))
 
 # generate_embeddings(50)
 # generate_similarity_metrics()
-# generate_model_details()
+generate_model_details()
 # model , pre= m_utils.get_model("resnet50")
 # llist = m_utils.get_model_layer_names(model,"resnet50")
 # print(llist)
@@ -106,4 +109,6 @@ def generate_model_viz_details():
     m_utils.get_model_viz_details(model_params)
 
 
-generate_model_viz_details()
+# generate_model_viz_details()
+
+# print(m_utils.get_all_model_details())
