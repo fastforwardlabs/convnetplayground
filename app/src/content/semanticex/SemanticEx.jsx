@@ -180,6 +180,7 @@ class SemanticEx extends Component {
             let similarityScore = (alldata[1] * 1).toFixed(3) 
             let returnValue = (
                 <div key={alldata[0] + "winper"} className="iblock similarityfullbox mr5 mb5 positionrelative">
+                     <div className="smalldesc mb5">{makeFriendly(similarityScore)} </div>
                     <img key={alldata[0] + "image" + alldata[0]} onClick={this.clickSimilarImage.bind(this)} src={imagePath} alt="" className={"simiimage clickable rad2 "} indexvalue={alldata[0]} />
                     <div className="outersimbar">
                         <div className="innersimbar" style={{ width: (boundWidth(similarityScore) * 100) + "%" }}></div>
@@ -261,9 +262,9 @@ class SemanticEx extends Component {
 
                 <div className=" lh10 p10 mt10 instructions lightbluehightlight maxh16">
                     In this demo, we use features extracted from convolutional neural networks to search for images that are
-                    similar. To perform a search, <strong>click</strong>  on any image and the  <strong> top {this.state.topx} </strong> most similar images will be displayed.
-                    Want to observe how different search configurations (model architecture, layers, distance metrics) perform for each search?
-                    Click model configuration! Want to learn how it all works? Click more info on the top right!
+                    similar to a selected image. To perform a search, <strong>click</strong>  on any image and the  <strong> top {this.state.topx} </strong> most similar images will be displayed.
+                    Click model configuration to observe how different search configurations (model architecture, layers, distance metrics) perform for each search?
+                    ! Click more info to learn more!
                     <br/>
                     <strong> Hint:</strong>  Early layers work well for simple feature matching (colors, lines), later layers work well for complex concepts (faces, cars etc).
                 </div>
@@ -356,7 +357,10 @@ class SemanticEx extends Component {
                         </div>
                         <div className="   mb10">{similarImagesList.slice(1, this.state.topx)}</div>
 
-                        <div className="sectiontitle mb10"> Dataset </div>
+                       <div>
+                            <div className="sectiontitle mb10 iblock"> Dataset </div>
+                            <div className="iblock">Click an image to search for the most similar images. </div>
+                       </div>
                         <div className="horrule mb10"></div>
                         <div> {datasetimagesList} </div>
                     </div>
