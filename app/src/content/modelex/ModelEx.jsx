@@ -321,7 +321,15 @@ class ModelEx extends Component {
                     style={{ minWidth: '100%', marginBottom: '.5rem' }}
                 /> */}
 
-                <div className="flex mt10">
+                <div className="mynotif lh10 p20 mt10 instructions lightbluehightlight maxh16">
+                    Interpretable models are models we can "understand". 
+                    In this demo, we use  <a href="https://distill.pub/2017/feature-visualization/" target="_blank"> optimization based feature visualization </a> approaches
+                    to visualize what channels (collection of neurons) in a CNN layer has learned to detect.  
+                    To explore, <strong> click </strong>  on a model, and a layer to view a selection of visualization of channels in that layer.
+                     
+                </div>
+
+                {/* <div className="flex mt10">
                     <div className="flex5 mr10 mynotif lightbluehightlight p20">
                         <div className="boldtext mb10"> Interpretability via Visualizations</div>
                         <div className="lh10 maxh16">{modelInterpretabilityIntro}</div>
@@ -336,13 +344,13 @@ class ModelEx extends Component {
                         </div>
                     </div>
 
-                </div>
+                </div> */}
 
                 <div className="flex flexwrap ">
                     <div className="flex5 mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Model </div>
                         <div className="horrule mb10"></div>
-                        <div className="layerwindow layerwindowmodel">
+                        <div className="scrollwindow  scrollwindowmodel">
                             {modelImageList}
                         </div>
                         
@@ -357,7 +365,7 @@ class ModelEx extends Component {
                     <div className="flex5">
                         <div className="mt20 pb10 sectiontitle" > Select Layer </div>
                         <div className="horrule mb10"></div>
-                        <div className="layerwindow  ">
+                        <div className="scrollwindow layerwindow  ">
                             <div className="windowcontent"> {layerImageList} </div>
                         </div>
                         <div className="flex flexwrap ">

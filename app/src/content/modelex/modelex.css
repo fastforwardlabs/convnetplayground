@@ -43,31 +43,36 @@
     white-space: nowrap
 }
 
+ 
 .layerwindow{
     max-height: 16em;
     /* border: 2px solid green; */
     overflow: scroll;
 }
-
-.layerwindowmodel{
-    max-height: 17.8em;
+.scrollwindow{
+    /* /* max-height: 16em;  */
+    overflow: scroll; 
 }
 
-.layerwindow::-webkit-scrollbar, .neurondivbox::-webkit-scrollbar {
+.scrollwindowmodel{
+    max-height: 17.8em; 
+}
+
+.scrollwindow::-webkit-scrollbar, .neurondivbox::-webkit-scrollbar {
     -webkit-appearance: none;
     
 }
 
-.layerwindow::-webkit-scrollbar:vertical, .neurondivbox::-webkit-scrollbar:vertical {
+.scrollwindow::-webkit-scrollbar:vertical, .neurondivbox::-webkit-scrollbar:vertical {
     width: 8px;
    
 }
 
-.layerwindow::-webkit-scrollbar:horizontal, .neurondivbox::-webkit-scrollbar:horizontal {
+.scrollwindow::-webkit-scrollbar:horizontal, .neurondivbox::-webkit-scrollbar:horizontal {
     height: 8px;
 }
 
-.layerwindow::-webkit-scrollbar-thumb, .neurondivbox::-webkit-scrollbar-thumb {
+.scrollwindow::-webkit-scrollbar-thumb, .neurondivbox::-webkit-scrollbar-thumb {
     border-radius: 8px;
     border: 2px solid white; /* should match background, can't be transparent */
     background-color: rgba(0, 0, 0, .5);
