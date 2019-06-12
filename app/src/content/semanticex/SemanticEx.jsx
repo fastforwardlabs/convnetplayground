@@ -31,6 +31,7 @@ class SemanticEx extends Component {
             distanceMetricList: modelDetails["metrics"],
             showorientationmodal: false,
             showmodelconfig: false,
+            showdatasetmodal: true,
             topx: 10
         }
         // setTimeout(() => {
@@ -79,9 +80,14 @@ class SemanticEx extends Component {
         // console.log(this.state.showorientationmodal)
     }
 
-    toggleModelConfig
+   
     toggleModelConfig(e) {
         this.setState({ showmodelconfig: !(this.state.showmodelconfig) })
+        // console.log(this.state.showorientationmodal)
+    }
+
+    toggleDatasetModal(e) {
+        this.setState({ showdatasetmodal: !(this.state.showdatasetmodal) })
         // console.log(this.state.showorientationmodal)
     }
 
@@ -194,16 +200,21 @@ class SemanticEx extends Component {
 
         let datasetimagesList = this.state.datasetArray.map((alldata, index) => {
             let imagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + alldata[0] + ".jpg"
-            // console.log(imagePath)
             let similarityScore = (alldata[1] * 1).toFixed(3) 
             let returnValue = (
                 <div key={alldata[0] + "winper"} className="iblock similarityfullbox mr5 mb5 positionrelative">
                     <img key={alldata[0] + "image" + alldata[0]} onClick={this.clickSimilarImage.bind(this)} src={imagePath} alt="" className={"simiimage clickable rad2 " + (this.state.selectedsimimage == alldata[0] ? "active" : "")} indexvalue={alldata[0]} />
-                    {/* <div className="outersimbar">
-                        <div className="innersimbar" style={{ width: (boundWidth(similarityScore) * 100) + "%" }}></div>
-                    </div> */}
-                    {/* <div className="similarityscorebox">{makeFriendly(similarityScore)} </div> */}
-                    {/* <div>{ "w:" + boundWidth(similarityScore)*100  }</div> */}
+                </div>
+            )
+            return (returnValue)
+        });
+
+        let datasetSimpleimagesList = this.state.datasetArray.map((alldata, index) => {
+            let imagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + alldata[0] + ".jpg"
+            let similarityScore = (alldata[1] * 1).toFixed(3) 
+            let returnValue = (
+                <div key={alldata[0] + "winper"} className="iblock similarityfullbox mr5 mb5 positionrelative">
+                    <img key={alldata[0] + "image" + alldata[0]} src={imagePath} alt="" className={"simiimage clickable rad2 " + (this.state.selectedsimimage == alldata[0] ? "active" : "")} indexvalue={alldata[0]} />
                 </div>
             )
             return (returnValue)
@@ -233,15 +244,30 @@ class SemanticEx extends Component {
                     // secondaryButtonText = "Do not show this again"
                     modalHeading="Semantic Search"
                     modalLabel="How this demo works"
-                    onRequestSubmit={this.toggleSemanticModal.bind(this)}
-                    ref={(ref) => this.orientationModal = ref}
+                    onRequestSubmit={this.toggleSemanticModal.bind(this)} 
                     onRequestClose={this.toggleSemanticModal.bind(this)}
                 >
                     <SemanticModalContent></SemanticModalContent>
 
                 </Modal>}
 
-                <div className=" flex  ">
+                {(this.state.showdatasetmodal) && <Modal className="datasetmodal"
+                    open={true}
+                    size="lg"
+                    // style={{maxWidth: '1600px', width: '100%'}}
+                    passiveModal={true}
+                    primaryButtonText="Get Started"
+                    // secondaryButtonText = "Do not show this again"
+                    modalHeading={this.state.datasetsList[this.state.selecteddataset].name}
+                    modalLabel="Dataset details"
+                    onRequestSubmit={this.toggleDatasetModal.bind(this)} 
+                    onRequestClose={this.toggleDatasetModal.bind(this)}
+                >
+                   {datasetSimpleimagesList}
+
+                </Modal>}
+
+                <div className=" flex   ">
                     <div className="iblock sectiontitle flexfull   pt4 "> Image Similarity Search </div>
                     <div className="flex  ">
                         <div onClick={this.toggleSemanticModal.bind(this)} className="iblock floatright  clickable showmore"> ? More Info  </div>
@@ -260,28 +286,25 @@ class SemanticEx extends Component {
 
                 </div> */}
 
-                <div className=" lh10 p10 mt10 instructions lightbluehightlight maxh16">
+                <div className="mynotif lh10 p20 mt10 instructions lightbluehightlight maxh16">
                     In this demo, we use features extracted from convolutional neural networks to search for images that are
-                    similar to a selected image. To perform a search, <strong>click</strong>  on any image and the  <strong> top {this.state.topx} </strong> most similar images will be displayed.
-                    Click model configuration to observe how different search configurations (model architecture, layers, distance metrics) perform for each search?
-                    ! Click more info to learn more!
+                    similar to a selected image. 
+                    To <strong> perform a search</strong>, <strong>click</strong>  on any image to select it and the  <strong> top {this.state.topx} </strong> 
+                    most similar images (from our dataset) will be displayed.
+                    <strong> Search configuration </strong>  lets you observe the selection of different models, layers, distance metrics) affects search results for different datasets.
+                   
                     <br/>
                     <strong> Hint:</strong>  Early layers work well for simple feature matching (colors, lines), later layers work well for complex concepts (faces, cars etc).
+                    
                 </div>
 
-                <div onClick={this.toggleModelConfig.bind(this)} className="mt10 p10 clickable  flex modelconfigbutton">
+                <div onClick={this.toggleModelConfig.bind(this)} className="unselectable mt10 p10 clickable  flex modelconfigbutton">
                     <div className="iblock flexfull minwidth485"> [ <strong>{this.state.showmodelconfig ? "- hide " : " + show "} </strong>  ] Search Configuration   </div>
                     <div className="iblock   ">
                         <div className="iblock mr5"> <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span></div>
                         <div className="iblock">
                             <div className="smalldesc"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()} </div>
                         </div>
-
-                        {/* Model: <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span>
-                    layer: <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()} </span>
-                    distance <span className=" boldtext"> COSINE </span> distance metric,
-
-                     */}
                     </div>
 
                 </div>
@@ -290,15 +313,19 @@ class SemanticEx extends Component {
                     <div className="flex2 mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Dataset </div>
                         <div className="horrule mb10"></div>
-                        <div className="datasetselectdiv">
+                        <div className="datasetselectdiv scrollwindow layerwindow">
                             {datasetImageList}
                         </div>
-                        <div className=" iblock boldtext  iblock boldtext datasetdescription  p10 greyhighlight">{this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()}</div>
+                        <div>
+                            <div className=" iblock boldtext  boldtext datasetdescription mr10  p10 greyhighlight">{this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()}</div>
+                            <div onClick={this.toggleDatasetModal.bind(this)} className="iblock p10 greyhighlight clickable unselectable greymoreinfo"> ? More Info </div>
+                        </div>
+                        
                     </div>
                     <div className="flex3  mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Model </div>
                         <div className="horrule mb10"></div>
-                        <div className="datasetselectdiv layerwindow">
+                        <div className="datasetselectdiv scrollwindow layerwindow">
                             {modelImageList}
                         </div>
                         <div className=" iblock boldtext datasetdescription  p10 greyhighlight">{this.state.modelsList[this.state.selectedmodel].name.toUpperCase()}</div>
@@ -306,7 +333,7 @@ class SemanticEx extends Component {
                     <div className="flex3  ">
                         <div className="mt20 pb10 sectiontitle" > Select Layer </div>
                         <div className="horrule mb10"></div>
-                        <div className="scrollwindow layerwindow mr10">
+                        <div className="scrollwindow layerwindow  mr10">
                             <div className="windowcontent"> {layerImageList} </div>
                         </div>
                         <div className="flex flexwrap ">
@@ -341,28 +368,37 @@ class SemanticEx extends Component {
                 <div className="flex">
                     <div className="iblock  flex1 mr10">
                         <img src={selectedImagePath} className="mainsimilarityimage rad4  iblock" alt="" />
-                        <div className=" mt10  boldtext datasetdescription  p10 lightbluehightlight"> SELECTED IMAGE </div>
+                        <div className=" mt10   datasetdescription  p10 lightbluehightlight"> 
+                            <div className="boldtext"> SELECTED IMAGE  </div>
+                            <div className="smalldesc pt5">[ {this.state.selectedsimimage} / {this.state.datasetArray.length} ]</div>
+                        </div>
                         <div className="lh10 mt10 "> 
                           Search results not good? Try a different model or layer. 
                         </div>
                         {/* <div> searchimi number {this.state.selectedsimimage}</div> */}
                     </div>
                     <div className=" flexfull">
-                        <div className="mb10 mainsimilaritydesc lightbluehightlight p10">
-                           Top {this.state.topx} results. 
-                            {/* Based on features extracted using <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span>
-                            , layer <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()} </span>
-                            and  <span className=" boldtext"> COSINE </span> distance metric, the  images below are ranked from most similar to least similar. */}
-
+                        <div className="flex mb10">
+                            <div className="flexfull"> <div className="mainsimilaritydesc lightbluehightlight p10"> Top {this.state.topx} results. </div></div>
+                            <div className="">
+                                <div className="block p10 greyhighlight   ">
+                                    <div className="iblock mr5"> <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span></div>
+                                    <div className="iblock">
+                                        <div className="smalldesc"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()} </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
+                        
                         <div className="   mb10">{similarImagesList.slice(1, this.state.topx)}</div>
 
                        <div>
-                            <div className="sectiontitle mb10 iblock mr10"> Dataset </div>
+                            <div className="sectiontitle mb10 iblock mr10"> Dataset [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
                             <div className="iblock">Click an image to search for the most similar images. </div>
                        </div>
                         <div className="horrule mb10"></div>
-                        <div> {datasetimagesList} </div>
+                        <div className="scrollwindow  datasetdivbox"> {datasetimagesList} </div>
                     </div>
                 </div>
                 <br />

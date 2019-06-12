@@ -43,14 +43,16 @@
 }
 
 .mainsimilarityimage{
-    height: 13em;
+    width: 13em;
     border-bottom: 4px #0062FF solid;
 }
 .mainsimilaritydesc{
-    font-size: 1em;
-    line-height: 1.28em; 
+    /* font-size: 1em;
+    line-height: 1.28em;  */
     
 }
+
+
 
 .simiimage{
     height: 5em; 
@@ -134,6 +136,10 @@ div.bx--modal-container{
     
 }
 
+.greymoreinfo:hover{
+    background: rgb(187, 187, 187);
+}
+
 .modelconfigdiv > .layerwindow{
     background:  rgba(209, 209, 209, 0.3);
 }
@@ -151,4 +157,9 @@ div.bx--modal-container{
     font-weight: bold;
     z-index: 10000; 
     pointer-events: none;
+}
+
+.datasetdivbox{
+    max-height: 30em;
+    overflow: scroll;
 }
