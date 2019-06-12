@@ -97,6 +97,7 @@ def get_model_layer_names (model_name):
     #   for vgg layers only select pool layers
     if (model_name == "vgg16"):
         layer_list = ["block1_conv1", "block1_conv2",  "block3_conv1", "block3_conv3",  "block4_conv1", "block4_conv3",  "block5_conv1","block5_conv3"]
+        # layer_list = ["block1_conv1"]
     elif (model_name == "vgg19"):
         layer_list = ["block1_conv1", "block1_conv2",  "block3_conv1", "block3_conv4",  "block4_conv1", "block4_conv4",  "block5_conv1","block5_conv4"]
     elif (model_name == "resnet50"):
@@ -108,7 +109,7 @@ def get_model_layer_names (model_name):
     elif (model_name == "xception"):
         layer_list = ["block1_conv1", "block1_conv2",  "conv2d_1", "block3_sepconv1",  "conv2d_3", "block7_sepconv2", "block12_sepconv3",  "block14_sepconv2"]
     elif (model_name == "densenet121"):
-        layer_list = ["pool1", "conv2_block1_1_conv",  "conv2_block6_2_conv", "conv3_block5_1_conv",  "conv4_block23_2_conv", "conv5_block13_2_conv", "conv5_block16_1_conv",  "conv5_block16_2_conv"]
+        layer_list = ["conv2_block1_1_conv", "conv2_block6_2_conv", "conv3_block5_1_conv", "conv4_block9_1_conv", "conv4_block23_2_conv", "conv5_block13_2_conv", "conv5_block16_1_conv",  "conv5_block16_2_conv"]
     elif (model_name == "inceptionv3"):
         layer_list = ["conv2d_1", "conv2d_3",  "conv2d_23", "mixed6",  "conv2d_54", "conv2d_75", "conv2d_86",  "mixed10"]
         
