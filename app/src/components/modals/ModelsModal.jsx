@@ -14,7 +14,9 @@ class ModelsModalContent extends Component {
 
                 <div className="boldtext mt10"> Optimization-based Feature Visualization</div>
                 Within this approach to visualizing layers and neurons, we begin with random noise and update it (based on gradients) 
-                to maximally excite each neuron. The Lucid library is used to generate visualizations for layers in the models below. 
+                to maximally excite each neuron.
+                The <a href="https://github.com/tensorflow/lucid/tree/master/lucid" target="_blank" rel="noopener noreferrer" >Lucid</a> library is used to generate each image.
+                     
                 
                  
             </div>

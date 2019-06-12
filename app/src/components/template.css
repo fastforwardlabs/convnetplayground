@@ -13,6 +13,15 @@
     background: rgba(209, 209, 209, 0.9);
 }
 
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 .lightbluehightlight {
     padding: 10px;
     background: #EDF4FF;

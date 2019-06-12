@@ -8,27 +8,41 @@ class SemanticModalContent extends Component {
                 <div className="horrule mb10 pt10"></div>
 
                  <div className="boldtext"> Extracting Similarity Using Convolutional Networks </div>
-                 Layers in a trained convolutional neural network (CNN) can be used to extract features from images.
-        Semantic search explores the use these extracted features in computing the "similarity" between images. 
-        How do features extracted using different model architectures compare? What layers perform better and when?
-        What similarity distance metrics work best? This demo helps you investigate these questions!
+                Layers in a trained convolutional neural network (CNN) can be used to extract features from images.
+                Semantic search explores the use these extracted features in computing the "similarity" between images. 
+                We have precomputed the extracted features from images in 3 datasets, using 8 different models 
+                and 8 different layers from each model. We have also computed the similarity 
+                between all of these features using 4 different similarity metrics. 
+                This demo allows you interactively explore the results of these computations. <br/>
+                How do features extracted using different model architectures compare? What layers perform better and when?
+                What similarity distance metrics work best? This demo helps you investigate these questions!
                 <br/> 
 
                 <div className="boldtext mt10"> Datasets </div>
-                [TinyImagenet] This dataset contains 64px * 64px images and is a subset of the Tiny Imagenet Visual Recognition Challenge dataset.
-                It consists of images from 10 categories (faces, shoes, teapots, goldfish, frogs, ..)
+                
+                <strong> [Iconic200] </strong> This is a dataset of real world images collected from Flickr (creative commons).
+                It contains images spanning 10 keyword searches (arch, banana, volkswagen beetle, eiffel tower, empire state building, ferrari, pickup truck, sedan, stonehenge, tractor).
+                These images are chosen deliberately with conceptual overlaps (several car brands, similar colors across classes) to highlight 
+                how various models perform in correctly representing similarity.
                 <br/>
-                [Iconic3k] This is a dataset collected from Flickr images (open attribution) of real world iconic images taken by users.
-                It contains images spanning 10 keyword searches (toyota corolla, volkswagen beetle, honda civic, tractors, bananna, pineapples, ..)
+
+                <strong>[TinyImagenet200]</strong>  This dataset contains 64px * 64px images and is a subset (200) of the
+                 <a href="https://tiny-imagenet.herokuapp.com/" target="_blank" rel="noopener noreferrer" > Tiny Imagenet Visual Recognition Challenge dataset.</a> 
+                It consists of images from 10 categories (arch, bottle, bridge, bus, face, frog, goldfish, sandals, teapot, tractor).
+                <br/>
+
+                <strong>[Cifar10] </strong> This is a subset (200 images) of the popular 
+                <a href="https://www.cs.toronto.edu/~kriz/cifar.html" target="_black"> cifar10 </a>  dataset 
+                containing 20 images from 10 randomly selected classes. Each image is 32px by 32px in dimension.
 
                 <div className="boldtext mt10"> Models and Layers</div>
-                We provide 10 models and a selection of layers from each model. 
-                These include VGG16, ResNet50, .. . 
-                <br/> Click on a model or layer to select it and layer to display additional information.
+                We provide results from 8 models (vgg16, vgg19, mobilenet, xception, resnet50, inceptionv3, densenet121) 
+                and a selection of layers from each model. The models are presented in order of increasing complexity (number of layers)
+                and show marked differences in their ability to generate features that correctly identify similar images.  
 
                 <div className="boldtext mt10"> Distance Metric </div>
-                Once we extract vector representation of our image using layers from a model, how do we measure how similar each vector is to the other?
-                Several distance metrics are offered (cosine, hamming, euclidean, jaccard, minkowski).
+                We provide results that from the use of 4 different distance metrics in measuring the similarity between 
+                features extracted from all images in each dataset. These include cosine, euclidean, squared euclidean and minkowsi distances.  
                 <br/> Hint: Cosine works best.  
             </div>
         );

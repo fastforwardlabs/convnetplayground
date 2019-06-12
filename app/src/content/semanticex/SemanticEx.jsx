@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Modal } from 'carbon-components-react';
-import Notification20 from '@carbon/icons-react/lib/notification/20';
+// import Notification20 from '@carbon/icons-react/lib/notification/20';
 import "./semanticex.css"
 import SemanticModalContent from "../../components/modals/SemanticModal"
 import { abbreviateString, loadJSONData, makeFriendly, boundWidth } from "../../components/helperfunctions/HelperFunctions"
@@ -11,7 +11,7 @@ class SemanticEx extends Component {
 
         const modelDetails = require('../../assets/semsearch/details.json');
         // console.log (similarityArray)
-        const initialSimilarityPath = "../../assets/semsearch/similarity/" + modelDetails["datasets"][0].name + "/" + modelDetails["models"][0].name + "/" + modelDetails["metrics"][0] + "/" + modelDetails["models"][0].layers[0] + ".json"
+        // const initialSimilarityPath = "../../assets/semsearch/similarity/" + modelDetails["datasets"][0].name + "/" + modelDetails["models"][0].name + "/" + modelDetails["metrics"][0] + "/" + modelDetails["models"][0].layers[0] + ".json"
         const similarityArray = require('../../assets/semsearch/similarity/cifar100/vgg16/cosine/block1_conv1.json');
         // require('../../assets/semsearch/similarity/cifar100/vgg16/cosine/block5_pool.json');
         // console.log(similarityArray)
@@ -31,7 +31,7 @@ class SemanticEx extends Component {
             distanceMetricList: modelDetails["metrics"],
             showorientationmodal: false,
             showmodelconfig: false,
-            showdatasetmodal: true,
+            showdatasetmodal: false,
             topx: 10
         }
         // setTimeout(() => {
@@ -200,7 +200,7 @@ class SemanticEx extends Component {
 
         let datasetimagesList = this.state.datasetArray.map((alldata, index) => {
             let imagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + alldata[0] + ".jpg"
-            let similarityScore = (alldata[1] * 1).toFixed(3) 
+            // let similarityScore = (alldata[1] * 1).toFixed(3) 
             let returnValue = (
                 <div key={alldata[0] + "winper"} className="iblock similarityfullbox mr5 mb5 positionrelative">
                     <img key={alldata[0] + "image" + alldata[0]} onClick={this.clickSimilarImage.bind(this)} src={imagePath} alt="" className={"simiimage clickable rad2 " + (this.state.selectedsimimage == alldata[0] ? "active" : "")} indexvalue={alldata[0]} />
@@ -220,15 +220,7 @@ class SemanticEx extends Component {
             return (returnValue)
         });
 
-
-
-        let semsearchIntro = `Layers in a trained convolutional neural network (CNN) can be used to extract features from images.
-        Semantic search explores the use these extracted features in computing the "similarity" between images.  `
-
-        let convnetLayer = `How do features extracted using different model architectures compare? What layers perform better and when?
-        What similarity distance metrics work best? This demo helps you investigate these questions!`
-
-        // let introHeight= "8.5rem"
+ 
 
         let selectedImagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + this.state.selectedsimimage + ".jpg"
         // process.env.PUBLIC_URL + "/assets/semsearch/datasets/cifar100/train/" + this.state.selectedsimimage + ".jpg"

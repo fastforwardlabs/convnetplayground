@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { DataTable, Modal } from 'carbon-components-react';
 import ModelsModalContent from "../../components/modals/ModelsModal"
-import {abbreviateString, loadJSONData, makeFriendly, boundWidth} from "../../components/helperfunctions/HelperFunctions"
+import {abbreviateString, makeFriendly} from "../../components/helperfunctions/HelperFunctions"
 import "./modelex.css"
 
 const {
@@ -14,20 +14,7 @@ const {
     TableHeader,
   } = DataTable
 
- const initialRows = [
-    {
-      id: 'a',
-      field1: 'Field 1a',
-    },
-    {
-      id: 'b',
-      field1: 'Field 1b',
-    },
-    {
-      id: 'c',
-      field1: 'Field 1c',
-    },
-  ]; 
+
   const headers = [ 
     {key: 'layer_index',header: '',},
     {key: 'name',header: 'Layer',},
@@ -96,8 +83,7 @@ class ModelEx extends Component {
         }
     }
 
-    keyFunction(event){
-        let inc = 0
+    keyFunction(event){ 
         if(event.keyCode === 37) {
           this.cycleLayerModel(-1)
         }
@@ -109,8 +95,8 @@ class ModelEx extends Component {
 
     componentDidMount() {
         document.title = "ConvNet Playground | Model Explorer"; 
-        const queryString = require('query-string'); 
-        const qs = queryString.parse(this.props.location.search);
+        // const queryString = require('query-string'); 
+        // const qs = queryString.parse(this.props.location.search);
         // this.sets
         document.addEventListener("keydown", this.keyFunction, false);
     }
@@ -172,20 +158,20 @@ class ModelEx extends Component {
         let layer = this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name
         let fflurl = "https://fastforwardlabs.github.io/convnetplayground/#/models?model=" + modelname + "&layer=" + layer + "&neuron=" + neuron
         let url = "https://twitter.com/intent/tweet?url=" + encodeURIComponent(fflurl) +"&via=" + "ffl" + "&text=" + encodeURIComponent("A visualization of neuron " + neuron + " in the " + layer + " layer  of a " + modelname + " model. Interested in visualizations of layers in a CNN or how they can be used to implement image search? Visit the #convnetplayground prototype.") ;
-        console.log(url)
+         
         window.open(url, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600')
     }
 
     render() {
-        let modelInterpretabilityIntro = `Interpretable models are models we can "understand". 
-        Interpretability explores approaches to better understand neural networks. For example, 
-        how can we "peek" into a CNN to get an idea of what each neuron in a layer has learned to detect? `    
+        // let modelInterpretabilityIntro = `Interpretable models are models we can "understand". 
+        // Interpretability explores approaches to better understand neural networks. For example, 
+        // how can we "peek" into a CNN to get an idea of what each neuron in a layer has learned to detect? `    
 
-        let optimizationVisualization = `  
-        Within this approach to visualizing layers and neurons,
-        we begin with random noise and update it (based on gradients) to maximally excite each neuron. 
-        The  <a href="https://github.com/tensorflow/lucid/tree/master/lucid" target="_blank">Lucid</a> library is used to generate visualizations for layers in the models below.
-        `
+        // let optimizationVisualization = `  
+        // Within this approach to visualizing layers and neurons,
+        // we begin with random noise and update it (based on gradients) to maximally excite each neuron. 
+        // The  <a href="https://github.com/tensorflow/lucid/tree/master/lucid" target="_blank">Lucid</a> library is used to generate visualizations for layers in the models below.
+        // `
        
         let modelImageList = this.state.modelsList.map((mdata, index) => {
             let selectedModel = this.state.modelsList[index].name 
@@ -208,7 +194,7 @@ class ModelEx extends Component {
             let selectedModel = this.state.modelsList[this.state.selectedmodel].name 
             let selectedlayer = this.state.modelsList[this.state.selectedmodel].layers[index].name
             let neuronList = this.layerList[selectedModel] [selectedlayer]
-            let imagePath = process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + neuronList[neuronList.length -1]  + ".jpg" 
+            let imagePath = process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + neuronList[neuronList.length -1]  + ".jpg"  ;
              
             return (
                 <div key={ldata + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
@@ -222,7 +208,8 @@ class ModelEx extends Component {
         let selectedlayer = this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name
         let neuronList = currentLayers[selectedlayer]
 
-        this.state.neuronList = neuronList
+        // this.state.neuronList = neuronList
+        // this.setState({neuronList: neuronList })
         
         let neuronImageList
         if (neuronList) {
@@ -323,7 +310,7 @@ class ModelEx extends Component {
 
                 <div className="mynotif lh10 p20 mt10 instructions lightbluehightlight maxh16">
                     Interpretable models are models we can "understand". 
-                    In this demo, we use  <a href="https://distill.pub/2017/feature-visualization/" target="_blank"> optimization based feature visualization </a> approaches
+                    In this demo, we use  <a href="https://distill.pub/2017/feature-visualization/" target="_blank" rel="noopener noreferrer"> optimization based feature visualization </a> approaches
                     to visualize what channels (collection of neurons) in a CNN layer has learned to detect.  
                     To explore, <strong> click </strong>  on a model, and a layer to view a selection of visualization of channels in that layer.
                      
@@ -392,9 +379,16 @@ class ModelEx extends Component {
                 <div className="flex flexwrap">
                     <div className="flex1">
                         <div className="enlargeddiv rad2 mr10">
-                            <div  onClick={this.twitterShare.bind(this)} className="mb10" > <a className="twitterbutton" href=""> Share on twitter </a> </div>
-                            <div className="boldtext enlargeddesc mb5  smalldesc">{this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}: {this.state.neuronList[this.state.selectedneuron].split(".")[0]} / {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} </div>
-                            <img className="enlargedneuron rad4" src={process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + this.state.neuronList[this.state.selectedneuron] + ".jpg"}  alt=""/>
+                        {/* let selectedModel = this.state.modelsList[this.state.selectedmodel].name
+        let currentLayers = this.layerList[selectedModel] 
+        let selectedlayer = this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name
+        let neuronList = currentLayers[selectedlayer] */}
+
+       
+
+                            <div  onClick={this.twitterShare.bind(this)} className="mb10" > <div className="twitterbutton" href=""> Share on twitter </div> </div>
+                            <div className="boldtext enlargeddesc mb5  smalldesc">{this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}: { this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron]} / {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} </div>
+                            <img className="enlargedneuron rad4" src={process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" +  this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron] + ".jpg"}  alt=""/>
                             
                         </div>
                         </div>

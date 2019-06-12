@@ -33,7 +33,7 @@ class AppHeader extends Component {
                 <div className="navbarlinks  "><NavLink exact to="/"> Semantic Search </NavLink></div>
                 <div className="navbarlinks "><NavLink to="/models"> Model Explorer </NavLink></div>
                 {/* <div className="navbarlinks "><NavLink to="/algebra"> Image Algebra </NavLink></div> */}
-                <div className="navbarlinks "><NavLink to="/energy"> Energy Explorer </NavLink></div>
+                {/* <div className="navbarlinks "><NavLink to="/energy"> Energy Explorer </NavLink></div> */}
                 </HeaderNavigation>
                 <HeaderGlobalBar>
                 <HeaderGlobalAction aria-label="Notifications">
