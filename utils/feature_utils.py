@@ -91,7 +91,12 @@ def compute_distance_matrix(feat, feat_matrix, distance_metric = "cosine"):
     cosine_dist_matrix = spatial.distance.cdist(
         feat_matrix, feat.reshape(1, -1), distance_metric).reshape(-1, 1)
     return 1 - cosine_dist_matrix
-  
+
+def compute_full_distance_matrix(feat, feat_matrix, distance_metric = "cosine"): 
+    cosine_dist_matrix = spatial.distance.cdist(
+        feat_matrix, feat, distance_metric).reshape(-1, 1)
+    return 1 - cosine_dist_matrix 
+
 def save_similarity_scores(similarity_output_dir, layer_name, similarity_scores):
  
   f_utils.mkdir(similarity_output_dir)
@@ -99,43 +104,37 @@ def save_similarity_scores(similarity_output_dir, layer_name, similarity_scores)
   f_utils.save_json_file(json_file_path, similarity_scores)
 #   tf.logging.info("  >> Finished saving similarity record for " + layer_name)
 
-def generate_similarity_scores(similarity_params,extracted_features):
-    similarity_holder = {}
-    for i in range(len(extracted_features)):
-        distance_matrix = compute_distance_matrix(extracted_features[i], extracted_features, similarity_params["similarity_metric"])
-        similarity_score_indexes = distance_matrix.flatten().argsort()[::-1]
+def generate_similarity_scores(similarity_params,extracted_features): 
+    sim_holder = {}
+    all_dist = compute_full_distance_matrix(extracted_features, extracted_features, similarity_params["similarity_metric"])
+    all_dist = all_dist.reshape(-1, len(extracted_features))
+    print("========")
+    for i in range(len(all_dist)):
+        distance_matrix = all_dist[i]
+        similarity_score_indexes = distance_matrix.argsort()[::-1]
         similarity_scores = distance_matrix[similarity_score_indexes].flatten()
         similarity_scores = np.around(similarity_scores, decimals=3)
-        similarity_holder[i] = list(zip(list(similarity_score_indexes.astype(np.str)), list(similarity_scores.astype(np.str))))
-        # [list(similarity_score_indexes.astype(np.str)), list(similarity_scores.astype(np.str))]
-    save_similarity_scores(similarity_params["output_path"],  similarity_params["layer_name"], similarity_holder) 
+        sim_holder[i] = list(zip(list(similarity_score_indexes.astype(np.str)), list(similarity_scores.astype(np.str)))) 
+    tf.logging.info(" >>>  >>>>  >>>> Distance computaton done, zipping and saving ...")
+    save_similarity_scores(similarity_params["output_path"],  similarity_params["layer_name"], sim_holder) 
 
-# def generate_similarity_scores(model_params,dataset_params,similarity_params):
-#   tf.logging.info(" >> Generating similarity scores ...")
-#   embedding_base_path = similarity_params["embedding_source_path"] 
-#   similarity_output_path = os.path.join(similarity_params["similarity_output_path"], similarity_params["similarity_metric"] )
-#   embedding_paths = os.listdir(embedding_base_path)
-#   for embedding_path in embedding_paths:  
-#     full_embedding_path = os.path.join(embedding_base_path, embedding_path)
-#     if ("pickle" in full_embedding_path):
-#       layer_name = embedding_path.split(".")[0]
-#       with open(full_embedding_path, "rb") as f:
-#           extracted_features = pickle.load(f) 
-#           similarity_holder = {}
-#           for i in range(len(extracted_features)):
-#             distance_matrix = compute_distance_matrix(extracted_features[i], extracted_features, similarity_params["similarity_metric"])
-#             similarity_score_indexes = distance_matrix.flatten().argsort()[::-1]
-#             similarity_scores = distance_matrix[similarity_score_indexes].flatten()
-#             similarity_scores = np.around(similarity_scores, decimals=3)
-#             similarity_holder[i] = list(zip(list(similarity_score_indexes.astype(np.str)), list(similarity_scores.astype(np.str))))
-#             # [list(similarity_score_indexes.astype(np.str)), list(similarity_scores.astype(np.str))]
-#           save_similarity_scores(similarity_output_path, layer_name, similarity_holder) 
-#   tf.logging.info("  >> Finished generating  and saving similarity scores " )
+
+# def generate_similarity_scores(similarity_params,extracted_features):
+#     similarity_holder = {}
+#     for i in range(len(extracted_features)):
+#         distance_matrix = compute_distance_matrix(extracted_features[i], extracted_features, similarity_params["similarity_metric"])
+#         similarity_score_indexes = distance_matrix.flatten().argsort()[::-1]
+#         similarity_scores = distance_matrix[similarity_score_indexes].flatten()
+#         similarity_scores = np.around(similarity_scores, decimals=3)
+#         similarity_holder[i] = list(zip(list(similarity_score_indexes.astype(np.str)), list(similarity_scores.astype(np.str))))
+#         # [list(similarity_score_indexes.astype(np.str)), list(similarity_scores.astype(np.str))]
+#     save_similarity_scores(similarity_params["output_path"],  similarity_params["layer_name"], similarity_holder) 
   
 
 def list_distance_metrics():
     metrics = [ "braycurtis", "canberra", "chebyshev", "cityblock", "correlation", "cosine", "dice", "euclidean", "hamming", "jaccard", "jensenshannon", "kulsinski", "mahalanobis", "matching", "minkowski", "rogerstanimoto", "russellrao", "seuclidean", "sokalmichener", "sokalsneath", "sqeuclidean", "wminkowski", "yule"]
     metrics =  ["cosine","euclidean","sqeuclidean","minkowski"]
+    # metrics = ["cosine"]
     return metrics
     
 
