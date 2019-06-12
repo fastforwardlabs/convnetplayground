@@ -6,6 +6,8 @@ from utils import visualization_utils as v_utils
 from utils import file_utils as f_utils
 
 import os
+from datetime import datetime
+
 
 
 tf.logging.set_verbosity(tf.logging.INFO) 
@@ -62,6 +64,7 @@ def generate_embeddings(dataset_params):
             extracted_features = feat_utils.extract_features(dataset_params, intermediate_model["model"], preprocess_input )
 
             for similarity_metric in similarity_metrics:
+                tf.logging.info(" >> >> Generating similarity scores for " + similarity_metric)
                 similarity_output_path =  os.path.join(base_path_public,"similarity", dataset_params["name"], model_params["name"], similarity_metric ) 
                 similarity_params= {"output_path":similarity_output_path, "layer_name": intermediate_model["name"],  "similarity_metric": similarity_metric }
                 feat_utils.generate_similarity_scores(similarity_params, extracted_features)
@@ -87,16 +90,18 @@ def visualize_similarity():
     v_utils.plot_similar(selected_image,dataset_output_path, similarity_data[selected_image], max_display)
 
 
-supported_datasets = d_utils.get_supported_datasets()
-for  dataset in supported_datasets:
-    dataset_params = {"name":dataset["name"],   "path": os.path.join(base_path_public,
-                        "datasets/" + dataset["name"])   , "dataset_size":200}
-    generate_embeddings(dataset_params)
-# d_utils.rename_files(os.path.join(base_path_public, "datasets/tinyimagenet"))
+# start_time = datetime.now()
+# supported_datasets = d_utils.get_supported_datasets()
+# for  dataset in supported_datasets:
+#     dataset_params = {"name":dataset["name"],   "path": os.path.join(base_path_public,
+#                         "datasets/" + dataset["name"])   , "dataset_size":100}
+#     generate_embeddings(dataset_params)
+# print("Time taken:" , datetime.now() - start_time)
+# # d_utils.rename_files(os.path.join(base_path_public, "datasets/tinyimagenet"))
 
 # generate_embeddings(50)
 # generate_similarity_metrics()
-# generate_model_details()
+generate_model_details()
 # model , pre= m_utils.get_model("resnet50")
 # llist = m_utils.get_model_layer_names(model,"resnet50")
 # print(llist)
