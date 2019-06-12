@@ -362,7 +362,7 @@ class SemanticEx extends Component {
                         <img src={selectedImagePath} className="mainsimilarityimage rad4  iblock" alt="" />
                         <div className=" mt10   datasetdescription  p10 lightbluehightlight"> 
                             <div className="boldtext"> SELECTED IMAGE  </div>
-                            <div className="smalldesc pt5">[ {this.state.selectedsimimage} / {this.state.datasetArray.length} ]</div>
+                            <div className="smalldesc pt5"> image [ {this.state.selectedsimimage} / {this.state.datasetArray.length} ]</div>
                         </div>
                         <div className="lh10 mt10 "> 
                           Search results not good? Try a different model or layer. 
@@ -376,14 +376,14 @@ class SemanticEx extends Component {
                                 <div className="block p10 greyhighlight   ">
                                     <div className="iblock mr5"> <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span></div>
                                     <div className="iblock">
-                                        <div className="smalldesc"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()} </div>
+                                        <div className="smalldesc">  {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()} </div>
                                     </div>
                                 </div>
                             </div>
                             
                         </div>
                         
-                        <div className="   mb10">{similarImagesList.slice(1, this.state.topx)}</div>
+                        <div className="scrollwindow layerwindow   mb10">{similarImagesList.slice(1, this.state.topx+1)}</div>
 
                        <div>
                             <div className="sectiontitle mb10 iblock mr10"> Dataset [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>

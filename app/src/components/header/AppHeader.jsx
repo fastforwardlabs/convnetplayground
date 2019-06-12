@@ -36,10 +36,10 @@ class AppHeader extends Component {
                 {/* <div className="navbarlinks "><NavLink to="/energy"> Energy Explorer </NavLink></div> */}
                 </HeaderNavigation>
                 <HeaderGlobalBar>
-                <HeaderGlobalAction aria-label="Notifications">
+                {/* <HeaderGlobalAction aria-label="Notifications">
                     <Notification20 />
                 </HeaderGlobalAction>
-               
+                */}
                 {/* <HeaderGlobalAction aria-label="User Avatar">
                     <UserAvatar20 />
                 </HeaderGlobalAction> */}
