@@ -72,7 +72,7 @@ def generate_dataset(dataset_params):
 
 def get_supported_datasets():
     supported_datasets = [
-        {"name": "iconic200", "icon":"imagenet.jpg"},
+        {"name": "iconic200", "icon":"icon.jpg"},
         {"name": "tinyimagenet", "icon":"imagenet.jpg"},
         {"name": "cifar10", "icon":"cifar.jpg"},
         # {"name": "Iconic3k", "icon":"0.jpg"}
