@@ -74,8 +74,10 @@ class ModelEx extends Component {
             }
   
         }else if (this.lastclicked == "neuron"){
-            let newState = Math.max((this.state.selectedneuron*1 + val) % this.state.neuronList.length, 0) 
-            // console.log(newState, this.state.modelsList.length, this.state.selectedmodel, val)
+            
+            let numNeurons = (this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name].length)
+            let newState = Math.max((this.state.selectedneuron*1 + val) % numNeurons, 0) 
+            // console.log(this.state.selectedneuron,newState,  val, numNeurons)
             if (!(isNaN(newState))) {
                 this.setState({selectedneuron: newState})
             }

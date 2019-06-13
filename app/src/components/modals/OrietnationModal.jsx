@@ -18,16 +18,19 @@ class OrientationModalContent extends Component {
                 <div className="horrule mb10 pt10"></div>
 
                 <div className="boldtext"> Semantic Search </div>
-                This section of the prototype allows you explore similarity rankings from various layers of a trained CNN.
-                The user can select a configuration (dataset, model, layer, distance metric) and then view 
-                how these result in different image similarity rankings.
+                This section of the prototype shows how features extracted using layers from a CNN can be used to 
+                implement image similarity search capabilities (finding images that are similar in content to a selected image). 
+                The interface allows you select a search configuration 
+                (dataset, model, layer, distance metric) and shows the a list of results for a search query. 
+                By changing search  configuration parameters, you can observe how various models and layers perform 
+                on the task of extracting important features useful for  similarity search. 
 
                 <br/>
                  
                 <div className="boldtext mt10"> Models Explorer</div>
-                This section enables the user to view visualizations of select layers and neurons within a model.
+                This section enables the user to view visualizations of select layers and channels (collection of neurons neurons) within a model.
                 This can help provide intuition on how/why CNNs are effective for image analysis tasks such as image classification
-                object detection, image segmentation etc.
+                object detection, image segmentation, image generation etc etc.
                 <br/>  
               
             </div>

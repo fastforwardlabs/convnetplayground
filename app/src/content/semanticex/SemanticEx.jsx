@@ -281,8 +281,8 @@ class SemanticEx extends Component {
                     In this demo, we use features extracted from convolutional neural networks to search for images that are
                     similar to a selected image. 
                     To <strong> perform a search</strong>, <strong>click</strong>  on any image to select it and the  <strong> top {this.state.topx} </strong> 
-                    most similar images (from our dataset) will be displayed.
-                    <strong> Search configuration </strong>  lets you observe the selection of different models, layers, distance metrics) affects search results for different datasets.
+                    most similar images (from our dataset) will be displayed. The
+                    <strong> Search Configuration </strong> interactive panel lets you observe how different models, layers and distance metrics affect search results for different datasets.
                    
                     <br/>
                     <strong> Hint:</strong>  Early layers work well for simple feature matching (colors, lines), later layers work well for complex concepts (faces, cars etc).
@@ -290,7 +290,7 @@ class SemanticEx extends Component {
                 </div>
 
                 <div onClick={this.toggleModelConfig.bind(this)} className="unselectable mt10 p10 clickable  flex modelconfigbutton">
-                    <div className="iblock flexfull minwidth485"> [ <strong>{this.state.showmodelconfig ? "- hide " : " + show "} </strong>  ] Search Configuration   </div>
+                    <div className="iblock flexfull minwidth485"> <strong> {!this.state.showmodelconfig &&  <span>&#x25BC;  </span> } {this.state.showmodelconfig &&  <span>&#x25B2;  </span> } </strong> Search Configuration </div>
                     <div className="iblock   ">
                         <div className="iblock mr5"> <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span></div>
                         <div className="iblock">

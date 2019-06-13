@@ -115,7 +115,7 @@ def generate_model_viz_details():
     m_utils.get_model_viz_details(model_params)
 
 
-# generate_model_viz_details()
+generate_model_viz_details()
 
 # print(m_utils.get_all_model_details())
 
