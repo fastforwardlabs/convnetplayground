@@ -311,7 +311,8 @@ class ModelEx extends Component {
                 <div className="mynotif lh10 p20 mt10 instructions lightbluehightlight maxh16">
                     Interpretable models are models we can "understand". 
                     In this demo, we use  <a href="https://distill.pub/2017/feature-visualization/" target="_blank" rel="noopener noreferrer"> optimization based feature visualization </a> approaches
-                    to visualize what channels (collection of neurons) in a CNN layer has learned to detect.  
+                    to visualize what the channels (collection of neurons) in a CNN layer has learned to detect. 
+                    Each image is derived (via optimization) as the image which activates the neurons within that channel.
                     To explore, <strong> click </strong>  on a model, and a layer to view a selection of visualization of channels in that layer.
                      
                 </div>

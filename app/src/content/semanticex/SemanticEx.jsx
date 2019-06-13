@@ -8,7 +8,6 @@ import { abbreviateString, loadJSONData, makeFriendly, boundWidth } from "../../
 class SemanticEx extends Component {
     constructor(props) {
         super(props);
-
         const modelDetails = require('../../assets/semsearch/details.json');
         // console.log (similarityArray)
         // const initialSimilarityPath = "../../assets/semsearch/similarity/" + modelDetails["datasets"][0].name + "/" + modelDetails["models"][0].name + "/" + modelDetails["metrics"][0] + "/" + modelDetails["models"][0].layers[0] + ".json"
@@ -214,7 +213,7 @@ class SemanticEx extends Component {
             let similarityScore = (alldata[1] * 1).toFixed(3) 
             let returnValue = (
                 <div key={alldata[0] + "winper"} className="iblock similarityfullbox mr5 mb5 positionrelative">
-                    <img key={alldata[0] + "image" + alldata[0]} src={imagePath} alt="" className={"simiimage clickable rad2 " + (this.state.selectedsimimage == alldata[0] ? "active" : "")} indexvalue={alldata[0]} />
+                    <img key={alldata[0] + "image" + alldata[0]} src={imagePath} alt="" className={"simiimage  rad2 " + (this.state.selectedsimimage == alldata[0] ? "active" : "")} indexvalue={alldata[0]} />
                 </div>
             )
             return (returnValue)
@@ -371,7 +370,7 @@ class SemanticEx extends Component {
                     </div>
                     <div className=" flexfull">
                         <div className="flex mb10">
-                            <div className="flexfull"> <div className="mainsimilaritydesc lightbluehightlight p10"> Top {this.state.topx} results. </div></div>
+                            <div className="flexfull"> <div className="mainsimilaritydesc lightbluehightlight p10"> <strong>Top {this.state.topx} results </strong>  with similarity score. </div></div>
                             <div className="">
                                 <div className="block p10 greyhighlight   ">
                                     <div className="iblock mr5"> <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span></div>
@@ -386,7 +385,7 @@ class SemanticEx extends Component {
                         <div className="scrollwindow layerwindow   mb10">{similarImagesList.slice(1, this.state.topx+1)}</div>
 
                        <div>
-                            <div className="sectiontitle mb10 iblock mr10"> Dataset [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
+                            <div className="boldtext mb10 iblock mr10"> Dataset [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
                             <div className="iblock">Click an image to search for the most similar images. </div>
                        </div>
                         <div className="horrule mb10"></div>
