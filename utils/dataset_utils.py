@@ -108,3 +108,16 @@ def process_dataset(dataset_path):
 
             
     f_utils.save_json_file(os.path.join(dataset_path,"classes.json"), class_details)   
+
+def process_dataset_labels():
+    dataset_path = "app/public/assets/semsearch/datasets"
+    dataset_names = os.listdir(dataset_path)
+    for dataset_name in dataset_names:
+        if (dataset_name != ".DS_Store"):
+            print(dataset_name)
+            class_detail_holder = {}
+            class_details = f_utils.load_json_file(os.path.join(dataset_path, dataset_name, "classes.json"))
+            print(class_details)
+            for detail in class_details:
+                field, value = detail.items()[0]
+                print(field)

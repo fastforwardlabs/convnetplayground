@@ -43,7 +43,7 @@
 }
 
 .mainsimilarityimage{
-    width: 15em;
+    width: 19em;
     border-bottom: 4px #0062FF solid;
     height: 15em;
     object-fit: cover;
@@ -55,7 +55,22 @@
     
 }
 
-
+.topmainscore{
+    font-size: 2.5em;
+    font-weight: bold;
+    padding: 10px 10px 10px 10px;
+    /* border: 1px solid black; */
+}
+.topscorediv{
+    background: #CDCDCD;
+    /* height: 9em; */
+    /* border: 1px solid black; */
+}
+.weightedscore{
+    padding: 5px 0px 4px 0px;
+    border-top: 1px solid black;
+    /* height: 20px; */
+}
 
 .simiimage{
     height: 5em; 

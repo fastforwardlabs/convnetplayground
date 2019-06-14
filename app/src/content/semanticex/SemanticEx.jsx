@@ -31,7 +31,7 @@ class SemanticEx extends Component {
             showorientationmodal: false,
             showmodelconfig: false,
             showdatasetmodal: false,
-            showtopresults: false,
+            showtopresults: true,
             topx: 15
         }
         // setTimeout(() => {
@@ -391,7 +391,18 @@ class SemanticEx extends Component {
                                 
                             </div>
                             
-                            <div className="scrollwindow layerwindow ">{similarImagesList.slice(1, this.state.topx+1)}</div>
+                            <div className="scrollwindow layerwindow ">
+                                <div className=" iblock mr10 rad3 "> 
+                                    <div className="pb5 smalldesc "> # correct classes </div>
+                                    <div className="topscorediv">
+                                       
+                                        <div className="mainscore  topmainscore"> 9 / {this.state.topx} </div>
+                                        <div className="weightedscore smalldesc textaligncenter"> for current model </div>
+                                    </div>
+                                    
+                                </div>
+                                {similarImagesList.slice(1, this.state.topx+1)}
+                            </div>
                             
                         </div>
                     </div>

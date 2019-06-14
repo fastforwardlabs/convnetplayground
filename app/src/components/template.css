@@ -3,6 +3,9 @@
 .textalignright{
     text-align: right;
 }
+.textaligncenter{
+    text-align: center;
+}
 .textvalignmiddle{
     vertical-align: middle;
 }
