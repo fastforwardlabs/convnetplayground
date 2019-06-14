@@ -1,6 +1,8 @@
 
 /* Text Highlights */
-
+.textalignright{
+    text-align: right;
+}
 .textvalignmiddle{
     vertical-align: middle;
 }
@@ -266,4 +268,27 @@
 
 .positionabsolute{
     position: absolute;
+}
+
+
+/* Animations */
+
+.sliderboxcontainer { 
+    overflow:hidden;
+    position:relative;
+    /* the container's height will determine the height of its slider  */
+    /* height:100%;  */
+}
+
+.sliderbox {
+    -moz-transition: height 0.4s ease-in; 
+    -webkit-transition: height 0.4s ease-in; 
+    -o-transition: height 0.4s ease-in;
+}
+
+.sliderbox.topconfig.open { 
+    height: 20em;
+}
+.sliderbox.closed { 
+   height: 0em;
 }

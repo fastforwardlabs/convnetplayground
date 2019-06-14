@@ -364,9 +364,9 @@ class SemanticEx extends Component {
 
                  
                 {/* top results */}
-                {this.state.showtopresults && 
-                <div>
-                    <div className="flex mt10">
+                { 
+                <div className="sliderboxcontainer pt10 ">
+                    <div className={"  flex sliderbox topconfig" + (this.state.showtopresults ? " open": " closed") }>
                         <div className="iblock  flex1 mr10">
                             <img src={selectedImagePath} className="mainsimilarityimage rad4  iblock" alt="" />
                             <div className=" mt10   datasetdescription  p10 lightbluehightlight"> 
@@ -392,12 +392,17 @@ class SemanticEx extends Component {
                             </div>
                             
                             <div className="scrollwindow layerwindow ">{similarImagesList.slice(1, this.state.topx+1)}</div>
-                            <div className="pt5 mediumdesc lhmedium floatright mr10"> 
-                            Search results not awesome? <strong>Hint:</strong> Try a different model or layer. 
-                            </div>
+                            
                         </div>
                     </div>
                 </div> }
+
+                {this.state.showtopresults &&
+                    <div className=" pt5 mediumdesc lhmedium textalignright mr10"> 
+                    Search results not awesome? <strong>Hint:</strong> Try a different model or layer. 
+                    </div>
+                }
+                
 
                 
                 {/* daset div */}
