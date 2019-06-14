@@ -56,6 +56,7 @@ Business Use Case
 - Client organising image documents (receiipts)
 - Data curation steps
 - Initial training data collection
+- Enabling image based search for e-commerce platforms.
 
 Interface Considerations
 

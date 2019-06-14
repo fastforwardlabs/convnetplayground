@@ -195,7 +195,7 @@ class ModelEx extends Component {
         let layerImageList = this.state.modelsList[this.state.selectedmodel].layers.map((ldata, index) => {    
             let selectedModel = this.state.modelsList[this.state.selectedmodel].name 
             let selectedlayer = this.state.modelsList[this.state.selectedmodel].layers[index].name
-            let neuronList = this.layerList[selectedModel] [selectedlayer]
+            let neuronList = this.layerList[selectedModel][selectedlayer]
             let imagePath = process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + neuronList[neuronList.length -1]  + ".jpg"  ;
              
             return (
