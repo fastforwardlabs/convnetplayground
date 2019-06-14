@@ -31,6 +31,7 @@ class SemanticEx extends Component {
             showorientationmodal: false,
             showmodelconfig: false,
             showdatasetmodal: false,
+            showtopresults: false,
             topx: 15
         }
         // setTimeout(() => {
@@ -48,6 +49,7 @@ class SemanticEx extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (this.state.selectedmodel !== prevState.selectedmodel || this.state.selectedmetric !== prevState.selectedmetric || this.state.selectedlayer !== prevState.selectedlayer || this.state.selecteddataset !== prevState.selecteddataset) {
             this.updateSimilarity()
+            this.setState({ showtopresults: true })
         }
     }
 
@@ -72,7 +74,7 @@ class SemanticEx extends Component {
     clickSimilarImage(e) {
         this.setState({ selectedsimimage: e.target.getAttribute("indexvalue") })
         // this.setState({ showmodelconfig: false })
-
+        this.setState({ showtopresults: true })
     }
 
     toggleSemanticModal(e) {
@@ -89,6 +91,10 @@ class SemanticEx extends Component {
     toggleDatasetModal(e) {
         this.setState({ showdatasetmodal: !(this.state.showdatasetmodal) })
         // console.log(this.state.showorientationmodal)
+    }
+
+    showTopResults(){
+        this.setState({ showtopresults: true })
     }
 
 
@@ -235,7 +241,7 @@ class SemanticEx extends Component {
                     primaryButtonText="Get Started"
                     // secondaryButtonText = "Do not show this again"
                     modalHeading="Semantic Search"
-                    modalLabel="How this demo works"
+                    modalLabel="ConvNet Playground"
                     onRequestSubmit={this.toggleSemanticModal.bind(this)} 
                     onRequestClose={this.toggleSemanticModal.bind(this)}
                 >
@@ -358,37 +364,40 @@ class SemanticEx extends Component {
 
                  
                 {/* top results */}
-                <div className="flex mt10">
-                    <div className="iblock  flex1 mr10">
-                        <img src={selectedImagePath} className="mainsimilarityimage rad4  iblock" alt="" />
-                        <div className=" mt10   datasetdescription  p10 lightbluehightlight"> 
-                            <div className="boldtext iblock mediumdesc mr5"> SELECTED IMAGE  </div>
-                            <div className="iblock smalldesc pt5 ">  [{this.state.selectedsimimage}/{this.state.datasetArray.length}]</div>
+                {this.state.showtopresults && 
+                <div>
+                    <div className="flex mt10">
+                        <div className="iblock  flex1 mr10">
+                            <img src={selectedImagePath} className="mainsimilarityimage rad4  iblock" alt="" />
+                            <div className=" mt10   datasetdescription  p10 lightbluehightlight"> 
+                                <div className="boldtext iblock mediumdesc mr5"> SELECTED IMAGE  </div>
+                                <div className="iblock smalldesc pt5 ">  [{this.state.selectedsimimage}/{this.state.datasetArray.length}]</div>
+                            </div>
+                        
+                        
+                            {/* <div> searchimi number {this.state.selectedsimimage}</div> */}
                         </div>
-                       
-                       
-                        {/* <div> searchimi number {this.state.selectedsimimage}</div> */}
-                    </div>
-                    <div className=" flexfull">
-                        <div className="flex mb10">
-                            <div className="flexfull"> <div className="mainsimilaritydesc lightbluehightlight p10"> <strong>Top {this.state.topx} results </strong>  with  <strong className="smalldesc">{this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()}</strong> similarity score. </div></div>
-                            <div className="">
-                                <div className="block p10 greyhighlight   ">
-                                    <div className="iblock mr5"> <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span></div>
-                                    <div className="iblock">
-                                        <div className="smalldesc">  {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()} </div>
+                        <div className=" flexfull">
+                            <div className="flex mb10">
+                                <div className="flexfull"> <div className="mainsimilaritydesc lightbluehightlight p10"> <strong>Top {this.state.topx} results </strong>  with  <strong className="smalldesc">{this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()}</strong> similarity score. </div></div>
+                                <div className="">
+                                    <div className="block p10 greyhighlight   ">
+                                        <div className="iblock mr5"> <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span></div>
+                                        <div className="iblock">
+                                            <div className="smalldesc">  {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()} </div>
+                                        </div>
                                     </div>
                                 </div>
+                                
                             </div>
                             
-                        </div>
-                        
-                        <div className="scrollwindow layerwindow ">{similarImagesList.slice(1, this.state.topx+1)}</div>
-                        <div className="pt5 mediumdesc lhmedium floatright mr10"> 
-                          Search results not awesome? <strong>Hint:</strong> Try a different model or layer. 
+                            <div className="scrollwindow layerwindow ">{similarImagesList.slice(1, this.state.topx+1)}</div>
+                            <div className="pt5 mediumdesc lhmedium floatright mr10"> 
+                            Search results not awesome? <strong>Hint:</strong> Try a different model or layer. 
+                            </div>
                         </div>
                     </div>
-                </div>
+                </div> }
 
                 
                 {/* daset div */}
