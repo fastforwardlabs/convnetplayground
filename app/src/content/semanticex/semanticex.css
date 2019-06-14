@@ -43,8 +43,11 @@
 }
 
 .mainsimilarityimage{
-    width: 13em;
+    width: 15em;
     border-bottom: 4px #0062FF solid;
+    height: 15em;
+    object-fit: cover;
+    
 }
 .mainsimilaritydesc{
     /* font-size: 1em;

@@ -31,7 +31,7 @@ class SemanticEx extends Component {
             showorientationmodal: false,
             showmodelconfig: false,
             showdatasetmodal: false,
-            topx: 10
+            topx: 15
         }
         // setTimeout(() => {
         this.updateSimilarity()
@@ -71,6 +71,7 @@ class SemanticEx extends Component {
 
     clickSimilarImage(e) {
         this.setState({ selectedsimimage: e.target.getAttribute("indexvalue") })
+        // this.setState({ showmodelconfig: false })
 
     }
 
@@ -289,6 +290,8 @@ class SemanticEx extends Component {
                     
                 </div>
 
+              
+                {/* config panel and content */}
                 <div onClick={this.toggleModelConfig.bind(this)} className="unselectable mt10 p10 clickable  flex modelconfigbutton">
                     <div className="iblock flexfull minwidth485"> <strong> {!this.state.showmodelconfig &&  <span>&#x25BC;  </span> } {this.state.showmodelconfig &&  <span>&#x25B2;  </span> } </strong> Search Configuration </div>
                     <div className="iblock   ">
@@ -299,7 +302,6 @@ class SemanticEx extends Component {
                     </div>
 
                 </div>
-
                 {(this.state.showmodelconfig) && <div className="flex modelconfigdiv p10">
                     <div className="flex2 mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Dataset </div>
@@ -347,30 +349,29 @@ class SemanticEx extends Component {
                         </div>
                         <div className=" iblock boldtext datasetdescription  p10 greyhighlight"> {this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()}</div>
                     </div>
+                    <div className="horrule mb10"></div>
 
                 </div>}
+               
+                
 
 
-                {/* <div className="mt20 mb10 ">
-                    <div className="sectiontitle iblock mr10"> Similarity search </div>
-                    <div className="iblock"> Select an image to view most similar based on model output.</div>
-                </div> */}
-                <div className="horrule mb10"></div>
-                <div className="flex">
+                 
+                {/* top results */}
+                <div className="flex mt10">
                     <div className="iblock  flex1 mr10">
                         <img src={selectedImagePath} className="mainsimilarityimage rad4  iblock" alt="" />
                         <div className=" mt10   datasetdescription  p10 lightbluehightlight"> 
-                            <div className="boldtext"> SELECTED IMAGE  </div>
-                            <div className="smalldesc pt5"> image [ {this.state.selectedsimimage} / {this.state.datasetArray.length} ]</div>
+                            <div className="boldtext iblock mediumdesc mr5"> SELECTED IMAGE  </div>
+                            <div className="iblock smalldesc pt5 ">  [{this.state.selectedsimimage}/{this.state.datasetArray.length}]</div>
                         </div>
-                        <div className="lh10 mt10 "> 
-                          Search results not good? Try a different model or layer. 
-                        </div>
+                       
+                       
                         {/* <div> searchimi number {this.state.selectedsimimage}</div> */}
                     </div>
                     <div className=" flexfull">
                         <div className="flex mb10">
-                            <div className="flexfull"> <div className="mainsimilaritydesc lightbluehightlight p10"> <strong>Top {this.state.topx} results </strong>  with similarity score. </div></div>
+                            <div className="flexfull"> <div className="mainsimilaritydesc lightbluehightlight p10"> <strong>Top {this.state.topx} results </strong>  with  <strong className="smalldesc">{this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()}</strong> similarity score. </div></div>
                             <div className="">
                                 <div className="block p10 greyhighlight   ">
                                     <div className="iblock mr5"> <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span></div>
@@ -382,16 +383,25 @@ class SemanticEx extends Component {
                             
                         </div>
                         
-                        <div className="scrollwindow layerwindow   mb10">{similarImagesList.slice(1, this.state.topx+1)}</div>
-
-                       <div>
-                            <div className="boldtext mb10 iblock mr10"> Dataset [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
-                            <div className="iblock">Click an image to search for the most similar images. </div>
-                       </div>
-                        <div className="horrule mb10"></div>
-                        <div className="scrollwindow  datasetdivbox"> {datasetimagesList} </div>
+                        <div className="scrollwindow layerwindow ">{similarImagesList.slice(1, this.state.topx+1)}</div>
+                        <div className="pt5 mediumdesc lhmedium floatright mr10"> 
+                          Search results not awesome? <strong>Hint:</strong> Try a different model or layer. 
+                        </div>
                     </div>
                 </div>
+
+                
+                {/* daset div */}
+
+                <div className="mt10">
+                    <div>
+                                <div className="boldtext mb10 iblock mr10"> Dataset [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
+                                <div className="iblock">Click an image to search for the most similar images. </div>
+                    </div>
+                    <div className="horrule mb10"></div>
+                    <div className="  scrollwindow  datasetdivbox"> {datasetimagesList} </div>
+                </div>
+
                 <br />
                 <br />
                 <br />

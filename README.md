@@ -49,3 +49,23 @@ In this section the user is introduced to a list of well known CNN models and ar
 Select Model
 
 We present implementations of a various model architectures using their standardized implementations provided in the Keras model zoo. These models are laid out in order of increasing complexity (number of layers). To explore the model in more detail, the user can select the "more info" button which provides an accessible table listing out each layer in the model.
+
+
+Business Use Case
+
+- Client organising image documents (receiipts)
+- Data curation steps
+- Initial training data collection
+
+Interface Considerations
+
+- Building for simplicity - selectively reveal complexity
+- Designing for stability. Given that the interface has a large number of moving parts, ie aspects that change based on seelctions, it was important to structure these content such that these changes result in minimal movement of elements. Only the most important elements should move/change and hence draw the user's attention. This was achieved by limiting the search ranking results to a fixed number, making the search result container have a maximum height after which a styled scrollbar is introduced (same for content of configuration panel)
+
+
+Structuring the Problem
+
+Caveats
+
+- The results we see are likely because our classes are in some way related to imagenet hence the ability to extract meaning represenations of similarity. For more fine grained similiarity, more advances, and problem specific methods should be used. For instance, see the use of triplet loss for facial image similarity measurement, the use of multimodal log data to train a model for information retrieval
+- Similarity score generation is compute intensive. For our prototype, a single image took about xxx seconds on a an ... It is recommended that this process is run as a parralellized batch job.

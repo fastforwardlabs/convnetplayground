@@ -21,6 +21,9 @@
     -ms-user-select: none;
     user-select: none;
 }
+.mediumdesc{
+    font-size: 0.9em;
+}
 
 .lightbluehightlight {
     padding: 10px;
@@ -45,6 +48,10 @@
 
 .lh10 {
     line-height: 1.25rem;
+}
+
+.lhmedium {
+    line-height: 1.0rem;
 }
 
 
