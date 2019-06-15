@@ -476,6 +476,7 @@ class SemanticEx extends Component {
                     <div className="mt10 mb10">
                           
                     </div>
+                    <div className=" mb10">{this.state.datasetsList[this.state.selecteddataset].description}  </div>
                     <div className="  scrollwindow  datasetdivbox"> { this.state.viewalldataset?  datasetimagesList: datasetClassImagesList} </div>
                 </div>
 

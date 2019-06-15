@@ -72,9 +72,9 @@ def generate_dataset(dataset_params):
 
 def get_supported_datasets():
     supported_datasets = [
-        {"name": "iconic200", "icon":"icon.jpg", "description": "A dataset of 200 images across 10 categories crawled from the Flickr API"},
-        {"name": "tinyimagenet", "icon":"imagenet.jpg", "description": "A subset of the tinyimagenet dataset with 200 images across 10 classes. Each image is 64px by 64px"},
-        {"name": "cifar10", "icon":"cifar.jpg", "description": "A subset of the CIFAR10 dataset, 200 images across 10 classes. Each image is 32px by 32px"},
+        {"name": "iconic200", "icon":"icon.jpg", "description": "A dataset of 200 images across 10 categories crawled from the Flickr API."},
+        {"name": "tinyimagenet", "icon":"imagenet.jpg", "description": "A subset of the tinyimagenet dataset with 200 images across 10 classes. Each image is 64px by 64px."},
+        {"name": "cifar10", "icon":"cifar.jpg", "description": "A subset of the CIFAR10 dataset, 200 images across 10 classes. Each image is 32px by 32px."},
         # {"name": "Iconic3k", "icon":"0.jpg"}
     ]
     return supported_datasets
