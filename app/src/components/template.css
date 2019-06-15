@@ -160,6 +160,9 @@
 .mt10 {
     margin-top: 10px;
 }
+.mt5 {
+    margin-top: 5px;
+}
 
 .mt20 {
     margin-top: 20px;
@@ -290,7 +293,7 @@
 }
 
 .sliderbox.topconfig.open { 
-    height: 20em;
+    height: 18em;
 }
 .sliderbox.closed { 
    height: 0em;

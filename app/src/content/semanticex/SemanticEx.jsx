@@ -33,6 +33,7 @@ class SemanticEx extends Component {
             showmodelconfig: false,
             showdatasetmodal: false,
             showtopresults: true,
+            viewalldataset: true,
             topx: 15
         }
         // setTimeout(() => {
@@ -90,8 +91,11 @@ class SemanticEx extends Component {
     }
 
     toggleDatasetModal(e) {
-        this.setState({ showdatasetmodal: !(this.state.showdatasetmodal) })
-        // console.log(this.state.showorientationmodal)
+        this.setState({ showdatasetmodal: !(this.state.showdatasetmodal) }) 
+    }
+
+    toggleViewAllImages(e) {
+        this.setState({ viewalldataset: !(this.state.viewalldataset) }) 
     }
 
     showTopResults(){
@@ -224,6 +228,25 @@ class SemanticEx extends Component {
             return (returnValue)
         });
 
+        let simArr =this.state.similarityArray[this.state.selectedsimimage].slice(1, this.state.topx + 1)
+        let allDictionary = this.datasetdictionary.dictionary[this.state.datasetsList[this.state.selecteddataset].name] 
+        let selectedCat = allDictionary[this.state.selectedsimimage] 
+        // console.log(simar.slice(1, this.state.topx + 1))
+        // console.log(this.state.selectedsimimage)
+        let simCount = 0
+        let modelScore = 0
+        let totalScore = 0
+        for  (var i in simArr){
+            console.log(i,simArr[i][0], allDictionary[simArr[i][0]])
+            if (selectedCat == allDictionary[simArr[i][0]]) {
+                simCount++
+                modelScore += (this.state.topx - i)/ this.state.topx
+            }
+            totalScore += (this.state.topx - i)/ this.state.topx
+        }
+        console.log(modelScore, totalScore)
+
+
         let datasetimagesList = this.state.datasetArray.map((alldata, index) => {
             let imagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + alldata[0] + ".jpg"
             // let similarityScore = (alldata[1] * 1).toFixed(3) 
@@ -282,6 +305,7 @@ class SemanticEx extends Component {
                     onRequestSubmit={this.toggleDatasetModal.bind(this)} 
                     onRequestClose={this.toggleDatasetModal.bind(this)}
                 >
+                    <div className=" ">{this.state.datasetsList[this.state.selecteddataset].description}  </div>
                      {datasetClassImagesList}
 
                 </Modal>}
@@ -319,12 +343,12 @@ class SemanticEx extends Component {
 
               
                 {/* config panel and content */}
-                <div onClick={this.toggleModelConfig.bind(this)} className="unselectable mt10 p10 clickable  flex modelconfigbutton">
+                <div onClick={this.toggleModelConfig.bind(this)} className="unselectable mt10 p10 clickable  flex greymoreinfo">
                     <div className="iblock flexfull minwidth485"> <strong> {!this.state.showmodelconfig &&  <span>&#x25BC;  </span> } {this.state.showmodelconfig &&  <span>&#x25B2;  </span> } </strong> Search Configuration </div>
                     <div className="iblock   ">
-                        <div className="iblock mr5"> <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span></div>
+                        <div className="iblock mr5"> <span className="boldtext"> {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()}</span></div>
                         <div className="iblock">
-                            <div className="smalldesc"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()} </div>
+                            <div className="smalldesc"> DATASET </div>
                         </div>
                     </div>
 
@@ -390,9 +414,9 @@ class SemanticEx extends Component {
                     <div className={"  flex sliderbox topconfig" + (this.state.showtopresults ? " open": " closed") }>
                         <div className="iblock  flex1 mr10">
                             <img src={selectedImagePath} className="mainsimilarityimage rad4  iblock" alt="" />
-                            <div className=" mt10   datasetdescription  p10 lightbluehightlight"> 
+                            <div className="mt5  datasetdescription   lightbluehightlight"> 
                                 <div className="boldtext iblock mediumdesc mr5"> SELECTED IMAGE  </div>
-                                <div className="iblock smalldesc pt5 ">  [{this.state.selectedsimimage}/{this.state.datasetArray.length}]</div>
+                                <div className="iblock smalldesc pt5 ">  [{this.state.selectedsimimage}/{this.state.datasetArray.length}] [{selectedCat.toUpperCase()}]</div>
                             </div>
                         
                         
@@ -413,16 +437,18 @@ class SemanticEx extends Component {
                             </div>
                             
                             <div className="scrollwindow layerwindow ">
+                                {similarImagesList.slice(1, this.state.topx+1)}
                                 <div className=" iblock mr10 rad3 "> 
-                                    <div className="pb5 smalldesc "> # correct classes </div>
+                                    <div className="pb5 smalldesc "> # weighted score </div>
                                     <div className="topscorediv">
                                        
-                                        <div className="mainscore  topmainscore"> 9 / {this.state.topx} </div>
-                                        <div className="weightedscore smalldesc textaligncenter"> for current model </div>
+                                        <div className="mainscore  topmainscore"> { ( (modelScore/totalScore) *100 ).toFixed(1)  + "%"} </div>
+                                        <div className="weightedscore smalldesc textaligncenter"> {simCount}/{this.state.topx} correct classes </div>
                                     </div>
                                     
                                 </div>
-                                {similarImagesList.slice(1, this.state.topx+1)}
+                               <br/>
+                               <br/>
                             </div>
                             
                         </div>
@@ -442,6 +468,8 @@ class SemanticEx extends Component {
 
                 <div className="mt10">
                     <div>
+                        <div onClick={this.toggleViewAllImages.bind(this)} className="p10 greyhighlight clickable unselectable greymoreinfo iblock mr10"> {this.state.viewalldataset ? " View by Category" : "View All"}   </div>
+                         
                                 <div className="boldtext mb10 iblock mr10"> Dataset [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
                                 <div className="iblock">Click an image to search for the most similar images. </div>
                     </div>
@@ -449,7 +477,7 @@ class SemanticEx extends Component {
                     <div className="mt10 mb10">
                           
                     </div>
-                    <div className="  scrollwindow  datasetdivbox"> {datasetimagesList} </div>
+                    <div className="  scrollwindow  datasetdivbox"> { this.state.viewalldataset?  datasetimagesList: datasetClassImagesList} </div>
                 </div>
 
                 <br />

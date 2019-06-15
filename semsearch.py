@@ -101,7 +101,7 @@ def visualize_similarity():
 
 # generate_embeddings(50)
 # generate_similarity_metrics()
-# generate_model_details()
+generate_model_details()
 # model , pre= m_utils.get_model("resnet50")
 # llist = m_utils.get_model_layer_names(model,"resnet50")
 # print(llist)

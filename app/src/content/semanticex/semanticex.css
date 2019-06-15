@@ -154,8 +154,14 @@ div.bx--modal-container{
     
 }
 
+.greymoreinfo{
+    background: rgba(209, 209, 209, 0.9);
+}
 .greymoreinfo:hover{
     background: rgb(187, 187, 187);
+}
+.greymoreinfo:active{
+    background: rgb(155, 155, 155);
 }
 
 .modelconfigdiv > .layerwindow{
