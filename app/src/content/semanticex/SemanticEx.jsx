@@ -57,12 +57,12 @@ class SemanticEx extends Component {
 
     clickDatasetImage(e) {
         this.setState({ selecteddataset: e.target.getAttribute("indexvalue") })
-        this.setState({ selectedmodel: 0 })
+        // this.setState({ selectedmodel: 0 })
     }
 
     clickModelImage(e) {
         this.setState({ selectedmodel: e.target.getAttribute("indexvalue") })
-        this.setState({ selectedlayer: 0 })
+        // this.setState({ selectedlayer: 0 })
     }
 
     clickLayerImage(e) {
@@ -257,16 +257,16 @@ class SemanticEx extends Component {
             return (returnValue)
         });
 
-        let datasetSimpleimagesList = this.state.datasetArray.map((alldata, index) => {
-            let imagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + alldata[0] + ".jpg"
-            // let similarityScore = (alldata[1] * 1).toFixed(3) 
-            let returnValue = (
-                <div key={alldata[0] + "winper"} className="iblock similarityfullbox mr5 mb5 positionrelative">
-                    <img key={alldata[0] + "image" + alldata[0]} src={imagePath} alt="" className={"simiimage  rad2 " + (this.state.selectedsimimage == alldata[0] ? "active" : "")} indexvalue={alldata[0]} />
-                </div>
-            )
-            return (returnValue)
-        });
+        // let datasetSimpleimagesList = this.state.datasetArray.map((alldata, index) => {
+        //     let imagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + alldata[0] + ".jpg"
+        //     // let similarityScore = (alldata[1] * 1).toFixed(3) 
+        //     let returnValue = (
+        //         <div key={alldata[0] + "winper"} className="iblock similarityfullbox mr5 mb5 positionrelative">
+        //             <img key={alldata[0] + "image" + alldata[0]} src={imagePath} alt="" className={"simiimage  rad2 " + (this.state.selectedsimimage == alldata[0] ? "active" : "")} indexvalue={alldata[0]} />
+        //         </div>
+        //     )
+        //     return (returnValue)
+        // });
 
  
 
@@ -470,7 +470,7 @@ class SemanticEx extends Component {
                         <div onClick={this.toggleViewAllImages.bind(this)} className="p10 greyhighlight clickable unselectable greymoreinfo iblock mr10"> {this.state.viewalldataset ? " View by Category" : "View All"}   </div>
                          
                                 <div className="boldtext mb10 iblock mr10"> Dataset [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
-                                <div className="iblock">Click an image to search for the most similar images. </div>
+                                <div className="iblock">Click an image to search for other similar images. </div>
                     </div>
                     <div className="horrule mb10"></div>
                     <div className="mt10 mb10">

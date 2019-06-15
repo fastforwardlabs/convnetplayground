@@ -67,8 +67,8 @@
     /* border: 1px solid black; */
 }
 .weightedscore{
-    padding: 5px 0px 4px 0px;
-    border-top: 1px solid black;
+    padding: 5px 0px 5px 0px;
+    border-top: 1px solid grey;
     /* height: 20px; */
 }
 
@@ -200,4 +200,8 @@ div.bx--modal-container{
 
 .datasetclasslist:hover .datasetclassbar{
     background: #0062FF;
+}
+
+.categorytitle{
+    background:  rgba(161, 161, 161, 0.3);
 }
