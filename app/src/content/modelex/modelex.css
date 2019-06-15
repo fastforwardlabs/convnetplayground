@@ -82,17 +82,14 @@
 }
 
 .twitterbutton{
-    background: rgb(105, 105, 105) ;
-    padding: 10px;
+    /* background: rgb(105, 105, 105) ; */
+    /* padding: 10px; */
     display: block;
-    color: white;
+    /* color: white; */
     text-decoration: none;
     font-weight: bold;
 }
-.twitterbutton:hover{
-
-    background: rgb(54, 54, 54);
-}
+ ß
 
 .neurondivbox{
     max-height: 22em;

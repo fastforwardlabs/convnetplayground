@@ -32,7 +32,7 @@ class SemanticEx extends Component {
             showorientationmodal: false,
             showmodelconfig: false,
             showdatasetmodal: false,
-            showtopresults: true,
+            showtopresults: false,
             viewalldataset: true,
             topx: 15
         }
@@ -236,15 +236,14 @@ class SemanticEx extends Component {
         let simCount = 0
         let modelScore = 0
         let totalScore = 0
-        for  (var i in simArr){
-            console.log(i,simArr[i][0], allDictionary[simArr[i][0]])
+        for  (var i in simArr){ 
             if (selectedCat == allDictionary[simArr[i][0]]) {
                 simCount++
                 modelScore += (this.state.topx - i)/ this.state.topx
             }
             totalScore += (this.state.topx - i)/ this.state.topx
         }
-        console.log(modelScore, totalScore)
+         
 
 
         let datasetimagesList = this.state.datasetArray.map((alldata, index) => {
@@ -260,7 +259,7 @@ class SemanticEx extends Component {
 
         let datasetSimpleimagesList = this.state.datasetArray.map((alldata, index) => {
             let imagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + alldata[0] + ".jpg"
-            let similarityScore = (alldata[1] * 1).toFixed(3) 
+            // let similarityScore = (alldata[1] * 1).toFixed(3) 
             let returnValue = (
                 <div key={alldata[0] + "winper"} className="iblock similarityfullbox mr5 mb5 positionrelative">
                     <img key={alldata[0] + "image" + alldata[0]} src={imagePath} alt="" className={"simiimage  rad2 " + (this.state.selectedsimimage == alldata[0] ? "active" : "")} indexvalue={alldata[0]} />
@@ -416,7 +415,7 @@ class SemanticEx extends Component {
                             <img src={selectedImagePath} className="mainsimilarityimage rad4  iblock" alt="" />
                             <div className="mt5  datasetdescription   lightbluehightlight"> 
                                 <div className="boldtext iblock mediumdesc mr5"> SELECTED IMAGE  </div>
-                                <div className="iblock smalldesc pt5 ">  [{this.state.selectedsimimage}/{this.state.datasetArray.length}] [{selectedCat.toUpperCase()}]</div>
+                                <div className="iblock smalldesc pt5 ">  CLASS: [{selectedCat.toUpperCase()}]</div>
                             </div>
                         
                         
@@ -439,11 +438,11 @@ class SemanticEx extends Component {
                             <div className="scrollwindow layerwindow ">
                                 {similarImagesList.slice(1, this.state.topx+1)}
                                 <div className=" iblock mr10 rad3 "> 
-                                    <div className="pb5 smalldesc "> # weighted score </div>
+                                    <div className="pb5 smalldesc "> weighted score </div>
                                     <div className="topscorediv">
                                        
                                         <div className="mainscore  topmainscore"> { ( (modelScore/totalScore) *100 ).toFixed(1)  + "%"} </div>
-                                        <div className="weightedscore smalldesc textaligncenter"> {simCount}/{this.state.topx} correct classes </div>
+                                        <div className="weightedscore smalldesc textaligncenter"> {simCount} / {this.state.topx} correct classes </div>
                                     </div>
                                     
                                 </div>
