@@ -112,12 +112,42 @@ def process_dataset(dataset_path):
 def process_dataset_labels():
     dataset_path = "app/public/assets/semsearch/datasets"
     dataset_names = os.listdir(dataset_path)
+    main_holder = {}
+    all_holder = {}
+    all_main_dict_holder = {}
+    dict_list_holder = {}
     for dataset_name in dataset_names:
         if (dataset_name != ".DS_Store"):
             print(dataset_name)
             class_detail_holder = {}
+            class_main_dict = {}
             class_details = f_utils.load_json_file(os.path.join(dataset_path, dataset_name, "classes.json"))
-            print(class_details)
+           
             for detail in class_details:
-                field, value = detail.items()[0]
-                print(field)
+               
+                class_name = list(detail.items())[0][1]
+                class_member = list(detail.items())[0][0]
+                class_main_dict[class_member] = class_name
+                # print(class_name)
+                if class_name not in class_detail_holder:
+                    class_detail_holder[class_name] = [class_member]
+                else:
+                    temp = class_detail_holder[class_name]
+                    temp.append(class_member)
+                    class_detail_holder[class_name]  = temp
+
+            # print(class_main_dict)
+            all_holder[dataset_name] = class_detail_holder
+            all_main_dict_holder[dataset_name] = class_main_dict
+            class_list= list(class_detail_holder.keys())
+            class_list.sort()
+            dict_list_holder[dataset_name] = class_list
+    print(dict_list_holder)
+    out_path = "app/src/assets/semsearch/"
+    main_holder["classes"] = all_holder
+    main_holder["dictionary"] = all_main_dict_holder
+    main_holder["classlist"] = dict_list_holder
+
+
+    f_utils.save_json_file(os.path.join(out_path, "datasetdictionary.json"), main_holder) 
+    tf.logging.info(" >> Fininshed generating class dictionaries")

@@ -8,8 +8,9 @@ import { abbreviateString, loadJSONData, makeFriendly, boundWidth } from "../../
 class SemanticEx extends Component {
     constructor(props) {
         super(props);
-        const modelDetails = require('../../assets/semsearch/details.json');
-        // console.log (similarityArray)
+        const modelDetails = require('../../assets/semsearch/details.json'); 
+        this.datasetdictionary = require('../../assets/semsearch/datasetdictionary.json');
+        
         // const initialSimilarityPath = "../../assets/semsearch/similarity/" + modelDetails["datasets"][0].name + "/" + modelDetails["models"][0].name + "/" + modelDetails["metrics"][0] + "/" + modelDetails["models"][0].layers[0] + ".json"
         const similarityArray = require('../../assets/semsearch/similarity/cifar100/vgg16/cosine/block1_conv1.json');
         // require('../../assets/semsearch/similarity/cifar100/vgg16/cosine/block5_pool.json');
@@ -184,7 +185,26 @@ class SemanticEx extends Component {
         });
 
         // console.log(this.state.similarityArray[this.state.selectedsimimage]) 
+        let datasetClasses = this.datasetdictionary["classlist"][this.state.datasetsList[this.state.selecteddataset].name]
 
+        let datasetClassImagesList = datasetClasses.map((className, index) => {
+            let classcon = this.datasetdictionary["classes"][this.state.datasetsList[this.state.selecteddataset].name]
+            let clist = classcon[className].map((classval, index) => {
+                let imagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + classval + ".jpg"
+            
+                return (
+                    <div key={classval + "winper"} className="iblock similarityfullbox mr5 mb5 positionrelative">
+                        <img key={classval + "image"  } onClick={this.clickSimilarImage.bind(this)} src={imagePath} alt="" className={"simiimage clickable rad2 " + (this.state.selectedsimimage == classval ? "active" : "")} indexvalue={classval} />
+                    </div>
+                )
+            });
+            return (
+                <div key={className + "fullbox" + index} className=" mb10 mr10 ">
+                    <div className="pb5 mr20 boldtext "> {className.toUpperCase()} </div> 
+                    <div>{clist}</div>
+                </div>
+            )
+        });
 
         let similarImagesList = this.state.similarityArray[this.state.selectedsimimage].map((alldata, index) => {
             let imagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + alldata[0] + ".jpg"
@@ -232,6 +252,7 @@ class SemanticEx extends Component {
         // process.env.PUBLIC_URL + "/assets/semsearch/datasets/cifar100/train/" + this.state.selectedsimimage + ".jpg"
         return (
             <div>
+               
 
                 {(this.state.showorientationmodal) && <Modal className="orientationmodal"
                     open={true}
@@ -256,12 +277,12 @@ class SemanticEx extends Component {
                     passiveModal={true}
                     primaryButtonText="Get Started"
                     // secondaryButtonText = "Do not show this again"
-                    modalHeading={this.state.datasetsList[this.state.selecteddataset].name}
+                    modalHeading={this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()}
                     modalLabel="Dataset details"
                     onRequestSubmit={this.toggleDatasetModal.bind(this)} 
                     onRequestClose={this.toggleDatasetModal.bind(this)}
                 >
-                   {datasetSimpleimagesList}
+                     {datasetClassImagesList}
 
                 </Modal>}
 
@@ -415,6 +436,7 @@ class SemanticEx extends Component {
                 }
                 
 
+               
                 
                 {/* daset div */}
 
@@ -424,6 +446,9 @@ class SemanticEx extends Component {
                                 <div className="iblock">Click an image to search for the most similar images. </div>
                     </div>
                     <div className="horrule mb10"></div>
+                    <div className="mt10 mb10">
+                          
+                    </div>
                     <div className="  scrollwindow  datasetdivbox"> {datasetimagesList} </div>
                 </div>
 
