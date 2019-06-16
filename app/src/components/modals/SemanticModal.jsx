@@ -18,6 +18,11 @@ class SemanticModalContent extends Component {
                 What similarity distance metrics work best? This demo helps you investigate these questions!
                 <br/> 
 
+                The weighted score provides insights on performance of each search configuration by showing how many simialar
+                images from the same known category were returned. 
+                The score is weighted by the position of retrieval i.e correct results that are ranked top of the 
+                similarity list get more points compared to correct results ranked at the end.
+
                 <div className="boldtext mt10"> Datasets </div>
                 
                 <strong> [Iconic200] </strong> This is a dataset of real world images collected from Flickr (creative commons).

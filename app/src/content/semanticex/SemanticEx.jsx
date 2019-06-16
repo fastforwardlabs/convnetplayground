@@ -334,7 +334,7 @@ class SemanticEx extends Component {
                     To <strong> perform a search</strong>, <strong>click</strong>  on any image to select it and the  <strong> top {this.state.topx} </strong> 
                     most similar images (from our dataset) will be displayed. The
                     <strong> Search Configuration </strong> interactive panel lets you observe how different models, layers and distance metrics affect search results for different datasets.
-                   
+                    
                     <br/>
                     <strong> Hint:</strong>  Early layers work well for simple feature matching (colors, lines), later layers work well for complex concepts (faces, cars etc).
                     
@@ -415,7 +415,7 @@ class SemanticEx extends Component {
                             <img src={selectedImagePath} className="mainsimilarityimage rad4  iblock" alt="" />
                             <div className="mt5  datasetdescription   lightbluehightlight"> 
                                 <div className="boldtext iblock mediumdesc mr5"> SELECTED IMAGE  </div>
-                                <div className="iblock smalldesc pt5 ">  CLASS: [{selectedCat.toUpperCase()}]</div>
+                                <div className="iblock smalldesc pt5 ">  CLASS: <strong> {selectedCat.toUpperCase()} </strong></div>
                             </div>
                         
                         
@@ -436,7 +436,7 @@ class SemanticEx extends Component {
                             </div>
                             
                             <div className="scrollwindow layerwindow ">
-                                {similarImagesList.slice(1, this.state.topx+1)}
+                                
                                 <div className=" iblock mr10 rad3 "> 
                                     <div className="pb5 smalldesc "> weighted score </div>
                                     <div className="topscorediv">
@@ -446,6 +446,7 @@ class SemanticEx extends Component {
                                     </div>
                                     
                                 </div>
+                                {similarImagesList.slice(1, this.state.topx+1)}
                                <br/>
                                <br/>
                             </div>
