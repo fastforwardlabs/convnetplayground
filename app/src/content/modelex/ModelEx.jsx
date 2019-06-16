@@ -57,17 +57,24 @@ class ModelEx extends Component {
 
         this.keyFunction = this.keyFunction.bind(this);
     }
-
+    getNextVal(newVal, maxVal){
+        if (newVal >= 0 ){
+            return newVal % maxVal
+        }else{ 
+            return (maxVal - Math.abs(newVal))
+        }
+        
+    }
     cycleLayerModel(val){
         if (this.lastclicked == "model"){
-            let newState = Math.max((this.state.selectedmodel*1 + val) % this.state.modelsList.length, 0) 
-            // console.log(newState, this.state.modelsList.length, this.state.selectedmodel, val)
+            let newState = this.getNextVal((this.state.selectedmodel*1 + val), this.state.modelsList.length ) ;// Math.max((this.state.selectedmodel*1 + val) % this.state.modelsList.length, 0) 
+            console.log(newState)
             if (!(isNaN(newState))) {
                 this.setState({selectedmodel: newState})
             }
   
         }else if (this.lastclicked == "layer"){
-            let newState = Math.max((this.state.selectedlayer*1 + val) % this.state.modelsList[this.state.selectedmodel].layers.length, 0) 
+            let newState = this.getNextVal((this.state.selectedlayer*1 + val), this.state.modelsList[this.state.selectedmodel].layers.length) 
             // console.log(newState, this.state.modelsList.length, this.state.selectedmodel, val)
             if (!(isNaN(newState))) {
                 this.setState({selectedlayer: newState})
@@ -76,7 +83,7 @@ class ModelEx extends Component {
         }else if (this.lastclicked == "neuron"){
             
             let numNeurons = (this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name].length)
-            let newState = Math.max((this.state.selectedneuron*1 + val) % numNeurons, 0) 
+            let newState = this.getNextVal((this.state.selectedneuron*1 + val), numNeurons) 
             // console.log(this.state.selectedneuron,newState,  val, numNeurons)
             if (!(isNaN(newState))) {
                 this.setState({selectedneuron: newState})
