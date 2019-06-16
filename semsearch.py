@@ -89,6 +89,11 @@ def visualize_similarity():
     dataset_output_path = os.path.join(base_path,"datasets/cifar10")
     v_utils.plot_similar(selected_image,dataset_output_path, similarity_data[selected_image], max_display)
 
+def generate_model_viz_details():
+   
+    model_params = {"model_dir": base_path_public_models, "output_path": os.path.join(base_path_src_models, "models.json")}
+    m_utils.get_model_viz_details(model_params)
+
 
 # start_time = datetime.now()
 # supported_datasets = d_utils.get_supported_datasets()
@@ -102,17 +107,13 @@ def visualize_similarity():
 # generate_embeddings(50)
 # generate_similarity_metrics()
 generate_model_details()
+generate_model_viz_details()
 # model , pre= m_utils.get_model("resnet50")
 # llist = m_utils.get_model_layer_names(model,"resnet50")
 # print(llist)
 
 # visualize_similarity()
 
-
-def generate_model_viz_details():
-   
-    model_params = {"model_dir": base_path_public_models, "output_path": os.path.join(base_path_src_models, "models.json")}
-    m_utils.get_model_viz_details(model_params)
 
 
 # generate_model_viz_details()
@@ -121,4 +122,4 @@ def generate_model_viz_details():
 
 # d_utils.process_dataset(os.path.join(base_path_public, "datasets/iconic200"))
 
-d_utils.process_dataset_labels()
+# d_utils.process_dataset_labels()

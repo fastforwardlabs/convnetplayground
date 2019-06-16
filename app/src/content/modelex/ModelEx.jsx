@@ -155,11 +155,11 @@ class ModelEx extends Component {
     twitterShare(e){
         e.preventDefault();
 
-        let neuron = this.state.neuronList[this.state.selectedneuron]
+        let neuron = this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron] ;
         let modelname = this.state.modelsList[this.state.selectedmodel].name
         let layer = this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name
         let fflurl = "https://fastforwardlabs.github.io/convnetplayground/#/models?model=" + modelname + "&layer=" + layer + "&neuron=" + neuron
-        let url = "https://twitter.com/intent/tweet?url=" + encodeURIComponent(fflurl) +"&via=" + "ffl" + "&text=" + encodeURIComponent("A visualization of neuron " + neuron + " in the " + layer + " layer  of a " + modelname + " model. Interested in visualizations of layers in a CNN or how they can be used to implement image search? Visit the #convnetplayground prototype.") ;
+        let url = "https://twitter.com/intent/tweet?url=" + encodeURIComponent(fflurl) +"&via=" + "ffl" + "&text=" + encodeURIComponent("A visualization of neuron " + neuron + " in the " + layer + " layer  of a " + modelname + " model. Interested in visualizations of layers in a CNN or an implementation of image search? Visit the #convnetplayground prototype.") ;
          
         window.open(url, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600')
     }

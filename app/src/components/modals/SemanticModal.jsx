@@ -18,8 +18,8 @@ class SemanticModalContent extends Component {
                 What similarity distance metrics work best? This demo helps you investigate these questions!
                 <br/> 
 
-                The weighted score provides insights on performance of each search configuration by showing how many simialar
-                images from the same known category were returned. 
+                The weighted score is a provides insights on the performance of each search configuration 
+                based on the percentage of search results that belong to the same conceptual category as the searched item. 
                 The score is weighted by the position of retrieval i.e correct results that are ranked top of the 
                 similarity list get more points compared to correct results ranked at the end.
 
