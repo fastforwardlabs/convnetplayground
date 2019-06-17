@@ -203,5 +203,12 @@ div.bx--modal-container{
 }
 
 .categorytitle{
-    background:  rgba(161, 161, 161, 0.3);
+    position: absolute; 
+    z-index: 100000; 
+    top: 0px;
+    left: 0px;
+    background:  rgba(252, 251, 251, 0.8);
+}
+.sliderbox.topconfig.open { 
+    height: 19em;
 }

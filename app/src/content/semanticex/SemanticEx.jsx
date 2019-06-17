@@ -33,7 +33,7 @@ class SemanticEx extends Component {
             showmodelconfig: false,
             showdatasetmodal: false,
             showtopresults: false,
-            viewalldataset: true,
+            viewalldataset: false,
             topx: 15
         }
         // setTimeout(() => {
@@ -203,8 +203,8 @@ class SemanticEx extends Component {
                 )
             });
             return (
-                <div key={className + "fullbox" + index} className=" mb10 mr10 ">
-                    <div className="pb5 mr20 boldtext "> {className.toUpperCase()} </div> 
+                <div key={className + "fullbox" + index} className="positionrelative  mr10 ">
+                    <div className="p10 unselectable unclickable mr20 boldtext categorytitle "> {className.toUpperCase()} </div> 
                     <div>{clist}</div>
                 </div>
             )
@@ -304,7 +304,7 @@ class SemanticEx extends Component {
                     onRequestSubmit={this.toggleDatasetModal.bind(this)} 
                     onRequestClose={this.toggleDatasetModal.bind(this)}
                 >
-                    <div className=" ">{this.state.datasetsList[this.state.selecteddataset].description}  </div>
+                    <div className=" mb10">{this.state.datasetsList[this.state.selecteddataset].description}  </div>
                      {datasetClassImagesList}
 
                 </Modal>}
@@ -415,7 +415,7 @@ class SemanticEx extends Component {
                             <img src={selectedImagePath} className="mainsimilarityimage rad4  iblock" alt="" />
                             <div className="mt5  datasetdescription   lightbluehightlight"> 
                                 <div className="boldtext iblock mediumdesc mr5"> SELECTED IMAGE  </div>
-                                <div className="iblock smalldesc pt5 ">  CLASS: <strong> {selectedCat.toUpperCase()} </strong></div>
+                                <div className=" smalldesc pt5 ">  CLASS: <strong> {selectedCat.toUpperCase()} </strong></div>
                             </div>
                         
                         
@@ -468,16 +468,16 @@ class SemanticEx extends Component {
 
                 <div className="mt10">
                     <div>
-                        <div onClick={this.toggleViewAllImages.bind(this)} className="p10 greyhighlight clickable unselectable greymoreinfo iblock mr10"> {this.state.viewalldataset ? " View by Category" : "View All"}   </div>
+                        <div onClick={this.toggleViewAllImages.bind(this)} className="p10 greyhighlight clickable unselectable greymoreinfo iblock mr10"> {this.state.viewalldataset ? " View Images by Category" : "View All Images in Dataset"}   </div>
                          
                                 <div className="boldtext mb10 iblock mr10"> Dataset [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
-                                <div className="iblock">Click an image to search for other similar images. </div>
+                                <div className="iblock">  {this.state.datasetsList[this.state.selecteddataset].description}   </div>
                     </div>
                     <div className="horrule mb10"></div>
                     <div className="mt10 mb10">
                           
                     </div>
-                    <div className=" mb10">{this.state.datasetsList[this.state.selecteddataset].description}  </div>
+                    <div className=" mb10"> Click an image to search for other similar images. </div>
                     <div className="  scrollwindow  datasetdivbox"> { this.state.viewalldataset?  datasetimagesList: datasetClassImagesList} </div>
                 </div>
 

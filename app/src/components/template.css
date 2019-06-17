@@ -219,6 +219,10 @@
     cursor: pointer;
 }
 
+.unclickable{
+    pointer-events: none;
+}
+
 .flex {
     display: flex;
 }
@@ -292,9 +296,7 @@
     -o-transition: height 0.4s ease-in;
 }
 
-.sliderbox.topconfig.open { 
-    height: 18em;
-}
+
 .sliderbox.closed { 
    height: 0em;
 }
