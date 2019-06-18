@@ -33,7 +33,7 @@ class SemanticEx extends Component {
             showmodelconfig: false,
             showdatasetmodal: false,
             showtopresults: false,
-            viewalldataset: true,
+            viewdatasetby: "all",
             topx: 10
         }
         // setTimeout(() => {
@@ -94,8 +94,8 @@ class SemanticEx extends Component {
         this.setState({ showdatasetmodal: !(this.state.showdatasetmodal) }) 
     }
 
-    toggleViewAllImages(e) {
-        this.setState({ viewalldataset: !(this.state.viewalldataset) }) 
+    toggleViewDatasetBy(e) {
+        this.setState({ viewdatasetby: e.target.getAttribute("viewby") }) 
     }
 
     showTopResults(){
@@ -415,7 +415,7 @@ class SemanticEx extends Component {
                             <img src={selectedImagePath} className="mainsimilarityimage rad4  iblock" alt="" />
                             <div className="mt5  datasetdescription   lightbluehightlight"> 
                                 <div className="boldtext iblock mediumdesc mr5"> SELECTED IMAGE  </div>
-                                <div className=" smalldesc pt5 ">  CLASS: <strong> {selectedCat.toUpperCase()} </strong></div>
+                                <div className=" smalldesc pt5 ">  CATEGORY: <strong> {selectedCat.toUpperCase()} </strong></div>
                             </div>
                         
                         
@@ -442,7 +442,7 @@ class SemanticEx extends Component {
                                     <div className="topscorediv">
                                        
                                         <div className="mainscore  topmainscore"> { ( (modelScore/totalScore) *100 ).toFixed(1)  + "%"} </div>
-                                        <div className="weightedscore smalldesc textaligncenter"> {simCount} / {this.state.topx} correct classes </div>
+                                        <div className="weightedscore smalldesc textaligncenter"> {simCount} / {this.state.topx} results <br/> in same category </div>
                                     </div>
                                     
                                 </div>
@@ -468,17 +468,24 @@ class SemanticEx extends Component {
 
                 <div className="mt10">
                     <div>
-                        <div onClick={this.toggleViewAllImages.bind(this)} className="p10 greyhighlight clickable unselectable greymoreinfo iblock mr10"> {this.state.viewalldataset ? " View Images by Category" : "View All Images in Dataset"}   </div>
+                        {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greyhighlight clickable unselectable greymoreinfo iblock mr10"}> {this.state.viewalldataset ? " View Images by Category" : "View All Images in Dataset"}   </div> */}
+                        <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr5 " + (this.state.viewdatasetby == "all" ?  "active" : "" ) } viewby="all">  All </div>
+                        <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr5 " + (this.state.viewdatasetby == "category" ?  "active" : "" ) } viewby="category">  By  Category </div>
+                        <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (this.state.viewdatasetby == "graph" ?  "active" : "" ) } viewby="graph">  Graph </div>
                          
-                                <div className="boldtext mb10 iblock mr10"> Dataset [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
+                                <div className="boldtext mb10 iblock  mr10"> Dataset [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
                                 <div className="iblock">  {this.state.datasetsList[this.state.selecteddataset].description}   </div>
                     </div>
-                    <div className="horrule mb10"></div>
-                    <div className="mt10 mb10">
+                    {/* <div className="horrule mb10"></div> */}
+                    {/* <div className="mt10 mb10">
                           
+                    </div> */}
+                    <div className="lightbluehightlight mb10 mt10"> Click an image to search for other similar images. </div>
+                    <div className="  scrollwindow  datasetdivbox"> 
+                         {this.state.viewdatasetby ==  "all" && datasetimagesList}
+                         {this.state.viewdatasetby ==  "category" && datasetClassImagesList}
+                        {/* { this.state.viewalldataset?  datasetimagesList: datasetClassImagesList}  */}
                     </div>
-                    <div className=" mb10"> Click an image to search for other similar images. </div>
-                    <div className="  scrollwindow  datasetdivbox"> { this.state.viewalldataset?  datasetimagesList: datasetClassImagesList} </div>
                 </div>
 
                 <br />

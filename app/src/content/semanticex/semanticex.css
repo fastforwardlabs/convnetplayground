@@ -58,7 +58,9 @@
 .topmainscore{
     font-size: 2.5em;
     font-weight: bold;
-    padding: 10px 10px 10px 10px;
+    width: 4em;
+    text-align: center;
+    padding: 5px 12px 5px 12px;
     /* border: 1px solid black; */
 }
 .topscorediv{
@@ -162,6 +164,16 @@ div.bx--modal-container{
 }
 .greymoreinfo:active{
     background: rgb(155, 155, 155);
+}
+
+.greytab.active{
+    /* background: rgb(155, 155, 155); */
+    /* color:white; */
+    border-bottom: 4px solid #0062FF;;
+}
+
+.greytab{
+    border-bottom: 4px solid #CDCDCD;;
 }
 
 .modelconfigdiv > .layerwindow{
