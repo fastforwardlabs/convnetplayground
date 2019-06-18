@@ -8,35 +8,53 @@ https://github.com/fastforwardlabs/semsearch
 
 ## Prototype
 
-ConvNet Playground, the prototype created for this report allows user's explore representations learned by a  CNN model and has two main parts. The first part - Semantic Search demonstrates an example of using layers from pretrained CNN models to extract features which are then used to implement similarity search. The intuition here is that various layers in a CNN have learned important concepts which allows them extract meaningful representations that capture the similarity  between various images. The second part of the prototype - Model Explorer provides tools that allows the user inspect features learned by layers in a CNN and in so doing build better intuition on how CNNs work.
+ConvNet Playground, the prototype created for this report, allows users to explore representations learned by a CNN model and has two main parts. The first part - Semantic Search demonstrates an example of using layers from pretrained CNN models to extract features which are then used to implement similarity search. The intuition here is that various layers in a CNN have learned important concepts which allows them extract meaningful representations that capture the similarity  between  images. The second part of the prototype - Model Explorer is a visualization tool that allows the user inspect features learned by layers in a CNN and in so doing build better intuition on how CNNs work.
 
 ## Semantic Similarity Search
 
-[<img src="docs/featextraction.jpg" width="100%">]
-To implement similarity search 
+<img src="docs/featextraction.jpg" width="100%">
+
+Semantic similarity search is performed as a three step process. First, a pretrained CNN model is used to extract features (represented as vectors) from each image in the dataset. Next, a distance metric is used to compute the distance between each image and all other images in the dataset. Finally, to perform a search, we retrieve the precomputed distance values between the searched image and all other images sorted in the order of _closest_ to _farthest_.
+
+In practice, there are many choices to be made while implementing a similarity search tool based on convolutional neural networks. An appropriate model architecture needs to be selected, appropriate layers from the model and an appropriate distance metric. The prototype allows the user explore results from these configurations across several datasets.
 
 
 ### Datasets
+#### Iconic200: 
+This is a dataset of real world images collected from Flickr (creative commons).
+It contains images spanning 10 keyword searches (arch, banana, volkswagen beetle, eiffel tower, empire state building, ferrari, pickup truck, sedan, stonehenge, tractor).
+These images are chosen deliberately with conceptual overlaps (several car brands, similar colors across classes) to highlight 
+how various models perform in correctly representing similarity.
+ 
 
-Several datasets are used to demonstrate the process of semantic similarity search. 
+#### TinyImagenet200
+This dataset contains 64px * 64px images and is a subset (200) of the
+    <a href="https://tiny-imagenet.herokuapp.com/" target="_blank" rel="noopener noreferrer" > Tiny Imagenet Visual Recognition Challenge dataset.</a> 
+It consists of images from 10 categories (arch, bottle, bridge, bus, face, frog, goldfish, sandals, teapot, tractor).
+ 
+####  Cifar10
+This is a subset (200 images) of the popular 
+<a href="https://www.cs.toronto.edu/~kriz/cifar.html" target="_black"> cifar10 </a>  dataset 
+containing 20 images from 10 randomly selected classes. Each image is 32px by 32px in dimension.
 
-#### TinyImagenet200. 
-This dataset is a subset of the TinyImagenet dataset containing 200 images across 10 classes (20 images per class). The classess include "goldfish", "teapots", "faces", "shoes", "frogs" . These images are relatively small 64px * 64px, contain varying backgrounds and orientations within each class. They present a challenging test bed to evaluate the value of features extracted using a pretrained neural net.
+### Models and Layers
+We provide results from 7 models (vgg16, vgg19, mobilenet, xception, resnet50, inceptionv3, densenet121) and a selection of 8 layers from each model. In selecting layers, emphasis is placed on layers that perform convolutional operations and have trainable parameters. The models are presented in order of increasing complexity (number of layers) and show marked differences in their ability to generate features that correctly identify similar images. For ease of implementation, we use implementations of pretrained models from the Keras applications package https://github.com/keras-team/keras-applications.
 
-### Iconic200
-This dataset is manually curated for this project focuses on high resolution images that are likely to be observed in the real world. Classes are deliberately chosen to span images with similar concepts (various brands of cars). These images were sources from the flickr api (images with creative commons licenses).
+### Distance Metric 
+We provide results that from the use of 4 different distance metrics in measuring the similarity between features extracted from all images in each dataset. These include cosine, euclidean, squared euclidean and minkowsi distances.   
 
-### Extracting Images with Pretrained Neural Networks
-We use the Keras library modelzoo which contains keras implementations of several well known convolutional neural networks for image analysis. We load a pretrained version of these implementations with weights learned from training on imagenet.
+## Model Explorer
 
-### Similarity Score Rating
-
-For each of the extracted feature we compute a similarity score using multiple similarity distance metrics.
+The second part of the part of the prototype is a visualization interface for exploring the features or representations learned by  each layer in a pretrained CNN. We support 9 models ((vgg16, vgg19, mobilenet, mobilenetv2 xception, resnet50, inceptionv3, densenet121, nasnetmobile). Using feature based optimization methods, we generate images that maximally  excite various channels (groups of neurons) in the layers of a model.  For each model, we select a subset of layers and for each layer we select a subset of channels. Only layers with trainable parameters and activations are visualized (a requirement for optimization based feature visualization); 30 channels are sampled at random from each layer.
 
 
 ## Prototype Interface Design
 
 The prototype interface is designed as a learning experience where the user is introduced to several concepts related to how CNNs work.
+
+ Building for simplicity - selectively reveal complexity
+- Designing for stability. Given that the interface has a large number of moving parts, ie aspects that change based on seelctions, it was important to structure these content such that these changes result in minimal movement of elements. Only the most important elements should move/change and hence draw the user's attention. This was achieved by limiting the search ranking results to a fixed number, making the search result container have a maximum height after which a styled scrollbar is introduced (same for content of configuration panel)
+
 
 ### Semantic Search
 
@@ -48,15 +66,11 @@ As these configurations are selected the user is presented with a similarity sea
 The similarity metric is conveyed as a percentage bar below each image.
 
 
-### Model Explorer
-In this section the user is introduced to a list of well known CNN models and are able to explore visualizations of the layers and neurons within each model.
+ 
 
-Select Model
+## Business Use Case
 
-We present implementations of a various model architectures using their standardized implementations provided in the Keras model zoo. These models are laid out in order of increasing complexity (number of layers). To explore the model in more detail, the user can select the "more info" button which provides an accessible table listing out each layer in the model.
-
-
-Business Use Case
+In practice, there are numerous use cases for which it is beneficial to automatically extract meaningful representations of an image and leverage that for downstream tasks surch as sorting, searching, curating etc.
 
 - Client organising image documents (receiipts)
 - Data curation steps
@@ -65,9 +79,7 @@ Business Use Case
 
 Interface Considerations
 
-- Building for simplicity - selectively reveal complexity
-- Designing for stability. Given that the interface has a large number of moving parts, ie aspects that change based on seelctions, it was important to structure these content such that these changes result in minimal movement of elements. Only the most important elements should move/change and hence draw the user's attention. This was achieved by limiting the search ranking results to a fixed number, making the search result container have a maximum height after which a styled scrollbar is introduced (same for content of configuration panel)
-
+-
 
 Structuring the Problem
 
