@@ -33,8 +33,8 @@ class SemanticEx extends Component {
             showmodelconfig: false,
             showdatasetmodal: false,
             showtopresults: false,
-            viewalldataset: false,
-            topx: 15
+            viewalldataset: true,
+            topx: 10
         }
         // setTimeout(() => {
         this.updateSimilarity()

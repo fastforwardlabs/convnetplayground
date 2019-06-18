@@ -6,9 +6,14 @@
 [<img src="docs/screen.jpg" width="100%">](https://fastforwardlabs.github.io/semsearch/)
 https://github.com/fastforwardlabs/semsearch
 
-## How it works
+## Prototype
+
+ConvNet Playground, the prototype created for this report allows user's explore representations learned by a  CNN model and has two main parts. The first part - Semantic Search demonstrates an example of using layers from pretrained CNN models to extract features which are then used to implement similarity search. The intuition here is that various layers in a CNN have learned important concepts which allows them extract meaningful representations that capture the similarity  between various images. The second part of the prototype - Model Explorer provides tools that allows the user inspect features learned by layers in a CNN and in so doing build better intuition on how CNNs work.
 
 ## Semantic Similarity Search
+
+[<img src="docs/featextraction.jpg" width="100%">]
+To implement similarity search 
 
 
 ### Datasets
