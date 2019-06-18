@@ -119,17 +119,14 @@ def generate_similarity_scores(similarity_params,extracted_features):
     save_similarity_scores(similarity_params["output_path"],  similarity_params["layer_name"], sim_holder) 
 
 
-# def generate_similarity_scores(similarity_params,extracted_features):
-#     similarity_holder = {}
-#     for i in range(len(extracted_features)):
-#         distance_matrix = compute_distance_matrix(extracted_features[i], extracted_features, similarity_params["similarity_metric"])
-#         similarity_score_indexes = distance_matrix.flatten().argsort()[::-1]
-#         similarity_scores = distance_matrix[similarity_score_indexes].flatten()
-#         similarity_scores = np.around(similarity_scores, decimals=3)
-#         similarity_holder[i] = list(zip(list(similarity_score_indexes.astype(np.str)), list(similarity_scores.astype(np.str))))
-#         # [list(similarity_score_indexes.astype(np.str)), list(similarity_scores.astype(np.str))]
-#     save_similarity_scores(similarity_params["output_path"],  similarity_params["layer_name"], similarity_holder) 
-  
+def generate_umap_embeddings(umap_params, extracted_features):
+    umap_holder = []
+
+    # compute umap
+
+    f_utils.mkdir(umap_params["output_dir"])
+    json_file_path = os.path.join(umap_params["output_dir"], umap_params["layer_name"])
+    f_utils.save_json_file(json_file_path,umap_holder)
 
 def list_distance_metrics():
     metrics = [ "braycurtis", "canberra", "chebyshev", "cityblock", "correlation", "cosine", "dice", "euclidean", "hamming", "jaccard", "jensenshannon", "kulsinski", "mahalanobis", "matching", "minkowski", "rogerstanimoto", "russellrao", "seuclidean", "sokalmichener", "sokalsneath", "sqeuclidean", "wminkowski", "yule"]
