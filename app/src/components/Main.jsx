@@ -15,6 +15,7 @@ import Footer from "./footer/Footer";
 import SemanticEx from "../content/semanticex/SemanticEx";
 import ModelEx from "../content/modelex/ModelEx";
 import EnergyEx from "../content/energyex/EnergyEx"
+import Scene from "../components/three/Scene"
 // import About from "../sections/About"
 // import Game from "../sections/Game"
 // import Doodle from "../sections/Doodle"
@@ -41,7 +42,7 @@ class Main extends Component {
         super(props); 
         
         this.state = { 
-            showorientationmodal: true
+            // showorientationmodal: true
         } 
        
     }
@@ -81,6 +82,7 @@ class Main extends Component {
                   <Route exact path="/datasets" component={SemanticEx} />
                   <Route exact path="/models" component={ModelEx} />
                   <Route exact path="/energy" component={EnergyEx} />
+                  <Route exact path="/scene" component={Scene} />
                             
                   </div>
                 <div id="footer"> <Footer /> </div>

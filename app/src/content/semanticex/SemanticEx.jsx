@@ -78,7 +78,7 @@ class SemanticEx extends Component {
 
     clickSimilarImage(e) {
         this.setState({ selectedsimimage: e.target.getAttribute("indexvalue") })
-        // this.setState({ showmodelconfig: false })
+        this.setState({ showumap: false })
         this.setState({ showtopresults: true })
     }
 
@@ -210,7 +210,7 @@ class SemanticEx extends Component {
                 )
             });
             let header =  
-                <div  className="iblock mr5 categorymain  mb5 ">
+                <div key={"header" + className}  className="iblock mr5 categorymain  mb5 ">
                     <div>
                         <div className=" boldtext categorytitle"> {className.toUpperCase()} </div>
                     <img  src={require("../../images/bgwhite.png")} alt="" className={"categorybox rad2 "} indexvalue={index} />
@@ -448,7 +448,7 @@ class SemanticEx extends Component {
                 {/* top results */}
                 { 
                 <div className="sliderboxcontainer pt10 ">
-                    <div className={"  flex sliderbox topconfig" + (this.state.showtopresults ? " open": " closed") }>
+                    <div className={"  flex sliderbox topconfig" + (this.state.showtopresults && (!this.state.showumap) ? " open": " closed") }>
                         <div className="iblock positionrelative flex1 mr10">
                             <img src={selectedImagePath} className="mainsimilarityimage rad4  iblock" alt="" />
                             <div className="mt5  mainsimilaritytitle   lightbluehightlight"> 

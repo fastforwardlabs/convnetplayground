@@ -4,7 +4,10 @@ import * as THREE from 'three'
 class Scene extends Component {
   constructor(props) {
     super(props)
- 
+
+    this.start = this.start.bind(this)
+    this.stop = this.stop.bind(this)
+    this.animate = this.animate.bind(this)
   }
 
   componentDidMount() {
@@ -35,15 +38,31 @@ class Scene extends Component {
     this.cube = cube
 
     this.mount.appendChild(this.renderer.domElement)
-    this.renderScene()
+    this.start()
   }
 
   componentWillUnmount() {
-    // this.stop()
+    this.stop()
     this.mount.removeChild(this.renderer.domElement)
   }
 
-   
+  start() {
+    if (!this.frameId) {
+      this.frameId = requestAnimationFrame(this.animate)
+    }
+  }
+
+  stop() {
+    cancelAnimationFrame(this.frameId)
+  }
+
+  animate() {
+    this.cube.rotation.x += 0.01
+    this.cube.rotation.y += 0.01
+
+    this.renderScene()
+    this.frameId = window.requestAnimationFrame(this.animate)
+  }
 
   renderScene() {
     this.renderer.render(this.scene, this.camera)

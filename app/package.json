@@ -4,9 +4,12 @@
   "private": true,
   "dependencies": {
     "@carbon/icons-react": "^10.2.0",
+    "@tweenjs/tween.js": "^17.4.0",
     "carbon-components": "^10.2.0",
     "carbon-components-react": "^7.2.0",
+    "d3": "^5.9.2",
     "gh-pages": "^2.0.1",
+    "lodash": "^4.17.11",
     "node-sass": "^4.12.0",
     "query-string": "^6.6.0",
     "react": "^16.8.6",
