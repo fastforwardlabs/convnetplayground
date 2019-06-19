@@ -3,6 +3,8 @@ import * as THREE from 'three'
 import * as _ from 'lodash'
 import * as d3 from 'd3'
 import * as TWEEN from '@tweenjs/tween.js'
+import { loadJSONData } from "../../components/helperfunctions/HelperFunctions"
+import "./scene.css"
 
 let color_array = [
     "#1f78b4",
@@ -44,6 +46,8 @@ class Scene extends Component {
   
 
   componentDidMount() {
+
+    
     const width = this.mount.clientWidth
     const height = this.mount.clientHeight
 
@@ -59,12 +63,12 @@ class Scene extends Component {
       this.far
     )
     const renderer = new THREE.WebGLRenderer({ antialias: true })
-    const geometry = new THREE.BoxGeometry(1, 1, 1)
+    const geometry = new THREE.BoxGeometry(1000, 1000, 1000)
     const material = new THREE.MeshBasicMaterial({ color: '#433F81' })
     const cube = new THREE.Mesh(geometry, material)
 
     camera.position.z = 4
-    scene.add(cube)
+    // scene.add(cube)
     renderer.setClearColor('#000000')
     renderer.setSize(width, height)
 
@@ -89,13 +93,13 @@ class Scene extends Component {
     this.zoom = d3.zoom().scaleExtent([this.getScaleFromZ(this.far-1), this.getScaleFromZ(this.near)])
     .on('zoom',this.zoomHandler.bind(this));
 
-    this.view = d3.select(this.renderer.domElement);
+    this.view = d3.select(this.mount);
     this.setUpZoom()
 
     
     this.start()
     // this.addPoints()
-    this.createPoints()
+    this.loadData()
  
   }
 
@@ -105,8 +109,8 @@ class Scene extends Component {
     let x = -(d3_transform.x - this.width/2) / scale;
     let y = (d3_transform.y - this.height/2) / scale;
     let z = this.getZFromScale(scale);
-    console.log( this.width, d3_transform, x,y,z)
-    // this.camera.position.set(0, 0, z);
+    // console.log( this.width, d3_transform, x,y,z)
+    this.camera.position.set(x, y, z);
   }
   
   getScaleFromZ (camera_z_position) {
@@ -141,7 +145,7 @@ class Scene extends Component {
   setUpZoom() {
     this.view.call(this.zoom);    
     let initial_scale = this.getScaleFromZ(this.far);
-    var initial_transform = d3.zoomIdentity.translate(this.width/2, this.height/2).scale(this.initial_scale);    
+    var initial_transform = d3.zoomIdentity.translate(this.width/2, this.height/2).scale(initial_scale);    
     this.zoom.transform(this.view, initial_transform);
     this.camera.position.set(0, 0, this.far);
   } 
@@ -150,7 +154,23 @@ class Scene extends Component {
     this.scene.remove.apply(this.scene, this.scene.children);
   }
 
-  createPoints(){
+  loadData(){
+    let umapPath = process.env.PUBLIC_URL + "/assets/semsearch/umap/iconic200/vgg16/block5_conv3.json" 
+    let loadedJSON = loadJSONData(umapPath)
+    // console.log(similarityPath)    
+    let self = this
+    loadedJSON.then(function (data) {
+        if (data) {
+            self.createPoints(data)
+        }
+    })
+  }
+
+  createPoints(data){
+
+    
+
+
     let data_points = [];
     let point_num = 1000;
     let radius = 2000;
@@ -178,15 +198,29 @@ class Scene extends Component {
     let generated_points = data_points;
     let pointsGeometry = new THREE.Geometry();
     let colors = [];
-    for (let datum of generated_points) {
-        // console.log(datum.position[0], datum.position[1])
-        // Set vector coordinates from data
-        let vertex = new THREE.Vector3(datum.position[0], datum.position[1], 0);
-        // let vertex = new THREE.Vector3(0,0,0);
+    // for (let datum of generated_points) {
+    //     // console.log(datum.position[0], datum.position[1])
+    //     // Set vector coordinates from data
+    //     let vertex = new THREE.Vector3(datum.position[0], datum.position[1], 0);
+    //     // let vertex = new THREE.Vector3(0,0,0);
+    //     pointsGeometry.vertices.push(vertex);
+    //     let color = new THREE.Color(color_array[datum.group]);
+    //     colors.push(color);
+    // }
+    let legend = new Map()
+    for (let datum of data){
+        // console.log(datum)
+        let vertex = new THREE.Vector3(datum.x* 100, datum.y*100, 0); 
         pointsGeometry.vertices.push(vertex);
-        let color = new THREE.Color(color_array[datum.group]);
+
+        if (!legend.has(datum.class)){
+            // console.log( datum.class, "not in legend")
+            legend.set(datum.class, legend.size)
+        }
+        let color = new THREE.Color(color_array[legend.get(datum.class)]);
         colors.push(color);
     }
+
     let circle_sprite= new THREE.TextureLoader().load(
         // "http://localhost:3000/images/circle-sprite.png"
         "images/circle-sprite.png",
@@ -262,10 +296,15 @@ class Scene extends Component {
 
   render() {
     return (
-      <div
+      <div className="border positionrelative">
+          <div className="legendbox"> 
+              <div> Legend </div>
+          </div>
+          <div
         style={{ width: '100%', height: '400px' }}
         ref={(mount) => { this.mount = mount }}
       />
+      </div>
     )
   }
 }

@@ -207,7 +207,7 @@ class ModelEx extends Component {
              
             return (
                 <div key={ldata + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
-                    <div className="datasettitles"> {abbreviateString(ldata.name, 11).toLowerCase()}</div>
+                    <div className="datasettitles"> {"layer " +ldata.layer_index} </div>
                     <img onKeyPress={this.kepressLayer.bind(this)} onClick={this.clickLayerImage.bind(this)} src={imagePath} alt="" className={"datasetbox rad2 " + (this.state.selectedlayer == index ? "active" : "")} indexvalue={index} />
                 </div>
             )
@@ -365,13 +365,15 @@ class ModelEx extends Component {
                         <div className="scrollwindow layerwindow  ">
                             <div className="windowcontent"> {layerImageList} </div>
                         </div>
-                        <div className="flex flexwrap ">
-                            <div className="flex1  mr10 ">
-                            <div className="whitespacenowrap  boldtext datasetdescription  p10 greyhighlight unselectable "> {abbreviateString(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name, 19).toUpperCase()}</div>
+                        <div className="flex flexwrap pr10">
+                            <div className="  mr10 ">
+                                {/* <div className=" iblock boldtext datasetdescription  p10 greyhighlight"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}</div> */}
+                                <div className=" iblock boldtext datasetdescription  p10 greyhighlight">{" LAYER " + this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index }</div>
                             </div>
-                            <div className="flex9 ">
-                                <div className="smalldesc boldtext pt4"> Layer [ {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index }  of {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].totallayers }  ] {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type } </div>
-                                <div className="smalldesc pt3"> {makeFriendly(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].parametercount)} trainable parameters, {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} channels  </div>
+                            <div className="flexfull ">
+                                {/* <div className="smalldesc boldtext pt4"> Layer [ {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index}  of {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].totallayers}  ] {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type} </div> */}
+                                <div className="smalldesc pt4"> <strong>Type: {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type} </strong> | <span className="smalldesc"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}</span> </div>
+                                <div className="smalldesc pt3"> {makeFriendly(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].parametercount)} trainable parameters, {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} channels </div>
                             </div>
                         </div>
                         
@@ -380,7 +382,7 @@ class ModelEx extends Component {
 
 
                 <div className="mt20 mb10 ">
-                    <div className="sectiontitle iblock mr10"> Visualizations for layer {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()} Layer </div>
+                    <div className="sectiontitle iblock mr10"> Visualizations for layer {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index} in {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </div>
                     <div className="iblock"> A selection of 30 channels in the current layer.</div>
                 </div>
 

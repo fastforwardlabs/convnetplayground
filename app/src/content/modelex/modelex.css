@@ -45,7 +45,7 @@
 
  
 .layerwindow{
-    max-height: 16em;
+    max-height: 16.9em;
     /* border: 2px solid green; */
     overflow: scroll;
 }
