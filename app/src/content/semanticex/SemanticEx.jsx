@@ -401,11 +401,11 @@ class SemanticEx extends Component {
                         <div className="scrollwindow layerwindow  mr10">
                             <div className="windowcontent"> {layerImageList} </div>
                         </div>
-                        <div className="flex flexwrap ">
+                        <div className="flex flexwrap pr10">
                             <div className="flex1  mr10 ">
                                 <div className=" iblock boldtext datasetdescription  p10 greyhighlight"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}</div>
                             </div>
-                            <div className="flex9 mt10 ">
+                            <div className="flex9 ">
                                 <div className="smalldesc boldtext pt4"> Layer [ {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index}  of {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].totallayers}  ] {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type} </div>
                                 <div className="smalldesc pt3"> {makeFriendly(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].parametercount)} trainable parameters, {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} channels </div>
                             </div>
@@ -440,7 +440,10 @@ class SemanticEx extends Component {
 
                 {(this.state.showumap) && 
                     <div className="flex modelconfigdiv p10">
-                        <Scene></Scene>
+                        <Scene 
+                            data={{layer:this.state.selectedlayer}} 
+                        >
+                        </Scene>
                      </div>
                 }
 
@@ -507,8 +510,8 @@ class SemanticEx extends Component {
                 <div className="">
                     <div>
                         {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greyhighlight clickable unselectable greymoreinfo iblock mr10"}> {this.state.viewalldataset ? " View Images by Category" : "View All Images in Dataset"}   </div> */}
-                        <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr5 " + (this.state.viewdatasetby == "all" ?  "active" : "" ) } viewby="all">  All </div>
-                        <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (this.state.viewdatasetby == "category" ?  "active" : "" ) } viewby="category">  By  Category </div>
+                        {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr5 " + (this.state.viewdatasetby == "all" ?  "active" : "" ) } viewby="all">  All </div> */}
+                        {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (this.state.viewdatasetby == "category" ?  "active" : "" ) } viewby="category">  By  Category </div> */}
                         {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (this.state.viewdatasetby == "graph" ?  "active" : "" ) } viewby="graph">  Graph </div> */}
                          
                                 <div className="boldtext mb10 iblock  mr10"> Dataset [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>

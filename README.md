@@ -65,14 +65,23 @@ As these configurations are selected the user is presented with a similarity sea
 
 The similarity metric is conveyed as a percentage bar below each image.
 
+### Prototype Implementation Details
+The prototype is designed in Reactjs as a static web application where the content of the  application is precomputed and loaded at runtime. 
+
+#### Generating Images of Neurons and Layers
+Images which represent layers and neurons are generated using the Lucid library which implements optimization based feature visualization for neurons, channels, logits and layers of a neural network. Given that the neural network implementations in the prototype are based on the keras application implementations, we use the Lucid4Keras package to easily import keras models to a format that can be processed by the Lucid Framework. 
+
+#### Generating Similarity Metrics and UMAP Embeddings
+For each model in the dataset, we extract embeddings which are stored in json files and subsequently loaded by the prototype interface. This process is done for each model, for each layer in each model and for each similarity metric. Similarity computation is performed using the scikit-learn library. We also pre-compute UMAP embeddings for each image in each dataset. This process is done for features extracted using each layer in each model.
+
 
  
 
 ## Business Use Case
 
-In practice, there are numerous use cases for which it is beneficial to automatically extract meaningful representations of an image and leverage that for downstream tasks surch as sorting, searching, curating etc.
+In practice, there are numerous use cases for which it is beneficial to automatically extract meaningful representations of an image and leverage that for downstream tasks such as sorting, searching, curating etc.
 
-- Client organising image documents (receiipts)
+- Client organising image documents (receipts)
 - Data curation steps
 - Initial training data collection
 - Enabling image based search for e-commerce platforms.
