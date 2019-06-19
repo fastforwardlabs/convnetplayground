@@ -120,13 +120,10 @@ def generate_similarity_scores(similarity_params,extracted_features):
 
 
 def generate_umap_embeddings(umap_params, extracted_features):
-    umap_holder = []
-
-    # compute umap
-
+    embedding = umap.UMAP().fit_transform(extracted_features)
     f_utils.mkdir(umap_params["output_dir"])
-    json_file_path = os.path.join(umap_params["output_dir"], umap_params["layer_name"])
-    f_utils.save_json_file(json_file_path,umap_holder)
+    json_file_path = os.path.join(umap_params["output_dir"], umap_params["layer_name"]) + ".json"
+    f_utils.save_json_file(json_file_path,embedding)
 
 def list_distance_metrics():
     metrics = [ "braycurtis", "canberra", "chebyshev", "cityblock", "correlation", "cosine", "dice", "euclidean", "hamming", "jaccard", "jensenshannon", "kulsinski", "mahalanobis", "matching", "minkowski", "rogerstanimoto", "russellrao", "seuclidean", "sokalmichener", "sokalsneath", "sqeuclidean", "wminkowski", "yule"]

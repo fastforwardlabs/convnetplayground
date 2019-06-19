@@ -5,6 +5,8 @@ import "./semanticex.css"
 import SemanticModalContent from "../../components/modals/SemanticModal"
 import { abbreviateString, loadJSONData, makeFriendly, boundWidth } from "../../components/helperfunctions/HelperFunctions"
 
+import Scene from "../../components/three/Scene"
+
 class SemanticEx extends Component {
     constructor(props) {
         super(props);
@@ -274,7 +276,7 @@ class SemanticEx extends Component {
         // process.env.PUBLIC_URL + "/assets/semsearch/datasets/cifar100/train/" + this.state.selectedsimimage + ".jpg"
         return (
             <div>
-               
+              
 
                 {(this.state.showorientationmodal) && <Modal className="orientationmodal"
                     open={true}
@@ -356,12 +358,12 @@ class SemanticEx extends Component {
                     <div className="flex2 mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Dataset </div>
                         <div className="horrule mb10"></div>
-                        <div className="datasetselectdiv scrollwindow layerwindow">
+                        <div className=" datasetselectdiv scrollwindow layerwindow">
                             {datasetImageList}
                         </div>
-                        <div>
+                        <div className="">
                             <div className=" iblock boldtext  boldtext datasetdescription mr10  p10 greyhighlight">{this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()}</div>
-                            <div onClick={this.toggleDatasetModal.bind(this)} className="iblock p10 greyhighlight clickable unselectable greymoreinfo"> ? More Info </div>
+                            <div onClick={this.toggleDatasetModal.bind(this)} className="iblock p10 greyhighlight clickable unselectable greymoreinfo mt10"> ? More Info </div>
                         </div>
                         
                     </div>
@@ -383,7 +385,7 @@ class SemanticEx extends Component {
                             <div className="flex1  mr10 ">
                                 <div className=" iblock boldtext datasetdescription  p10 greyhighlight"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}</div>
                             </div>
-                            <div className="flex9 ">
+                            <div className="flex9 mt10 ">
                                 <div className="smalldesc boldtext pt4"> Layer [ {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index}  of {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].totallayers}  ] {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type} </div>
                                 <div className="smalldesc pt3"> {makeFriendly(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].parametercount)} trainable parameters, {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} channels </div>
                             </div>
@@ -465,8 +467,8 @@ class SemanticEx extends Component {
                
                 
                 {/* daset div */}
-
-                <div className="mt10">
+                <div className="horrule mb10"></div>
+                <div className="">
                     <div>
                         {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greyhighlight clickable unselectable greymoreinfo iblock mr10"}> {this.state.viewalldataset ? " View Images by Category" : "View All Images in Dataset"}   </div> */}
                         <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr5 " + (this.state.viewdatasetby == "all" ?  "active" : "" ) } viewby="all">  All </div>
@@ -474,7 +476,7 @@ class SemanticEx extends Component {
                         <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (this.state.viewdatasetby == "graph" ?  "active" : "" ) } viewby="graph">  Graph </div>
                          
                                 <div className="boldtext mb10 iblock  mr10"> Dataset [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
-                                <div className="iblock">  {this.state.datasetsList[this.state.selecteddataset].description}   </div>
+                                <div className="iblock pt10">  {this.state.datasetsList[this.state.selecteddataset].description}   </div>
                     </div>
                     {/* <div className="horrule mb10"></div> */}
                     {/* <div className="mt10 mb10">
@@ -484,6 +486,9 @@ class SemanticEx extends Component {
                     <div className="  scrollwindow  datasetdivbox"> 
                          {this.state.viewdatasetby ==  "all" && datasetimagesList}
                          {this.state.viewdatasetby ==  "category" && datasetClassImagesList}
+                         {this.state.viewdatasetby == "graph" &&  
+                            <Scene></Scene>
+                            }
                         {/* { this.state.viewalldataset?  datasetimagesList: datasetClassImagesList}  */}
                     </div>
                 </div>
