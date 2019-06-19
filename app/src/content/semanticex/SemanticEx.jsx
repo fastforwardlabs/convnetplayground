@@ -33,6 +33,7 @@ class SemanticEx extends Component {
             distanceMetricList: modelDetails["metrics"],
             showorientationmodal: false,
             showmodelconfig: false,
+            showumap: false,
             showdatasetmodal: false,
             showtopresults: false,
             viewdatasetby: "category",
@@ -90,6 +91,10 @@ class SemanticEx extends Component {
     toggleModelConfig(e) {
         this.setState({ showmodelconfig: !(this.state.showmodelconfig) })
         // console.log(this.state.showorientationmodal)
+    }
+
+    toggleUMAPView(e){
+        this.setState({ showumap: !(this.state.showumap)})
     }
 
     toggleDatasetModal(e) {
@@ -207,7 +212,7 @@ class SemanticEx extends Component {
             let header =  
                 <div  className="iblock mr5 categorymain  mb5 ">
                     <div>
-                        <div className="p5 boldtext categorytitle"> {className.toUpperCase()} </div>
+                        <div className=" boldtext categorytitle"> {className.toUpperCase()} </div>
                     <img  src={require("../../images/bgwhite.png")} alt="" className={"categorybox rad2 "} indexvalue={index} />
                     </div>
                     
@@ -354,6 +359,8 @@ class SemanticEx extends Component {
                     
                 </div>
 
+
+                 
               
                 {/* config panel and content */}
                 <div onClick={this.toggleModelConfig.bind(this)} className="unselectable mt10 p10 clickable  flex greymoreinfo">
@@ -366,6 +373,7 @@ class SemanticEx extends Component {
                     </div>
 
                 </div>
+
                 {(this.state.showmodelconfig) && <div className="flex modelconfigdiv p10">
                     <div className="flex2 mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Dataset </div>
@@ -418,25 +426,41 @@ class SemanticEx extends Component {
                 </div>}
                
                 
+                {/* show umap panel and content */}
+                <div onClick={this.toggleUMAPView.bind(this)} className="unselectable mt10 p10 clickable  flex greymoreinfo">
+                    <div className="iblock flexfull minwidth485"> <strong> {!this.state.showumap &&  <span>&#x25BC;  </span> } {this.state.showumap &&  <span>&#x25B2;  </span> } </strong> UMAP Embeddings of Extracted Features </div>
+                    <div className="iblock   ">
+                            <div className="iblock mr5"> <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span></div>
+                            <div className="iblock">
+                                <div className="smalldesc">  {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()} </div>
+                            </div>
+                    </div>
 
+                </div>
+
+                {(this.state.showumap) && 
+                    <div className="flex modelconfigdiv p10">
+                        <Scene></Scene>
+                     </div>
+                }
 
                  
                 {/* top results */}
                 { 
                 <div className="sliderboxcontainer pt10 ">
                     <div className={"  flex sliderbox topconfig" + (this.state.showtopresults ? " open": " closed") }>
-                        <div className="iblock  flex1 mr10">
+                        <div className="iblock positionrelative flex1 mr10">
                             <img src={selectedImagePath} className="mainsimilarityimage rad4  iblock" alt="" />
-                            <div className="mt5  datasetdescription   lightbluehightlight"> 
+                            <div className="mt5  mainsimilaritytitle   lightbluehightlight"> 
                                 <div className="boldtext iblock mediumdesc mr5"> SELECTED IMAGE  </div>
-                                <div className=" smalldesc pt5 ">  CATEGORY: <strong> {selectedCat.toUpperCase()} </strong></div>
+                                <div className="iblock smalldesc pt5 "> {selectedCat.toUpperCase()}  <strong>  </strong></div>
                             </div>
                         
                         
                             {/* <div> searchimi number {this.state.selectedsimimage}</div> */}
                         </div>
                         <div className=" flexfull">
-                            <div className="flex mb10">
+                            {/* <div className="flex mb10">
                                 <div className="flexfull"> <div className="mainsimilaritydesc lightbluehightlight p10"> <strong>Top {this.state.topx} results </strong>  with  <strong className="smalldesc">{this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()}</strong> similarity score. </div></div>
                                 <div className="">
                                     <div className="block p10 greyhighlight   ">
@@ -447,7 +471,7 @@ class SemanticEx extends Component {
                                     </div>
                                 </div>
                                 
-                            </div>
+                            </div> */}
                             
                             <div className="scrollwindow layerwindow ">
                                 
@@ -470,7 +494,7 @@ class SemanticEx extends Component {
                 </div> }
 
                 {this.state.showtopresults &&
-                    <div className=" pt5 mediumdesc lhmedium textalignright mr10"> 
+                    <div className="mb5 pt5 mediumdesc lhmedium textalignright mr10"> 
                     Search results not awesome? <strong>Hint:</strong> Try a different model or layer. 
                     </div>
                 }
@@ -484,8 +508,8 @@ class SemanticEx extends Component {
                     <div>
                         {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greyhighlight clickable unselectable greymoreinfo iblock mr10"}> {this.state.viewalldataset ? " View Images by Category" : "View All Images in Dataset"}   </div> */}
                         <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr5 " + (this.state.viewdatasetby == "all" ?  "active" : "" ) } viewby="all">  All </div>
-                        <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr5 " + (this.state.viewdatasetby == "category" ?  "active" : "" ) } viewby="category">  By  Category </div>
-                        <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (this.state.viewdatasetby == "graph" ?  "active" : "" ) } viewby="graph">  Graph </div>
+                        <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (this.state.viewdatasetby == "category" ?  "active" : "" ) } viewby="category">  By  Category </div>
+                        {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (this.state.viewdatasetby == "graph" ?  "active" : "" ) } viewby="graph">  Graph </div> */}
                          
                                 <div className="boldtext mb10 iblock  mr10"> Dataset [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
                                 <div className="iblock pt10">  {this.state.datasetsList[this.state.selecteddataset].description}   </div>
@@ -498,9 +522,7 @@ class SemanticEx extends Component {
                     <div className="  scrollwindow  datasetdivbox"> 
                          {this.state.viewdatasetby ==  "all" && datasetimagesList}
                          {this.state.viewdatasetby ==  "category" && datasetClassImagesList}
-                         {this.state.viewdatasetby == "graph" &&  
-                            <Scene></Scene>
-                            }
+                          
                         {/* { this.state.viewalldataset?  datasetimagesList: datasetClassImagesList}  */}
                     </div>
                 </div>
