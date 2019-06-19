@@ -101,7 +101,7 @@ class Scene extends Component {
 
   zoomHandler() {
     let d3_transform = d3.event.transform
-    let scale = 0.2//d3_transform.k;
+    let scale = d3_transform.k;
     let x = -(d3_transform.x - this.width/2) / scale;
     let y = (d3_transform.y - this.height/2) / scale;
     let z = this.getZFromScale(scale);
