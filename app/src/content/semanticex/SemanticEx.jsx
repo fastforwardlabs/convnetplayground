@@ -35,7 +35,7 @@ class SemanticEx extends Component {
             showmodelconfig: false,
             showdatasetmodal: false,
             showtopresults: false,
-            viewdatasetby: "all",
+            viewdatasetby: "category",
             topx: 10
         }
         // setTimeout(() => {
@@ -193,23 +193,35 @@ class SemanticEx extends Component {
         // console.log(this.state.similarityArray[this.state.selectedsimimage]) 
         let datasetClasses = this.datasetdictionary["classlist"][this.state.datasetsList[this.state.selecteddataset].name]
 
-        let datasetClassImagesList = datasetClasses.map((className, index) => {
+        let datasetClassImagesList = []
+        let co = datasetClasses.map((className, index) => {
             let classcon = this.datasetdictionary["classes"][this.state.datasetsList[this.state.selecteddataset].name]
             let clist = classcon[className].map((classval, index) => {
                 let imagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + classval + ".jpg"
-            
                 return (
                     <div key={classval + "winper"} className="iblock similarityfullbox mr5 mb5 positionrelative">
                         <img key={classval + "image"  } onClick={this.clickSimilarImage.bind(this)} src={imagePath} alt="" className={"simiimage clickable rad2 " + (this.state.selectedsimimage == classval ? "active" : "")} indexvalue={classval} />
                     </div>
                 )
             });
-            return (
-                <div key={className + "fullbox" + index} className="positionrelative  mr10 ">
-                    <div className="p10 unselectable unclickable mr20 boldtext categorytitle "> {className.toUpperCase()} </div> 
-                    <div>{clist}</div>
+            let header =  
+                <div  className="iblock mr5 categorymain  mb5 ">
+                    <div>
+                        <div className="p5 boldtext categorytitle"> {className.toUpperCase()} </div>
+                    <img  src={require("../../images/bgwhite.png")} alt="" className={"categorybox rad2 "} indexvalue={index} />
+                    </div>
+                    
                 </div>
-            )
+             
+             datasetClassImagesList.push(header)
+             datasetClassImagesList.push(clist)
+
+            // return (
+            //     <div key={className + "fullbox" + index} className="positionrelative  mr10 border ">
+            //         {/* <div className="p10 unselectable unclickable mr20 boldtext categorytitle "> {className.toUpperCase()} </div>  */}
+            //         <div>{clist}</div>
+            //     </div>
+            // )
         });
 
         let similarImagesList = this.state.similarityArray[this.state.selectedsimimage].map((alldata, index) => {

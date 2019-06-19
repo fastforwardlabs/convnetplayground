@@ -223,6 +223,10 @@
     pointer-events: none;
 }
 
+.flexcolumn{
+    flex-direction: column
+}
+
 .flex {
     display: flex;
 }
@@ -299,4 +303,14 @@
 
 .sliderbox.closed { 
    height: 0em;
+}
+
+.bluestripedbackground{
+    background: repeating-linear-gradient(
+        45deg,
+        #606dbc,
+        #606dbc 10px,
+        #465298 10px,
+        #465298 20px
+      );
 }

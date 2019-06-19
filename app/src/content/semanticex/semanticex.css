@@ -75,9 +75,12 @@
 }
 
 .simiimage{
+    /* width: 5em;  */
     height: 5em; 
+
     margin: 0px 0px 0px 0px; 
     border-bottom: 4px solid #CDCDCD;
+    /* object-fit: cover; */
     /* transition: all .2s ease-in-out;  */
 }
 
@@ -214,13 +217,19 @@ div.bx--modal-container{
     background: #0062FF;
 }
 
-.categorytitle{
-    position: absolute; 
-    z-index: 100000; 
-    top: 0px;
-    left: 0px;
-    background:  rgba(252, 251, 251, 0.8);
+.categorytitle{ 
+    z-index: 100000;  
+    border-bottom: 3px solid rgb(85, 85, 85);
+}
+
+.categorybox{
+    height: 3.4em;
+    width: 100%;  
+}
+.categorymain{
+    /* float: left; */
 }
 .sliderbox.topconfig.open { 
     height: 19em;
 }
+
