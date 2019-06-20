@@ -447,6 +447,7 @@ class SemanticEx extends Component {
                             data={{
                                 dataset:  this.state.datasetsList[this.state.selecteddataset].name,
                                 model: this.state.modelsList[this.state.selectedmodel].name,
+                                layerindex: this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index,
                                 layer: this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name,
                                 dml:this.state.datasetsList[this.state.selecteddataset].name  + this.state.modelsList[this.state.selectedmodel].name + this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name
                             }} 

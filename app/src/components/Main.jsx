@@ -65,7 +65,8 @@ class Main extends Component {
                 dataset:  "tinyimagenet",
                 model: "xception",
                 layer: "block14_sepconv2_act",
-                dml: "bingo"
+                dml: "bingo",
+                layerindex: 1
             }} 
               />
             );

@@ -22,6 +22,7 @@ class Scene extends Component {
         dataset: this.props.data.dataset,
         model: this.props.data.model,
         layer: this.props.data.layer,
+        layerindex: this.props.data.layerindex,
         highlightedindex: 0
     }
   }
@@ -41,6 +42,7 @@ class Scene extends Component {
             this.setState({dataset: this.props.data.dataset})
             this.setState({model: this.props.data.model})
             this.setState({layer: this.props.data.layer})
+            this.setState({layerindex: this.props.data.layerindex})
            
         }
         
@@ -88,14 +90,14 @@ class Scene extends Component {
     this.cube = cube
     this.width = width
     this.height = height
-    this.pointScale = 150
+    this.pointScale = 120
 
     window.addEventListener('resize', () => {
-        this.width = window.innerWidth -20; 
-        this.height = window.innerHeight;
+        this.width = window.innerWidth -40; 
+        // this.height = window.innerHeight;
       
-        this.renderer.setSize(this.width, height);
-        this.camera.aspect = width / height;
+        this.renderer.setSize(this.width, this.height);
+        this.camera.aspect = this.width / this.height;
         this.camera.updateProjectionMatrix();
       })
       
@@ -153,6 +155,8 @@ class Scene extends Component {
     
     let point = new THREE.Points(geometry, material);
     this.hoverContainer.add(point);
+    // point.geometry.attributes.position.needsUpdate = true
+    console.log("adding highlight")
   }
 
 
@@ -416,7 +420,7 @@ class Scene extends Component {
           <div className="chartdescription">
               <div className=""> Dataset: {this.state.dataset.toUpperCase()} </div>
             <div className="charttitle boldtext pt2 "> Model: <span > {this.state.model.toUpperCase()} </span> Model </div>
-            <div className="charttitle pt2"> Layer: <span> {this.state.layer}</span></div>
+    <div className="charttitle pt2"> Layer: {this.state.layerindex}  [ {this.state.layer} ]   </div>
           </div>
           <div className="legendbox "> 
               <div className="legendtitle boldtext "> Legend </div>
