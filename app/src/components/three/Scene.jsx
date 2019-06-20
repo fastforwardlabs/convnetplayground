@@ -120,7 +120,7 @@ class Scene extends Component {
     this.loadData()
 
     this.raycaster = new THREE.Raycaster();
-    this.raycaster.params.Points.threshold = 15;
+    this.raycaster.params.Points.threshold = 20;
 
     this.view.on("mousemove", () => {
         let [mouseX, mouseY] = d3.mouse(this.view.node());
@@ -302,6 +302,26 @@ class Scene extends Component {
     pointsBufferGeometry.addAttribute('offset', new THREE.BufferAttribute(offsets, 2))
     pointsBufferGeometry.addAttribute('color', new THREE.BufferAttribute(colorsBF, 3))
 
+    for (let i = 0, index = 0, l = numVertices; i < l; i++, index += 3) {
+        positions[index] = data[i].x * this.pointScale
+        positions[index + 1] = data[i].y * this.pointScale
+        positions[index + 2] = 0
+
+    
+        if (!legend.has(data[i].class)){ 
+            legendArray.push({class: data[i].class, index: legend.size})
+            legend.set(data[i].class, legend.size)
+        }
+
+        let color = ColorArrayRGB()[legend.get(data[i].class)]
+        colorsBF[index] = color[0] / 255
+        colorsBF[index + 1] = color[1] / 255
+        colorsBF[index + 2] = color[2] / 255
+    } 
+
+    this.legendMap = legend 
+    this.setState({legend: legendArray}) 
+
     if(this.pointData){
         // let numVertices = this.pointData.length
         let position = this.points.geometry.attributes.position.array
@@ -319,26 +339,9 @@ class Scene extends Component {
         })
         tween.start()
         // console.log( this.points.geometry.attributes)
+        this.pointData = data
     }else {
         this.pointData = data
-        for (let i = 0, index = 0, l = numVertices; i < l; i++, index += 3) {
-            positions[index] = data[i].x * this.pointScale
-            positions[index + 1] = data[i].y * this.pointScale
-            positions[index + 2] = 0
-
-        
-            if (!legend.has(data[i].class)){ 
-                legendArray.push({class: data[i].class, index: legend.size})
-                legend.set(data[i].class, legend.size)
-            }
-
-            let color = ColorArrayRGB()[legend.get(data[i].class)]
-            colorsBF[index] = color[0] / 255
-            colorsBF[index + 1] = color[1] / 255
-            colorsBF[index + 2] = color[2] / 255
-        } 
-
-
         for (let datum of data){ 
             let vertex = new THREE.Vector3(datum.x* this.pointScale, datum.y*this.pointScale, 0); 
             pointsGeometry.vertices.push(vertex); 
@@ -350,8 +353,7 @@ class Scene extends Component {
             colors.push(color);
         }
 
-        this.legendMap = legend 
-        this.setState({legend: legendArray}) 
+       
         this.circle_sprite= new THREE.TextureLoader().load( 
             "images/circle-sprite.png", 
             function ( texture ) { },
