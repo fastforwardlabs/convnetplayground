@@ -19,9 +19,9 @@ class Scene extends Component {
      
     this.state = {
         legend: [],
-        dataset: "iconic200",
-        model: "vgg16",
-        layer: "block1_conv1",
+        dataset: this.props.data.dataset,
+        model: this.props.data.model,
+        layer: this.props.data.layer,
         highlightedindex: 0
     }
   }
@@ -41,10 +41,15 @@ class Scene extends Component {
             this.setState({dataset: this.props.data.dataset})
             this.setState({model: this.props.data.model})
             this.setState({layer: this.props.data.layer})
-            this.loadData()
+           
         }
         
     }
+
+    if (this.state.dataset !== prevState.dataset || this.state.model !== prevState.model  || this.state.layer !== prevState.layer ){
+        this.loadData()
+    }
+
    }
 
   
@@ -57,7 +62,7 @@ class Scene extends Component {
 
     this.fov = 75;
     this.near = 10;
-    this.far = 900;
+    this.far = 1900;
 
     const scene = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(
@@ -127,7 +132,7 @@ class Scene extends Component {
     geometry.vertices.push(new THREE.Vector3(datum.x*this.pointScale,datum.y*this.pointScale,0));
     geometry.colors = [ new THREE.Color(ColorArray()[this.legendMap.get(datum.class)]) ];
     let material = new THREE.PointsMaterial({
-      size: 50,
+      size: 60,
       sizeAttenuation: false,
       vertexColors: THREE.VertexColors,
       map: this.circle_sprite,
@@ -171,7 +176,7 @@ class Scene extends Component {
       this.highlightPoint(datum);
     //   showTooltip(mouse_position, datum);
     } else {
-      this.removeHighlights();
+    //   this.removeHighlights();
       this.hideTooltip();
     }
   }

@@ -58,6 +58,18 @@ class Main extends Component {
     }
 
     render() {
+        const mScene = (props) => {
+            return (
+              <Scene 
+              data={{
+                dataset:  "tinyimagenet",
+                model: "vgg16",
+                layer: "block1_conv1",
+                dml: "bingo"
+            }} 
+              />
+            );
+          }
         return (
             <HashRouter>
                 <AppHeader></AppHeader> 
@@ -82,7 +94,7 @@ class Main extends Component {
                   <Route exact path="/datasets" component={SemanticEx} />
                   <Route exact path="/models" component={ModelEx} />
                   <Route exact path="/energy" component={EnergyEx} />
-                  <Route exact path="/scene" component={Scene} />
+                  <Route exact path="/scene" component={mScene} />
                             
                   </div>
                 <div id="footer"> <Footer /> </div>
