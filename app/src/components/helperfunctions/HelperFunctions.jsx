@@ -69,3 +69,20 @@ export function ColorArray(){
       ]
     return colorArray
 }
+
+
+export function ColorArrayRGB(){
+    let colorArray =[
+        [141, 211, 199],
+        [255, 255, 179],
+        [190, 186, 218],
+        [251, 128, 114],
+        [128, 177, 211],
+        [253, 180, 98],
+        [179, 222, 105],
+        [252, 205, 229],
+        [188, 128, 189],
+        [204, 235, 197],
+      ]
+    return colorArray
+}

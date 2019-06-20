@@ -435,7 +435,7 @@ class SemanticEx extends Component {
                     <div className="iblock   ">
                             <div className="iblock mr5"> <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span></div>
                             <div className="iblock">
-                                <div className="smalldesc">  {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()} </div>
+                                <div className="smalldesc"> LAYER {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index} / { this.state.modelsList[this.state.selectedmodel].numlayers } </div>
                             </div>
                     </div>
 
@@ -459,7 +459,7 @@ class SemanticEx extends Component {
                 {/* top results */}
                 { 
                 <div className="sliderboxcontainer pt10 ">
-                    <div className={"  flex sliderbox topconfig" + (this.state.showtopresults && (!this.state.showumap) ? " open": " closed") }>
+                    <div className={"  flex sliderbox topconfig" + (this.state.showtopresults ? " open": " closed") }>
                         <div className="iblock positionrelative flex1 mr10">
                             <img src={selectedImagePath} className="mainsimilarityimage rad4  iblock" alt="" />
                             <div className="mt5  mainsimilaritytitle   lightbluehightlight"> 

@@ -63,8 +63,8 @@ class Main extends Component {
               <Scene 
               data={{
                 dataset:  "tinyimagenet",
-                model: "vgg16",
-                layer: "block1_conv1",
+                model: "xception",
+                layer: "block14_sepconv2_act",
                 dml: "bingo"
             }} 
               />

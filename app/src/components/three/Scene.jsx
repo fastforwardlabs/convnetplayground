@@ -3,7 +3,7 @@ import * as THREE from 'three'
 import * as _ from 'lodash'
 import * as d3 from 'd3'
 import * as TWEEN from '@tweenjs/tween.js'
-import { loadJSONData,ColorArray } from "../../components/helperfunctions/HelperFunctions"
+import { loadJSONData,ColorArrayRGB } from "../../components/helperfunctions/HelperFunctions"
 import "./scene.css"
 
 
@@ -106,7 +106,7 @@ class Scene extends Component {
     this.loadData()
 
     this.raycaster = new THREE.Raycaster();
-    this.raycaster.params.Points.threshold = 10;
+    this.raycaster.params.Points.threshold = 15;
 
     this.view.on("mousemove", () => {
         let [mouseX, mouseY] = d3.mouse(this.view.node());
@@ -130,7 +130,7 @@ class Scene extends Component {
     
     let geometry = new THREE.Geometry();
     geometry.vertices.push(new THREE.Vector3(datum.x*this.pointScale,datum.y*this.pointScale,0));
-    geometry.colors = [ new THREE.Color(ColorArray()[this.legendMap.get(datum.class)]) ];
+    geometry.colors = [ new THREE.Color(ColorArrayRGB()[this.legendMap.get(datum.class)]) ];
     let material = new THREE.PointsMaterial({
       size: 60,
       sizeAttenuation: false,
@@ -252,73 +252,108 @@ class Scene extends Component {
 
   createPoints(data){ 
     this.clearScene()
-    let pointsGeometry = new THREE.Geometry();
+    let pointsGeometry = new THREE.Geometry()
+    let pointsBufferGeometry = new THREE.BufferGeometry()
     let colors = []; 
     let legend = new Map()
     let legendArray = []
     this.pointData = data
-    for (let datum of data){
-        // console.log(datum)
+
+    let vertices = []
+    let self = this
+    data.forEach(function(datum,i){
+        let vert = new THREE.Vector3(datum.x, datum.y, 0); 
+        vertices[i] = vert 
+    })
+
+    let numVertices = vertices.length
+    let positions = new Float32Array(numVertices * 3)
+    let offsets = new Float32Array(numVertices * 2)
+    let colorsBF = new Float32Array(numVertices * 3)
+    pointsBufferGeometry.addAttribute('position', new THREE.BufferAttribute(positions, 3))
+    pointsBufferGeometry.addAttribute('offset', new THREE.BufferAttribute(offsets, 2))
+    pointsBufferGeometry.addAttribute('color', new THREE.BufferAttribute(colorsBF, 3))
+
+    for (let i = 0, index = 0, l = numVertices; i < l; i++, index += 3) {
+        positions[index] = data[i].x * this.pointScale
+        positions[index + 1] = data[i].y * this.pointScale
+        positions[index + 2] = 0
+
+       
+        if (!legend.has(data[i].class)){ 
+            legendArray.push({class: data[i].class, index: legend.size})
+            legend.set(data[i].class, legend.size)
+        }
+
+        let color = ColorArrayRGB()[legend.get(data[i].class)]
+        colorsBF[index] = color[0] / 255
+        colorsBF[index + 1] = color[1] / 255
+        colorsBF[index + 2] = color[2] / 255
+    }
+
+    // for (let i = 0, index = 0, l = numVertices; i < l; i++, index += 3) {
+    //     let color = color_array[lchunk[i]]
+    //     colors[index] = color[0] / 255
+    //     colors[index + 1] = color[1] / 255
+    //     colors[index + 2] = color[2] / 255
+    // }
+
+
+
+    for (let datum of data){ 
         let vertex = new THREE.Vector3(datum.x* this.pointScale, datum.y*this.pointScale, 0); 
         pointsGeometry.vertices.push(vertex); 
         if (!legend.has(datum.class)){ 
             legend.set(datum.class, legend.size)
             legendArray.push({class: datum.class, index: legend.size})
         }
-        let color = new THREE.Color(ColorArray()[legend.get(datum.class)]);
+        let color = new THREE.Color(ColorArrayRGB()[legend.get(datum.class)]);
         colors.push(color);
     }
 
-    this.legendMap = legend
-     
-    this.setState({legend: legendArray})
-
-    this.circle_sprite= new THREE.TextureLoader().load(
-        // "http://localhost:3000/images/circle-sprite.png"
-        "images/circle-sprite.png",
-        // Function called when download progresses
-        function ( texture ) {
-            // console.log(texture)
-        },
-        function ( xhr ) {
-            console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
-        },
-        // Function called when download errors
-        function ( xhr ) {
-            console.log( 'An error happened' );
-        }
+    this.legendMap = legend 
+    this.setState({legend: legendArray}) 
+    this.circle_sprite= new THREE.TextureLoader().load( 
+        "images/circle-sprite.png", 
+        function ( texture ) { },
+        function ( xhr ) { console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );}, 
+        function ( xhr ) { console.log( 'An error happened' );}
       )
     pointsGeometry.colors = colors; 
-
     let pointsMaterial = new THREE.PointsMaterial({
-            size: 8,
+            size: 10,
             sizeAttenuation: false,
             vertexColors: THREE.VertexColors,
             map: this.circle_sprite,
             transparent: true
     });
-    this.points = new THREE.Points(pointsGeometry, pointsMaterial);
-    // points.position.set(0,0,1) 
+    this.points = new THREE.Points(pointsBufferGeometry, pointsMaterial); 
     this.scene.add(this.points);
     this.scene.background = new THREE.Color("#CDCDCD");
+     
+      
+    // let numVertices = this.pointData.length
+    let position = this.points.geometry.attributes.position.array
+    let target = new Float32Array(numVertices * 3)
+    for (let i = 0, index = 0, l = numVertices; i < l; i++, index += 3) { 
+    target[index] = data[i].x * this.pointScale + 2000
+    target[index + 1] = data[i].y* this.pointScale + 2000
+    target[index + 2] = 0
+    }
+//   this.points.geometry.attributes.position = new THREE.BufferAttribute(target,3)
+//   this.points.geometry.attributes.position.needsUpdate = true // required after the first render
 
+    // let tween = new TWEEN.Tween(position).to(target, 2000).easing(TWEEN.Easing.Linear.None)
+    // tween.onUpdate(function() {
+    //     self.points.geometry.attributes.position = new THREE.BufferAttribute(position,3)
+    //     self.points.geometry.attributes.position.needsUpdate = true // required after the first render
+    // })
+    // tween.start()
+    // console.log( this.points.geometry.attributes)
+     
+ 
   }
-
-//   addPoints(){
-    
-
-//     for (let i = 0; i < 10; i++){
-//         let color = new THREE.Color(color_array[ Math.round( Math.random() * color_array.length) ] ); 
-//         var material = new THREE.MeshBasicMaterial( { color: color } );
-//         var geometry = new THREE.CircleGeometry (Math.random(), 42 );
-//         var circle = new THREE.Mesh( geometry, material ); 
-//         circle.position.setX(-5+i) 
-//         circle.position.setY(Math.random()) 
-//         this.scene.add( circle );
-//     }
-    
-//   }
-
+ 
   componentWillUnmount() {
     this.stop()
     this.mount.removeChild(this.renderer.domElement)
@@ -335,11 +370,12 @@ class Scene extends Component {
   }
 
   animate() {
-    this.cube.rotation.x += 0.01
-    this.cube.rotation.y += 0.01
+    // this.cube.rotation.x += 0.01
+    // this.cube.rotation.y += 0.01
 
     this.renderScene()
     this.frameId = window.requestAnimationFrame(this.animate)
+    TWEEN.update()
   }
 
   renderScene() {
@@ -348,10 +384,12 @@ class Scene extends Component {
 
   render() {
     let legendList = this.state.legend.map((legend, index) => {
+        let color = ColorArrayRGB()[legend.index]
+        color = "rgb(" + color[0] + "," + color[1] + "," + color[2] + ")" 
         return (
             <div key={"legend" + index}> 
               <div className="legendrow">
-                <div className="iblock legendcolorbox " style={{ backgroundColor: ColorArray()[legend.index-1] }}> </div>
+                <div className="iblock legendcolorbox " style={{ backgroundColor: color}}> </div>
                 <div className="iblock boldtext legendtext ml10"  >  {legend.class}  </div>
               </div> 
             </div>
