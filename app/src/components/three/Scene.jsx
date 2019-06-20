@@ -90,6 +90,15 @@ class Scene extends Component {
     this.height = height
     this.pointScale = 150
 
+    window.addEventListener('resize', () => {
+        this.width = window.innerWidth -20; 
+        this.height = window.innerHeight;
+      
+        this.renderer.setSize(this.width, height);
+        this.camera.aspect = width / height;
+        this.camera.updateProjectionMatrix();
+      })
+      
      
 
     this.mount.appendChild(this.renderer.domElement)
