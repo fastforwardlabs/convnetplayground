@@ -31,10 +31,7 @@ class ModelEx extends Component {
         const modelDetailsViz = require('../../assets/models/models.json'); 
         const modelDetails = require('../../assets/models/model_details.json');
        
-        let nList = []
-
-        // console.log( modelDetails)
-
+        let nList = []  
                     
         this.state = {
             selectedmodel: 0, 
@@ -43,7 +40,7 @@ class ModelEx extends Component {
             modelsList: modelDetails["models"],
             layersList: modelDetailsViz[modelDetails["models"][0].name],
             neuronList: nList,
-            showmodelorientationmodal: false,
+            showmodelorientationmodal: !this.props.pageviewed,
             showmoremodelinfomodal: false,
 
         }
@@ -108,6 +105,7 @@ class ModelEx extends Component {
         // const qs = queryString.parse(this.props.location.search);
         // this.sets
         document.addEventListener("keydown", this.keyFunction, false);
+        
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -148,7 +146,7 @@ class ModelEx extends Component {
 
     toggleModelsModal(e){
         this.setState({showmodelorientationmodal: !(this.state.showmodelorientationmodal)})
-        // console.log(this.state.showmodelorientationmodal)
+        // console.log(this.state.showmodelorientationmodal) 
     }
 
     kepressLayer(e){
@@ -244,11 +242,11 @@ class ModelEx extends Component {
                     open={true}
                     size="lg"
                     // style={{maxWidth: '1600px', width: '100%'}}
-                    passiveModal={true}
+                    passiveModal={false}
                     primaryButtonText="Get Started"
-                    // secondaryButtonText = "Do not show this again"
+                    secondaryButtonText = "Close"
                     modalHeading="Model Explorer"
-                    modalLabel="How it works"
+                    modalLabel="ConvNet Playground"
                     onRequestSubmit={this.toggleModelsModal.bind(this)} 
                     onRequestClose={this.toggleModelsModal.bind(this)}
                 >

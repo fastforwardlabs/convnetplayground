@@ -192,9 +192,11 @@ class Scene extends Component {
       this.tooltipbox.style.top = (mouse_position[1] +  10) + "px" 
     //   this.highlightPoint(datum);
     //   showTooltip(mouse_position, datum);
+        document.body.style.cursor = "grab"
     } else {
       this.removeHighlights();
       this.hideTooltip();
+      document.body.style.cursor = "grab"
     }
   }
   hideTooltip(){
@@ -424,7 +426,7 @@ class Scene extends Component {
     <div className="charttitle pt2"> Layer: {this.state.layerindex}  [ {this.state.layer} ]   </div>
           </div>
           <div className="legendbox "> 
-              <div className="legendtitle boldtext "> Legend </div>
+              <div className="legendtitle boldtext "> Categories </div>
               <div className="mt10">
                 {legendList}
               </div>

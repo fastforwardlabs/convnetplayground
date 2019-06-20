@@ -5,11 +5,22 @@ class SemanticModalContent extends Component {
         return (
             <div>
                  
+                Convnet Playground is a research prototype by Cloudera Fast Forward Labs, built to accompany our updated report on 
+                Image Analysis. More about this report is described in our blog post.
+            
+                <br/>
+                Convolutional Neural Networks (Convnets or CNNs) are deep neural networks that can learn hierarchical representations 
+                useful for image analysis. Early layers in a CNN learn low level features (e.g. lines, edges, shapes, colours) 
+                while later layers learn high level concepts (e.g eyes, legs, faces, doors etc) depending on the dataset used for training. 
+                In Convnet Playground, features extracted using layers from a CNN are used for 
+                semantic search (image retrieval based on similarity of extracted features). 
+
+                
                 <div className="horrule mb10 pt10"></div>
 
+
                  <div className="boldtext"> Extracting Similarity Using Convolutional Networks </div>
-                Layers in a trained convolutional neural network (CNN) can be used to extract features from images.
-                Semantic search explores the use these extracted features in computing the "similarity" between images. 
+                Semantic search explores the use features extracted from images using layers in a CNN to compute the "similarity" between images. 
                 We have precomputed the extracted features from images in 3 datasets, using 8 different models 
                 and 8 different layers from each model. We have also computed the similarity 
                 between all of these features using 4 different similarity metrics. 

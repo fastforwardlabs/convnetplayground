@@ -31,7 +31,7 @@ class SemanticEx extends Component {
             datasetsList: modelDetails["datasets"],
             modelsList: modelDetails["models"],
             distanceMetricList: modelDetails["metrics"],
-            showorientationmodal: false,
+            showorientationmodal: !this.props.pageviewed,
             showmodelconfig: false,
             showumap: false,
             showdatasetmodal: false,
@@ -78,7 +78,7 @@ class SemanticEx extends Component {
 
     clickSimilarImage(e) {
         this.setState({ selectedsimimage: e.target.getAttribute("indexvalue") })
-        this.setState({ showumap: false })
+        // this.setState({ showumap: false })
         this.setState({ showtopresults: true })
     }
 
@@ -300,9 +300,9 @@ class SemanticEx extends Component {
                     open={true}
                     size="lg"
                     // style={{maxWidth: '1600px', width: '100%'}}
-                    passiveModal={true}
+                    passiveModal={false}
                     primaryButtonText="Get Started"
-                    // secondaryButtonText = "Do not show this again"
+                    secondaryButtonText = "Close"
                     modalHeading="Semantic Search"
                     modalLabel="ConvNet Playground"
                     onRequestSubmit={this.toggleSemanticModal.bind(this)} 
@@ -431,7 +431,7 @@ class SemanticEx extends Component {
                 
                 {/* show umap panel and content */}
                 <div onClick={this.toggleUMAPView.bind(this)} className="unselectable mt10 p10 clickable  flex greymoreinfo">
-                    <div className="iblock flexfull minwidth485"> <strong> {!this.state.showumap &&  <span>&#x25BC;  </span> } {this.state.showumap &&  <span>&#x25B2;  </span> } </strong> UMAP Embeddings of Extracted Features </div>
+                    <div className="iblock flexfull minwidth485"> <strong> {!this.state.showumap &&  <span>&#x25BC;  </span> } {this.state.showumap &&  <span>&#x25B2;  </span> } </strong> Visualization of Embeddings (UMAP) for Extracted Features </div>
                     <div className="iblock   ">
                             <div className="iblock mr5"> <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span></div>
                             <div className="iblock">

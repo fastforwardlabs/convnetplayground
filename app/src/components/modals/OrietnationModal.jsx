@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 
 class OrientationModalContent extends Component {
+    constructor(props) {
+        super(props) 
+
+        this.state = {
+            pagename: this.props.data.pagename || "semantic",
+            highlightedindex: 0
+        }
+      }
     render() {
         return (
             <div>
