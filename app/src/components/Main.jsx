@@ -134,7 +134,7 @@ class Main extends Component {
                     
                 </Modal>} 
                   <div className="container-fluid p10">   
-                  <Route exact path="/" component={mySemanticComponent} /> >
+                  <Route exact path="/" component={mySemanticComponent} /> 
                   <Route exact path="/models" component={myModalComponent} />
                   {/* <Route exact path="/energy" component={EnergyEx} /> */}
                   <Route exact path="/scene" component={mScene} />

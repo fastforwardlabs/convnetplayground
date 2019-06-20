@@ -25,6 +25,8 @@ class Scene extends Component {
         layerindex: this.props.data.layerindex,
         highlightedindex: 0
     }
+
+    this.setSelected = this.props.setselected
   }
   componentDidUpdate(prevProps, prevState) {
     // console.log("showing both values",prevProps.data, this.props.data)
@@ -127,10 +129,16 @@ class Scene extends Component {
         this.checkIntersects(mouse_position);
     });
 
+    this.lastSeenIndex = 0 ;
+
+    this.view.on("click", () => {
+    //    console.log("clisk", this.lastSeenIndex)
+       this.props.setselected(this.lastSeenIndex + "")
+    });
+    
     this.view.on("mouseleave", () => {
         this.removeHighlights()
     });
-      
 
     this.hoverContainer = new THREE.Object3D()
     this.scene.add(this.hoverContainer);
@@ -184,7 +192,8 @@ class Scene extends Component {
       let index = intersect.index;
        
       this.tooltipimg.src = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.dataset + "/" + index + ".jpg"
-       
+    //   this.props.setselected(index +  "")
+    this.lastSeenIndex = index
       let datum = this.pointData[index];
       this.tooltip.innerHTML =  (datum.class).toUpperCase()
       this.tooltipbox.style.display = "block"
@@ -192,7 +201,7 @@ class Scene extends Component {
       this.tooltipbox.style.top = (mouse_position[1] +  10) + "px" 
     //   this.highlightPoint(datum);
     //   showTooltip(mouse_position, datum);
-        document.body.style.cursor = "grab"
+        document.body.style.cursor = "pointer"
     } else {
       this.removeHighlights();
       this.hideTooltip();

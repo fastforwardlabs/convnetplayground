@@ -81,6 +81,10 @@ class SemanticEx extends Component {
         // this.setState({ showumap: false })
         this.setState({ showtopresults: true })
     }
+    setSelectedImage(val){
+        this.setState({ selectedsimimage: val})
+        this.setState({ showtopresults: true })
+    }
 
     toggleSemanticModal(e) {
         this.setState({ showorientationmodal: !(this.state.showorientationmodal) })
@@ -108,6 +112,8 @@ class SemanticEx extends Component {
     showTopResults(){
         this.setState({ showtopresults: true })
     }
+
+   
 
 
     updateSimilarity() {
@@ -444,7 +450,9 @@ class SemanticEx extends Component {
                 {(this.state.showumap) && 
                     <div className="flex modelconfigdiv p10">
                         <Scene 
+                            setselected={this.setSelectedImage.bind(this)}
                             data={{
+                                
                                 dataset:  this.state.datasetsList[this.state.selecteddataset].name,
                                 model: this.state.modelsList[this.state.selectedmodel].name,
                                 layerindex: this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index,
