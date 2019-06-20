@@ -88,7 +88,7 @@ class Scene extends Component {
     this.cube = cube
     this.width = width
     this.height = height
-    this.pointScale = 100
+    this.pointScale = 150
 
      
 
@@ -129,10 +129,13 @@ class Scene extends Component {
     this.removeHighlights();
     
     let geometry = new THREE.Geometry();
-    geometry.vertices.push(new THREE.Vector3(datum.x*this.pointScale,datum.y*this.pointScale,0));
-    geometry.colors = [ new THREE.Color(ColorArrayRGB()[this.legendMap.get(datum.class)]) ];
+    geometry.vertices.push(new THREE.Vector3(datum.x*this.pointScale, datum.y*this.pointScale,0));
+    let color = ColorArrayRGB()[this.legendMap.get(datum.class)]
+    color = "rgb(" + color[0] + "," + color[1] + "," + color[2] + ")" 
+    // console.log(color)
+    geometry.colors = [ new THREE.Color( color ) ];
     let material = new THREE.PointsMaterial({
-      size: 60,
+      size: 30,
       sizeAttenuation: false,
       vertexColors: THREE.VertexColors,
       map: this.circle_sprite,
@@ -176,7 +179,7 @@ class Scene extends Component {
       this.highlightPoint(datum);
     //   showTooltip(mouse_position, datum);
     } else {
-    //   this.removeHighlights();
+      this.removeHighlights();
       this.hideTooltip();
     }
   }
@@ -195,6 +198,7 @@ class Scene extends Component {
     let z = this.getZFromScale(scale);
     // console.log( this.width, d3_transform, x,y,z)
     this.camera.position.set(x, y, z);
+    // console.log("On zoom ",x, y, z)
   }
   
   getScaleFromZ (camera_z_position) {
@@ -231,7 +235,8 @@ class Scene extends Component {
     let initial_scale = this.getScaleFromZ(this.far);
     var initial_transform = d3.zoomIdentity.translate(this.width/2, this.height/1.2).scale(initial_scale);    
     this.zoom.transform(this.view, initial_transform); 
-    // this.camera.position.set(0, 0, this.far);
+    // this.camera.position.setX(160);
+    // console.log("initial position", this.camera.position)
   } 
 
   clearScene(){
@@ -251,14 +256,12 @@ class Scene extends Component {
   }
 
   createPoints(data){ 
-    this.clearScene()
+    // this.clearScene()
     let pointsGeometry = new THREE.Geometry()
     let pointsBufferGeometry = new THREE.BufferGeometry()
     let colors = []; 
     let legend = new Map()
     let legendArray = []
-    this.pointData = data
-
     let vertices = []
     let self = this
     data.forEach(function(datum,i){
@@ -274,82 +277,80 @@ class Scene extends Component {
     pointsBufferGeometry.addAttribute('offset', new THREE.BufferAttribute(offsets, 2))
     pointsBufferGeometry.addAttribute('color', new THREE.BufferAttribute(colorsBF, 3))
 
-    for (let i = 0, index = 0, l = numVertices; i < l; i++, index += 3) {
-        positions[index] = data[i].x * this.pointScale
-        positions[index + 1] = data[i].y * this.pointScale
-        positions[index + 2] = 0
-
-       
-        if (!legend.has(data[i].class)){ 
-            legendArray.push({class: data[i].class, index: legend.size})
-            legend.set(data[i].class, legend.size)
+    if(this.pointData){
+        // let numVertices = this.pointData.length
+        let position = this.points.geometry.attributes.position.array
+        let target = new Float32Array(numVertices * 3)
+        for (let i = 0, index = 0, l = numVertices; i < l; i++, index += 3) { 
+        target[index] = data[i].x * this.pointScale + 100
+        target[index + 1] = data[i].y* this.pointScale + 100
+        target[index + 2] = 0
         }
 
-        let color = ColorArrayRGB()[legend.get(data[i].class)]
-        colorsBF[index] = color[0] / 255
-        colorsBF[index + 1] = color[1] / 255
-        colorsBF[index + 2] = color[2] / 255
-    }
+        let tween = new TWEEN.Tween(position).to(target, 900).easing(TWEEN.Easing.Linear.None)
+        tween.onUpdate(function() {
+            self.points.geometry.attributes.position = new THREE.BufferAttribute(position,3)
+            self.points.geometry.attributes.position.needsUpdate = true // required after the first render
+        })
+        tween.start()
+        console.log( this.points.geometry.attributes)
+    }else {
+        this.pointData = data
+        for (let i = 0, index = 0, l = numVertices; i < l; i++, index += 3) {
+            positions[index] = data[i].x * this.pointScale
+            positions[index + 1] = data[i].y * this.pointScale
+            positions[index + 2] = 0
 
-    // for (let i = 0, index = 0, l = numVertices; i < l; i++, index += 3) {
-    //     let color = color_array[lchunk[i]]
-    //     colors[index] = color[0] / 255
-    //     colors[index + 1] = color[1] / 255
-    //     colors[index + 2] = color[2] / 255
-    // }
+        
+            if (!legend.has(data[i].class)){ 
+                legendArray.push({class: data[i].class, index: legend.size})
+                legend.set(data[i].class, legend.size)
+            }
+
+            let color = ColorArrayRGB()[legend.get(data[i].class)]
+            colorsBF[index] = color[0] / 255
+            colorsBF[index + 1] = color[1] / 255
+            colorsBF[index + 2] = color[2] / 255
+        } 
 
 
-
-    for (let datum of data){ 
-        let vertex = new THREE.Vector3(datum.x* this.pointScale, datum.y*this.pointScale, 0); 
-        pointsGeometry.vertices.push(vertex); 
-        if (!legend.has(datum.class)){ 
-            legend.set(datum.class, legend.size)
-            legendArray.push({class: datum.class, index: legend.size})
+        for (let datum of data){ 
+            let vertex = new THREE.Vector3(datum.x* this.pointScale, datum.y*this.pointScale, 0); 
+            pointsGeometry.vertices.push(vertex); 
+            if (!legend.has(datum.class)){ 
+                legend.set(datum.class, legend.size)
+                legendArray.push({class: datum.class, index: legend.size})
+            }
+            let color = new THREE.Color(ColorArrayRGB()[legend.get(datum.class)]);
+            colors.push(color);
         }
-        let color = new THREE.Color(ColorArrayRGB()[legend.get(datum.class)]);
-        colors.push(color);
+
+        this.legendMap = legend 
+        this.setState({legend: legendArray}) 
+        this.circle_sprite= new THREE.TextureLoader().load( 
+            "images/circle-sprite.png", 
+            function ( texture ) { },
+            function ( xhr ) { console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );}, 
+            function ( xhr ) { console.log( 'An error happened' );}
+        )
+        pointsGeometry.colors = colors; 
+        let pointsMaterial = new THREE.PointsMaterial({
+                size: 10,
+                sizeAttenuation: false,
+                vertexColors: THREE.VertexColors,
+                map: this.circle_sprite,
+                transparent: true
+        });
+        this.points = new THREE.Points(pointsBufferGeometry, pointsMaterial); 
+        this.scene.add(this.points);
+        this.scene.background = new THREE.Color("#CDCDCD");
+ 
     }
 
-    this.legendMap = legend 
-    this.setState({legend: legendArray}) 
-    this.circle_sprite= new THREE.TextureLoader().load( 
-        "images/circle-sprite.png", 
-        function ( texture ) { },
-        function ( xhr ) { console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );}, 
-        function ( xhr ) { console.log( 'An error happened' );}
-      )
-    pointsGeometry.colors = colors; 
-    let pointsMaterial = new THREE.PointsMaterial({
-            size: 10,
-            sizeAttenuation: false,
-            vertexColors: THREE.VertexColors,
-            map: this.circle_sprite,
-            transparent: true
-    });
-    this.points = new THREE.Points(pointsBufferGeometry, pointsMaterial); 
-    this.scene.add(this.points);
-    this.scene.background = new THREE.Color("#CDCDCD");
-     
+
+        
       
-    // let numVertices = this.pointData.length
-    let position = this.points.geometry.attributes.position.array
-    let target = new Float32Array(numVertices * 3)
-    for (let i = 0, index = 0, l = numVertices; i < l; i++, index += 3) { 
-    target[index] = data[i].x * this.pointScale + 2000
-    target[index + 1] = data[i].y* this.pointScale + 2000
-    target[index + 2] = 0
-    }
-//   this.points.geometry.attributes.position = new THREE.BufferAttribute(target,3)
-//   this.points.geometry.attributes.position.needsUpdate = true // required after the first render
-
-    // let tween = new TWEEN.Tween(position).to(target, 2000).easing(TWEEN.Easing.Linear.None)
-    // tween.onUpdate(function() {
-    //     self.points.geometry.attributes.position = new THREE.BufferAttribute(position,3)
-    //     self.points.geometry.attributes.position.needsUpdate = true // required after the first render
-    // })
-    // tween.start()
-    // console.log( this.points.geometry.attributes)
+    
      
  
   }
@@ -402,6 +403,11 @@ class Scene extends Component {
           <div ref={(tooltipbox) => { this.tooltipbox = tooltipbox }}  className="tooltip">
              <div className="tooltiptitle" ref={(tooltip) => { this.tooltip = tooltip }}> hi </div>
              <img className="tooltipimg rad2" ref={(tooltipimg) => { this.tooltipimg = tooltipimg }} src={"/assets/semsearch/datasets/"  + this.state.dataset + "/0.jpg"} alt=""/>
+          </div>
+          <div className="chartdescription">
+              <div className=""> Dataset: {this.state.dataset.toUpperCase()} </div>
+            <div className="charttitle boldtext pt2 "> Model: <span > {this.state.model.toUpperCase()} </span> Model </div>
+            <div className="charttitle pt2"> Layer: <span> {this.state.layer}</span></div>
           </div>
           <div className="legendbox "> 
               <div className="legendtitle boldtext "> Legend </div>

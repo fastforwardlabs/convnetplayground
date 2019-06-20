@@ -7,6 +7,12 @@
     padding: 10px 10px 10px 10px;
 }
 
+.chartdescription{
+    position: absolute;
+    top: 1em;
+    left: 1em; 
+}
+
 .legendtitle{
     background: rgba(253, 253, 253, 0.9);
     padding: 5px 0px 5px 5px;
