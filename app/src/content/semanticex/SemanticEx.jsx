@@ -444,7 +444,12 @@ class SemanticEx extends Component {
                 {(this.state.showumap) && 
                     <div className="flex modelconfigdiv p10">
                         <Scene 
-                            data={{layer:this.state.selectedlayer}} 
+                            data={{
+                                dataset:  this.state.datasetsList[this.state.selecteddataset].name,
+                                model: this.state.modelsList[this.state.selectedmodel].name,
+                                layer: this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name,
+                                dml:this.state.datasetsList[this.state.selecteddataset].name  + this.state.modelsList[this.state.selectedmodel].name + this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name
+                            }} 
                         >
                         </Scene>
                      </div>

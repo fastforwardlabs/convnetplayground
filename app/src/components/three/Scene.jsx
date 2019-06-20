@@ -3,21 +3,10 @@ import * as THREE from 'three'
 import * as _ from 'lodash'
 import * as d3 from 'd3'
 import * as TWEEN from '@tweenjs/tween.js'
-import { loadJSONData } from "../../components/helperfunctions/HelperFunctions"
+import { loadJSONData,ColorArray } from "../../components/helperfunctions/HelperFunctions"
 import "./scene.css"
 
-let color_array = [
-    "#1f78b4",
-    "#b2df8a",
-    "#33a02c",
-    "#fb9a99",
-    "#e31a1c",
-    "#fdbf6f",
-    "#ff7f00",
-    "#6a3d9a",
-    "#cab2d6",
-    "#ffff99"
-  ]
+
 
 class Scene extends Component {
   constructor(props) {
@@ -29,18 +18,22 @@ class Scene extends Component {
 
      
     this.state = {
-        // data: this.props.data
+        legend: [],
+        dataset: "iconic200",
+        model: "vgg16",
+        layer: "block1_conv1",
+        highlightedindex: 0
     }
   }
   componentDidUpdate(prevProps, prevState) {
     // console.log("showing both values",prevProps.data, this.props.data)
     // console.log("showing both values")
-    if (this.props.data.layer !== prevProps.data.layer ) {
-        console.log("things are different")
-        // this.clearScene()
-        // console.log("clearing ", this.props.data)
-        // this.addPoints()
-    }
+    // if (this.props.data.layer !== prevProps.data.layer ) {
+    //     console.log("things are different")
+    //     // this.clearScene()
+    //     // console.log("clearing ", this.props.data)
+    //     // this.addPoints()
+    // }
    }
 
   
@@ -53,7 +46,7 @@ class Scene extends Component {
 
     this.fov = 75;
     this.near = 10;
-    this.far = 7000;
+    this.far = 900;
 
     const scene = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(
@@ -67,7 +60,7 @@ class Scene extends Component {
     const material = new THREE.MeshBasicMaterial({ color: '#433F81' })
     const cube = new THREE.Mesh(geometry, material)
 
-    camera.position.z = 4
+    // camera.position.z = 4
     // scene.add(cube)
     renderer.setClearColor('#000000')
     renderer.setSize(width, height)
@@ -79,18 +72,13 @@ class Scene extends Component {
     this.cube = cube
     this.width = width
     this.height = height
+    this.pointScale = 100
 
-    // let width = window.innerWidth;
-    // let viz_width = width;
-    // let height = window.innerHeight;
-
-    // this.fov = 40;
-    // this.near = 10;
-    // this.far = 7000;
+     
 
     this.mount.appendChild(this.renderer.domElement)
     // console.log([this.getScaleFromZ(this.far), this.getScaleFromZ(this.near)])
-    this.zoom = d3.zoom().scaleExtent([this.getScaleFromZ(this.far-1), this.getScaleFromZ(this.near)])
+    this.zoom = d3.zoom().scaleExtent([this.getScaleFromZ(this.far), this.getScaleFromZ(this.near)])
     .on('zoom',this.zoomHandler.bind(this));
 
     this.view = d3.select(this.mount);
@@ -100,7 +88,87 @@ class Scene extends Component {
     this.start()
     // this.addPoints()
     this.loadData()
+
+    this.raycaster = new THREE.Raycaster();
+    this.raycaster.params.Points.threshold = 10;
+
+    this.view.on("mousemove", () => {
+        let [mouseX, mouseY] = d3.mouse(this.view.node());
+        let mouse_position = [mouseX, mouseY];
+        // console.log(mouse_position)
+        this.checkIntersects(mouse_position);
+    });
+
+    this.view.on("mouseleave", () => {
+        this.removeHighlights()
+    });
+      
+
+    this.hoverContainer = new THREE.Object3D()
+    this.scene.add(this.hoverContainer);
  
+  }
+
+  highlightPoint(datum) {
+    this.removeHighlights();
+    
+    let geometry = new THREE.Geometry();
+    geometry.vertices.push(new THREE.Vector3(datum.x*this.pointScale,datum.y*this.pointScale,0));
+    geometry.colors = [ new THREE.Color(ColorArray()[this.legendMap.get(datum.class)]) ];
+    let material = new THREE.PointsMaterial({
+      size: 50,
+      sizeAttenuation: false,
+      vertexColors: THREE.VertexColors,
+      map: this.circle_sprite,
+      transparent: true
+    });
+    
+    let point = new THREE.Points(geometry, material);
+    this.hoverContainer.add(point);
+  }
+
+
+  
+  removeHighlights() {
+    this.hoverContainer.remove(...this.hoverContainer.children);
+  }
+
+  mouseToThree(mouseX, mouseY) {
+    return new THREE.Vector3(
+      mouseX / this.width * 2 - 1,
+      -(mouseY / this.height) * 2 + 1,
+      1
+    );
+  }
+
+  checkIntersects(mouse_position) {
+    let mouse_vector = this.mouseToThree(...mouse_position);
+    this.raycaster.setFromCamera(mouse_vector, this.camera);
+    let intersects = this.raycaster.intersectObject(this.points);
+    if (intersects[0]) {
+      let sorted_intersects = this.sortIntersectsByDistanceToRay(intersects);
+      let intersect = sorted_intersects[0];
+      let index = intersect.index;
+       
+      this.tooltipimg.src = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.dataset + "/" + index + ".jpg"
+       
+      let datum = this.pointData[index];
+      this.tooltip.innerHTML =  (datum.class).toUpperCase()
+      this.tooltipbox.style.display = "block"
+      this.tooltipbox.style.left = mouse_position[0]  + "px"
+      this.tooltipbox.style.top = (mouse_position[1] +  10) + "px" 
+      this.highlightPoint(datum);
+    //   showTooltip(mouse_position, datum);
+    } else {
+      this.removeHighlights();
+      this.hideTooltip();
+    }
+  }
+  hideTooltip(){
+    this.tooltipbox.style.display = "none"
+  }
+  sortIntersectsByDistanceToRay(intersects) {
+    return _.sortBy(intersects, "distanceToRay");
   }
 
   zoomHandler() {
@@ -145,9 +213,9 @@ class Scene extends Component {
   setUpZoom() {
     this.view.call(this.zoom);    
     let initial_scale = this.getScaleFromZ(this.far);
-    var initial_transform = d3.zoomIdentity.translate(this.width/2, this.height/2).scale(initial_scale);    
-    this.zoom.transform(this.view, initial_transform);
-    this.camera.position.set(0, 0, this.far);
+    var initial_transform = d3.zoomIdentity.translate(this.width/2, this.height/1.2).scale(initial_scale);    
+    this.zoom.transform(this.view, initial_transform); 
+    // this.camera.position.set(0, 0, this.far);
   } 
 
   clearScene(){
@@ -155,7 +223,7 @@ class Scene extends Component {
   }
 
   loadData(){
-    let umapPath = process.env.PUBLIC_URL + "/assets/semsearch/umap/iconic200/vgg16/block5_conv3.json" 
+    let umapPath = process.env.PUBLIC_URL + "/assets/semsearch/umap/" + this.state.dataset+"/" + this.state.model  +"/" + this.state.layer + ".json" 
     let loadedJSON = loadJSONData(umapPath)
     // console.log(similarityPath)    
     let self = this
@@ -166,62 +234,29 @@ class Scene extends Component {
     })
   }
 
-  createPoints(data){
-
-    
-
-
-    let data_points = [];
-    let point_num = 1000;
-    let radius = 2000;
-    let color_array = [
-        "#1f78b4",
-        "#b2df8a",
-        "#33a02c",
-        "#fb9a99",
-        "#e31a1c",
-        "#fdbf6f",
-        "#ff7f00",
-        "#6a3d9a",
-        "#cab2d6",
-        "#ffff99"
-      ]
-
-    for (let i = 0; i < point_num; i++) {
-      let position = this.randomPosition(radius);
-      let name = 'Point ' + i;
-      let group = Math.floor(Math.random() * 6);
-      let point = { position, name, group };
-      data_points.push(point);
-    }
-
-    let generated_points = data_points;
+  createPoints(data){ 
     let pointsGeometry = new THREE.Geometry();
-    let colors = [];
-    // for (let datum of generated_points) {
-    //     // console.log(datum.position[0], datum.position[1])
-    //     // Set vector coordinates from data
-    //     let vertex = new THREE.Vector3(datum.position[0], datum.position[1], 0);
-    //     // let vertex = new THREE.Vector3(0,0,0);
-    //     pointsGeometry.vertices.push(vertex);
-    //     let color = new THREE.Color(color_array[datum.group]);
-    //     colors.push(color);
-    // }
+    let colors = []; 
     let legend = new Map()
+    let legendArray = []
+    this.pointData = data
     for (let datum of data){
         // console.log(datum)
-        let vertex = new THREE.Vector3(datum.x* 100, datum.y*100, 0); 
-        pointsGeometry.vertices.push(vertex);
-
-        if (!legend.has(datum.class)){
-            // console.log( datum.class, "not in legend")
+        let vertex = new THREE.Vector3(datum.x* this.pointScale, datum.y*this.pointScale, 0); 
+        pointsGeometry.vertices.push(vertex); 
+        if (!legend.has(datum.class)){ 
             legend.set(datum.class, legend.size)
+            legendArray.push({class: datum.class, index: legend.size})
         }
-        let color = new THREE.Color(color_array[legend.get(datum.class)]);
+        let color = new THREE.Color(ColorArray()[legend.get(datum.class)]);
         colors.push(color);
     }
 
-    let circle_sprite= new THREE.TextureLoader().load(
+    this.legendMap = legend
+     
+    this.setState({legend: legendArray})
+
+    this.circle_sprite= new THREE.TextureLoader().load(
         // "http://localhost:3000/images/circle-sprite.png"
         "images/circle-sprite.png",
         // Function called when download progresses
@@ -242,30 +277,30 @@ class Scene extends Component {
             size: 8,
             sizeAttenuation: false,
             vertexColors: THREE.VertexColors,
-            map: circle_sprite,
+            map: this.circle_sprite,
             transparent: true
     });
-    let points = new THREE.Points(pointsGeometry, pointsMaterial);
+    this.points = new THREE.Points(pointsGeometry, pointsMaterial);
     // points.position.set(0,0,1) 
-    this.scene.add(points);
-    this.scene.background = new THREE.Color(0xefefef);
+    this.scene.add(this.points);
+    this.scene.background = new THREE.Color("#CDCDCD");
 
   }
 
-  addPoints(){
+//   addPoints(){
     
 
-    for (let i = 0; i < 10; i++){
-        let color = new THREE.Color(color_array[ Math.round( Math.random() * color_array.length) ] ); 
-        var material = new THREE.MeshBasicMaterial( { color: color } );
-        var geometry = new THREE.CircleGeometry (Math.random(), 42 );
-        var circle = new THREE.Mesh( geometry, material ); 
-        circle.position.setX(-5+i) 
-        circle.position.setY(Math.random()) 
-        this.scene.add( circle );
-    }
+//     for (let i = 0; i < 10; i++){
+//         let color = new THREE.Color(color_array[ Math.round( Math.random() * color_array.length) ] ); 
+//         var material = new THREE.MeshBasicMaterial( { color: color } );
+//         var geometry = new THREE.CircleGeometry (Math.random(), 42 );
+//         var circle = new THREE.Mesh( geometry, material ); 
+//         circle.position.setX(-5+i) 
+//         circle.position.setY(Math.random()) 
+//         this.scene.add( circle );
+//     }
     
-  }
+//   }
 
   componentWillUnmount() {
     this.stop()
@@ -295,10 +330,29 @@ class Scene extends Component {
   }
 
   render() {
+    let legendList = this.state.legend.map((legend, index) => {
+        return (
+            <div key={"legend" + index}> 
+              <div className="legendrow">
+                <div className="iblock legendcolorbox " style={{ backgroundColor: ColorArray()[legend.index-1] }}> </div>
+                <div className="iblock boldtext legendtext ml10" style={{ color: ColorArray()[legend.index-1] }} >  {legend.class}  </div>
+              </div> 
+            </div>
+        )
+    });
     return (
-      <div className="border positionrelative">
-          <div className="legendbox"> 
-              <div> Legend </div>
+      <div className=" positionrelative"
+       style={{ width: '100%', height: '400px' }}
+      >
+          <div ref={(tooltipbox) => { this.tooltipbox = tooltipbox }}  className="tooltip">
+             <div className="tooltiptitle" ref={(tooltip) => { this.tooltip = tooltip }}> hi </div>
+             <img className="tooltipimg rad2" ref={(tooltipimg) => { this.tooltipimg = tooltipimg }} src={"/assets/semsearch/datasets/"  + this.state.dataset + "/0.jpg"} alt=""/>
+          </div>
+          <div className="legendbox "> 
+              <div className="legendtitle boldtext "> Legend </div>
+              <div className="mt10">
+                {legendList}
+              </div>
           </div>
           <div
         style={{ width: '100%', height: '400px' }}
