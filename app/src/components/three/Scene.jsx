@@ -65,6 +65,7 @@ class Scene extends Component {
     this.fov = 75;
     this.near = 10;
     this.far = 1900;
+    this.tweenDuration = 800
 
     const scene = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(
@@ -189,7 +190,7 @@ class Scene extends Component {
       this.tooltipbox.style.display = "block"
       this.tooltipbox.style.left = mouse_position[0]  + "px"
       this.tooltipbox.style.top = (mouse_position[1] +  10) + "px" 
-      this.highlightPoint(datum);
+    //   this.highlightPoint(datum);
     //   showTooltip(mouse_position, datum);
     } else {
       this.removeHighlights();
@@ -300,13 +301,13 @@ class Scene extends Component {
         target[index + 2] = 0
         }
 
-        let tween = new TWEEN.Tween(position).to(target, 900).easing(TWEEN.Easing.Linear.None)
+        let tween = new TWEEN.Tween(position).to(target, self.tweenDuration).easing(TWEEN.Easing.Linear.None)
         tween.onUpdate(function() {
             self.points.geometry.attributes.position = new THREE.BufferAttribute(position,3)
             self.points.geometry.attributes.position.needsUpdate = true // required after the first render
         })
         tween.start()
-        console.log( this.points.geometry.attributes)
+        // console.log( this.points.geometry.attributes)
     }else {
         this.pointData = data
         for (let i = 0, index = 0, l = numVertices; i < l; i++, index += 3) {
