@@ -34,6 +34,17 @@ class Scene extends Component {
     //     // console.log("clearing ", this.props.data)
     //     // this.addPoints()
     // }
+    if (this.props.data){
+       
+        if (this.props.data.dml !== prevProps.data.dml ) {
+            // console.log("things have changed", this.props.data)
+            this.setState({dataset: this.props.data.dataset})
+            this.setState({model: this.props.data.model})
+            this.setState({layer: this.props.data.layer})
+            this.loadData()
+        }
+        
+    }
    }
 
   
@@ -235,6 +246,7 @@ class Scene extends Component {
   }
 
   createPoints(data){ 
+    this.clearScene()
     let pointsGeometry = new THREE.Geometry();
     let colors = []; 
     let legend = new Map()
@@ -335,7 +347,7 @@ class Scene extends Component {
             <div key={"legend" + index}> 
               <div className="legendrow">
                 <div className="iblock legendcolorbox " style={{ backgroundColor: ColorArray()[legend.index-1] }}> </div>
-                <div className="iblock boldtext legendtext ml10" style={{ color: ColorArray()[legend.index-1] }} >  {legend.class}  </div>
+                <div className="iblock boldtext legendtext ml10"  >  {legend.class}  </div>
               </div> 
             </div>
         )
