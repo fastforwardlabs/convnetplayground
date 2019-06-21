@@ -138,6 +138,7 @@ class Scene extends Component {
     
     this.view.on("mouseleave", () => {
         this.removeHighlights()
+        this.tooltipbox.style.display = "none"
     });
 
     this.hoverContainer = new THREE.Object3D()

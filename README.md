@@ -14,6 +14,10 @@ ConvNet Playground, the prototype created for this report, allows users to explo
 
 <img src="docs/featextraction.jpg" width="100%">
 
+We define the task of semantic search, as g
+
+>  Given a dataset of existing images, and a new arbitrary image, find a subset of images that from the dataset that are most similar to new image.
+
 Semantic similarity search is performed as a three step process. First, a pretrained CNN model is used to extract features (represented as vectors) from each image in the dataset. Next, a distance metric is used to compute the distance between each image and all other images in the dataset. Finally, to perform a search, we retrieve the precomputed distance values between the searched image and all other images sorted in the order of _closest_ to _farthest_.
 
 In practice, there are many choices to be made while implementing a similarity search tool based on convolutional neural networks. An appropriate model architecture needs to be selected, appropriate layers from the model and an appropriate distance metric. The prototype allows the user explore results from these configurations across several datasets.
@@ -55,6 +59,12 @@ The prototype interface is designed as a learning experience where the user is i
  Building for simplicity - selectively reveal complexity
 - Designing for stability. Given that the interface has a large number of moving parts, ie aspects that change based on seelctions, it was important to structure these content such that these changes result in minimal movement of elements. Only the most important elements should move/change and hence draw the user's attention. This was achieved by limiting the search ranking results to a fixed number, making the search result container have a maximum height after which a styled scrollbar is introduced (same for content of configuration panel)
 
+- Multimodal Approaches for building intuition
+Building on the principle of selective reveal, the interface is designed to selectively present multiple ways to exploring the underlying dataset. On one front the user may make a simple selection from the dataset catalog
+
+- Helpful Defaults
+Presenting interesting results to the user upfront.
+
 
 ### Semantic Search
 
@@ -79,7 +89,7 @@ For each model in the dataset, we extract embeddings which are stored in json fi
 
 ## Business Use Case
 
-In practice, there are numerous use cases for which it is beneficial to automatically extract meaningful representations of an image and leverage that for downstream tasks such as sorting, searching, curating etc.
+In practice, there are numerous use cases for which it is beneficial to automatically extract meaningful representations of an image and leverage that for downstream tasks such as sorting, searching, curating etc. In our prototype, we make a few assumptions (the searched image is arbitrary and its may or may not be similar to any existing image in our dataset). In the real world, there may be additional information that can be exploited for even better search results. For example, an ecommerce retail shop with a known catalog can fine tune their search by using a specialized neural network trained to identify similarity for their dstaset. The same general principles apply.
 
 - Client organising image documents (receipts)
 - Data curation steps
