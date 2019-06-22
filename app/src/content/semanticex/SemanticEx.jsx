@@ -74,7 +74,7 @@ class SemanticEx extends Component {
         );
 
         //Return outcome
-        // console.log( "cT:", cTop, "cB:", cBottom, "eT:", eTop, "eB:", eBottom, isTotal || isPartial)
+        // console.log("cT:", cTop, "cB:", cBottom, "eT:", eTop, "eB:", eBottom, isTotal || isPartial)
         return (isTotal || isPartial);
     }
 
@@ -93,20 +93,25 @@ class SemanticEx extends Component {
 
 
         // console.log(layers)
-        let modelVisible = self.checkInView(self.refs["modelscrollbox"], self.refs["modelimg" + this.state.selectedmodel], false)
+        let modelVisible = self.checkInView(self.refs["modelscrollbox"], self.refs["modelimg" + this.state.selectedmodel], true)
         layers.forEach(function (each, i) {
 
-            let layerVisible = self.checkInView(self.refs["layerscrollbox"], self.refs["layerimg" + i], false)
+            let layerVisible = self.checkInView(self.refs["layerscrollbox"], self.refs["layerimg" + i], true)
             if (layerVisible && modelVisible) {
                 // console.log("we drawing to", i)
+                let widthConst = 1.5
 
                 let line = new LeaderLine(self.refs["modelimg" + self.state.selectedmodel], self.refs["layerimg" + i], {
-                    color: 'red',
+                    color: self.state.selectedlayer == i ? 'rgba(0,98,255, 1)' : "grey",
                     startPlug: 'disc',
-                    endPlug: 'circle',
+                    endPlug: 'disc',
                     path: "fluid",
-                    size: 3,
+                    size: widthConst + i * 0.5,
                     hide: true,
+                    startSocket: 'bottom',
+                    endSocket: self.state.selectedlayer == i ? "top" : 'left',
+                    endPlugSize: 3 / (widthConst + i * 0.5)
+
                 });
                 document.querySelector('.leader-line').style.zIndex = -100
                 let animOptions = { duration: 800, timing: 'linear' }
