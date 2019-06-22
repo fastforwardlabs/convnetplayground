@@ -10,9 +10,9 @@ import Scene from "../../components/three/Scene"
 class SemanticEx extends Component {
     constructor(props) {
         super(props);
-        const modelDetails = require('../../assets/semsearch/details.json'); 
+        const modelDetails = require('../../assets/semsearch/details.json');
         this.datasetdictionary = require('../../assets/semsearch/datasetdictionary.json');
-        
+
         // const initialSimilarityPath = "../../assets/semsearch/similarity/" + modelDetails["datasets"][0].name + "/" + modelDetails["models"][0].name + "/" + modelDetails["metrics"][0] + "/" + modelDetails["models"][0].layers[0] + ".json"
         const similarityArray = require('../../assets/semsearch/similarity/cifar100/vgg16/cosine/block1_conv1.json');
         // require('../../assets/semsearch/similarity/cifar100/vgg16/cosine/block5_pool.json');
@@ -22,16 +22,16 @@ class SemanticEx extends Component {
 
         this.state = {
             selecteddataset: 0,
-            selectedmodel: modelDetails["models"].length -1,
+            selectedmodel: modelDetails["models"].length - 1,
             selectedsimimage: 0,
-            selectedlayer: modelDetails["models"][modelDetails["models"].length -1].layers.length -1,
+            selectedlayer: modelDetails["models"][modelDetails["models"].length - 1].layers.length - 1,
             selectedmetric: 0,
             similarityArray: similarityArray,
             datasetArray: [],
             datasetsList: modelDetails["datasets"],
             modelsList: modelDetails["models"],
             distanceMetricList: modelDetails["metrics"],
-            showorientationmodal: !this.props.pageviewed,
+            // showorientationmodal: !this.props.pageviewed,
             showmodelconfig: false,
             showumap: false,
             showdatasetmodal: false,
@@ -43,7 +43,9 @@ class SemanticEx extends Component {
         this.updateSimilarity()
         this.loadDatasetList()
         // }, 2000);
-       
+
+        this.searchCount = 0;
+
 
     }
 
@@ -77,13 +79,15 @@ class SemanticEx extends Component {
     }
 
     clickSimilarImage(e) {
-        this.setState({ selectedsimimage: e.target.getAttribute("indexvalue") })
-        // this.setState({ showumap: false })
-        this.setState({ showtopresults: true })
+        // this.setState({ selectedsimimage: })
+        // // this.setState({ showumap: false })
+        // this.setState({ showtopresults: true })
+        this.setSelectedImage(e.target.getAttribute("indexvalue"))
     }
-    setSelectedImage(val){
-        this.setState({ selectedsimimage: val})
+    setSelectedImage(val) {
+        this.setState({ selectedsimimage: val })
         this.setState({ showtopresults: true })
+        this.searchCount++
     }
 
     toggleSemanticModal(e) {
@@ -91,29 +95,33 @@ class SemanticEx extends Component {
         // console.log(this.state.showorientationmodal)
     }
 
-   
+
     toggleModelConfig(e) {
         this.setState({ showmodelconfig: !(this.state.showmodelconfig) })
         // console.log(this.state.showorientationmodal)
     }
 
-    toggleUMAPView(e){
-        this.setState({ showumap: !(this.state.showumap)})
+    toggleUMAPView(e) {
+        this.setState({ showumap: !(this.state.showumap) })
+    }
+
+    toggleTopX(e) {
+        this.setState({ showtopresults: !(this.state.showtopresults) })
     }
 
     toggleDatasetModal(e) {
-        this.setState({ showdatasetmodal: !(this.state.showdatasetmodal) }) 
+        this.setState({ showdatasetmodal: !(this.state.showdatasetmodal) })
     }
 
     toggleViewDatasetBy(e) {
-        this.setState({ viewdatasetby: e.target.getAttribute("viewby") }) 
+        this.setState({ viewdatasetby: e.target.getAttribute("viewby") })
     }
 
-    showTopResults(){
+    showTopResults() {
         this.setState({ showtopresults: true })
     }
 
-   
+
 
 
     updateSimilarity() {
@@ -125,7 +133,7 @@ class SemanticEx extends Component {
         loadedJSON.then(function (data) {
             if (data) {
                 self.setState({ similarityArray: data })
-                
+
             }
         })
 
@@ -134,11 +142,11 @@ class SemanticEx extends Component {
     loadDatasetList() {
 
         let similarityPath = process.env.PUBLIC_URL + "/assets/semsearch/similarity/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + this.state.modelsList[this.state.selectedmodel].name + "/" + this.state.distanceMetricList[this.state.selectedmetric] + "/" + this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name + ".json"
-        let loadedJSON = loadJSONData(similarityPath) 
+        let loadedJSON = loadJSONData(similarityPath)
         let self = this
         loadedJSON.then(function (data) {
             if (data) {
-               
+
                 self.setState({ datasetArray: data["0"] })
             }
         })
@@ -185,8 +193,9 @@ class SemanticEx extends Component {
 
             return (
                 <div key={ldata + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
-                    <div className="datasettitles"> {"layer " +ldata.layer_index} </div>
+                    <div className="datasettitles"> {"layer " + ldata.layer_index} </div>
                     {/* {abbreviateString(ldata.name, 11).toLowerCase()}  */}
+                    <div className="smalldesc pb5"> {abbreviateString(ldata.name, 11).toLowerCase()} </div>
                     <img onClick={this.clickLayerImage.bind(this)} src={imagePath} alt="" className={"datasetbox rad2 " + (this.state.selectedlayer == index ? "active" : "")} indexvalue={index} />
                 </div>
             )
@@ -212,21 +221,21 @@ class SemanticEx extends Component {
                 let imagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + classval + ".jpg"
                 return (
                     <div key={classval + "winper"} className="iblock similarityfullbox mr5 mb5 positionrelative">
-                        <img key={classval + "image"  } onClick={this.clickSimilarImage.bind(this)} src={imagePath} alt="" className={"simiimage clickable rad2 " + (this.state.selectedsimimage == classval ? "active" : "")} indexvalue={classval} />
+                        <img key={classval + "image"} onClick={this.clickSimilarImage.bind(this)} src={imagePath} alt="" className={"simiimage clickable rad2 " + (this.state.selectedsimimage == classval ? "active" : "")} indexvalue={classval} />
                     </div>
                 )
             });
-            let header =  
-                <div key={"header" + className}  className="iblock mr5 categorymain  mb5 ">
+            let header =
+                <div key={"header" + className} className="iblock mr5 categorymain  mb5 ">
                     <div>
                         <div className=" boldtext categorytitle"> {className.toUpperCase()} </div>
-                    <img  src={require("../../images/bgwhite.png")} alt="" className={"categorybox rad2 "} indexvalue={index} />
+                        <img src={require("../../images/bgwhite.png")} alt="" className={"categorybox rad2 "} indexvalue={index} />
                     </div>
-                    
+
                 </div>
-             
-             datasetClassImagesList.push(header)
-             datasetClassImagesList.push(clist)
+
+            datasetClassImagesList.push(header)
+            datasetClassImagesList.push(clist)
 
             // return (
             //     <div key={className + "fullbox" + index} className="positionrelative  mr10 border ">
@@ -239,10 +248,10 @@ class SemanticEx extends Component {
         let similarImagesList = this.state.similarityArray[this.state.selectedsimimage].map((alldata, index) => {
             let imagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + alldata[0] + ".jpg"
             // console.log(imagePath)
-            let similarityScore = (alldata[1] * 1).toFixed(3) 
+            let similarityScore = (alldata[1] * 1).toFixed(3)
             let returnValue = (
                 <div key={alldata[0] + "winper"} className="iblock similarityfullbox mr5 mb5 positionrelative">
-                     <div className="smalldesc mb5">{makeFriendly(similarityScore)} </div>
+                    <div className="smalldesc mb5">{makeFriendly(similarityScore)} </div>
                     <img key={alldata[0] + "image" + alldata[0]} onClick={this.clickSimilarImage.bind(this)} src={imagePath} alt="" className={"simiimage clickable rad2 "} indexvalue={alldata[0]} />
                     <div className="outersimbar">
                         <div className="innersimbar" style={{ width: (boundWidth(similarityScore) * 100) + "%" }}></div>
@@ -254,22 +263,22 @@ class SemanticEx extends Component {
             return (returnValue)
         });
 
-        let simArr =this.state.similarityArray[this.state.selectedsimimage].slice(1, this.state.topx + 1)
-        let allDictionary = this.datasetdictionary.dictionary[this.state.datasetsList[this.state.selecteddataset].name] 
-        let selectedCat = allDictionary[this.state.selectedsimimage] 
+        let simArr = this.state.similarityArray[this.state.selectedsimimage].slice(1, this.state.topx + 1)
+        let allDictionary = this.datasetdictionary.dictionary[this.state.datasetsList[this.state.selecteddataset].name]
+        let selectedCat = allDictionary[this.state.selectedsimimage]
         // console.log(simar.slice(1, this.state.topx + 1))
         // console.log(this.state.selectedsimimage)
         let simCount = 0
         let modelScore = 0
         let totalScore = 0
-        for  (var i in simArr){ 
+        for (var i in simArr) {
             if (selectedCat == allDictionary[simArr[i][0]]) {
                 simCount++
-                modelScore += (this.state.topx - i)/ this.state.topx
+                modelScore += (this.state.topx - i) / this.state.topx
             }
-            totalScore += (this.state.topx - i)/ this.state.topx
+            totalScore += (this.state.topx - i) / this.state.topx
         }
-         
+
 
 
         let datasetimagesList = this.state.datasetArray.map((alldata, index) => {
@@ -294,13 +303,13 @@ class SemanticEx extends Component {
         //     return (returnValue)
         // });
 
- 
+
 
         let selectedImagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + this.state.selectedsimimage + ".jpg"
         // process.env.PUBLIC_URL + "/assets/semsearch/datasets/cifar100/train/" + this.state.selectedsimimage + ".jpg"
         return (
             <div>
-              
+
 
                 {(this.state.showorientationmodal) && <Modal className="orientationmodal"
                     open={true}
@@ -308,10 +317,10 @@ class SemanticEx extends Component {
                     // style={{maxWidth: '1600px', width: '100%'}}
                     passiveModal={false}
                     primaryButtonText="Get Started"
-                    secondaryButtonText = "Close"
+                    secondaryButtonText="Close"
                     modalHeading="Semantic Search"
                     modalLabel="ConvNet Playground"
-                    onRequestSubmit={this.toggleSemanticModal.bind(this)} 
+                    onRequestSubmit={this.toggleSemanticModal.bind(this)}
                     onRequestClose={this.toggleSemanticModal.bind(this)}
                 >
                     <SemanticModalContent></SemanticModalContent>
@@ -327,11 +336,11 @@ class SemanticEx extends Component {
                     // secondaryButtonText = "Do not show this again"
                     modalHeading={this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()}
                     modalLabel="Dataset details"
-                    onRequestSubmit={this.toggleDatasetModal.bind(this)} 
+                    onRequestSubmit={this.toggleDatasetModal.bind(this)}
                     onRequestClose={this.toggleDatasetModal.bind(this)}
                 >
                     <div className=" mb10">{this.state.datasetsList[this.state.selecteddataset].description}  </div>
-                     {datasetClassImagesList}
+                    {datasetClassImagesList}
 
                 </Modal>}
 
@@ -356,22 +365,22 @@ class SemanticEx extends Component {
 
                 <div className="mynotif lh10 p20 mt10 instructions lightbluehightlight maxh16">
                     In this demo, we use features extracted from convolutional neural networks to search for images that are
-                    similar to a selected image. 
-                    To <strong> perform a search</strong>, <strong>click</strong>  on any image to select it and the  <strong> top {this.state.topx} </strong> 
+                    similar to a selected image.
+                    To <strong> perform a search</strong>, <strong>click</strong>  on any image to select it and the  <strong> top {this.state.topx} </strong>
                     most similar images (from our dataset) will be displayed. The
                     <strong> Search Configuration </strong> interactive panel lets you observe how different models, layers and distance metrics affect search results for different datasets.
-                    
-                    <br/>
+
+                    <br />
                     <strong> Hint:</strong>  Early layers work well for simple feature matching (colors, lines), later layers work well for complex concepts (faces, cars etc).
-                    
+
                 </div>
 
 
-                 
-              
+
+
                 {/* config panel and content */}
                 <div onClick={this.toggleModelConfig.bind(this)} className="unselectable mt10 p10 clickable  flex greymoreinfo">
-                    <div className="iblock flexfull minwidth485"> <strong> {!this.state.showmodelconfig &&  <span>&#x25BC;  </span> } {this.state.showmodelconfig &&  <span>&#x25B2;  </span> } </strong> Search Configuration </div>
+                    <div className="iblock flexfull minwidth485"> <strong> {!this.state.showmodelconfig && <span>&#x25BC;  </span>} {this.state.showmodelconfig && <span>&#x25B2;  </span>} </strong> Search Configuration </div>
                     <div className="iblock   ">
                         <div className="iblock mr5"> <span className="boldtext"> {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()}</span></div>
                         <div className="iblock">
@@ -392,7 +401,7 @@ class SemanticEx extends Component {
                             <div className=" iblock boldtext  boldtext datasetdescription mr10  p10 greyhighlight">{this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()}</div>
                             <div onClick={this.toggleDatasetModal.bind(this)} className="iblock p10 greyhighlight clickable unselectable greymoreinfo mt10"> ? More Info </div>
                         </div>
-                        
+
                     </div>
                     <div className="flex3  mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Model </div>
@@ -411,7 +420,7 @@ class SemanticEx extends Component {
                         <div className="flex flexwrap pr10">
                             <div className="  mr10 ">
                                 {/* <div className=" iblock boldtext datasetdescription  p10 greyhighlight"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}</div> */}
-                                <div className=" iblock boldtext datasetdescription  p10 greyhighlight">{" LAYER " + this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index }</div>
+                                <div className=" iblock boldtext datasetdescription  p10 greyhighlight">{" LAYER " + this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index}</div>
                             </div>
                             <div className="flexfull ">
                                 {/* <div className="smalldesc boldtext pt4"> Layer [ {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index}  of {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].totallayers}  ] {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type} </div> */}
@@ -433,54 +442,69 @@ class SemanticEx extends Component {
                     <div className="horrule mb10"></div>
 
                 </div>}
-               
-                
+
+
                 {/* show umap panel and content */}
                 <div onClick={this.toggleUMAPView.bind(this)} className="unselectable mt10 p10 clickable  flex greymoreinfo">
-                    <div className="iblock flexfull minwidth485"> <strong> {!this.state.showumap &&  <span>&#x25BC;  </span> } {this.state.showumap &&  <span>&#x25B2;  </span> } </strong> Visualization of Embeddings (UMAP) for Extracted Features </div>
+                    <div className="iblock flexfull minwidth485"> <strong> {!this.state.showumap && <span>&#x25BC;  </span>} {this.state.showumap && <span>&#x25B2;  </span>} </strong> Visualization of Embeddings (UMAP) for Extracted Features </div>
                     <div className="iblock   ">
-                            <div className="iblock mr5"> <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span></div>
-                            <div className="iblock">
-                                <div className="smalldesc"> LAYER {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index} / { this.state.modelsList[this.state.selectedmodel].numlayers } </div>
-                            </div>
+                        <div className="iblock mr5"> <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span></div>
+                        <div className="iblock">
+                            <div className="smalldesc"> LAYER {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index} / {this.state.modelsList[this.state.selectedmodel].numlayers} </div>
+                        </div>
                     </div>
 
                 </div>
 
-                {(this.state.showumap) && 
+                {(this.state.showumap) &&
                     <div className="flex modelconfigdiv p10">
-                        <Scene 
+                        <Scene
                             setselected={this.setSelectedImage.bind(this)}
                             data={{
-                                
-                                dataset:  this.state.datasetsList[this.state.selecteddataset].name,
+
+                                dataset: this.state.datasetsList[this.state.selecteddataset].name,
                                 model: this.state.modelsList[this.state.selectedmodel].name,
                                 layerindex: this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index,
                                 layer: this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name,
-                                dml:this.state.datasetsList[this.state.selecteddataset].name  + this.state.modelsList[this.state.selectedmodel].name + this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name
-                            }} 
+                                dml: this.state.datasetsList[this.state.selecteddataset].name + this.state.modelsList[this.state.selectedmodel].name + this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name
+                            }}
                         >
                         </Scene>
-                     </div>
+                    </div>
                 }
 
-                 
+
                 {/* top results */}
-                { 
-                <div className="sliderboxcontainer pt10 ">
-                    <div className={"  flex sliderbox topconfig" + (this.state.showtopresults ? " open": " closed") }>
-                        <div className="iblock positionrelative flex1 mr10">
-                            <img src={selectedImagePath} className="mainsimilarityimage rad4  iblock" alt="" />
-                            <div className="mt5  mainsimilaritytitle   lightbluehightlight"> 
-                                <div className="boldtext iblock mediumdesc mr5"> SELECTED IMAGE  </div>
-                                <div className="iblock smalldesc pt5 "> {selectedCat.toUpperCase()}  <strong>  </strong></div>
-                            </div>
-                        
-                        
-                            {/* <div> searchimi number {this.state.selectedsimimage}</div> */}
+                {/* show top results panel and content */}
+                {(this.state.showtopresults || this.searchCount > 0) && <div onClick={this.toggleTopX.bind(this)} className="unselectable mt10 p10 clickable  flex greymoreinfo">
+                    <div className="iblock flexfull minwidth485"> <strong> {!this.state.showtopresults && <span>&#x25BC;  </span>} {this.state.showtopresults && <span>&#x25B2;  </span>} </strong> <strong>Top {this.state.topx} results </strong>  with  <strong className="smalldesc">{this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()}</strong> similarity score. </div>
+                    <div className="iblock   ">
+                        <div className="iblock mr5"> <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span></div>
+                        <div className="iblock">
+                            <div className="smalldesc"> LAYER {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index} / {this.state.modelsList[this.state.selectedmodel].numlayers} </div>
                         </div>
-                        <div className=" flexfull">
-                            {/* <div className="flex mb10">
+                    </div>
+
+                </div>}
+
+                {
+                    <div className="sliderboxcontainer pt10 ">
+                        <div className={" sliderbox topconfig" + (this.state.showtopresults ? " open" : " closed")}>
+
+
+                            <div className="flex">
+                                <div className="iblock positionrelative flex1 mr10">
+                                    <img src={selectedImagePath} className="mainsimilarityimage rad4  iblock" alt="" />
+                                    <div className="mt5  mainsimilaritytitle   lightbluehightlight">
+                                        <div className="boldtext iblock mediumdesc mr5"> SELECTED IMAGE  </div>
+                                        <div className="iblock smalldesc pt5 "> {selectedCat.toUpperCase()}  <strong>  </strong></div>
+                                    </div>
+
+
+                                    {/* <div> searchimi number {this.state.selectedsimimage}</div> */}
+                                </div>
+                                <div className=" flexfull">
+                                    {/* <div className="flex mb10">
                                 <div className="flexfull"> <div className="mainsimilaritydesc lightbluehightlight p10"> <strong>Top {this.state.topx} results </strong>  with  <strong className="smalldesc">{this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()}</strong> similarity score. </div></div>
                                 <div className="">
                                     <div className="block p10 greyhighlight   ">
@@ -492,36 +516,37 @@ class SemanticEx extends Component {
                                 </div>
                                 
                             </div> */}
-                            
-                            <div className="scrollwindow layerwindow ">
-                                
-                                <div className=" iblock mr10 rad3 "> 
-                                    <div className="pb5 smalldesc "> weighted score </div>
-                                    <div className="topscorediv">
-                                       
-                                        <div className="mainscore  topmainscore"> { ( (modelScore/totalScore) *100 ).toFixed(1)  + "%"} </div>
-                                        <div className="weightedscore smalldesc textaligncenter"> {simCount} / {this.state.topx} results <br/> in same category </div>
+
+                                    <div className="scrollwindow layerwindow ">
+
+                                        <div className=" iblock mr10 rad3 ">
+                                            <div className="pb5 smalldesc "> weighted score </div>
+                                            <div className="topscorediv">
+
+                                                <div className="mainscore  topmainscore"> {((modelScore / totalScore) * 100).toFixed(1) + "%"} </div>
+                                                <div className="weightedscore smalldesc textaligncenter"> {simCount} / {this.state.topx} results <br /> in same category </div>
+                                            </div>
+
+                                        </div>
+                                        {similarImagesList.slice(1, this.state.topx + 1)}
+                                        <br />
+                                        <br />
                                     </div>
-                                    
+
                                 </div>
-                                {similarImagesList.slice(1, this.state.topx+1)}
-                               <br/>
-                               <br/>
                             </div>
-                            
                         </div>
-                    </div>
-                </div> }
+                    </div>}
 
                 {this.state.showtopresults &&
-                    <div className="mb5 pt5 mediumdesc lhmedium textalignright mr10"> 
-                    Search results not awesome? <strong>Hint:</strong> Try a different model or layer. 
+                    <div className="mb5 pt5 mediumdesc lhmedium textalignright mr10">
+                        Search results not awesome? <strong>Hint:</strong> Try a different model or layer.
                     </div>
                 }
-                
 
-               
-                
+
+
+
                 {/* daset div */}
                 <div className="horrule mb10"></div>
                 <div className="">
@@ -530,19 +555,19 @@ class SemanticEx extends Component {
                         {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr5 " + (this.state.viewdatasetby == "all" ?  "active" : "" ) } viewby="all">  All </div> */}
                         {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (this.state.viewdatasetby == "category" ?  "active" : "" ) } viewby="category">  By  Category </div> */}
                         {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (this.state.viewdatasetby == "graph" ?  "active" : "" ) } viewby="graph">  Graph </div> */}
-                         
-                                <div className="boldtext mb10 iblock  mr10"> Dataset [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
-                                <div className="iblock pt10">  {this.state.datasetsList[this.state.selecteddataset].description}   </div>
+
+                        <div className="boldtext mb10 iblock  mr10"> Dataset [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
+                        <div className="iblock pt10">  {this.state.datasetsList[this.state.selecteddataset].description}   </div>
                     </div>
                     {/* <div className="horrule mb10"></div> */}
                     {/* <div className="mt10 mb10">
                           
                     </div> */}
                     <div className="lightbluehightlight mb10 mt10"> Click an image to search for other similar images. </div>
-                    <div className="  scrollwindow  datasetdivbox"> 
-                         {this.state.viewdatasetby ==  "all" && datasetimagesList}
-                         {this.state.viewdatasetby ==  "category" && datasetClassImagesList}
-                          
+                    <div className="  scrollwindow  datasetdivbox">
+                        {this.state.viewdatasetby == "all" && datasetimagesList}
+                        {this.state.viewdatasetby == "category" && datasetClassImagesList}
+
                         {/* { this.state.viewalldataset?  datasetimagesList: datasetClassImagesList}  */}
                     </div>
                 </div>
