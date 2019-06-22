@@ -128,7 +128,7 @@ class Scene extends Component {
         this.view.on("click", () => {
             //    console.log("clisk", this.lastSeenIndex)
             this.props.setselected(this.lastSeenIndex + "")
-            this.clickTest()
+            // this.clickTest()
 
 
         });
@@ -238,7 +238,7 @@ class Scene extends Component {
         let z = this.getZFromScale(scale);
         // console.log( this.width, d3_transform, x,y,z)
         this.camera.position.set(x, y, z);
-        console.log("On zoom ", x, y, z)
+        // console.log("On zoom ", x, y, z)
     }
 
     getScaleFromZ(camera_z_position) {
@@ -273,12 +273,16 @@ class Scene extends Component {
     setUpZoom() {
         this.view.call(this.zoom);
         let initial_scale = this.getScaleFromZ(this.far);
-
         var initial_transform = d3.zoomIdentity.translate(this.width / 2, this.height / 2).scale(initial_scale);
-        console.log(initial_transform)
+        // console.log(initial_transform)
         this.zoom.transform(this.view, initial_transform);
         // this.camera.position.setX(160);
-        console.log("initial position", this.camera.position)
+        // console.log("initial position", this.camera.position)
+    }
+
+    zoomOutCamera() {
+
+        // this.setUpZoom()
     }
 
     clearScene() {
@@ -320,6 +324,7 @@ class Scene extends Component {
         pointsBufferGeometry.addAttribute('color', new THREE.BufferAttribute(colorsBF, 3))
 
         for (let i = 0, index = 0, l = numVertices; i < l; i++ , index += 3) {
+
             positions[index] = data[i].x * this.pointScale
             positions[index + 1] = data[i].y * this.pointScale
             positions[index + 2] = 0
@@ -340,6 +345,7 @@ class Scene extends Component {
         this.setState({ legend: legendArray })
 
         if (this.pointData) {
+            this.zoomOutCamera()
             // let numVertices = this.pointData.length
             let position = this.points.geometry.attributes.position.array
             let target = new Float32Array(numVertices * 3)
