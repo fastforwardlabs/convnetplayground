@@ -57,13 +57,15 @@ The second part of the part of the prototype is a visualization interface for ex
 The prototype interface is designed as a learning experience where the user is introduced to several concepts related to how CNNs work.
 
  Building for simplicity - selectively reveal complexity
-- Designing for stability. Given that the interface has a large number of moving parts, ie aspects that change based on seelctions, it was important to structure these content such that these changes result in minimal movement of elements. Only the most important elements should move/change and hence draw the user's attention. This was achieved by limiting the search ranking results to a fixed number, making the search result container have a maximum height after which a styled scrollbar is introduced (same for content of configuration panel)
+- Designing for stability. Given that the interface has a large number of moving parts, ie aspects that change based on seelctions, it was important to structure these content such that these changes result in minimal movement of elements (moving or jarring content sudden jump). Only the most important elements should move/change and hence draw the user's attention. This was achieved by limiting the search ranking results to a fixed number, making the search result container have a maximum height after which a styled scrollbar is introduced (same for content of configuration panel)
 
 - Multimodal Approaches for building intuition
 Building on the principle of selective reveal, the interface is designed to selectively present multiple ways to exploring the underlying dataset. On one front the user may make a simple selection from the dataset catalog
 
 - Helpful Defaults
 Presenting interesting results to the user upfront.
+
+- 
 
 
 ### Semantic Search
