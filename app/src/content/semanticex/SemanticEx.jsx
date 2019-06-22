@@ -7,6 +7,7 @@ import { greyColor, blueColor, abbreviateString, loadJSONData, makeFriendly, bou
 
 import Scene from "../../components/three/Scene"
 
+var isScrolling
 
 
 class SemanticEx extends Component {
@@ -47,16 +48,34 @@ class SemanticEx extends Component {
         this.searchCount = 0;
         this.lineHolder = []
 
+
+
+    }
+
+    scrollEndedHandler() {
+        window.clearTimeout(this.isScrolling);
+        let self = this
+        this.isScrolling = setTimeout(function () {
+            // console.log('Scrolling has stopped.');
+            self.drawLines()
+        }, 200);
     }
 
     componentDidMount() {
         // this.drawLines()
         document.title = "ConvNet Playground | Semantic Search Explorer";
         this.LayerScrollTop = 0
-
+        window.addEventListener('resize', this.scrollEndedHandler.bind(this))
     }
+
+
     componentWillUnmount() {
         this.removeLines();
+        window.removeEventListener('resize', this.scrollEndedHandler.bind(this))
+    }
+
+    resizeHandler() {
+        // this.drawLines()
     }
 
     drawLines(e) {
@@ -72,16 +91,18 @@ class SemanticEx extends Component {
             if (layerVisible && modelVisible) {
                 // console.log("we drawing to", i)
                 let widthConst = 1.5
+                // console.log(i, self.state.selectedlayer)
 
                 let line = new LeaderLine(self.refs["modelimg" + self.state.selectedmodel], self.refs["layerimg" + i], {
-                    color: self.state.selectedlayer == i ? blueColor : greyColor,
+                    color: self.state.selectedlayer == (i + "") ? blueColor : greyColor,
                     startPlug: 'disc',
                     endPlug: 'disc',
+                    startPlugColor: blueColor,
                     path: "fluid",
                     size: Math.min(widthConst + i * 0.5, 2.5),
                     hide: true,
                     startSocket: 'bottom',
-                    endSocket: self.state.selectedlayer == i ? "top" : 'left',
+                    endSocket: self.state.selectedlayer == (i + "") ? "top" : 'left',
                     endPlugSize: 3 / Math.min(widthConst + i * 0.5, 2.5),
 
                 });
@@ -100,7 +121,6 @@ class SemanticEx extends Component {
     }
     recolorLines(e) {
         let self = this
-        // console.log(this.LayerScrollTop, this.refs["layerscrollbox"].scrollTop, "bingoo")
         if (this.LayerScrollTop != this.refs["layerscrollbox"].scrollTop) {
             this.LayerScrollTop = this.refs["layerscrollbox"].scrollTop
             this.drawLines()
@@ -110,12 +130,13 @@ class SemanticEx extends Component {
                     each.line.hide("none")
                     each.line.color = blueColor
                     each.line.show("draw", animOptions)
+                    each.line.endSocket = "top"
                 } else {
                     each.line.color = greyColor
+                    each.line.endSocket = "left"
                 }
             })
         }
-
     }
 
 
@@ -131,10 +152,15 @@ class SemanticEx extends Component {
             this.recolorLines()
         }
         if (this.state.showmodelconfig != prevState.showmodelconfig) {
+            let self = this
             if (this.state.showmodelconfig) {
+                self.refs["layerscrollbox"].addEventListener("scroll", self.scrollEndedHandler.bind(this), false)
+                self.refs["modelscrollbox"].addEventListener("scroll", self.scrollEndedHandler.bind(this), false)
                 this.drawLines()
             } else {
                 this.removeLines()
+                self.refs["layerscrollbox"].addEventListener("scroll", self.scrollEndedHandler.bind(this), false)
+                self.refs["modelscrollbox"].addEventListener("scroll", self.scrollEndedHandler.bind(this), false)
             }
         }
     }
@@ -200,7 +226,7 @@ class SemanticEx extends Component {
 
     showTopResults() {
         this.setState({ showtopresults: true })
-        this.refs["topresultsbox"].style.opacity = 0.8;
+        this.refs["topresultsbox"].style.opacity = 0.75;
         let self = this
         setTimeout(() => {
             self.refs["topresultsbox"].style.opacity = 1;

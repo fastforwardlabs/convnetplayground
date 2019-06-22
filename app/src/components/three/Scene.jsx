@@ -61,12 +61,13 @@ class Scene extends Component {
     componentDidMount() {
 
 
+
         const width = this.mount.clientWidth
         const height = this.mount.clientHeight
 
-        this.fov = 75;
-        this.near = 10;
-        this.far = 1900;
+        this.fov = 15;
+        this.near = 0.1;
+        this.far = 90;
         this.tweenDuration = 800
 
         const scene = new THREE.Scene()
@@ -93,7 +94,7 @@ class Scene extends Component {
         this.cube = cube
         this.width = width
         this.height = height
-        this.pointScale = 120
+        this.pointScale = 1
 
         window.addEventListener('resize', this.resizeHandler.bind(this))
 
@@ -127,6 +128,9 @@ class Scene extends Component {
         this.view.on("click", () => {
             //    console.log("clisk", this.lastSeenIndex)
             this.props.setselected(this.lastSeenIndex + "")
+            this.clickTest()
+
+
         });
 
         this.view.on("mouseleave", () => {
@@ -137,6 +141,14 @@ class Scene extends Component {
         this.hoverContainer = new THREE.Object3D()
         this.scene.add(this.hoverContainer);
 
+
+    }
+
+    clickTest() {
+        let models = ["tinyimagenet", "cifar10", "iconic200"]
+        let model = models[Math.round(Math.random() * models.length)] || "cifar10"
+        console.log(model)
+        this.setState({ dataset: model })
     }
 
     resizeHandler() {
@@ -226,7 +238,7 @@ class Scene extends Component {
         let z = this.getZFromScale(scale);
         // console.log( this.width, d3_transform, x,y,z)
         this.camera.position.set(x, y, z);
-        // console.log("On zoom ",x, y, z)
+        console.log("On zoom ", x, y, z)
     }
 
     getScaleFromZ(camera_z_position) {
@@ -261,10 +273,12 @@ class Scene extends Component {
     setUpZoom() {
         this.view.call(this.zoom);
         let initial_scale = this.getScaleFromZ(this.far);
-        var initial_transform = d3.zoomIdentity.translate(this.width / 2, this.height / 1.2).scale(initial_scale);
+
+        var initial_transform = d3.zoomIdentity.translate(this.width / 2, this.height / 2).scale(initial_scale);
+        console.log(initial_transform)
         this.zoom.transform(this.view, initial_transform);
         // this.camera.position.setX(160);
-        // console.log("initial position", this.camera.position)
+        console.log("initial position", this.camera.position)
     }
 
     clearScene() {

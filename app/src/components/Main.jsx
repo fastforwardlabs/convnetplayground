@@ -85,6 +85,7 @@ class Main extends Component {
         const mScene = (props) => {
             return (
                 <Scene
+                    setselected={function (val) { }}
                     data={{
                         dataset: "tinyimagenet",
                         model: "xception",
@@ -136,7 +137,7 @@ class Main extends Component {
                 <div className="container-fluid p10">
                     <Route exact path="/" component={mySemanticComponent} />
                     <Route exact path="/models" component={myModalComponent} />
-                    {/* <Route exact path="/energy" component={EnergyEx} /> */}
+                    <Route exact path="/scene" component={mScene} />
                     <Route exact path="/test" component={Test} />
 
                 </div>

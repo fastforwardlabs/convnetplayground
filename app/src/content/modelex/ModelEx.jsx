@@ -74,6 +74,7 @@ class ModelEx extends Component {
                     color: self.state.selectedlayer == i ? blueColor : greyColor,
                     startPlug: 'disc',
                     endPlug: 'disc',
+                    startPlugColor: blueColor,
                     path: "fluid",
                     size: Math.min(widthConst + i * (0.2), 2.5),
                     hide: true,
@@ -97,7 +98,6 @@ class ModelEx extends Component {
     }
     recolorLines(e) {
         let self = this
-        // console.log(this.LayerScrollTop, this.refs["layerscrollbox"].scrollTop, "bingoo")
         if (this.LayerScrollTop != this.refs["layerscrollbox"].scrollTop) {
             this.LayerScrollTop = this.refs["layerscrollbox"].scrollTop
             this.drawLines()
@@ -107,8 +107,10 @@ class ModelEx extends Component {
                     each.line.hide("none")
                     each.line.color = blueColor
                     each.line.show("draw", animOptions)
+                    each.line.endSocket = "top"
                 } else {
                     each.line.color = greyColor
+                    each.line.endSocket = "left"
                 }
             })
         }
@@ -168,7 +170,21 @@ class ModelEx extends Component {
         document.addEventListener("keydown", this.keyFunction, false);
         this.drawLines()
         this.LayerScrollTop = 0
+        window.addEventListener('resize', this.scrollEndedHandler.bind(this))
 
+        let self = this
+        self.refs["layerscrollbox"].addEventListener("scroll", self.scrollEndedHandler.bind(this), false)
+        self.refs["modelscrollbox"].addEventListener("scroll", self.scrollEndedHandler.bind(this), false)
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener("keydown", this.keyFunction, false);
+        window.removeEventListener('resize', this.scrollEndedHandler.bind(this))
+        this.removeLines();
+
+        let self = this
+        self.refs["layerscrollbox"].addEventListener("scroll", self.scrollEndedHandler.bind(this), false)
+        self.refs["modelscrollbox"].addEventListener("scroll", self.scrollEndedHandler.bind(this), false)
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -215,10 +231,16 @@ class ModelEx extends Component {
         console.log(e.keyCode)
     }
 
-    componentWillUnmount() {
-        document.removeEventListener("keydown", this.keyFunction, false);
-        this.removeLines();
+    scrollEndedHandler() {
+        window.clearTimeout(this.isScrolling);
+        let self = this
+        this.isScrolling = setTimeout(function () {
+            console.log('Scrolling has stopped.');
+            self.drawLines()
+        }, 200);
     }
+
+
 
     twitterShare(e) {
         e.preventDefault();

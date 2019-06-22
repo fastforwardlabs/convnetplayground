@@ -25,7 +25,8 @@ class AppHeader extends Component {
                 <Header aria-label="Convolutional Neural Network Playground">
                     <SkipToContent />
                     <HeaderName prefix="">
-                        <div className="decornone "><NavLink exact to="/">  ConvNet Playground</NavLink></div>
+                        {/* <div className="decornone "><NavLink exact to="/"> </NavLink></div> */}
+                        ConvNet Playground
 
                     </HeaderName>
                     <HeaderNavigation aria-label="Convolutional Neural Network Playground">

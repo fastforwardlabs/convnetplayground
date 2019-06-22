@@ -89,24 +89,30 @@ export function ColorArrayRGB() {
 
 export function checkInView(container, element, partial, containerOffset, elementOffset) {
 
-    //Get container properties
-    let cTop = container.scrollTop;
-    let cBottom = cTop + container.clientHeight + containerOffset;
+    if (container) {
+        //Get container properties
+        let cTop = container.scrollTop;
+        let cBottom = cTop + container.clientHeight + containerOffset;
 
-    //Get element properties
-    let eTop = element.offsetTop + elementOffset;
-    let eBottom = eTop + element.clientHeight;
+        //Get element properties
+        let eTop = element.offsetTop + elementOffset;
+        let eBottom = eTop + element.clientHeight;
 
-    //Check if in view    
-    let isTotal = (eTop >= cTop && eBottom <= cBottom);
-    let isPartial = partial && (
-        (eTop < cTop && eBottom > cTop) ||
-        (eBottom > cBottom && eTop < cBottom)
-    );
+        //Check if in view    
+        let isTotal = (eTop >= cTop && eBottom <= cBottom);
+        let isPartial = partial && (
+            (eTop < cTop && eBottom > cTop) ||
+            (eBottom > cBottom && eTop < cBottom)
+        );
 
-    //Return outcome
-    // console.log("cT:", cTop, "cB:", cBottom, "eT:", eTop, "eB:", eBottom, isTotal || isPartial)
-    return (isTotal || isPartial);
+        //Return outcome
+        // console.log("cT:", cTop, "cB:", cBottom, "eT:", eTop, "eB:", eBottom, isTotal || isPartial)
+        return (isTotal || isPartial);
+    } else {
+        return false
+    }
+
+
 }
 
 export const LeaderLine = window.LeaderLine;
