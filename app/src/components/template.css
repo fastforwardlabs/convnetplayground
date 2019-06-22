@@ -242,6 +242,13 @@
     display: flex;
 }
 
+.displaynone{
+    display: none;
+}
+.displayblock{
+    display: block
+}
+
 .flexwrap{
     flex-wrap: wrap;
     justify-content: space-around;

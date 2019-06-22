@@ -561,7 +561,7 @@ class SemanticEx extends Component {
 
                 </div>
 
-                {(this.state.showmodelconfig) && <div style={{ zIndex: 500 }} className="flex modelconfigdiv p10">
+                {<div style={{ zIndex: 500 }} className={"flex modelconfigdiv p10 " + (this.state.showmodelconfig ? "" : " displaynone")} >
                     <div className="flex2 mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Dataset </div>
                         <div className="horrule mb10"></div>
