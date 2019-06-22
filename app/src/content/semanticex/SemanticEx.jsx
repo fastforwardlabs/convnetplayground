@@ -47,6 +47,7 @@ class SemanticEx extends Component {
 
         this.searchCount = 0;
         this.lineHolder = []
+        this.lastclicked = "dataset"
 
 
 
@@ -61,18 +62,7 @@ class SemanticEx extends Component {
         }, 200);
     }
 
-    componentDidMount() {
-        // this.drawLines()
-        document.title = "ConvNet Playground | Semantic Search Explorer";
-        this.LayerScrollTop = 0
-        window.addEventListener('resize', this.scrollEndedHandler.bind(this))
-    }
 
-
-    componentWillUnmount() {
-        this.removeLines();
-        window.removeEventListener('resize', this.scrollEndedHandler.bind(this))
-    }
 
     resizeHandler() {
         // this.drawLines()
@@ -139,6 +129,72 @@ class SemanticEx extends Component {
         }
     }
 
+    getNextVal(newVal, maxVal) {
+        if (newVal >= 0) {
+            return newVal % maxVal
+        } else {
+            return (maxVal - Math.abs(newVal))
+        }
+
+    }
+    cycleLayerModel(val) {
+        if (this.lastclicked == "model") {
+            let newState = this.getNextVal((this.state.selectedmodel * 1 + val), this.state.modelsList.length);// Math.max((this.state.selectedmodel*1 + val) % this.state.modelsList.length, 0) 
+            // console.log(newState)
+            if (!(isNaN(newState))) {
+                this.setState({ selectedmodel: newState })
+            }
+
+        }
+        else if (this.lastclicked == "dataset") {
+            let newState = this.getNextVal((this.state.selecteddataset * 1 + val), this.state.datasetsList.length)
+            if (!(isNaN(newState))) {
+                this.setState({ selecteddataset: newState })
+            }
+
+        } else if (this.lastclicked == "layer") {
+            let newState = this.getNextVal((this.state.selectedlayer * 1 + val), this.state.modelsList[this.state.selectedmodel].layers.length)
+            if (!(isNaN(newState))) {
+                this.setState({ selectedlayer: newState })
+            }
+
+        } else if (this.lastclicked == "neuron") {
+
+            let numNeurons = (this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name].length)
+            let newState = this.getNextVal((this.state.selectedneuron * 1 + val), numNeurons)
+            // console.log(this.state.selectedneuron,newState,  val, numNeurons)
+            if (!(isNaN(newState))) {
+                this.setState({ selectedneuron: newState })
+            }
+
+        }
+    }
+
+    keyFunction(event) {
+        if (event.keyCode === 37) {
+            this.cycleLayerModel(-1)
+        }
+        else if (event.keyCode === 39) {
+            this.cycleLayerModel(1)
+        }
+
+    }
+
+    componentDidMount() {
+        // this.drawLines()
+        document.title = "ConvNet Playground | Semantic Search Explorer";
+        this.LayerScrollTop = 0
+        window.addEventListener('resize', this.scrollEndedHandler.bind(this))
+        document.addEventListener("keydown", this.keyFunction.bind(this), false);
+    }
+
+
+    componentWillUnmount() {
+        this.removeLines();
+        document.removeEventListener("keydown", this.keyFunction, false);
+        window.removeEventListener('resize', this.scrollEndedHandler.bind(this))
+    }
+
 
     componentDidUpdate(prevProps, prevState) {
         if (this.state.selectedmodel !== prevState.selectedmodel || this.state.selectedmetric !== prevState.selectedmetric || this.state.selectedlayer !== prevState.selectedlayer || this.state.selecteddataset !== prevState.selecteddataset) {
@@ -168,16 +224,18 @@ class SemanticEx extends Component {
     clickDatasetImage(e) {
         this.setState({ selecteddataset: e.target.getAttribute("indexvalue") })
         // this.setState({ selectedmodel: 0 })
+        this.lastclicked = "dataset"
     }
 
     clickModelImage(e) {
         this.setState({ selectedmodel: e.target.getAttribute("indexvalue") })
         // this.setState({ selectedlayer: 0 })
-        // this.drawLines()
+        this.lastclicked = "model"
     }
 
     clickLayerImage(e) {
         this.setState({ selectedlayer: e.target.getAttribute("indexvalue") })
+        this.lastclicked = "layer"
     }
 
     clickMetricImage(e) {
