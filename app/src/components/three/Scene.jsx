@@ -114,7 +114,7 @@ class Scene extends Component {
         this.loadData()
 
         this.raycaster = new THREE.Raycaster();
-        this.raycaster.params.Points.threshold = 20;
+        this.raycaster.params.Points.threshold = 2;
 
         this.view.on("mousemove", () => {
             let [mouseX, mouseY] = d3.mouse(this.view.node());
@@ -344,8 +344,8 @@ class Scene extends Component {
             let position = this.points.geometry.attributes.position.array
             let target = new Float32Array(numVertices * 3)
             for (let i = 0, index = 0, l = numVertices; i < l; i++ , index += 3) {
-                target[index] = data[i].x * this.pointScale + 100
-                target[index + 1] = data[i].y * this.pointScale + 100
+                target[index] = data[i].x * this.pointScale
+                target[index + 1] = data[i].y * this.pointScale
                 target[index + 2] = 0
             }
 
@@ -390,12 +390,6 @@ class Scene extends Component {
             this.scene.background = new THREE.Color("#CDCDCD");
 
         }
-
-
-
-
-
-
 
     }
 
