@@ -20,7 +20,9 @@ class Test extends Component {
 
     componentDidMount() {
 
-        // console.log(this.boxList1)
+        // this.drawLines()
+
+        // console.log(document.querySelector('.leader-line').style.zIndex)
 
     }
 
@@ -29,17 +31,21 @@ class Test extends Component {
         let self = this;
         [...Array(5).keys()].forEach(function (each) {
             let line = new LeaderLine(self.refs.start, self.refs["bx1" + each], {
-                color: 'red',
+                // color: 'red',
                 startPlug: 'square',
                 endPlug: 'circle',
                 path: "fluid",
                 size: 3,
-                hide: true,
+                // hide: true,
             });
             let animOptions = { duration: 1300, timing: 'linear' }
-            line.show("draw", animOptions)
+            // console.log(line)
+            // line.show("draw", animOptions)
             self.lineHolder.push(line)
+            document.querySelector('.leader-line').style.zIndex = -50000
         })
+
+        console.log(document.querySelector('.leader-line').childNodes)
     }
     removeLines(e) {
         console.log(this.lineHolder.length)
@@ -63,6 +69,17 @@ class Test extends Component {
             )
         });
 
+        let boxlist2 = vals.map((val, index) => {
+            let zindex = Math.random() > 0.5 ? -20000 : 200000
+            return (
+                <div style={{ zIndex: zindex }} ref={"bx2" + index} key={"legend" + index}>
+                    <div className="boxer rad4">
+                        {index + " == " + zindex}
+                    </div>
+                </div>
+            )
+        });
+
         return (
             <div>
                 <div className="flex">
@@ -71,8 +88,9 @@ class Test extends Component {
                         <button onClick={this.drawLines.bind(this)} ref="drawlines"> Draw lines </button>
                         <button onClick={this.removeLines.bind(this)} ref="removelines"> Remove lines </button>
                     </div>
-                    <div className=" flex4">
+                    <div style={{ zIndex: "unset" }} className=" flex4">
                         <div className="boxer rad4"></div>
+                        {boxlist2}
                     </div>
                     <div id="end" className="pt20 flex2">
                         <div ref="end" className="boxer rad4"></div>
@@ -81,7 +99,7 @@ class Test extends Component {
 
                 </div>
 
-            </div>
+            </div >
 
         )
     }

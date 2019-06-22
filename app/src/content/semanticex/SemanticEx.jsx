@@ -6,6 +6,7 @@ import SemanticModalContent from "../../components/modals/SemanticModal"
 import { abbreviateString, loadJSONData, makeFriendly, boundWidth } from "../../components/helperfunctions/HelperFunctions"
 
 import Scene from "../../components/three/Scene"
+const LeaderLine = window.LeaderLine;
 
 class SemanticEx extends Component {
     constructor(props) {
@@ -32,31 +33,107 @@ class SemanticEx extends Component {
             modelsList: modelDetails["models"],
             distanceMetricList: modelDetails["metrics"],
             // showorientationmodal: !this.props.pageviewed,
-            showmodelconfig: false,
+            showmodelconfig: true,
             showumap: false,
             showdatasetmodal: false,
             showtopresults: false,
             viewdatasetby: "category",
             topx: 10
         }
-        // setTimeout(() => {
         this.updateSimilarity()
         this.loadDatasetList()
-        // }, 2000);
 
         this.searchCount = 0;
-
-
+        this.lineHolder = []
     }
 
     componentDidMount() {
+        this.drawLines()
         document.title = "ConvNet Playground | Semantic Search Explorer";
+
     }
+    componentWillUnmount() {
+        this.removeLines();
+    }
+
+    checkInView(container, element, partial) {
+
+        //Get container properties
+        let cTop = container.scrollTop;
+        let cBottom = cTop + container.clientHeight;
+
+        //Get element properties
+        let eTop = element.offsetTop - 340;
+        let eBottom = eTop + element.clientHeight;
+
+        //Check if in view    
+        let isTotal = (eTop >= cTop && eBottom <= cBottom);
+        let isPartial = partial && (
+            (eTop < cTop && eBottom > cTop) ||
+            (eBottom > cBottom && eTop < cBottom)
+        );
+
+        //Return outcome
+        // console.log( "cT:", cTop, "cB:", cBottom, "eT:", eTop, "eB:", eBottom, isTotal || isPartial)
+        return (isTotal || isPartial);
+    }
+
+    drawLines(e) {
+        this.removeLines()
+        let self = this;
+        let layers = this.state.modelsList[this.state.selectedmodel].layers
+        let models = this.state.modelsList
+
+        // layers.forEach(function (each, i) {
+        //     let inView = self.checkInView(self.refs["layerscrollbox"], self.refs["layerimg" + i], false, i)
+        //     // console.log(i, inView)
+
+        // })
+        // let inView = self.checkInView(self.refs["modelscrollbox"], self.refs["modelimg0"], true, 0)
+
+
+        // console.log(layers)
+        let modelVisible = self.checkInView(self.refs["modelscrollbox"], self.refs["modelimg" + this.state.selectedmodel], false)
+        layers.forEach(function (each, i) {
+
+            let layerVisible = self.checkInView(self.refs["layerscrollbox"], self.refs["layerimg" + i], false)
+            if (layerVisible && modelVisible) {
+                // console.log("we drawing to", i)
+
+                let line = new LeaderLine(self.refs["modelimg" + self.state.selectedmodel], self.refs["layerimg" + i], {
+                    color: 'red',
+                    startPlug: 'disc',
+                    endPlug: 'circle',
+                    path: "fluid",
+                    size: 3,
+                    hide: true,
+                });
+                document.querySelector('.leader-line').style.zIndex = -100
+                let animOptions = { duration: 800, timing: 'linear' }
+
+                line.show("draw", animOptions)
+                self.lineHolder.push(line)
+            }
+
+
+        })
+
+    }
+    removeLines(e) {
+        this.lineHolder.forEach(function (each) {
+            each.remove()
+        })
+        this.lineHolder = []
+    }
+
 
     componentDidUpdate(prevProps, prevState) {
         if (this.state.selectedmodel !== prevState.selectedmodel || this.state.selectedmetric !== prevState.selectedmetric || this.state.selectedlayer !== prevState.selectedlayer || this.state.selecteddataset !== prevState.selecteddataset) {
             this.updateSimilarity()
             this.setState({ showtopresults: true })
+        }
+        if (this.state.selectedmodel !== prevState.selectedmodel) {
+            this.drawLines()
         }
     }
 
@@ -68,6 +145,7 @@ class SemanticEx extends Component {
     clickModelImage(e) {
         this.setState({ selectedmodel: e.target.getAttribute("indexvalue") })
         // this.setState({ selectedlayer: 0 })
+        // this.drawLines()
     }
 
     clickLayerImage(e) {
@@ -177,10 +255,10 @@ class SemanticEx extends Component {
             // console.log(imagePath)
 
             return (
-                <div key={mdata.name + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
+                <div ref={"modelimgbox" + index} key={mdata.name + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
                     <div className="datasettitles"> {mdata.name.toUpperCase()}</div>
                     <div className="smalldesc pb5">{mdata.numlayers} layers </div>
-                    <img onClick={this.clickModelImage.bind(this)} src={imagePath} alt="" className={"datasetbox rad2 " + (this.state.selectedmodel == index ? "active" : "")} indexvalue={index} />
+                    <img ref={"modelimg" + index} onClick={this.clickModelImage.bind(this)} src={imagePath} alt="" className={"datasetbox rad2 " + (this.state.selectedmodel == index ? "active" : "")} indexvalue={index} />
                 </div>
             )
         });
@@ -196,7 +274,7 @@ class SemanticEx extends Component {
                     <div className="datasettitles"> {"layer " + ldata.layer_index} </div>
                     {/* {abbreviateString(ldata.name, 11).toLowerCase()}  */}
                     <div className="smalldesc pb5"> {abbreviateString(ldata.name, 11).toLowerCase()} </div>
-                    <img onClick={this.clickLayerImage.bind(this)} src={imagePath} alt="" className={"datasetbox rad2 " + (this.state.selectedlayer == index ? "active" : "")} indexvalue={index} />
+                    <img ref={"layerimg" + index} onClick={this.clickLayerImage.bind(this)} src={imagePath} alt="" className={"datasetbox rad2 " + (this.state.selectedlayer == index ? "active" : "")} indexvalue={index} />
                 </div>
             )
         });
@@ -390,7 +468,7 @@ class SemanticEx extends Component {
 
                 </div>
 
-                {(this.state.showmodelconfig) && <div className="flex modelconfigdiv p10">
+                {(this.state.showmodelconfig) && <div style={{ zIndex: 500 }} className="flex modelconfigdiv p10">
                     <div className="flex2 mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Dataset </div>
                         <div className="horrule mb10"></div>
@@ -403,18 +481,18 @@ class SemanticEx extends Component {
                         </div>
 
                     </div>
-                    <div className="flex3  mr10">
+                    <div style={{ zIndex: 100 }} className="flex3  mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Model </div>
                         <div className="horrule mb10"></div>
-                        <div className="datasetselectdiv scrollwindow layerwindow">
+                        <div ref="modelscrollbox" className="datasetselectdiv scrollwindow layerwindow">
                             {modelImageList}
                         </div>
                         <div className=" iblock boldtext datasetdescription  p10 greyhighlight">{this.state.modelsList[this.state.selectedmodel].name.toUpperCase()}</div>
                     </div>
-                    <div className="flex3  ">
+                    <div style={{ zIndex: 100 }} className="flex3  ">
                         <div className="mt20 pb10 sectiontitle" > Select Layer </div>
                         <div className="horrule mb10"></div>
-                        <div className="scrollwindow layerwindow  mr10">
+                        <div ref="layerscrollbox" className="scrollwindow layerwindow  mr10">
                             <div className="windowcontent"> {layerImageList} </div>
                         </div>
                         <div className="flex flexwrap pr10">
@@ -445,7 +523,7 @@ class SemanticEx extends Component {
 
 
                 {/* show umap panel and content */}
-                <div onClick={this.toggleUMAPView.bind(this)} className="unselectable mt10 p10 clickable  flex greymoreinfo">
+                <div style={{ zIndex: 100 }} onClick={this.toggleUMAPView.bind(this)} className="unselectable mt10 p10 clickable  flex greymoreinfo">
                     <div className="iblock flexfull minwidth485"> <strong> {!this.state.showumap && <span>&#x25BC;  </span>} {this.state.showumap && <span>&#x25B2;  </span>} </strong> Visualization of Embeddings (UMAP) for Extracted Features </div>
                     <div className="iblock   ">
                         <div className="iblock mr5"> <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span></div>
