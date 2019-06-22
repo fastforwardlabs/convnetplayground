@@ -111,5 +111,5 @@ export function checkInView(container, element, partial, containerOffset, elemen
 
 export const LeaderLine = window.LeaderLine;
 export const animOptions = { duration: 800, timing: 'ease' }
-export const greyColor = "rgba(189, 195, 199, 1)"
+export const greyColor = "rgba(189, 195, 199, 0.5)"
 export const blueColor = 'rgba(0,98,255, 1)'

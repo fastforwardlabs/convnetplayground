@@ -165,7 +165,10 @@ div.bx--modal-container{
 }
 .modelconfigdiv{
     background:  rgba(209, 209, 209, 0.3);
-    
+   
+}
+.mainsemanticdiv{
+    min-width: 960px;
 }
 
 .greymoreinfo{

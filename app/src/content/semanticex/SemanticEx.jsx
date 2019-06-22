@@ -63,7 +63,7 @@ class SemanticEx extends Component {
         this.removeLines()
         let self = this;
         let layers = this.state.modelsList[this.state.selectedmodel].layers
-        let containerOffset = -30
+        let containerOffset = -80
         let elementOffset = -385
         let modelVisible = checkInView(self.refs["modelscrollbox"], self.refs["modelimg" + this.state.selectedmodel], true, containerOffset, elementOffset)
         layers.forEach(function (each, i) {
@@ -166,7 +166,7 @@ class SemanticEx extends Component {
     }
     setSelectedImage(val) {
         this.setState({ selectedsimimage: val })
-        this.setState({ showtopresults: true })
+        this.showTopResults()
         this.searchCount++
     }
 
@@ -200,6 +200,12 @@ class SemanticEx extends Component {
 
     showTopResults() {
         this.setState({ showtopresults: true })
+        this.refs["topresultsbox"].style.opacity = 0.8;
+        let self = this
+        setTimeout(() => {
+            self.refs["topresultsbox"].style.opacity = 1;
+        }, 300);
+
     }
 
 
@@ -389,7 +395,7 @@ class SemanticEx extends Component {
         let selectedImagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + this.state.selectedsimimage + ".jpg"
         // process.env.PUBLIC_URL + "/assets/semsearch/datasets/cifar100/train/" + this.state.selectedsimimage + ".jpg"
         return (
-            <div>
+            <div className="mainsemanticdiv">
 
 
                 {(this.state.showorientationmodal) && <Modal className="orientationmodal"
@@ -569,7 +575,7 @@ class SemanticEx extends Component {
                 </div>}
 
                 {
-                    <div className="sliderboxcontainer pt10 ">
+                    <div ref="topresultsbox" className="sliderboxcontainer pt10 transition3s">
                         <div className={" sliderbox topconfig" + (this.state.showtopresults ? " open" : " closed")}>
 
 

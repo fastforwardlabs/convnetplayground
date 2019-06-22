@@ -214,9 +214,20 @@
 .opacity50{
     opacity: 0.5;
 }
-
+.opacity0{
+    opacity: 0;
+}
+.transition3s{
+    transition: opacity .3s ease-in-out;
+   -moz-transition: opacity .3s ease-in-out;
+   -webkit-transition: opacity .3s ease-in-out;
+}
 .clickable{
     cursor: pointer;
+}
+.decornone > a{
+    text-decoration: none;
+    color: white;
 }
 
 .unclickable{
@@ -314,3 +325,4 @@
         #465298 20px
       );
 }
+ 

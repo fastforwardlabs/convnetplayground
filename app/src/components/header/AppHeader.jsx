@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import {
-  Header,
-  HeaderName,
-  HeaderNavigation,
-//   HeaderMenuItem,
-  HeaderGlobalBar,
-  HeaderGlobalAction,
-  SkipToContent,
+    Header,
+    HeaderName,
+    HeaderNavigation,
+    //   HeaderMenuItem,
+    HeaderGlobalBar,
+    HeaderGlobalAction,
+    SkipToContent,
 } from 'carbon-components-react/lib/components/UIShell';
 
 import {
-      NavLink
+    NavLink
 } from "react-router-dom";
 
 import "./header.css"
@@ -23,37 +23,37 @@ class AppHeader extends Component {
         return (
             <div>
                 <Header aria-label="Convolutional Neural Network Playground">
-                <SkipToContent />
-                <HeaderName href="/" prefix="">
-                ConvNet Playground
-                </HeaderName>
-                <HeaderNavigation aria-label="Convolutional Neural Network Playground">
-                {/* <HeaderMenuItem element={Link} to="/" className="navbarlink "> Datasets </HeaderMenuItem> */}
-                {/* <HeaderMenuItem  element={Link} to="/models" className="navbarlink "> Models</HeaderMenuItem> */}
-                <div className="navbarlinks  "><NavLink exact to="/"> Semantic Search </NavLink></div>
-                <div className="navbarlinks "><NavLink to="/models"> Model Explorer </NavLink></div>
-                {/* <div className="navbarlinks "><NavLink to="/algebra"> Image Algebra </NavLink></div> */}
-                {/* <div className="navbarlinks "><NavLink to="/energy"> Energy Explorer </NavLink></div> */}
-                </HeaderNavigation>
-                <HeaderGlobalBar>
-                {/* <HeaderGlobalAction aria-label="Notifications">
+                    <SkipToContent />
+                    <HeaderName prefix="">
+                        <div className="decornone "><NavLink exact to="/">  ConvNet Playground</NavLink></div>
+
+                    </HeaderName>
+                    <HeaderNavigation aria-label="Convolutional Neural Network Playground">
+                        {/* <HeaderMenuItem element={Link} to="/" className="navbarlink "> Datasets </HeaderMenuItem> */}
+                        {/* <HeaderMenuItem  element={Link} to="/models" className="navbarlink "> Models</HeaderMenuItem> */}
+                        <div className="navbarlinks  "><NavLink exact to="/"> Semantic Search </NavLink></div>
+                        <div className="navbarlinks "><NavLink to="/models"> Model Explorer </NavLink></div>
+                        {/* <div className="navbarlinks "><NavLink to="/algebra"> Image Algebra </NavLink></div> */}
+                        {/* <div className="navbarlinks "><NavLink to="/energy"> Energy Explorer </NavLink></div> */}
+                    </HeaderNavigation>
+                    <HeaderGlobalBar>
+                        {/* <HeaderGlobalAction aria-label="Notifications">
                     <Notification20 />
                 </HeaderGlobalAction>
                 */}
-                {/* <HeaderGlobalAction aria-label="User Avatar">
+                        {/* <HeaderGlobalAction aria-label="User Avatar">
                     <UserAvatar20 />
                 </HeaderGlobalAction> */}
-                <HeaderGlobalAction aria-label="App Switcher">
-                    <AppSwitcher20 />
-                </HeaderGlobalAction>
-                </HeaderGlobalBar>
-            </Header>
-            <div> <br/> <br/>  <br/>  <br/> </div>
+                        <HeaderGlobalAction aria-label="App Switcher">
+                            <AppSwitcher20 />
+                        </HeaderGlobalAction>
+                    </HeaderGlobalBar>
+                </Header>
+                <div> <br /> <br />  <br />  <br /> </div>
             </div>
-            
+
         );
     }
 }
 
 export default AppHeader;
- 

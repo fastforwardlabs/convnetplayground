@@ -2,6 +2,7 @@
     height: 5em; 
     width: 5em;
     border-bottom: 4px solid #CDCDCD;
+    border-top: 4px solid #CDCDCD;
     margin: 0px 10px 0px 0px;
     /* transition: all .2s ease-in-out;  */
 }
@@ -16,8 +17,9 @@
 .neuronbox.active{
     border-bottom: 4px #0062FF solid;
     opacity: 1;
-    height: 6.2em; 
-    width: 6.2em;
+    border-top: 4px #0062FF solid;
+    /* height: 6.2em; 
+    width: 6.2em; */
 }
 
 .enlargedneuron{

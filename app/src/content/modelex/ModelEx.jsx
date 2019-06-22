@@ -75,7 +75,7 @@ class ModelEx extends Component {
                     startPlug: 'disc',
                     endPlug: 'disc',
                     path: "fluid",
-                    size: Math.min(widthConst + i * 0.5, 2.5),
+                    size: Math.min(widthConst + i * (0.2), 2.5),
                     hide: true,
                     startSocket: 'bottom',
                     endSocket: self.state.selectedlayer == i ? "top" : 'left',
@@ -461,7 +461,7 @@ class ModelEx extends Component {
 
 
                             <div onClick={this.twitterShare.bind(this)} className="mb10" > <div className="twitterbutton unselectable mt10 p10 clickable  flex greymoreinfo" href=""> Share on twitter </div> </div>
-                            <div className="boldtext enlargeddesc mb5  smalldesc">{this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}: {this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron]} / {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} </div>
+                            <div className="boldtext enlargeddesc mb5  smalldesc">{abbreviateString(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase(), 26)}: {this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron]} / {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} </div>
                             <img className="enlargedneuron rad4" src={process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron] + ".jpg"} alt="" />
 
                         </div>
