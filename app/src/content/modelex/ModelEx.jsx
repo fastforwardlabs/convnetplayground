@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { DataTable, Modal } from 'carbon-components-react';
 import ModelsModalContent from "../../components/modals/ModelsModal"
-import { abbreviateString, makeFriendly } from "../../components/helperfunctions/HelperFunctions"
+import { greyColor, blueColor, abbreviateString, makeFriendly, checkInView, animOptions, LeaderLine } from "../../components/helperfunctions/HelperFunctions"
 import "./modelex.css"
 
 const {
@@ -53,7 +53,69 @@ class ModelEx extends Component {
         this.lastclicked = "model"
 
         this.keyFunction = this.keyFunction.bind(this);
+        this.lineHolder = []
     }
+
+    drawLines(e) {
+        this.removeLines()
+        let self = this;
+        let layers = this.state.modelsList[this.state.selectedmodel].layers
+        let containerOffset = -60
+        let elementOffset = -310
+        let modelVisible = checkInView(self.refs["modelscrollbox"], self.refs["modelimg" + this.state.selectedmodel], true, containerOffset, elementOffset)
+        layers.forEach(function (each, i) {
+
+            let layerVisible = checkInView(self.refs["layerscrollbox"], self.refs["layerimg" + i], true, containerOffset, elementOffset)
+            if (layerVisible && modelVisible) {
+                // console.log("we drawing to", i)
+                let widthConst = 1.5
+
+                let line = new LeaderLine(self.refs["modelimg" + self.state.selectedmodel], self.refs["layerimg" + i], {
+                    color: self.state.selectedlayer == i ? blueColor : greyColor,
+                    startPlug: 'disc',
+                    endPlug: 'disc',
+                    path: "fluid",
+                    size: Math.min(widthConst + i * 0.5, 2.5),
+                    hide: true,
+                    startSocket: 'bottom',
+                    endSocket: self.state.selectedlayer == i ? "top" : 'left',
+                    endPlugSize: 3 / Math.min(widthConst + i * 0.5, 2.5),
+
+                });
+                document.querySelector('.leader-line').style.zIndex = -100
+                line.show("draw", animOptions)
+                self.lineHolder.push({ line: line, index: i })
+            }
+        })
+
+    }
+    removeLines(e) {
+        this.lineHolder.forEach(function (each) {
+            each.line.remove()
+        })
+        this.lineHolder = []
+    }
+    recolorLines(e) {
+        let self = this
+        // console.log(this.LayerScrollTop, this.refs["layerscrollbox"].scrollTop, "bingoo")
+        if (this.LayerScrollTop != this.refs["layerscrollbox"].scrollTop) {
+            this.LayerScrollTop = this.refs["layerscrollbox"].scrollTop
+            this.drawLines()
+        } else {
+            this.lineHolder.forEach(function (each) {
+                if (each.index == self.state.selectedlayer) {
+                    each.line.hide("none")
+                    each.line.color = blueColor
+                    each.line.show("draw", animOptions)
+                } else {
+                    each.line.color = greyColor
+                }
+            })
+        }
+    }
+
+
+
     getNextVal(newVal, maxVal) {
         if (newVal >= 0) {
             return newVal % maxVal
@@ -72,7 +134,6 @@ class ModelEx extends Component {
 
         } else if (this.lastclicked == "layer") {
             let newState = this.getNextVal((this.state.selectedlayer * 1 + val), this.state.modelsList[this.state.selectedmodel].layers.length)
-            // console.log(newState, this.state.modelsList.length, this.state.selectedmodel, val)
             if (!(isNaN(newState))) {
                 this.setState({ selectedlayer: newState })
             }
@@ -105,17 +166,18 @@ class ModelEx extends Component {
         // const qs = queryString.parse(this.props.location.search);
         // this.sets
         document.addEventListener("keydown", this.keyFunction, false);
+        this.drawLines()
+        this.LayerScrollTop = 0
 
     }
 
     componentDidUpdate(prevProps, prevState) {
-        // if ( this.state.selectedmodel !== prevState.selectedmodel ) {
-        //     console.log("model updated")
-        // }
-
-        // if (this.state.selectedlayer !== prevState.selectedlayer ) {
-        //     console.log("layer updated")
-        // }
+        if (this.state.selectedmodel !== prevState.selectedmodel) {
+            this.drawLines()
+        }
+        if (this.state.selectedlayer !== prevState.selectedlayer) {
+            this.recolorLines()
+        }
     }
 
     clickModelImage(e) {
@@ -155,6 +217,7 @@ class ModelEx extends Component {
 
     componentWillUnmount() {
         document.removeEventListener("keydown", this.keyFunction, false);
+        this.removeLines();
     }
 
     twitterShare(e) {
@@ -188,11 +251,11 @@ class ModelEx extends Component {
             // console.log(imagePath)
             return (
 
-                <div key={mdata.name + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
+                <div ref={"modelimgbox" + index} key={mdata.name + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
                     <div className="datasettitles"> {mdata.name.toUpperCase()}</div>
                     <div className="smalldesc pb5">{mdata.numlayers} layers </div>
 
-                    <img onClick={this.clickModelImage.bind(this)} src={imagePath} alt="" className={"datasetbox rad2 " + (this.state.selectedmodel == index ? "active" : "")} indexvalue={index} />
+                    <img ref={"modelimg" + index} onClick={this.clickModelImage.bind(this)} src={imagePath} alt="" className={"datasetbox rad2 " + (this.state.selectedmodel == index ? "active" : "")} indexvalue={index} />
                 </div>
             )
         });
@@ -207,7 +270,7 @@ class ModelEx extends Component {
                 <div key={ldata + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
                     <div className="datasettitles"> {"layer " + ldata.layer_index} </div>
                     <div className="smalldesc pb5"> {abbreviateString(ldata.name, 11).toLowerCase()} </div>
-                    <img onKeyPress={this.kepressLayer.bind(this)} onClick={this.clickLayerImage.bind(this)} src={imagePath} alt="" className={"datasetbox rad2 " + (this.state.selectedlayer == index ? "active" : "")} indexvalue={index} />
+                    <img ref={"layerimg" + index} onKeyPress={this.kepressLayer.bind(this)} onClick={this.clickLayerImage.bind(this)} src={imagePath} alt="" className={"datasetbox rad2 " + (this.state.selectedlayer == index ? "active" : "")} indexvalue={index} />
                 </div>
             )
         });
@@ -342,11 +405,11 @@ class ModelEx extends Component {
 
                 </div> */}
 
-                <div className="flex flexwrap ">
-                    <div className="flex5 mr10">
+                <div style={{ zIndex: 100 }} className="flex flexwrap ">
+                    <div style={{ zIndex: 500 }} className="flex5 mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Model </div>
                         <div className="horrule mb10"></div>
-                        <div className="scrollwindow  scrollwindowmodel">
+                        <div ref="modelscrollbox" className="scrollwindow  scrollwindowmodel">
                             {modelImageList}
                         </div>
 
@@ -358,10 +421,10 @@ class ModelEx extends Component {
                     </div>
 
 
-                    <div className="flex5">
+                    <div style={{ zIndex: 100 }} className="flex5">
                         <div className="mt20 pb10 sectiontitle" > Select Layer </div>
                         <div className="horrule mb10"></div>
-                        <div className="scrollwindow layerwindow  ">
+                        <div ref="layerscrollbox" className="scrollwindow layerwindow  ">
                             <div className="windowcontent"> {layerImageList} </div>
                         </div>
                         <div className="flex flexwrap pr10">

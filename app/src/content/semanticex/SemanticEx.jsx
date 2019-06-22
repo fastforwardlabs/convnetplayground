@@ -3,10 +3,11 @@ import { Modal } from 'carbon-components-react';
 // import Notification20 from '@carbon/icons-react/lib/notification/20';
 import "./semanticex.css"
 import SemanticModalContent from "../../components/modals/SemanticModal"
-import { abbreviateString, loadJSONData, makeFriendly, boundWidth } from "../../components/helperfunctions/HelperFunctions"
+import { greyColor, blueColor, abbreviateString, loadJSONData, makeFriendly, boundWidth, checkInView, animOptions, LeaderLine } from "../../components/helperfunctions/HelperFunctions"
 
 import Scene from "../../components/three/Scene"
-const LeaderLine = window.LeaderLine;
+
+
 
 class SemanticEx extends Component {
     constructor(props) {
@@ -23,7 +24,7 @@ class SemanticEx extends Component {
 
         this.state = {
             selecteddataset: 0,
-            selectedmodel: modelDetails["models"].length - 1,
+            selectedmodel: 0, //modelDetails["models"].length - 1,
             selectedsimimage: 0,
             selectedlayer: modelDetails["models"][modelDetails["models"].length - 1].layers.length - 1,
             selectedmetric: 0,
@@ -32,8 +33,8 @@ class SemanticEx extends Component {
             datasetsList: modelDetails["datasets"],
             modelsList: modelDetails["models"],
             distanceMetricList: modelDetails["metrics"],
-            // showorientationmodal: !this.props.pageviewed,
-            showmodelconfig: true,
+            showorientationmodal: !this.props.pageviewed,
+            showmodelconfig: false,
             showumap: false,
             showdatasetmodal: false,
             showtopresults: false,
@@ -45,90 +46,76 @@ class SemanticEx extends Component {
 
         this.searchCount = 0;
         this.lineHolder = []
+
     }
 
     componentDidMount() {
-        this.drawLines()
+        // this.drawLines()
         document.title = "ConvNet Playground | Semantic Search Explorer";
+        this.LayerScrollTop = 0
 
     }
     componentWillUnmount() {
         this.removeLines();
     }
 
-    checkInView(container, element, partial) {
-
-        //Get container properties
-        let cTop = container.scrollTop;
-        let cBottom = cTop + container.clientHeight;
-
-        //Get element properties
-        let eTop = element.offsetTop - 340;
-        let eBottom = eTop + element.clientHeight;
-
-        //Check if in view    
-        let isTotal = (eTop >= cTop && eBottom <= cBottom);
-        let isPartial = partial && (
-            (eTop < cTop && eBottom > cTop) ||
-            (eBottom > cBottom && eTop < cBottom)
-        );
-
-        //Return outcome
-        // console.log("cT:", cTop, "cB:", cBottom, "eT:", eTop, "eB:", eBottom, isTotal || isPartial)
-        return (isTotal || isPartial);
-    }
-
     drawLines(e) {
         this.removeLines()
         let self = this;
         let layers = this.state.modelsList[this.state.selectedmodel].layers
-        let models = this.state.modelsList
-
-        // layers.forEach(function (each, i) {
-        //     let inView = self.checkInView(self.refs["layerscrollbox"], self.refs["layerimg" + i], false, i)
-        //     // console.log(i, inView)
-
-        // })
-        // let inView = self.checkInView(self.refs["modelscrollbox"], self.refs["modelimg0"], true, 0)
-
-
-        // console.log(layers)
-        let modelVisible = self.checkInView(self.refs["modelscrollbox"], self.refs["modelimg" + this.state.selectedmodel], true)
+        let containerOffset = -30
+        let elementOffset = -385
+        let modelVisible = checkInView(self.refs["modelscrollbox"], self.refs["modelimg" + this.state.selectedmodel], true, containerOffset, elementOffset)
         layers.forEach(function (each, i) {
 
-            let layerVisible = self.checkInView(self.refs["layerscrollbox"], self.refs["layerimg" + i], true)
+            let layerVisible = checkInView(self.refs["layerscrollbox"], self.refs["layerimg" + i], true, containerOffset, elementOffset)
             if (layerVisible && modelVisible) {
                 // console.log("we drawing to", i)
                 let widthConst = 1.5
 
                 let line = new LeaderLine(self.refs["modelimg" + self.state.selectedmodel], self.refs["layerimg" + i], {
-                    color: self.state.selectedlayer == i ? 'rgba(0,98,255, 1)' : "grey",
+                    color: self.state.selectedlayer == i ? blueColor : greyColor,
                     startPlug: 'disc',
                     endPlug: 'disc',
                     path: "fluid",
-                    size: widthConst + i * 0.5,
+                    size: Math.min(widthConst + i * 0.5, 2.5),
                     hide: true,
                     startSocket: 'bottom',
                     endSocket: self.state.selectedlayer == i ? "top" : 'left',
-                    endPlugSize: 3 / (widthConst + i * 0.5)
+                    endPlugSize: 3 / Math.min(widthConst + i * 0.5, 2.5),
 
                 });
                 document.querySelector('.leader-line').style.zIndex = -100
-                let animOptions = { duration: 800, timing: 'linear' }
-
                 line.show("draw", animOptions)
-                self.lineHolder.push(line)
+                self.lineHolder.push({ line: line, index: i })
             }
-
-
         })
 
     }
     removeLines(e) {
         this.lineHolder.forEach(function (each) {
-            each.remove()
+            each.line.remove()
         })
         this.lineHolder = []
+    }
+    recolorLines(e) {
+        let self = this
+        // console.log(this.LayerScrollTop, this.refs["layerscrollbox"].scrollTop, "bingoo")
+        if (this.LayerScrollTop != this.refs["layerscrollbox"].scrollTop) {
+            this.LayerScrollTop = this.refs["layerscrollbox"].scrollTop
+            this.drawLines()
+        } else {
+            this.lineHolder.forEach(function (each) {
+                if (each.index == self.state.selectedlayer) {
+                    each.line.hide("none")
+                    each.line.color = blueColor
+                    each.line.show("draw", animOptions)
+                } else {
+                    each.line.color = greyColor
+                }
+            })
+        }
+
     }
 
 
@@ -139,6 +126,16 @@ class SemanticEx extends Component {
         }
         if (this.state.selectedmodel !== prevState.selectedmodel) {
             this.drawLines()
+        }
+        if (this.state.selectedlayer !== prevState.selectedlayer) {
+            this.recolorLines()
+        }
+        if (this.state.showmodelconfig != prevState.showmodelconfig) {
+            if (this.state.showmodelconfig) {
+                this.drawLines()
+            } else {
+                this.removeLines()
+            }
         }
     }
 
@@ -182,6 +179,7 @@ class SemanticEx extends Component {
     toggleModelConfig(e) {
         this.setState({ showmodelconfig: !(this.state.showmodelconfig) })
         // console.log(this.state.showorientationmodal)
+
     }
 
     toggleUMAPView(e) {
