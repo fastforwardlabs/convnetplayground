@@ -111,12 +111,13 @@ def generate_model_viz_details():
 
 # start_time = datetime.now()
 # supported_datasets = d_utils.get_supported_datasets()
-# for  dataset in supported_datasets:
-#     dataset_params = {"name":dataset["name"],   "path": os.path.join(base_path_public,
-#                         "datasets/" + dataset["name"])   , "dataset_size":100}
+# for dataset in supported_datasets:
+#     dataset_params = {"name": dataset["name"],   "path": os.path.join(base_path_public,
+#                                                                       "datasets/" + dataset["name"]), "dataset_size": 200}
 #     generate_embeddings(dataset_params)
-# print("Time taken:" , datetime.now() - start_time)
-# # d_utils.rename_files(os.path.join(base_path_public, "datasets/tinyimagenet"))
+# print("Time taken:", datetime.now() - start_time)
+
+# d_utils.rename_files(os.path.join(base_path_public, "datasets/tinyimagenet"))
 
 # generate_embeddings(50)
 # generate_similarity_metrics()
@@ -132,6 +133,6 @@ def generate_model_viz_details():
 # generate_model_viz_details()
 
 # print(m_utils.get_all_model_details())
-# d_utils.process_dataset(os.path.join(base_path_public, "datasets/fashion200"))
+d_utils.process_dataset(os.path.join(base_path_public, "datasets/fashion200"))
 
-d_utils.process_dataset_labels()
+# d_utils.process_dataset_labels()
