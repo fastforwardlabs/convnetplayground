@@ -27,6 +27,7 @@ class SemanticEx extends Component {
             selecteddataset: 0,
             selectedmodel: 0, //modelDetails["models"].length - 1,
             selectedsimimage: 0,
+            hoversimimage: 0,
             selectedlayer: modelDetails["models"][modelDetails["models"].length - 1].layers.length - 1,
             selectedmetric: 0,
             similarityArray: similarityArray,
@@ -50,6 +51,8 @@ class SemanticEx extends Component {
         this.lastclicked = "dataset"
 
 
+        this.keyFunction = this.keyFunction.bind(this);
+        this.scrollEndedHandler = this.scrollEndedHandler.bind(this)
 
     }
 
@@ -89,11 +92,11 @@ class SemanticEx extends Component {
                     endPlug: 'disc',
                     startPlugColor: blueColor,
                     path: "fluid",
-                    size: Math.min(widthConst + i * 0.5, 2.5),
+                    size: Math.min(widthConst + i * 0.2, 3),
                     hide: true,
                     startSocket: 'bottom',
                     endSocket: self.state.selectedlayer == (i + "") ? "top" : 'left',
-                    endPlugSize: 3 / Math.min(widthConst + i * 0.5, 2.5),
+                    endPlugSize: 3 / Math.min(widthConst + i * 0.2, 3),
 
                 });
                 document.querySelector('.leader-line').style.zIndex = -100
@@ -184,22 +187,28 @@ class SemanticEx extends Component {
         // this.drawLines()
         document.title = "ConvNet Playground | Semantic Search Explorer";
         this.LayerScrollTop = 0
-        window.addEventListener('resize', this.scrollEndedHandler.bind(this))
-        document.addEventListener("keydown", this.keyFunction.bind(this), false);
+        window.addEventListener('resize', this.scrollEndedHandler)
+        document.addEventListener("keydown", this.keyFunction, false);
+        this.refs["layerscrollbox"].addEventListener("scroll", this.scrollEndedHandler, false)
+        this.refs["modelscrollbox"].addEventListener("scroll", this.scrollEndedHandler, false)
     }
 
 
     componentWillUnmount() {
         this.removeLines();
-        document.removeEventListener("keydown", this.keyFunction, false);
-        window.removeEventListener('resize', this.scrollEndedHandler.bind(this))
+        document.removeEventListener("keydown", this.keyFunction);
+        window.removeEventListener('resize', this.scrollEndedHandler)
+
+        this.refs["layerscrollbox"].removeEventListener("scroll", this.scrollEndedHandler, false)
+        this.refs["modelscrollbox"].removeEventListener("scroll", this.scrollEndedHandler, false)
     }
 
 
     componentDidUpdate(prevProps, prevState) {
         if (this.state.selectedmodel !== prevState.selectedmodel || this.state.selectedmetric !== prevState.selectedmetric || this.state.selectedlayer !== prevState.selectedlayer || this.state.selecteddataset !== prevState.selecteddataset) {
             this.updateSimilarity()
-            this.setState({ showtopresults: true })
+            this.showTopResults()
+
         }
         if (this.state.selectedmodel !== prevState.selectedmodel) {
             this.drawLines()
@@ -210,13 +219,11 @@ class SemanticEx extends Component {
         if (this.state.showmodelconfig != prevState.showmodelconfig) {
             let self = this
             if (this.state.showmodelconfig) {
-                self.refs["layerscrollbox"].addEventListener("scroll", self.scrollEndedHandler.bind(this), false)
-                self.refs["modelscrollbox"].addEventListener("scroll", self.scrollEndedHandler.bind(this), false)
+
                 this.drawLines()
             } else {
                 this.removeLines()
-                self.refs["layerscrollbox"].addEventListener("scroll", self.scrollEndedHandler.bind(this), false)
-                self.refs["modelscrollbox"].addEventListener("scroll", self.scrollEndedHandler.bind(this), false)
+
             }
         }
     }
@@ -243,14 +250,21 @@ class SemanticEx extends Component {
     }
 
     clickSimilarImage(e) {
-        // this.setState({ selectedsimimage: })
-        // // this.setState({ showumap: false })
-        // this.setState({ showtopresults: true })
         this.setSelectedImage(e.target.getAttribute("indexvalue"))
     }
+
+    hoverSimilarImage(e) {
+        let val = e.target.getAttribute("indexvalue")
+        if (val != this.state.hoversimimage) {
+            this.setState({ hoversimimage: val })
+            // this.showTopResults()
+        }
+    }
     setSelectedImage(val) {
-        this.setState({ selectedsimimage: val })
-        this.showTopResults()
+        if (val != this.state.selectedsimimage) {
+            this.setState({ selectedsimimage: val })
+            this.showTopResults()
+        }
         this.searchCount++
     }
 
@@ -283,13 +297,13 @@ class SemanticEx extends Component {
     }
 
     showTopResults() {
+        // this.setState({ showtopresults: true })
         this.setState({ showtopresults: true })
         this.refs["topresultsbox"].style.opacity = 0.75;
         let self = this
         setTimeout(() => {
             self.refs["topresultsbox"].style.opacity = 1;
         }, 300);
-
     }
 
 
@@ -392,7 +406,7 @@ class SemanticEx extends Component {
                 let imagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + classval + ".jpg"
                 return (
                     <div key={classval + "winper"} className="iblock similarityfullbox mr5 mb5 positionrelative">
-                        <img key={classval + "image"} onClick={this.clickSimilarImage.bind(this)} src={imagePath} alt="" className={"simiimage clickable rad2 " + (this.state.selectedsimimage == classval ? "active" : "")} indexvalue={classval} />
+                        <img key={classval + "image"} onMouseOver={this.hoverSimilarImage.bind(this)} onClick={this.clickSimilarImage.bind(this)} src={imagePath} alt="" className={"simiimage clickable rad2 " + (this.state.selectedsimimage == classval ? "active" : "")} indexvalue={classval} />
                     </div>
                 )
             });
@@ -407,13 +421,6 @@ class SemanticEx extends Component {
 
             datasetClassImagesList.push(header)
             datasetClassImagesList.push(clist)
-
-            // return (
-            //     <div key={className + "fullbox" + index} className="positionrelative  mr10 border ">
-            //         {/* <div className="p10 unselectable unclickable mr20 boldtext categorytitle "> {className.toUpperCase()} </div>  */}
-            //         <div>{clist}</div>
-            //     </div>
-            // )
         });
 
         let similarImagesList = this.state.similarityArray[this.state.selectedsimimage].map((alldata, index) => {
@@ -423,7 +430,7 @@ class SemanticEx extends Component {
             let returnValue = (
                 <div key={alldata[0] + "winper"} className="iblock similarityfullbox mr5 mb5 positionrelative">
                     <div className="smalldesc mb5">{makeFriendly(similarityScore)} </div>
-                    <img key={alldata[0] + "image" + alldata[0]} onClick={this.clickSimilarImage.bind(this)} src={imagePath} alt="" className={"simiimage clickable rad2 "} indexvalue={alldata[0]} />
+                    <img key={alldata[0] + "image" + alldata[0]} onMouseOver={this.hoverSimilarImage.bind(this)} onClick={this.clickSimilarImage.bind(this)} src={imagePath} alt="" className={"simiimage clickable rad2 "} indexvalue={alldata[0]} />
                     <div className="outersimbar">
                         <div className="innersimbar" style={{ width: (boundWidth(similarityScore) * 100) + "%" }}></div>
                     </div>
@@ -634,10 +641,11 @@ class SemanticEx extends Component {
                             data={{
 
                                 dataset: this.state.datasetsList[this.state.selecteddataset].name,
+                                selectedimage: this.state.hoversimimage,
                                 model: this.state.modelsList[this.state.selectedmodel].name,
                                 layerindex: this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index,
                                 layer: this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name,
-                                dml: this.state.datasetsList[this.state.selecteddataset].name + this.state.modelsList[this.state.selectedmodel].name + this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name
+                                dml: this.state.datasetsList[this.state.selecteddataset].name + this.state.modelsList[this.state.selectedmodel].name + this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name + this.state.hoversimimage
                             }}
                         >
                         </Scene>
@@ -652,7 +660,7 @@ class SemanticEx extends Component {
                     <div className="iblock   ">
                         <div className="iblock mr5"> <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span></div>
                         <div className="iblock">
-                            <div className="smalldesc"> LAYER {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index} / {this.state.modelsList[this.state.selectedmodel].numlayers} </div>
+                            <div className="smalldesc">  LAYER {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index} / {this.state.modelsList[this.state.selectedmodel].numlayers} </div>
                         </div>
                     </div>
 
@@ -727,7 +735,7 @@ class SemanticEx extends Component {
                         {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (this.state.viewdatasetby == "category" ?  "active" : "" ) } viewby="category">  By  Category </div> */}
                         {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (this.state.viewdatasetby == "graph" ?  "active" : "" ) } viewby="graph">  Graph </div> */}
 
-                        <div className="boldtext mb10 iblock  mr10"> Dataset [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
+                        <div className="boldtext mb10 iblock  mr10"> {this.state.hoversimimage} Dataset [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
                         <div className="iblock pt10">  {this.state.datasetsList[this.state.selecteddataset].description}   </div>
                     </div>
                     {/* <div className="horrule mb10"></div> */}

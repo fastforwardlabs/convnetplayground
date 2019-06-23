@@ -35,15 +35,16 @@
 }
 .tooltipimg{
     height: 7em;
-    min-width: 100%;
-    /* width: 5em; */
+    min-width: 100%; 
     object-fit: cover;
+    
 }
 
 .tooltip{
     position: absolute;
     display: none;
     z-index: 100000;
+    box-shadow: 3px 3px 3px rgba(170, 169, 169, 0.589);
 }
 .tooltipbox{
     
@@ -53,4 +54,8 @@
     padding: 5px;
     background: rgba(252, 252, 252, 0.8);
     /* border: 1px solid grey; */
+    
+    border-bottom: 4px solid #0062FF;
+    /* margin-bottom: 5px; */
+
 }

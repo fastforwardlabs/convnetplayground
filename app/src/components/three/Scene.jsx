@@ -27,6 +27,13 @@ class Scene extends Component {
         }
 
         this.setSelected = this.props.setselected
+
+        this.circle_sprite = new THREE.TextureLoader().load(
+            "images/circle-sprite.png",
+            function (texture) { },
+            function (xhr) { console.log((xhr.loaded / xhr.total * 100) + '% loaded'); },
+            function (xhr) { console.log('An error happened'); }
+        )
     }
     componentDidUpdate(prevProps, prevState) {
         // console.log("showing both values",prevProps.data, this.props.data)
@@ -45,7 +52,8 @@ class Scene extends Component {
                 this.setState({ model: this.props.data.model })
                 this.setState({ layer: this.props.data.layer })
                 this.setState({ layerindex: this.props.data.layerindex })
-
+                this.highlightPoint(this.pointData[this.props.data.selectedimage])
+                // console.log(this.props.data.sele)
             }
 
         }
@@ -114,7 +122,7 @@ class Scene extends Component {
         this.loadData()
 
         this.raycaster = new THREE.Raycaster();
-        this.raycaster.params.Points.threshold = 2;
+        this.raycaster.params.Points.threshold = 1;
 
         this.view.on("mousemove", () => {
             let [mouseX, mouseY] = d3.mouse(this.view.node());
@@ -126,7 +134,7 @@ class Scene extends Component {
         this.lastSeenIndex = 0;
 
         this.view.on("click", () => {
-            //    console.log("clisk", this.lastSeenIndex)
+            // console.log("clisk", this.lastSeenIndex)
             this.props.setselected(this.lastSeenIndex + "")
             // this.clickTest()
 
@@ -167,8 +175,12 @@ class Scene extends Component {
         geometry.vertices.push(new THREE.Vector3(datum.x * this.pointScale, datum.y * this.pointScale, 0));
         let color = ColorArrayRGB()[this.legendMap.get(datum.class)]
         color = "rgb(" + color[0] + "," + color[1] + "," + color[2] + ")"
-        // console.log(color)
-        geometry.colors = [new THREE.Color(color)];
+        geometry.colors = [new THREE.Color("white")];
+
+        let g2 = new THREE.Geometry();
+        g2.vertices.push(new THREE.Vector3(datum.x * this.pointScale, datum.y * this.pointScale, 0));
+        g2.colors = [new THREE.Color(color)];
+
         let material = new THREE.PointsMaterial({
             size: 30,
             sizeAttenuation: false,
@@ -177,10 +189,22 @@ class Scene extends Component {
             transparent: true
         });
 
+        let m2 = new THREE.PointsMaterial({
+            size: 25,
+            sizeAttenuation: false,
+            vertexColors: THREE.VertexColors,
+            map: this.circle_sprite,
+            transparent: true
+        });
+
+
         let point = new THREE.Points(geometry, material);
+        let p2 = new THREE.Points(g2, m2);
+        // p2.geometry.colors = [new THREE.Color("#white")];
+        point.add(p2)
         this.hoverContainer.add(point);
         // point.geometry.attributes.position.needsUpdate = true
-        console.log("adding highlight")
+        // console.log("adding highlight")
     }
 
 
@@ -193,12 +217,14 @@ class Scene extends Component {
         return new THREE.Vector3(
             mouseX / this.width * 2 - 1,
             -(mouseY / this.height) * 2 + 1,
-            1
+            0
         );
     }
 
     checkIntersects(mouse_position) {
+
         let mouse_vector = this.mouseToThree(...mouse_position);
+        // console.log(mouse_position, mouse_vector)
         this.raycaster.setFromCamera(mouse_vector, this.camera);
         let intersects = this.raycaster.intersectObject(this.points);
         if (intersects[0]) {
@@ -207,14 +233,17 @@ class Scene extends Component {
             let index = intersect.index;
 
             this.tooltipimg.src = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.dataset + "/" + index + ".jpg"
-            //   this.props.setselected(index +  "")
+            // console.log("intersect", index)
             this.lastSeenIndex = index
             let datum = this.pointData[index];
             this.tooltip.innerHTML = (datum.class).toUpperCase()
+            let color = ColorArrayRGB()[this.legendMap.get(datum.class)]
+            color = "rgb(" + color[0] + "," + color[1] + "," + color[2] + ")"
+            this.tooltip.style.backgroundColor = color
             this.tooltipbox.style.display = "block"
-            this.tooltipbox.style.left = mouse_position[0] + "px"
-            this.tooltipbox.style.top = (mouse_position[1] + 10) + "px"
-            //   this.highlightPoint(datum);
+            this.tooltipbox.style.left = (mouse_position[0] + 19) + "px"
+            this.tooltipbox.style.top = (mouse_position[1] - 12) + "px"
+            this.highlightPoint(datum);
             //   showTooltip(mouse_position, datum);
             document.body.style.cursor = "pointer"
         } else {
@@ -303,6 +332,7 @@ class Scene extends Component {
 
     createPoints(data) {
         // this.clearScene()
+        this.removeHighlights()
         let pointsGeometry = new THREE.Geometry()
         let pointsBufferGeometry = new THREE.BufferGeometry()
         let colors = [];
@@ -310,10 +340,23 @@ class Scene extends Component {
         let legendArray = []
         let vertices = []
         let self = this
+
+
+
+        let xRange = { min: data[0].x, max: data[0].x }
+        let yRange = { min: data[0].y, max: data[0].y }
         data.forEach(function (datum, i) {
             let vert = new THREE.Vector3(datum.x, datum.y, 0);
             vertices[i] = vert
+            // console.log("x", datum.x.toFixed(3), "y:", datum.y.toFixed(3))
+            xRange.min = datum.x < xRange.min ? datum.x : xRange.min
+            xRange.max = datum.x > xRange.max ? datum.x : xRange.max
+            yRange.min = datum.y < yRange.min ? datum.y : yRange.min
+            yRange.max = datum.y > yRange.max ? datum.y : yRange.max
         })
+
+        // console.log("x:", xRange, "y:", yRange);
+
 
         let numVertices = vertices.length
         let positions = new Float32Array(numVertices * 3)
@@ -376,13 +419,6 @@ class Scene extends Component {
                 colors.push(color);
             }
 
-
-            this.circle_sprite = new THREE.TextureLoader().load(
-                "images/circle-sprite.png",
-                function (texture) { },
-                function (xhr) { console.log((xhr.loaded / xhr.total * 100) + '% loaded'); },
-                function (xhr) { console.log('An error happened'); }
-            )
             pointsGeometry.colors = colors;
             let pointsMaterial = new THREE.PointsMaterial({
                 size: 10,
@@ -446,7 +482,7 @@ class Scene extends Component {
                 style={{ width: '100%', height: '400px' }}
             >
                 <div ref={(tooltipbox) => { this.tooltipbox = tooltipbox }} className="tooltip">
-                    <div className="tooltiptitle" ref={(tooltip) => { this.tooltip = tooltip }}> hi </div>
+                    <div className="tooltiptitle" ref={(tooltip) => { this.tooltip = tooltip }}> - </div>
                     <img className="tooltipimg rad2" ref={(tooltipimg) => { this.tooltipimg = tooltipimg }} src={"/assets/semsearch/datasets/" + this.state.dataset + "/0.jpg"} alt="" />
                 </div>
                 <div className="chartdescription">

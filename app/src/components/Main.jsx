@@ -91,6 +91,7 @@ class Main extends Component {
                         model: "xception",
                         layer: "block14_sepconv2_act",
                         dml: "bingo",
+                        selectedimage: "0",
                         layerindex: 1
                     }}
                 />

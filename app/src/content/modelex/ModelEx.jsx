@@ -53,6 +53,7 @@ class ModelEx extends Component {
         this.lastclicked = "model"
 
         this.keyFunction = this.keyFunction.bind(this);
+        this.scrollEndedHandler = this.scrollEndedHandler.bind(this)
         this.lineHolder = []
     }
 
@@ -76,11 +77,11 @@ class ModelEx extends Component {
                     endPlug: 'disc',
                     startPlugColor: blueColor,
                     path: "fluid",
-                    size: Math.min(widthConst + i * (0.2), 2.5),
+                    size: Math.min(widthConst + i * (0.2), 3),
                     hide: true,
                     startSocket: 'bottom',
                     endSocket: self.state.selectedlayer == i ? "top" : 'left',
-                    endPlugSize: 3 / Math.min(widthConst + i * 0.5, 2.5),
+                    endPlugSize: 3 / Math.min(widthConst + i * 0.5, 3),
 
                 });
                 document.querySelector('.leader-line').style.zIndex = -100
@@ -170,21 +171,21 @@ class ModelEx extends Component {
         document.addEventListener("keydown", this.keyFunction, false);
         this.drawLines()
         this.LayerScrollTop = 0
-        window.addEventListener('resize', this.scrollEndedHandler.bind(this))
+        window.addEventListener('resize', this.scrollEndedHandler)
 
         let self = this
-        self.refs["layerscrollbox"].addEventListener("scroll", self.scrollEndedHandler.bind(this), false)
-        self.refs["modelscrollbox"].addEventListener("scroll", self.scrollEndedHandler.bind(this), false)
+        this.refs["layerscrollbox"].addEventListener("scroll", this.scrollEndedHandler, false)
+        this.refs["modelscrollbox"].addEventListener("scroll", this.scrollEndedHandler, false)
     }
 
     componentWillUnmount() {
         document.removeEventListener("keydown", this.keyFunction, false);
-        window.removeEventListener('resize', this.scrollEndedHandler.bind(this))
+        window.removeEventListener('resize', this.scrollEndedHandler)
         this.removeLines();
 
         let self = this
-        self.refs["layerscrollbox"].addEventListener("scroll", self.scrollEndedHandler.bind(this), false)
-        self.refs["modelscrollbox"].addEventListener("scroll", self.scrollEndedHandler.bind(this), false)
+        this.refs["layerscrollbox"].removeEventListener("scroll", this.scrollEndedHandler, false)
+        this.refs["modelscrollbox"].removeEventListener("scroll", this.scrollEndedHandler, false)
     }
 
     componentDidUpdate(prevProps, prevState) {

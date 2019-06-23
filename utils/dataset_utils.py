@@ -12,6 +12,7 @@ import utils.file_utils as f_utils
 from PIL import Image
 from shutil import copyfile
 
+
 def save_files(directory_path, images):
     """[Save a list of image files to a given dataset filepath]
 
@@ -42,7 +43,8 @@ def generate_dataset(dataset_params):
         save_files(train_path, x_train)
         save_files(test_path, x_test)
 
-        tf.logging.info("  >> Cifar images saved to  datasets directory " + dataset_root_dir)
+        tf.logging.info(
+            "  >> Cifar images saved to  datasets directory " + dataset_root_dir)
     elif dataset_params["name"] == "cifar10":
         class_details = []
         (x_train, y_train), (x_test, y_test) = cifar10.load_data()
@@ -56,58 +58,71 @@ def generate_dataset(dataset_params):
             val = val[0]
             if (val in category_counter.keys()):
                 if(category_counter[val] < num_per_category):
-                    class_details.append({str(c_counter):str(val)})
+                    class_details.append({str(c_counter): str(val)})
                     category_counter[val] = category_counter[val] + 1
                     img = Image.fromarray(x_train[i], 'RGB')
-                    img.save(dataset_params["path"] + "/" + str(c_counter) + '.jpg')
+                    img.save(dataset_params["path"] +
+                             "/" + str(c_counter) + '.jpg')
                     c_counter += 1
                     if c_counter >= dataset_params["dataset_size"]:
                         break
             else:
                 category_counter[val] = 0
 
-        f_utils.save_json_file(os.path.join(dataset_params["path"],"classes.json"), class_details)   
-        
-        tf.logging.info("  >> Cifar10 images saved to  datasets directory " + dataset_params["path"])
+        f_utils.save_json_file(os.path.join(
+            dataset_params["path"], "classes.json"), class_details)
+
+        tf.logging.info(
+            "  >> Cifar10 images saved to  datasets directory " + dataset_params["path"])
+
 
 def get_supported_datasets():
     supported_datasets = [
-        {"name": "iconic200", "icon":"icon.jpg", "description": "A dataset of 200 images across 10 categories crawled from the Flickr API."},
-        {"name": "tinyimagenet", "icon":"imagenet.jpg", "description": "A subset of the tinyimagenet dataset with 200 images across 10 classes. Each image is 64px by 64px."},
-        {"name": "cifar10", "icon":"cifar.jpg", "description": "A subset of the CIFAR10 dataset, 200 images across 10 classes. Each image is 32px by 32px."},
+        # {"name": "iconic200", "icon": "icon.jpg",
+        #     "description": "A dataset of 200 images across 10 categories crawled from the Flickr API."},
+        {"name": "fashion200", "icon": "fashion.jpg",
+            "description": "A collection of 200 images (10 categories) of real fashion models from the Kaggle Fashion Product Images Dataset. Images have a max width of 300px."},
+        # {"name": "tinyimagenet", "icon": "imagenet.jpg",
+        #     "description": "A subset of the tinyimagenet dataset with 200 images across 10 classes. Each image is 64px by 64px."},
+        # {"name": "cifar10", "icon": "cifar.jpg",
+        #     "description": "A subset of the CIFAR10 dataset, 200 images across 10 classes. Each image is 32px by 32px."},
         # {"name": "Iconic3k", "icon":"0.jpg"}
     ]
     return supported_datasets
+
 
 def rename_files(dataset_path):
     tf.logging.info(">> Renaming files in the directory " + dataset_path)
     image_files = os.listdir(dataset_path)
     image_files.sort()
-    for i,image_file in enumerate(image_files):
-        os.rename(os.path.join(dataset_path, image_file), os.path.join(dataset_path, str(i-1) + ".jpg"))
+    for i, image_file in enumerate(image_files):
+        os.rename(os.path.join(dataset_path, image_file),
+                  os.path.join(dataset_path, str(i-1) + ".jpg"))
+
 
 def process_dataset(dataset_path):
-    class_names = os.listdir(dataset_path) 
-    path_holder = [] 
-    print(class_names) 
+    class_names = os.listdir(dataset_path)
+    path_holder = []
+    print(class_names)
     for class_name in class_names:
         if class_name != ".DS_Store":
             f_path = (os.path.join(dataset_path, class_name))
             f_names = os.listdir(f_path)
             for f_name in f_names:
                 if f_name != ".DS_Store":
-                    path  = os.path.join(f_path, f_name) 
-                    path_holder.append({"path": path, "class":class_name})
+                    path = os.path.join(f_path, f_name)
+                    path_holder.append({"path": path, "class": class_name})
 
     print(len(path_holder))
     class_details = []
-    numer_holder =   [(i) for i in range(len(path_holder)) ]
-    for i,path in enumerate(path_holder):
+    numer_holder = [(i) for i in range(len(path_holder))]
+    for i, path in enumerate(path_holder):
         class_details.append({i: path["class"]})
-        copyfile(path["path"], os.path.join(dataset_path, str(i) + ".jpg" ))
+        copyfile(path["path"], os.path.join(dataset_path, str(i) + ".jpg"))
 
-            
-    f_utils.save_json_file(os.path.join(dataset_path,"classes.json"), class_details)   
+    f_utils.save_json_file(os.path.join(
+        dataset_path, "classes.json"), class_details)
+
 
 def process_dataset_labels():
     dataset_path = "app/public/assets/semsearch/datasets"
@@ -121,10 +136,11 @@ def process_dataset_labels():
             print(dataset_name)
             class_detail_holder = {}
             class_main_dict = {}
-            class_details = f_utils.load_json_file(os.path.join(dataset_path, dataset_name, "classes.json"))
-           
+            class_details = f_utils.load_json_file(
+                os.path.join(dataset_path, dataset_name, "classes.json"))
+
             for detail in class_details:
-               
+
                 class_name = list(detail.items())[0][1]
                 class_member = list(detail.items())[0][0]
                 class_main_dict[class_member] = class_name
@@ -134,12 +150,12 @@ def process_dataset_labels():
                 else:
                     temp = class_detail_holder[class_name]
                     temp.append(class_member)
-                    class_detail_holder[class_name]  = temp
+                    class_detail_holder[class_name] = temp
 
             # print(class_main_dict)
             all_holder[dataset_name] = class_detail_holder
             all_main_dict_holder[dataset_name] = class_main_dict
-            class_list= list(class_detail_holder.keys())
+            class_list = list(class_detail_holder.keys())
             class_list.sort()
             dict_list_holder[dataset_name] = class_list
     print(dict_list_holder)
@@ -148,6 +164,6 @@ def process_dataset_labels():
     main_holder["dictionary"] = all_main_dict_holder
     main_holder["classlist"] = dict_list_holder
 
-
-    f_utils.save_json_file(os.path.join(out_path, "datasetdictionary.json"), main_holder) 
+    f_utils.save_json_file(os.path.join(
+        out_path, "datasetdictionary.json"), main_holder)
     tf.logging.info(" >> Fininshed generating class dictionaries")
