@@ -52,7 +52,11 @@ class Scene extends Component {
                 this.setState({ model: this.props.data.model })
                 this.setState({ layer: this.props.data.layer })
                 this.setState({ layerindex: this.props.data.layerindex })
-                this.highlightPoint(this.pointData[this.props.data.selectedimage])
+
+                if (this.props.data.selectedimage != prevProps.data.selectedimage) {
+                    this.highlightPoint(this.pointData[this.props.data.selectedimage])
+                }
+
                 // console.log(this.props.data.sele)
             }
 

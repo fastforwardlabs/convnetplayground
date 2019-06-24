@@ -121,8 +121,8 @@ def generate_model_viz_details():
 
 # generate_embeddings(50)
 # generate_similarity_metrics()
-# generate_model_details()
-# generate_model_viz_details()
+generate_model_details()
+generate_model_viz_details()
 # model , pre= m_utils.get_model("resnet50")
 # llist = m_utils.get_model_layer_names(model,"resnet50")
 # print(llist)
@@ -130,9 +130,7 @@ def generate_model_viz_details():
 # visualize_similarity()
 
 
-# generate_model_viz_details()
-
 # print(m_utils.get_all_model_details())
-d_utils.process_dataset(os.path.join(base_path_public, "datasets/fashion200"))
+# d_utils.process_dataset(os.path.join(base_path_public, "datasets/fashion200"))
 
 # d_utils.process_dataset_labels()

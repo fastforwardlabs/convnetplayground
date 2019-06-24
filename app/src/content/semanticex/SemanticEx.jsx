@@ -7,8 +7,9 @@ import { greyColor, blueColor, abbreviateString, loadJSONData, makeFriendly, bou
 
 import Scene from "../../components/three/Scene"
 
-var isScrolling
 
+let containerOffset = -80
+let elementOffset = -385
 
 class SemanticEx extends Component {
     constructor(props) {
@@ -71,39 +72,75 @@ class SemanticEx extends Component {
         // this.drawLines()
     }
 
+    getNextVisible(selectedModel) {
+        let modelVisible = checkInView(this.refs["modelscrollbox"], this.refs["modelimg" + selectedModel], true, containerOffset, elementOffset)
+        if (modelVisible) {
+            return selectedModel
+        } else {
+            let nextIndex = ((selectedModel * 1) + 1) % this.state.modelsList.length
+            return this.getNextVisible(nextIndex)
+        }
+    }
+
+    getNextVisibleLayer(selectedLayer) {
+        let layerVisible = checkInView(this.refs["layerscrollbox"], this.refs["layerimg" + selectedLayer], true, containerOffset, elementOffset)
+        if (layerVisible) {
+            console.log(selectedLayer, " is available, returning ")
+            return selectedLayer
+        } else {
+            let nextIndex = ((selectedLayer * 1) + 1) % this.state.modelsList[this.state.selectedmodel].layers.length
+            console.log(selectedLayer, "layer not available, trying ", nextIndex)
+            return this.getNextVisibleLayer(nextIndex)
+        }
+    }
+
     drawLines(e) {
-        this.removeLines()
-        let self = this;
-        let layers = this.state.modelsList[this.state.selectedmodel].layers
-        let containerOffset = -80
-        let elementOffset = -385
-        let modelVisible = checkInView(self.refs["modelscrollbox"], self.refs["modelimg" + this.state.selectedmodel], true, containerOffset, elementOffset)
-        layers.forEach(function (each, i) {
+        if (this.state.showmodelconfig) {
+            this.removeLines()
+            let self = this;
+            let layers = this.state.modelsList[this.state.selectedmodel].layers
 
-            let layerVisible = checkInView(self.refs["layerscrollbox"], self.refs["layerimg" + i], true, containerOffset, elementOffset)
-            if (layerVisible && modelVisible) {
-                // console.log("we drawing to", i)
-                let widthConst = 1.5
-                // console.log(i, self.state.selectedlayer)
+            // let visibleModel = this.getNextVisible(this.state.selectedmodel)
+            // if (visibleModel != this.state.selectedmodel) {
+            //     this.setState({ selectedmodel: visibleModel + "" })
+            // }
 
-                let line = new LeaderLine(self.refs["modelimg" + self.state.selectedmodel], self.refs["layerimg" + i], {
-                    color: self.state.selectedlayer == (i + "") ? blueColor : greyColor,
-                    startPlug: 'disc',
-                    endPlug: 'disc',
-                    startPlugColor: blueColor,
-                    path: "fluid",
-                    size: Math.min(widthConst + i * 0.2, 3),
-                    hide: true,
-                    startSocket: 'bottom',
-                    endSocket: self.state.selectedlayer == (i + "") ? "top" : 'left',
-                    endPlugSize: 3 / Math.min(widthConst + i * 0.2, 3),
+            // let visibleLayer = this.getNextVisibleLayer(this.state.selectedlayer)
+            // if (visibleLayer != this.state.selectedlayer) {
+            //     this.setState({ selectedlayer: visibleLayer + "" })
+            // }
 
-                });
-                document.querySelector('.leader-line').style.zIndex = -100
-                line.show("draw", animOptions)
-                self.lineHolder.push({ line: line, index: i })
-            }
-        })
+            let modelVisible = checkInView(self.refs["modelscrollbox"], self.refs["modelimg" + this.state.selectedmodel], true, containerOffset, elementOffset)
+            // console.log("Next visible is ", this.getNextVisible(this.state.selectedmodel))
+
+
+            layers.forEach(function (each, i) {
+
+                let layerVisible = checkInView(self.refs["layerscrollbox"], self.refs["layerimg" + i], true, containerOffset, elementOffset)
+                if (layerVisible && modelVisible) {
+                    // console.log("we drawing to", i)
+                    let widthConst = 1.5
+                    // console.log(i, self.state.selectedlayer)
+
+                    let line = new LeaderLine(self.refs["modelimg" + self.state.selectedmodel], self.refs["layerimg" + i], {
+                        color: self.state.selectedlayer == (i + "") ? blueColor : greyColor,
+                        startPlug: 'disc',
+                        endPlug: 'disc',
+                        startPlugColor: blueColor,
+                        path: "fluid",
+                        size: Math.min(widthConst + i * 0.2, 3),
+                        hide: true,
+                        startSocket: 'bottom',
+                        endSocket: self.state.selectedlayer == (i + "") ? "top" : 'left',
+                        endPlugSize: 3 / Math.min(widthConst + i * 0.2, 3),
+
+                    });
+                    document.querySelector('.leader-line').style.zIndex = -100
+                    line.show("draw", animOptions)
+                    self.lineHolder.push({ line: line, index: i })
+                }
+            })
+        }
 
     }
     removeLines(e) {
@@ -114,6 +151,10 @@ class SemanticEx extends Component {
     }
     recolorLines(e) {
         let self = this
+        // let visibleLayer = this.getNextVisibleLayer(this.state.selectedlayer)
+        // if (visibleLayer != this.state.selectedlayer) {
+        //     this.setState({ selectedlayer: visibleLayer + "" })
+        // }
         if (this.LayerScrollTop != this.refs["layerscrollbox"].scrollTop) {
             this.LayerScrollTop = this.refs["layerscrollbox"].scrollTop
             this.drawLines()
@@ -184,7 +225,6 @@ class SemanticEx extends Component {
     }
 
     componentDidMount() {
-        // this.drawLines()
         document.title = "ConvNet Playground | Semantic Search Explorer";
         this.LayerScrollTop = 0
         window.addEventListener('resize', this.scrollEndedHandler)
@@ -735,7 +775,7 @@ class SemanticEx extends Component {
                         {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (this.state.viewdatasetby == "category" ?  "active" : "" ) } viewby="category">  By  Category </div> */}
                         {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (this.state.viewdatasetby == "graph" ?  "active" : "" ) } viewby="graph">  Graph </div> */}
 
-                        <div className="boldtext mb10 iblock  mr10"> {this.state.hoversimimage} Dataset [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
+                        <div className="boldtext mb10 iblock  mr10"> Dataset [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
                         <div className="iblock pt10">  {this.state.datasetsList[this.state.selecteddataset].description}   </div>
                     </div>
                     {/* <div className="horrule mb10"></div> */}

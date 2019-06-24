@@ -229,6 +229,9 @@
     text-decoration: none;
     color: white;
 }
+.w100{
+    width: 100%
+}
 
 .unclickable{
     pointer-events: none;

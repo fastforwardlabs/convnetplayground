@@ -30,7 +30,10 @@ It contains images spanning 10 keyword searches (arch, banana, volkswagen beetle
 These images are chosen deliberately with conceptual overlaps (several car brands, similar colors across classes) to highlight 
 how various models perform in correctly representing similarity.
  
-
+#### Fashion200
+Fashion200 is a collection of 200 images (10 categories) of real fashion models from the<a href="https://www.kaggle.com/paramaggarwal/fashion-product-images-dataset"> Kaggle Fashion Product Images Dataset</a> .
+Images have a max width of 300px. Categories include flipflops, menjeans, menshirt, mentshirt, sandals, sportshoe, womenheels, womenjeans, womenshirt, womentshirt. Again, concept overlaps exists to allow the user interactively explore how well various models correctly represent and distinguish each class.
+                
 #### TinyImagenet200
 This dataset contains 64px * 64px images and is a subset (200) of the
     <a href="https://tiny-imagenet.herokuapp.com/" target="_blank" rel="noopener noreferrer" > Tiny Imagenet Visual Recognition Challenge dataset.</a> 
@@ -40,6 +43,8 @@ It consists of images from 10 categories (arch, bottle, bridge, bus, face, frog,
 This is a subset (200 images) of the popular 
 <a href="https://www.cs.toronto.edu/~kriz/cifar.html" target="_black"> cifar10 </a>  dataset 
 containing 20 images from 10 randomly selected classes. Each image is 32px by 32px in dimension.
+
+
 
 ### Models and Layers
 We provide results from 7 models (vgg16, vgg19, mobilenet, xception, resnet50, inceptionv3, densenet121) and a selection of 8 layers from each model. In selecting layers, emphasis is placed on layers that perform convolutional operations and have trainable parameters. The models are presented in order of increasing complexity (number of layers) and show marked differences in their ability to generate features that correctly identify similar images. For ease of implementation, we use implementations of pretrained models from the Keras applications package https://github.com/keras-team/keras-applications.

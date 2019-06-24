@@ -72,7 +72,7 @@ class ModelEx extends Component {
                 let widthConst = 1.5
 
                 let line = new LeaderLine(self.refs["modelimg" + self.state.selectedmodel], self.refs["layerimg" + i], {
-                    color: self.state.selectedlayer == i ? blueColor : greyColor,
+                    color: self.state.selectedlayer == (i + "") ? blueColor : greyColor,
                     startPlug: 'disc',
                     endPlug: 'disc',
                     startPlugColor: blueColor,
