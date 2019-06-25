@@ -37,11 +37,12 @@ class SemanticEx extends Component {
             modelsList: modelDetails["models"],
             distanceMetricList: modelDetails["metrics"],
             showorientationmodal: !this.props.pageviewed,
-            showmodelconfig: false,
+            showmodelconfig: true,
             showumap: false,
             showdatasetmodal: false,
             showtopresults: false,
             viewdatasetby: "category",
+            showadvanced: false,
             topx: 10
         }
         this.updateSimilarity()
@@ -310,13 +311,11 @@ class SemanticEx extends Component {
 
     toggleSemanticModal(e) {
         this.setState({ showorientationmodal: !(this.state.showorientationmodal) })
-        // console.log(this.state.showorientationmodal)
     }
 
 
     toggleModelConfig(e) {
         this.setState({ showmodelconfig: !(this.state.showmodelconfig) })
-        // console.log(this.state.showorientationmodal)
 
     }
 
@@ -334,6 +333,9 @@ class SemanticEx extends Component {
 
     toggleViewDatasetBy(e) {
         this.setState({ viewdatasetby: e.target.getAttribute("viewby") })
+    }
+    toggleAdvancedOpitions(e) {
+        this.setState({ showadvanced: !(this.state.showadvanced) })
     }
 
     showTopResults() {
@@ -582,32 +584,37 @@ class SemanticEx extends Component {
                 </div> */}
 
                 <div className="flex ">
-                    <div className="flexfull ">
+                    <div className="flex5 ">
 
-                        <div className="mynotif h100 lh10  instructions lightbluehightlight maxh16 mr10">
+                        <div className="mynotif h100 lh10 pl  instructions lightbluehightlight maxh16 mr10">
                             <div className="boldtext pb5"> Welcome!</div>
                             This demo allows you perform <strong> semantic image search </strong> using convolutional neural networks.
-                            When you select an image (by clicking it), the neural network looks at the content of all images in our dataset
+                            When you select an image (by clicking it), a neural network looks at the content of all images in our dataset
                             and shows you the  <strong> top {this.state.topx} </strong> most similar ones to the selected image.
                           </div>
                     </div>
 
-                    <div>
-                        <div className="mynotif lh10   instructions lightbluehightlight maxh16">
-                            <div className="boldtext pb5"> Advanced Options</div>
-                            <div className="border flex">
+                    <div className="flex5">
+                        <div className="mynotif lh10    instructions lightbluehightlight maxh16">
+                            <div className="boldtext pb5 advancedoptionsbox"> Advanced Options</div>
+                            Interested in modifying search configurations (different datasets, models, layers and distance metrics)
+                            or visualizing the features extracted by the model? Turn on advanced options
+                            <div className=" flex">
+                                {/* <div className="mr10 pt10">Advanced options </div> */}
                                 <div>
                                     <Toggle
-                                        className='some-class'
-                                        labelA='Off'
-                                        labelB='On'
-                                    // onChange action('onChange'),
-                                    // onToggle: action('onToggle'),
+
+                                        className='smalldesc'
+                                        labelA='off'
+                                        labelB='on'
+                                        // onChange action('onChange'),
+                                        onToggle={this.toggleAdvancedOpitions.bind(this)}
                                     ></Toggle>
                                 </div>
 
                             </div>
 
+
                         </div>
 
                     </div>
@@ -617,103 +624,105 @@ class SemanticEx extends Component {
 
 
 
+                <div className={" " + (this.state.showadvanced ? "" : " displaynone")}>
 
-
-                {/* config panel and content */}
-                <div onClick={this.toggleModelConfig.bind(this)} className="unselectable mt10 p10 clickable  flex greymoreinfo">
-                    <div className="iblock flexfull minwidth485"> <strong> {!this.state.showmodelconfig && <span>&#x25BC;  </span>} {this.state.showmodelconfig && <span>&#x25B2;  </span>} </strong> Search Configuration </div>
-                    <div className="iblock   ">
-                        <div className="iblock mr5"> <span className="boldtext"> {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()}</span></div>
-                        <div className="iblock">
-                            <div className="smalldesc"> DATASET </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                {<div style={{ zIndex: 500 }} className={"flex modelconfigdiv p10 " + (this.state.showmodelconfig ? "" : " displaynone")} >
-                    <div className="flex2 mr10">
-                        <div className="mt20 pb10 sectiontitle" > Select Dataset </div>
-                        <div className="horrule mb10"></div>
-                        <div className=" datasetselectdiv scrollwindow layerwindow">
-                            {datasetImageList}
-                        </div>
-                        <div className="">
-                            <div className=" iblock boldtext  boldtext datasetdescription mr10  p10 greyhighlight">{this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()}</div>
-                            <div onClick={this.toggleDatasetModal.bind(this)} className="iblock p10 greyhighlight clickable unselectable greymoreinfo mt10"> ? More Info </div>
-                        </div>
-
-                    </div>
-                    <div style={{ zIndex: 100 }} className="flex3  mr10">
-                        <div className="mt20 pb10 sectiontitle" > Select Model </div>
-                        <div className="horrule mb10"></div>
-                        <div ref="modelscrollbox" className="datasetselectdiv scrollwindow layerwindow">
-                            {modelImageList}
-                        </div>
-                        <div className=" iblock boldtext datasetdescription  p10 greyhighlight">{this.state.modelsList[this.state.selectedmodel].name.toUpperCase()}</div>
-                    </div>
-                    <div style={{ zIndex: 100 }} className="flex3  ">
-                        <div className="mt20 pb10 sectiontitle" > Select Layer </div>
-                        <div className="horrule mb10"></div>
-                        <div ref="layerscrollbox" className="scrollwindow layerwindow  mr10">
-                            <div className="windowcontent"> {layerImageList} </div>
-                        </div>
-                        <div className="flex flexwrap pr10">
-                            <div className="  mr10 ">
-                                {/* <div className=" iblock boldtext datasetdescription  p10 greyhighlight"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}</div> */}
-                                <div className=" iblock boldtext datasetdescription  p10 greyhighlight">{" LAYER " + this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index}</div>
-                            </div>
-                            <div className="flexfull ">
-                                {/* <div className="smalldesc boldtext pt4"> Layer [ {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index}  of {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].totallayers}  ] {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type} </div> */}
-                                <div className="smalldesc pt4"> <strong>Type: {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type} </strong> | <span className="smalldesc"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}</span> </div>
-                                <div className="smalldesc pt3"> {makeFriendly(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].parametercount)} trainable parameters, {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} channels </div>
+                    {/* config panel and content */}
+                    <div onClick={this.toggleModelConfig.bind(this)} className="unselectable mt10 p10 clickable  flex greymoreinfo">
+                        <div className="iblock flexfull minwidth485"> <strong> {!this.state.showmodelconfig && <span>&#x25BC;  </span>} {this.state.showmodelconfig && <span>&#x25B2;  </span>} </strong> Search Configuration </div>
+                        <div className="iblock   ">
+                            <div className="iblock mr5"> <span className="boldtext"> {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()}</span></div>
+                            <div className="iblock">
+                                <div className="smalldesc"> DATASET </div>
                             </div>
                         </div>
 
                     </div>
 
-                    <div className="flex2">
-                        <div className="mt20 pb10 sectiontitle" > Distance Metric </div>
+                    {<div style={{ zIndex: 500 }} className={"flex modelconfigdiv p10 " + (this.state.showmodelconfig ? "" : " displaynone")} >
+                        <div className="flex2 mr10">
+                            <div className="mt20 pb10 sectiontitle" > Select Dataset </div>
+                            <div className="horrule mb10"></div>
+                            <div className=" datasetselectdiv scrollwindow layerwindow">
+                                {datasetImageList}
+                            </div>
+                            <div className="">
+                                <div className=" iblock boldtext  boldtext datasetdescription mr10  p10 greyhighlight">{this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()}</div>
+                                <div onClick={this.toggleDatasetModal.bind(this)} className="iblock p10 greyhighlight clickable unselectable greymoreinfo mt10"> ? More Info </div>
+                            </div>
+
+                        </div>
+                        <div style={{ zIndex: 100 }} className="flex3  mr10">
+                            <div className="mt20 pb10 sectiontitle" > Select Model </div>
+                            <div className="horrule mb10"></div>
+                            <div ref="modelscrollbox" className="datasetselectdiv scrollwindow layerwindow">
+                                {modelImageList}
+                            </div>
+                            <div className=" iblock boldtext datasetdescription  p10 greyhighlight">{this.state.modelsList[this.state.selectedmodel].name.toUpperCase()}</div>
+                        </div>
+                        <div style={{ zIndex: 100 }} className="flex3  ">
+                            <div className="mt20 pb10 sectiontitle" > Select Layer </div>
+                            <div className="horrule mb10"></div>
+                            <div ref="layerscrollbox" className="scrollwindow layerwindow  mr10">
+                                <div className="windowcontent"> {layerImageList} </div>
+                            </div>
+                            <div className="flex flexwrap pr10">
+                                <div className="  mr10 ">
+                                    {/* <div className=" iblock boldtext datasetdescription  p10 greyhighlight"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}</div> */}
+                                    <div className=" iblock boldtext datasetdescription  p10 greyhighlight">{" LAYER " + this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index}</div>
+                                </div>
+                                <div className="flexfull ">
+                                    {/* <div className="smalldesc boldtext pt4"> Layer [ {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index}  of {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].totallayers}  ] {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type} </div> */}
+                                    <div className="smalldesc pt4"> <strong>Type: {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type} </strong> | <span className="smalldesc"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}</span> </div>
+                                    <div className="smalldesc pt3"> {makeFriendly(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].parametercount)} trainable parameters, {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} channels </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div className="flex2">
+                            <div className="mt20 pb10 sectiontitle" > Distance Metric </div>
+                            <div className="horrule mb10"></div>
+                            <div className="scrollwindow layerwindow ">
+                                <div className="windowcontent"> {metricImageList} </div>
+                            </div>
+                            <div className=" iblock boldtext datasetdescription  p10 greyhighlight"> {this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()}</div>
+                        </div>
                         <div className="horrule mb10"></div>
-                        <div className="scrollwindow layerwindow ">
-                            <div className="windowcontent"> {metricImageList} </div>
+
+                    </div>}
+
+
+                    {/* show umap panel and content */}
+                    <div style={{ zIndex: 100 }} onClick={this.toggleUMAPView.bind(this)} className="unselectable mt10 p10 clickable  flex greymoreinfo">
+                        <div className="iblock flexfull minwidth485"> <strong> {!this.state.showumap && <span>&#x25BC;  </span>} {this.state.showumap && <span>&#x25B2;  </span>} </strong> Visualization of Embeddings (UMAP) for Extracted Features </div>
+                        <div className="iblock   ">
+                            <div className="iblock mr5"> <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span></div>
+                            <div className="iblock">
+                                <div className="smalldesc"> LAYER {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index} / {this.state.modelsList[this.state.selectedmodel].numlayers} </div>
+                            </div>
                         </div>
-                        <div className=" iblock boldtext datasetdescription  p10 greyhighlight"> {this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()}</div>
+
                     </div>
-                    <div className="horrule mb10"></div>
 
-                </div>}
+                    {(this.state.showumap) &&
+                        <div className="flex modelconfigdiv p10">
+                            <Scene
+                                setselected={this.setSelectedImage.bind(this)}
+                                data={{
 
-
-                {/* show umap panel and content */}
-                <div style={{ zIndex: 100 }} onClick={this.toggleUMAPView.bind(this)} className="unselectable mt10 p10 clickable  flex greymoreinfo">
-                    <div className="iblock flexfull minwidth485"> <strong> {!this.state.showumap && <span>&#x25BC;  </span>} {this.state.showumap && <span>&#x25B2;  </span>} </strong> Visualization of Embeddings (UMAP) for Extracted Features </div>
-                    <div className="iblock   ">
-                        <div className="iblock mr5"> <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span></div>
-                        <div className="iblock">
-                            <div className="smalldesc"> LAYER {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index} / {this.state.modelsList[this.state.selectedmodel].numlayers} </div>
+                                    dataset: this.state.datasetsList[this.state.selecteddataset].name,
+                                    selectedimage: this.state.hoversimimage,
+                                    model: this.state.modelsList[this.state.selectedmodel].name,
+                                    layerindex: this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index,
+                                    layer: this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name,
+                                    dml: this.state.datasetsList[this.state.selecteddataset].name + this.state.modelsList[this.state.selectedmodel].name + this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name + this.state.hoversimimage
+                                }}
+                            >
+                            </Scene>
                         </div>
-                    </div>
+                    }
 
                 </div>
-
-                {(this.state.showumap) &&
-                    <div className="flex modelconfigdiv p10">
-                        <Scene
-                            setselected={this.setSelectedImage.bind(this)}
-                            data={{
-
-                                dataset: this.state.datasetsList[this.state.selecteddataset].name,
-                                selectedimage: this.state.hoversimimage,
-                                model: this.state.modelsList[this.state.selectedmodel].name,
-                                layerindex: this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index,
-                                layer: this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name,
-                                dml: this.state.datasetsList[this.state.selecteddataset].name + this.state.modelsList[this.state.selectedmodel].name + this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name + this.state.hoversimimage
-                            }}
-                        >
-                        </Scene>
-                    </div>
-                }
 
 
                 {/* top results */}

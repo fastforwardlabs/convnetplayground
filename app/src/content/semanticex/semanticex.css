@@ -195,6 +195,10 @@ div.bx--modal-container{
     background:  rgba(209, 209, 209, 0.3);
 }
 
+.advancedoptionsbox{
+    /* min-width: 50em; */
+}
+
 .minwidth485{
     /* min-width: 232px; */
 }
