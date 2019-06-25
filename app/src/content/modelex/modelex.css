@@ -60,21 +60,21 @@
     max-height: 17.8em; 
 }
 
-.scrollwindow::-webkit-scrollbar, .neurondivbox::-webkit-scrollbar {
+.scrollwindow::-webkit-scrollbar {
     -webkit-appearance: none;
     
 }
 
-.scrollwindow::-webkit-scrollbar:vertical, .neurondivbox::-webkit-scrollbar:vertical {
+.scrollwindow::-webkit-scrollbar:vertical {
     width: 8px;
    
 }
 
-.scrollwindow::-webkit-scrollbar:horizontal, .neurondivbox::-webkit-scrollbar:horizontal {
+.scrollwindow::-webkit-scrollbar:horizontal {
     height: 8px;
 }
 
-.scrollwindow::-webkit-scrollbar-thumb, .neurondivbox::-webkit-scrollbar-thumb {
+.scrollwindow::-webkit-scrollbar-thumb{
     border-radius: 8px;
     border: 2px solid white; /* should match background, can't be transparent */
     background-color: rgba(0, 0, 0, .5);
@@ -91,9 +91,7 @@
     text-decoration: none;
     font-weight: bold;
 }
- ß
 
 .neurondivbox{
-    max-height: 22em;
-    overflow: scroll;
+    max-height: 24em; 
 }

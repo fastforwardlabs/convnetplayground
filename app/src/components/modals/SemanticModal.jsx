@@ -9,11 +9,15 @@ class SemanticModalContent extends Component {
                 Image Analysis. More about this report is described in our blog post.
 
                 <br />
-                Convolutional Neural Networks (Convnets or CNNs) learn hierarchical representations
-                useful for image analysis. Early layers in a CNN learn low level features (e.g. lines, edges, shapes, colours)
-                while later layers learn high level concepts (e.g eyes, legs, faces, doors etc) depending on the dataset used for training.
-                In Convnet Playground, features extracted using layers from a CNN are used for
-                semantic search (image retrieval based on similarity of extracted features).
+                <br />
+                This section of the prototype allows you perform semantic image search using convolutional neural networks.
+                When you select an image (by clicking it), a neural network looks at the content of all
+                images in our dataset and shows you the top most similar ones to the selected image.
+
+                <br />
+                <br />
+                You can get started now or read below to learn more about how the prototype works.
+                <br />
 
 
                 <div className="horrule mb10 pt10"></div>
@@ -24,20 +28,20 @@ class SemanticModalContent extends Component {
                 between all of these features using 4 different similarity metrics. This demo allows you interactively explore the results of these computations.
                 Start by performing a search (clicking an image).
 
-                <img className=" mt10 w100" src={process.env.PUBLIC_URL + "/assets/semsearch/images/embed.jpg"} alt="" />
-                <div className="smalldesc mb10">Clicking on an image shows the top similar returned based on embeddings from a CNN model.</div>
+                {/* <img className=" mt10 w100" src={process.env.PUBLIC_URL + "/assets/semsearch/images/embed.jpg"} alt="" />
+                <div className="smalldesc mb10">Clicking on an image shows the top similar returned based on embeddings from a CNN model.</div> */}
 
-                Do different models (e.g vgg19 vs ResNet50) perform differently? How does the embeddings they generate differ? How do layers compare? You can explore all that
-                by selecting various search configurations or viewing UMAP visualizations of embeddings from each layer.
+                Do different models (e.g vgg19 vs ResNet50) perform differently? How does the embeddings they generate differ? How do layers compare?
+                You can explore these questions by selecting various search configurations or viewing UMAP visualizations of embeddings from each layer.
 
-                <img className=" mt10 w100" src={process.env.PUBLIC_URL + "/assets/semsearch/images/config.gif"} alt="" />
-                <div className="smalldesc mb10">Use the search configuration panel to try different datasets, models, layers and distance metrics</div>
+                {/* <img className=" mt10 w100" src={process.env.PUBLIC_URL + "/assets/semsearch/images/config.gif"} alt="" />
+                <div className="smalldesc mb10">Use the search configuration panel to try different datasets, models, layers and distance metrics</div> */}
 
 
                 The <strong> weighted score </strong>  provides insights on the performance of each search configuration
-                based on the percentage of search results that belong to the same conceptual category as the searched item.
-                The score is weighted by the position of retrieval i.e correct results that are ranked top of the
-                similarity list get more points compared to correct results ranked at the end.
+               based on the percentage of search results that belong to the same conceptual category as the searched item.
+               The score is weighted by the position of retrieval i.e correct results that are ranked top of the
+               similarity list get more points compared to correct results ranked at the end.
 
                 <div className="boldtext mt10"> Datasets </div>
 
@@ -49,7 +53,7 @@ class SemanticModalContent extends Component {
 
                 <strong> [Fashion200] </strong>  collection of 200 images (10 categories) of real fashion models from the
                  <a href="https://www.kaggle.com/paramaggarwal/fashion-product-images-dataset" target="_blank" rel="noopener noreferrer"> Kaggle Fashion Product Images Dataset</a> .
-       Images have a max width of 300px. Categories include flipflops, menjeans, menshirt, mentshirt, sandals, sportshoe, womenheels, womenjeans, womenshirt, womentshirt.
+ Images have a max width of 300px. Categories include flipflops, menjeans, menshirt, mentshirt, sandals, sportshoe, womenheels, womenjeans, womenshirt, womentshirt.
                 <br />
 
                 <strong>[TinyImagenet200]</strong>  This dataset contains 64px * 64px images and is a subset (200) of the

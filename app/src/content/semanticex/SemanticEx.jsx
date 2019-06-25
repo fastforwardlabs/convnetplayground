@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal, Toggle } from 'carbon-components-react';
+import { Modal, Toggle, Tooltip } from 'carbon-components-react';
 // import Notification20 from '@carbon/icons-react/lib/notification/20';
 import "./semanticex.css"
 import SemanticModalContent from "../../components/modals/SemanticModal"
@@ -26,10 +26,10 @@ class SemanticEx extends Component {
 
         this.state = {
             selecteddataset: 0,
-            selectedmodel: 0, //modelDetails["models"].length - 1,
+            selectedmodel: 5, //modelDetails["models"].length - 1,
             selectedsimimage: 0,
             hoversimimage: 0,
-            selectedlayer: modelDetails["models"][modelDetails["models"].length - 1].layers.length - 1,
+            selectedlayer: modelDetails["models"][5].layers.length - 1,
             selectedmetric: 0,
             similarityArray: similarityArray,
             datasetArray: [],
@@ -37,7 +37,7 @@ class SemanticEx extends Component {
             modelsList: modelDetails["models"],
             distanceMetricList: modelDetails["metrics"],
             showorientationmodal: !this.props.pageviewed,
-            showmodelconfig: true,
+            showmodelconfig: false,
             showumap: false,
             showdatasetmodal: false,
             showtopresults: false,
@@ -336,6 +336,7 @@ class SemanticEx extends Component {
     }
     toggleAdvancedOpitions(e) {
         this.setState({ showadvanced: !(this.state.showadvanced) })
+        this.toggleModelConfig()
     }
 
     showTopResults() {
@@ -588,8 +589,13 @@ class SemanticEx extends Component {
 
                         <div className="mynotif h100 lh10 pl  instructions lightbluehightlight maxh16 mr10">
                             <div className="boldtext pb5"> Welcome!</div>
-                            This demo allows you perform <strong> semantic image search </strong> using convolutional neural networks.
-                            When you select an image (by clicking it), a neural network looks at the content of all images in our dataset
+                            This demo allows you perform <strong> semantic image search </strong> using convolutional neural networks
+                            <span className="smalldesc"> [
+                             <strong> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()}   </strong>
+                                {/* <strong>  {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index}  </strong> */}
+                                {/* <strong> DISTANCE METRIC: </strong>   {this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()} ] */}
+                                ]</span>.
+When you select an image (by clicking it), a neural network looks at the content of all images in our dataset
                             and shows you the  <strong> top {this.state.topx} </strong> most similar ones to the selected image.
                           </div>
                     </div>
@@ -598,15 +604,15 @@ class SemanticEx extends Component {
                         <div className="mynotif lh10    instructions lightbluehightlight maxh16">
                             <div className="boldtext pb5 advancedoptionsbox"> Advanced Options</div>
                             Interested in modifying search configurations (different datasets, models, layers and distance metrics)
-                            or visualizing the features extracted by the model? Turn on advanced options
+                            or visualizing the features extracted by the model? Turn on advanced options.
                             <div className=" flex">
                                 {/* <div className="mr10 pt10">Advanced options </div> */}
                                 <div>
                                     <Toggle
 
                                         className='smalldesc'
-                                        labelA='off'
-                                        labelB='on'
+                                        labelA='Off'
+                                        labelB='On'
                                         // onChange action('onChange'),
                                         onToggle={this.toggleAdvancedOpitions.bind(this)}
                                     ></Toggle>
@@ -778,11 +784,23 @@ class SemanticEx extends Component {
                                     <div className="scrollwindow layerwindow ">
 
                                         <div className=" iblock mr10 rad3 ">
-                                            <div className="pb5 smalldesc "> weighted score </div>
+                                            <div className="pb5 smalldesc "> Search result score </div>
                                             <div className="topscorediv">
 
                                                 <div className="mainscore  topmainscore"> {((modelScore / totalScore) * 100).toFixed(1) + "%"} </div>
-                                                <div className="weightedscore smalldesc textaligncenter"> {simCount} / {this.state.topx} results <br /> in same category </div>
+
+                                                <div className="weightedscore smalldesc textaligncenter">
+                                                    <Tooltip
+                                                        triggerText="What is this"
+                                                    >
+
+                                                        <div className="wscore">
+                                                            Weighted score is a ratio of the number of results returned by the CNN that belong to the same category
+                                                        as the selected image. In this case, <strong>{simCount} / {this.state.topx} results </strong>  are in same category
+                                                        </div>
+
+                                                    </Tooltip>
+                                                </div>
                                             </div>
 
                                         </div>
@@ -830,6 +848,9 @@ class SemanticEx extends Component {
                     </div>
                 </div>
 
+                <br />
+                <br />
+                <br />
                 <br />
                 <br />
                 <br />

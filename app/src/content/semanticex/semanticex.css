@@ -81,6 +81,9 @@
     border-top: 1px solid grey;
     /* height: 20px; */
 }
+.wscore{
+    line-height: 1.3em;
+}
 
 .simiimage{
     /* width: 5em;  */

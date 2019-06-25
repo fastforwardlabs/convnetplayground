@@ -62,7 +62,7 @@ class ModelEx extends Component {
         let self = this;
         let layers = this.state.modelsList[this.state.selectedmodel].layers
         let containerOffset = -60
-        let elementOffset = -310
+        let elementOffset = -270
         let modelVisible = checkInView(self.refs["modelscrollbox"], self.refs["modelimg" + this.state.selectedmodel], true, containerOffset, elementOffset)
         layers.forEach(function (each, i) {
 
@@ -394,7 +394,7 @@ class ModelEx extends Component {
                         <div onClick={this.toggleModelsModal.bind(this)} className="iblock floatright  clickable showmore"> ? More Info  </div>
                     </div>
                 </div>
-                <div className="horrule"></div>
+                {/* <div className="horrule"></div> */}
                 {/* <InlineNotification
                     title={"Image Algebra"} 
                     kind={"info"} 
@@ -402,7 +402,7 @@ class ModelEx extends Component {
                     style={{ minWidth: '100%', marginBottom: '.5rem' }}
                 /> */}
 
-                <div className="mynotif lh10 p20 mt10 instructions lightbluehightlight maxh16">
+                <div className="mynotif lh10 instructions lightbluehightlight maxh16">
                     Interpretable models are models we can "understand".
                     In this demo, we use  <a href="https://distill.pub/2017/feature-visualization/" target="_blank" rel="noopener noreferrer"> optimization based feature visualization </a> approaches
                     to visualize what the channels (collection of neurons) in a CNN layer has learned to detect.
@@ -429,7 +429,7 @@ class ModelEx extends Component {
                 </div> */}
 
                 <div style={{ zIndex: 100 }} className="flex flexwrap ">
-                    <div style={{ zIndex: 500 }} className="flex5 mr10">
+                    <div style={{ zIndex: 500 }} className="flex4 mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Model </div>
                         <div className="horrule mb10"></div>
                         <div ref="modelscrollbox" className="scrollwindow  scrollwindowmodel">
@@ -444,7 +444,7 @@ class ModelEx extends Component {
                     </div>
 
 
-                    <div style={{ zIndex: 100 }} className="flex5">
+                    <div style={{ zIndex: 100 }} className="flex6">
                         <div className="mt20 pb10 sectiontitle" > Select Layer </div>
                         <div className="horrule mb10"></div>
                         <div ref="layerscrollbox" className="scrollwindow layerwindow  ">
@@ -489,8 +489,11 @@ class ModelEx extends Component {
 
                         </div>
                     </div>
-                    <div className="flexfull neurondivbox  ">
-                        {neuronImageList}
+                    <div className="flexfull ">
+
+                        <div className=" scrollwindow neurondivbox ">
+                            {neuronImageList}
+                        </div>
                     </div>
 
                 </div>
@@ -501,7 +504,7 @@ class ModelEx extends Component {
                 <br />
                 <br />
                 <br />
-            </div>
+            </div >
         );
     }
 }
