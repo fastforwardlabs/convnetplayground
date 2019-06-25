@@ -5,24 +5,37 @@ class ModelsModalContent extends Component {
         return (
             <div>
 
-Convnet Playground is a research prototype by Cloudera Fast Forward Labs, built to accompany our updated report on 
+                Convnet Playground is a research prototype by Cloudera Fast Forward Labs, built to accompany our updated report on 
                 Image Analysis. More about this report is described in our blog post.
-            
+                
+                <br />
                 <br/>
-                Convolutional Neural Networks (Convnets or CNNs) learn hierarchical representations 
-                useful for image analysis. Early layers in a CNN learn low level features (e.g. lines, edges, shapes, colours) 
-                while later layers learn high level concepts (e.g eyes, legs, faces, doors etc) depending on the dataset used for training. 
+        
+                This section of the prototype allows you <strong>view visualizations</strong> of the channels (groups of neurons) across layers in 
+                9 convolutional neural network models (pretrained on imagenet).
+
+                <br />
+                <br />
+                You can get started now or read below to learn more about how the interface works.
+                Click the  [ ? More Info ] button on the top right to show this dialog at any time.
+            
+                
                  
                 <div className="horrule mb10 pt10"></div>
+                <div className="boldtext"> Convolutional Neural Netwoks</div>
+                Convolutional Neural Networks (Convnets or CNNs) learn hierarchical representations
+                useful for image analysis. Early layers in a CNN learn low level features (e.g. lines, edges, shapes, colours)
+                while later layers learn high level concepts (e.g eyes, legs, faces, doors etc) depending on the dataset used for training.
 
-                 <div className="boldtext"> Interpretability via Visualizations </div>
+
+                 <div className="boldtext mt10"> Interpretability via Visualizations </div>
                  Interpretable models are models we can "understand". One way to achieve this is to visualize the features learned by 
                  neurons (or groups of neurons) in the model. In this section of the prototype, we present visualizations 
                  from 30 random channels (groups of neurons) from layers in 9 different models (vgg16, vgg19, mobilenet, xception, resnet50, inceptionv3, densenet121).
                  To begin, select (click) a model and a layer to visualize its channels.
                 
-                 <img className="mt10 w100" src={process.env.PUBLIC_URL + "/assets/semsearch/images/model.gif"} alt="" />
-                 <div className="smalldesc mb10">Selecting a model shows a list of some of its layers. Selecting a layer shows visualizations of its channels.</div>
+                 {/* <img className="mt10 w100" src={process.env.PUBLIC_URL + "/assets/semsearch/images/model.gif"} alt="" />
+                 <div className="smalldesc mb10">Selecting a model shows a list of some of its layers. Selecting a layer shows visualizations of its channels.</div> */}
 
 <br />
                  An observation of these images show how complexity of learned features increases with deeper layers in the model.

@@ -403,11 +403,11 @@ class ModelEx extends Component {
                 /> */}
 
                 <div className="mynotif lh10 instructions lightbluehightlight maxh16">
-                    Interpretable models are models we can "understand".
-                    In this demo, we use  <a href="https://distill.pub/2017/feature-visualization/" target="_blank" rel="noopener noreferrer"> optimization based feature visualization </a> approaches
-                    to visualize what the channels (collection of neurons) in a CNN layer has learned to detect.
-                    Each image is derived (via optimization) as the image which activates the neurons within that channel.
-                    To explore, <strong> click </strong>  on a model, and a layer to view a selection of visualization of channels in that layer.
+                    <div className="boldtext pb5 advancedoptionsbox"> Optimisation Based Feature Visualization </div>
+                    This demo allows you explore visualizations of patterns learned by channels (groups of neurons) in each layer of a  Convolutional Neural Network (pretrained on <strong> imagenet</strong>).
+                    The images shown are created using  <a href="https://distill.pub/2017/feature-visualization/" target="_blank" rel="noopener noreferrer"> optimization based feature visualization </a>
+                    methods which allows us generate images that maximally excite the given channel.
+                    To begin, <strong> click </strong>  on a model, and a layer to view visualizations of selected channels in that layer.
 
                 </div>
 
@@ -474,7 +474,7 @@ class ModelEx extends Component {
                 <div className="horrule mb10"></div>
 
                 <div className="flex flexwrap">
-                    <div className="flex1">
+                    <div className="flex1  ">
                         <div className="enlargeddiv rad2 mr10">
                             {/* let selectedModel = this.state.modelsList[this.state.selectedmodel].name
         let currentLayers = this.layerList[selectedModel] 
@@ -483,7 +483,7 @@ class ModelEx extends Component {
 
 
 
-                            <div onClick={this.twitterShare.bind(this)} className="mb10" > <div className="twitterbutton unselectable mt10 p10 clickable  flex greymoreinfo" href=""> Share on twitter </div> </div>
+                            <div onClick={this.twitterShare.bind(this)} className="mb10" > <div className="twitterbutton unselectable p10 clickable  flex greymoreinfo" href=""> Share on twitter </div> </div>
                             <div className="boldtext enlargeddesc mb5  smalldesc">{abbreviateString(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase(), 26)}: {this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron]} / {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} </div>
                             <img className="enlargedneuron rad4" src={process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron] + ".jpg"} alt="" />
 

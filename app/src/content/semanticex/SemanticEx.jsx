@@ -249,6 +249,7 @@ class SemanticEx extends Component {
         if (this.state.selectedmodel !== prevState.selectedmodel || this.state.selectedmetric !== prevState.selectedmetric || this.state.selectedlayer !== prevState.selectedlayer || this.state.selecteddataset !== prevState.selecteddataset) {
             this.updateSimilarity()
             this.showTopResults()
+            this.searchCount++
 
         }
         if (this.state.selectedmodel !== prevState.selectedmodel) {
@@ -603,8 +604,8 @@ When you select an image (by clicking it), a neural network looks at the content
                     <div className="flex5">
                         <div className="mynotif lh10    instructions lightbluehightlight maxh16">
                             <div className="boldtext pb5 advancedoptionsbox"> Advanced Options</div>
-                            Interested in modifying search configurations (different datasets, models, layers and distance metrics)
-                            or visualizing the features extracted by the model? Turn on advanced options.
+                            Interested in modifying search configurations (try different datasets, models, layers and distance metrics)
+                            or a UMAP visualization of the features extracted by the model? Turn on advanced options.
                             <div className=" flex">
                                 {/* <div className="mr10 pt10">Advanced options </div> */}
                                 <div>
@@ -646,7 +647,25 @@ When you select an image (by clicking it), a neural network looks at the content
 
                     {<div style={{ zIndex: 500 }} className={"flex modelconfigdiv p10 " + (this.state.showmodelconfig ? "" : " displaynone")} >
                         <div className="flex2 mr10">
-                            <div className="mt20 pb10 sectiontitle" > Select Dataset </div>
+                            <div className=" pb10 sectiontitle" >
+                                <div className="iblock">
+                                    Select Dataset
+                                </div>
+                                <div className="iblock">
+                                    {/* <Tooltip
+                                        className="border"
+                                        triggerText=""
+                                    >
+                                        <div className="wscore">
+                                            This is the percentage of returned results that belong to the same category
+                                                        as the selected image (weighted by position in the result list). In this case, <strong>{simCount} / {this.state.topx} results </strong>  are in same category
+                                                        </div>
+
+                                    </Tooltip> */}
+                                </div>
+
+
+                            </div>
                             <div className="horrule mb10"></div>
                             <div className=" datasetselectdiv scrollwindow layerwindow">
                                 {datasetImageList}
@@ -658,7 +677,7 @@ When you select an image (by clicking it), a neural network looks at the content
 
                         </div>
                         <div style={{ zIndex: 100 }} className="flex3  mr10">
-                            <div className="mt20 pb10 sectiontitle" > Select Model </div>
+                            <div className=" pb10 sectiontitle" > Select Model </div>
                             <div className="horrule mb10"></div>
                             <div ref="modelscrollbox" className="datasetselectdiv scrollwindow layerwindow">
                                 {modelImageList}
@@ -666,7 +685,7 @@ When you select an image (by clicking it), a neural network looks at the content
                             <div className=" iblock boldtext datasetdescription  p10 greyhighlight">{this.state.modelsList[this.state.selectedmodel].name.toUpperCase()}</div>
                         </div>
                         <div style={{ zIndex: 100 }} className="flex3  ">
-                            <div className="mt20 pb10 sectiontitle" > Select Layer </div>
+                            <div className=" pb10 sectiontitle" > Select Layer </div>
                             <div className="horrule mb10"></div>
                             <div ref="layerscrollbox" className="scrollwindow layerwindow  mr10">
                                 <div className="windowcontent"> {layerImageList} </div>
@@ -686,7 +705,7 @@ When you select an image (by clicking it), a neural network looks at the content
                         </div>
 
                         <div className="flex2">
-                            <div className="mt20 pb10 sectiontitle" > Distance Metric </div>
+                            <div className=" pb10 sectiontitle" > Distance Metric </div>
                             <div className="horrule mb10"></div>
                             <div className="scrollwindow layerwindow ">
                                 <div className="windowcontent"> {metricImageList} </div>
@@ -791,12 +810,12 @@ When you select an image (by clicking it), a neural network looks at the content
 
                                                 <div className="weightedscore smalldesc textaligncenter">
                                                     <Tooltip
-                                                        triggerText="What is this"
+                                                        triggerText="What is this?"
                                                     >
 
                                                         <div className="wscore">
-                                                            Weighted score is a ratio of the number of results returned by the CNN that belong to the same category
-                                                        as the selected image. In this case, <strong>{simCount} / {this.state.topx} results </strong>  are in same category
+                                                            This is the percentage of returned results that belong to the same category
+                                                        as the selected image (weighted by position in the result list). In this case, <strong>{simCount} / {this.state.topx} results </strong>  are in same category
                                                         </div>
 
                                                     </Tooltip>

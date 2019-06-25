@@ -68,7 +68,7 @@
     font-weight: bold;
     width: 4.5em;
     text-align: center;
-    padding: 5px 12px 5px 12px;
+    padding: 12px 12px 5px 12px;
     /* border: 1px solid black; */
 }
 .topscorediv{
@@ -77,7 +77,7 @@
     /* border: 1px solid black; */
 }
 .weightedscore{
-    padding: 5px 0px 5px 0px;
+    padding: 4px 0px 4px 0px;
     border-top: 1px solid grey;
     /* height: 20px; */
 }

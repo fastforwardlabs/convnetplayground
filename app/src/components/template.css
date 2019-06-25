@@ -349,3 +349,14 @@
       );
 }
  
+
+.moreinfocircle{
+    display: inline-block;
+    width: 1.1em;
+    height: 1.1em;
+    /* padding: 2px 0px 2px 0px; */
+    border: 1px solid black;
+    text-align: center;
+    border-radius: 1.1em;
+    font-size: 1em;
+}
