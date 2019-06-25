@@ -14,11 +14,11 @@ ConvNet Playground, the prototype created for this report, allows users to explo
 
 <img src="docs/featextraction.jpg" width="100%">
 
-We define the task of semantic search, as g
+We define the task of semantic search as follows:
 
->  Given a dataset of existing images, and a new arbitrary image, find a subset of images that from the dataset that are most similar to new image.
+>  Given a dataset of existing images, and a new arbitrary image, find a subset of images  from the dataset that are most similar to the new image.
 
-Semantic similarity search is performed as a three step process. First, a pretrained CNN model is used to extract features (represented as vectors) from each image in the dataset. Next, a distance metric is used to compute the distance between each image and all other images in the dataset. Finally, to perform a search, we retrieve the precomputed distance values between the searched image and all other images sorted in the order of _closest_ to _farthest_.
+Semantic similarity search is performed as a three step process. First, a pretrained CNN model is used to extract features (represented as vectors) from each image in the dataset. Next, a distance metric is used to compute the distance between each image vector and all other image vectors in the dataset. Finally, to perform a search, we retrieve the precomputed distance values between the searched image and all other images sorted in the order of _closest_ to _farthest_.
 
 In practice, there are many choices to be made while implementing a similarity search tool based on convolutional neural networks. An appropriate model architecture needs to be selected, appropriate layers from the model and an appropriate distance metric. The prototype allows the user explore results from these configurations across several datasets.
 
@@ -34,7 +34,7 @@ how various models perform in correctly representing similarity.
 Fashion200 is a collection of 200 images (10 categories) of real fashion models from the<a href="https://www.kaggle.com/paramaggarwal/fashion-product-images-dataset"> Kaggle Fashion Product Images Dataset</a> .
 Images have a max width of 300px. Categories include flipflops, menjeans, menshirt, mentshirt, sandals, sportshoe, womenheels, womenjeans, womenshirt, womentshirt. Again, concept overlaps exists to allow the user interactively explore how well various models correctly represent and distinguish each class.
                 
-#### TinyImagenet200
+#### Tinyimagenet
 This dataset contains 64px * 64px images and is a subset (200) of the
     <a href="https://tiny-imagenet.herokuapp.com/" target="_blank" rel="noopener noreferrer" > Tiny Imagenet Visual Recognition Challenge dataset.</a> 
 It consists of images from 10 categories (arch, bottle, bridge, bus, face, frog, goldfish, sandals, teapot, tractor).

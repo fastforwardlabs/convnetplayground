@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal } from 'carbon-components-react';
+import { Modal, Toggle } from 'carbon-components-react';
 // import Notification20 from '@carbon/icons-react/lib/notification/20';
 import "./semanticex.css"
 import SemanticModalContent from "../../components/modals/SemanticModal"
@@ -568,7 +568,7 @@ class SemanticEx extends Component {
                         <div onClick={this.toggleSemanticModal.bind(this)} className="iblock floatright  clickable showmore"> ? More Info  </div>
                     </div>
                 </div>
-                <div className="horrule"></div>
+
                 {/* <div className="flex mt10">
                     <div className="flex4 mr10 mynotif lightbluehightlight  p20">
                         <div className="boldtext mb10"> Semantic Search</div>
@@ -581,17 +581,40 @@ class SemanticEx extends Component {
 
                 </div> */}
 
-                <div className="mynotif lh10 p20 mt10 instructions lightbluehightlight maxh16">
-                    In this demo, we use features extracted from convolutional neural networks to search for images that are
-                    similar to a selected image.
-                    To <strong> perform a search</strong>, <strong>click</strong>  on any image to select it and the  <strong> top {this.state.topx} </strong>
-                    most similar images (from our dataset) will be displayed. The
-                    <strong> Search Configuration </strong> interactive panel lets you observe how different models, layers and distance metrics affect search results for different datasets.
+                <div className="flex ">
+                    <div className="flexfull ">
 
-                    <br />
-                    <strong> Hint:</strong>  Early layers work well for simple feature matching (colors, lines), later layers work well for complex concepts (faces, cars etc).
+                        <div className="mynotif h100 lh10  instructions lightbluehightlight maxh16 mr10">
+                            <div className="boldtext pb5"> Welcome!</div>
+                            This demo allows you perform <strong> semantic image search </strong> using convolutional neural networks.
+                            When you select an image (by clicking it), the neural network looks at the content of all images in our dataset
+                            and shows you the  <strong> top {this.state.topx} </strong> most similar ones to the selected image.
+                          </div>
+                    </div>
+
+                    <div>
+                        <div className="mynotif lh10   instructions lightbluehightlight maxh16">
+                            <div className="boldtext pb5"> Advanced Options</div>
+                            <div className="border flex">
+                                <div>
+                                    <Toggle
+                                        className='some-class'
+                                        labelA='Off'
+                                        labelB='On'
+                                    // onChange action('onChange'),
+                                    // onToggle: action('onToggle'),
+                                    ></Toggle>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
 
                 </div>
+
+
 
 
 
@@ -696,13 +719,20 @@ class SemanticEx extends Component {
                 {/* top results */}
                 {/* show top results panel and content */}
                 {(this.state.showtopresults || this.searchCount > 0) && <div onClick={this.toggleTopX.bind(this)} className="unselectable mt10 p10 clickable  flex greymoreinfo">
-                    <div className="iblock flexfull minwidth485"> <strong> {!this.state.showtopresults && <span>&#x25BC;  </span>} {this.state.showtopresults && <span>&#x25B2;  </span>} </strong> <strong>Top {this.state.topx} results </strong>  with  <strong className="smalldesc">{this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()}</strong> similarity score. </div>
-                    <div className="iblock   ">
+                    <div className="iblock flexfull minwidth485"> <strong> {!this.state.showtopresults && <span>&#x25BC;  </span>} {this.state.showtopresults && <span>&#x25B2;  </span>} </strong>
+                        <strong>Top {this.state.topx} results </strong>  based on your search configuration
+                        <span className="smalldesc"> [
+                             <strong> MODEL: </strong> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} |
+                             <strong> LAYER: </strong>  {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index} |
+                            <strong> DISTANCE METRIC: </strong>   {this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()} ]
+                        </span>
+                    </div>
+                    {/* <div className="iblock   ">
                         <div className="iblock mr5"> <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span></div>
                         <div className="iblock">
                             <div className="smalldesc">  LAYER {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index} / {this.state.modelsList[this.state.selectedmodel].numlayers} </div>
                         </div>
-                    </div>
+                    </div> */}
 
                 </div>}
 

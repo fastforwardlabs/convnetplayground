@@ -19,12 +19,12 @@ class SemanticModalContent extends Component {
                 <div className="horrule mb10 pt10"></div>
                 <div className="boldtext"> Extracting Similarity Using Convolutional Networks </div>
                 Semantic search explores the use features extracted (embeddings) from images using layers in a CNN to compute the "similarity" between images.
-                We have precomputed the extracted features from images in 3 datasets, using 8 different models
+                We have precomputed the extracted features from images in 4 datasets, using 8 different models
                 and 8 different layers from each model. We have also computed the similarity
                 between all of these features using 4 different similarity metrics. This demo allows you interactively explore the results of these computations.
                 Start by performing a search (clicking an image).
 
-                <img className=" mt10 w100" src={process.env.PUBLIC_URL + "/assets/semsearch/images/search.gif"} alt="" />
+                <img className=" mt10 w100" src={process.env.PUBLIC_URL + "/assets/semsearch/images/embed.jpg"} alt="" />
                 <div className="smalldesc mb10">Clicking on an image shows the top similar returned based on embeddings from a CNN model.</div>
 
                 Do different models (e.g vgg19 vs ResNet50) perform differently? How does the embeddings they generate differ? How do layers compare? You can explore all that
@@ -49,7 +49,7 @@ class SemanticModalContent extends Component {
 
                 <strong> [Fashion200] </strong>  collection of 200 images (10 categories) of real fashion models from the
                  <a href="https://www.kaggle.com/paramaggarwal/fashion-product-images-dataset" target="_blank" rel="noopener noreferrer"> Kaggle Fashion Product Images Dataset</a> .
-         Images have a max width of 300px. Categories include flipflops, menjeans, menshirt, mentshirt, sandals, sportshoe, womenheels, womenjeans, womenshirt, womentshirt.
+       Images have a max width of 300px. Categories include flipflops, menjeans, menshirt, mentshirt, sandals, sportshoe, womenheels, womenjeans, womenshirt, womentshirt.
                 <br />
 
                 <strong>[TinyImagenet200]</strong>  This dataset contains 64px * 64px images and is a subset (200) of the
