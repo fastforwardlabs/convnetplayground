@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/convnetplayground/static/css/main.debda9e1.chunk.css",
-    "main.js": "/convnetplayground/static/js/main.ee85f1e7.chunk.js",
-    "main.js.map": "/convnetplayground/static/js/main.ee85f1e7.chunk.js.map",
+    "main.css": "/convnetplayground/static/css/main.be7a7d1a.chunk.css",
+    "main.js": "/convnetplayground/static/js/main.15dc64ee.chunk.js",
+    "main.js.map": "/convnetplayground/static/js/main.15dc64ee.chunk.js.map",
     "runtime~main.js": "/convnetplayground/static/js/runtime~main.a0cd9486.js",
     "runtime~main.js.map": "/convnetplayground/static/js/runtime~main.a0cd9486.js.map",
     "static/js/2.c408bc2d.chunk.js": "/convnetplayground/static/js/2.c408bc2d.chunk.js",
     "static/js/2.c408bc2d.chunk.js.map": "/convnetplayground/static/js/2.c408bc2d.chunk.js.map",
     "index.html": "/convnetplayground/index.html",
-    "precache-manifest.bae6e38c39d91dd05078399b53a6d695.js": "/convnetplayground/precache-manifest.bae6e38c39d91dd05078399b53a6d695.js",
+    "precache-manifest.bc504222deafca9f1ce82bd00d8c998e.js": "/convnetplayground/precache-manifest.bc504222deafca9f1ce82bd00d8c998e.js",
     "service-worker.js": "/convnetplayground/service-worker.js",
-    "static/css/main.debda9e1.chunk.css.map": "/convnetplayground/static/css/main.debda9e1.chunk.css.map"
+    "static/css/main.be7a7d1a.chunk.css.map": "/convnetplayground/static/css/main.be7a7d1a.chunk.css.map"
   }
 }
