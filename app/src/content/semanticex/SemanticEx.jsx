@@ -216,12 +216,15 @@ class SemanticEx extends Component {
     }
 
     keyFunction(event) {
-        if (event.keyCode === 37) {
-            this.cycleLayerModel(-1)
+        if (this.state.showmodelconfig) {
+            if (event.keyCode === 37) {
+                this.cycleLayerModel(-1)
+            }
+            else if (event.keyCode === 39) {
+                this.cycleLayerModel(1)
+            }
         }
-        else if (event.keyCode === 39) {
-            this.cycleLayerModel(1)
-        }
+
 
     }
 
@@ -605,7 +608,7 @@ When you select an image (by clicking it), a neural network looks at the content
                         <div className="mynotif lh10    instructions lightbluehightlight maxh16">
                             <div className="boldtext pb5 advancedoptionsbox"> Advanced Options</div>
                             Interested in modifying search configurations (try different datasets, models, layers and distance metrics)
-                            or a UMAP visualization of the features extracted by the model? Turn on advanced options.
+                            or a UMAP visualization of the features extracted by each model? Turn on advanced options.
                             <div className=" flex">
                                 {/* <div className="mr10 pt10">Advanced options </div> */}
                                 <div>
@@ -815,7 +818,7 @@ When you select an image (by clicking it), a neural network looks at the content
 
                                                         <div className="wscore">
                                                             This is the percentage of returned results that belong to the same category
-                                                        as the selected image (weighted by position in the result list). In this case, <strong>{simCount} / {this.state.topx} results </strong>  are in same category
+                                                        as the selected image (weighted by position in the result list). For the current search, <strong>{simCount} / {this.state.topx} results </strong>  are in same category <strong>({selectedCat.toUpperCase()})</strong> .
                                                         </div>
 
                                                     </Tooltip>

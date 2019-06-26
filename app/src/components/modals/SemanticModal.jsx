@@ -5,8 +5,11 @@ class SemanticModalContent extends Component {
         return (
             <div>
 
-                Convnet Playground is a research prototype by Cloudera Fast Forward Labs, built to accompany our updated report on
-                Image Analysis. More about this report is described in our blog post.
+                Convnet Playground -  <i>a tool for the interactive exploration of Convolutional Neural Networks (Convnets or CNNs)</i> -
+                is a research prototype by Cloudera Fast Forward Labs, built to accompany our
+                report on <a href="#" target="_blank" rel="noopener noreferrer" > Deep Learning for Image Analysis</a>.
+                {/* More about this report is described in our blog post. */}
+
 
                 <br />
                 <br />
@@ -16,7 +19,7 @@ class SemanticModalContent extends Component {
 
                 <br />
                 <br />
-                You can get started now or read below to learn more about how the interface works.
+                You can get click <strong>get started</strong> or continue reading to learn more about how the interface works.
                 Click the  [ ? More Info ] button on the top right to show this dialog at any time.
 
                 <br />
@@ -24,7 +27,7 @@ class SemanticModalContent extends Component {
 
                 <div className="horrule mb10 pt10"></div>
                 <div className="boldtext"> Convolutional Neural Netwoks</div>
-                Convolutional Neural Networks (Convnets or CNNs) learn hierarchical representations
+                CNNs learn hierarchical representations
                 useful for image analysis. Early layers in a CNN learn low level features (e.g. lines, edges, shapes, colours)
                 while later layers learn high level concepts (e.g eyes, legs, faces, doors etc) depending on the dataset used for training.
 

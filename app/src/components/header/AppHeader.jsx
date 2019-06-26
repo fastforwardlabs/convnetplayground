@@ -26,6 +26,7 @@ class AppHeader extends Component {
                     <SkipToContent />
                     <HeaderName prefix="">
                         {/* <div className="decornone "><NavLink exact to="/"> </NavLink></div> */}
+                        <img className="headericon" src="images/icon.png" alt="" />
                         ConvNet Playground
 
                     </HeaderName>
