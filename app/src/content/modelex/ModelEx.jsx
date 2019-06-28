@@ -408,7 +408,7 @@ class ModelEx extends Component {
                 /> */}
 
                 <div className="mynotif lh10 instructions lightbluehightlight maxh16">
-                    <div className="boldtext pb5 advancedoptionsbox"> Optimisation Based Feature Visualization </div>
+                    <div className="boldtext pb5 advancedoptionsbox"> Optimization Based Feature Visualization </div>
                     This demo allows you explore visualizations of patterns learned by channels (groups of neurons) in each layer of a  Convolutional Neural Network (pretrained on <strong> imagenet</strong>).
                     The images shown are created using  <a href="https://distill.pub/2017/feature-visualization/" target="_blank" rel="noopener noreferrer"> optimization based feature visualization </a>
                     methods which allows us generate images that maximally excite neurons in the given channel.
