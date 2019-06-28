@@ -64,6 +64,11 @@ class ModelEx extends Component {
         let containerOffset = -60
         let elementOffset = -270
         let modelVisible = checkInView(self.refs["modelscrollbox"], self.refs["modelimg" + this.state.selectedmodel], true, containerOffset, elementOffset)
+
+        let maxLineWidth = 3.5
+        let minLineWidth = 1.5
+        let incs = (maxLineWidth - minLineWidth) / layers.length
+
         layers.forEach(function (each, i) {
 
             let layerVisible = checkInView(self.refs["layerscrollbox"], self.refs["layerimg" + i], true, containerOffset, elementOffset)
@@ -77,11 +82,11 @@ class ModelEx extends Component {
                     endPlug: 'disc',
                     startPlugColor: blueColor,
                     path: "fluid",
-                    size: Math.min(widthConst + i * (0.2), 3),
+                    size: Math.min(minLineWidth + i * incs, maxLineWidth),
                     hide: true,
                     startSocket: 'bottom',
                     endSocket: self.state.selectedlayer == i ? "top" : 'left',
-                    endPlugSize: 3 / Math.min(widthConst + i * 0.5, 3),
+                    endPlugSize: maxLineWidth / Math.min(minLineWidth + i * incs, maxLineWidth),
 
                 });
                 document.querySelector('.leader-line').style.zIndex = -100
