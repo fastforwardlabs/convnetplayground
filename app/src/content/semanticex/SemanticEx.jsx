@@ -113,6 +113,9 @@ class SemanticEx extends Component {
 
             let modelVisible = checkInView(self.refs["modelscrollbox"], self.refs["modelimg" + this.state.selectedmodel], true, containerOffset, elementOffset)
             // console.log("Next visible is ", this.getNextVisible(this.state.selectedmodel))
+            let maxLineWidth = 3.5
+            let minLineWidth = 1.5
+            let incs = (maxLineWidth - minLineWidth) / layers.length
 
 
             layers.forEach(function (each, i) {
@@ -120,7 +123,7 @@ class SemanticEx extends Component {
                 let layerVisible = checkInView(self.refs["layerscrollbox"], self.refs["layerimg" + i], true, containerOffset, elementOffset)
                 if (layerVisible && modelVisible) {
                     // console.log("we drawing to", i)
-                    let widthConst = 1.5
+
                     // console.log(i, self.state.selectedlayer)
 
                     let line = new LeaderLine(self.refs["modelimg" + self.state.selectedmodel], self.refs["layerimg" + i], {
@@ -129,11 +132,11 @@ class SemanticEx extends Component {
                         endPlug: 'disc',
                         startPlugColor: blueColor,
                         path: "fluid",
-                        size: Math.min(widthConst + i * 0.2, 3),
+                        size: Math.min(minLineWidth + i * incs, maxLineWidth),
                         hide: true,
                         startSocket: 'bottom',
                         endSocket: self.state.selectedlayer == (i + "") ? "top" : 'left',
-                        endPlugSize: 3 / Math.min(widthConst + i * 0.2, 3),
+                        endPlugSize: maxLineWidth / Math.min(minLineWidth + i * incs, maxLineWidth),
 
                     });
                     document.querySelector('.leader-line').style.zIndex = -100
@@ -350,7 +353,7 @@ class SemanticEx extends Component {
         let self = this
         setTimeout(() => {
             self.refs["topresultsbox"].style.opacity = 1;
-        }, 300);
+        }, 400);
     }
 
 
@@ -476,7 +479,7 @@ class SemanticEx extends Component {
             let similarityScore = (alldata[1] * 1).toFixed(3)
             let returnValue = (
                 <div key={alldata[0] + "winper"} className="iblock similarityfullbox mr5 mb5 positionrelative">
-                    <div className="smalldesc mb5">{makeFriendly(similarityScore)} </div>
+                    <div className="smalldesc mb5">dst: {makeFriendly((1 * similarityScore).toFixed(2))} </div>
                     <img key={alldata[0] + "image" + alldata[0]} onMouseOver={this.hoverSimilarImage.bind(this)} onClick={this.clickSimilarImage.bind(this)} src={imagePath} alt="" className={"simiimage clickable rad2 "} indexvalue={alldata[0]} />
                     <div className="outersimbar">
                         <div className="innersimbar" style={{ width: (boundWidth(similarityScore) * 100) + "%" }}></div>
@@ -755,29 +758,34 @@ When you select an image (by clicking it), a neural network looks at the content
 
                 {/* top results */}
                 {/* show top results panel and content */}
-                {(this.state.showtopresults || this.searchCount > 0) && <div onClick={this.toggleTopX.bind(this)} className="unselectable mt10 p10 clickable  flex greymoreinfo">
-                    <div className="iblock flexfull minwidth485"> <strong> {!this.state.showtopresults && <span>&#x25BC;  </span>} {this.state.showtopresults && <span>&#x25B2;  </span>} </strong>
-                        <strong>Top {this.state.topx} results </strong>  based on your search configuration
+                {(this.state.showtopresults || this.searchCount > 0) &&
+                    <div>
+                        <div onClick={this.toggleTopX.bind(this)} className="unselectable mt10 p10 clickable  flex greymoreinfo">
+                            <div className="iblock flexfull minwidth485"> <strong> {!this.state.showtopresults && <span>&#x25BC;  </span>} {this.state.showtopresults && <span>&#x25B2;  </span>} </strong>
+                                <strong>Top {this.state.topx} results </strong>  based on your search configuration
                         <span className="smalldesc"> [
                              <strong> MODEL: </strong> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} |
                              <strong> LAYER: </strong>  {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index} |
                             <strong> DISTANCE METRIC: </strong>   {this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()} ]
                         </span>
-                    </div>
-                    {/* <div className="iblock   ">
+                            </div>
+                            {/* <div className="iblock   ">
                         <div className="iblock mr5"> <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span></div>
                         <div className="iblock">
                             <div className="smalldesc">  LAYER {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index} / {this.state.modelsList[this.state.selectedmodel].numlayers} </div>
                         </div>
                     </div> */}
 
-                </div>}
+                        </div>
+
+                    </div>
+                }
 
                 {
-                    <div ref="topresultsbox" className="sliderboxcontainer pt10 transition3s">
+                    <div ref="topresultsbox" className="sliderboxcontainer transition3s">
                         <div className={" sliderbox topconfig" + (this.state.showtopresults ? " open" : " closed")}>
 
-
+                            <div className="glowbar mb10"></div>
                             <div className="flex">
                                 <div className="iblock positionrelative flex1 mr10">
                                     <img src={selectedImagePath} className="mainsimilarityimage rad4  iblock" alt="" />
@@ -846,22 +854,23 @@ When you select an image (by clicking it), a neural network looks at the content
 
 
                 {/* daset div */}
-                <div className="horrule mb10"></div>
+
                 <div className="">
-                    <div>
+                    <div className="horrule mt10"></div>
+                    <div className="mb10">
                         {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greyhighlight clickable unselectable greymoreinfo iblock mr10"}> {this.state.viewalldataset ? " View Images by Category" : "View All Images in Dataset"}   </div> */}
                         {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr5 " + (this.state.viewdatasetby == "all" ?  "active" : "" ) } viewby="all">  All </div> */}
                         {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (this.state.viewdatasetby == "category" ?  "active" : "" ) } viewby="category">  By  Category </div> */}
                         {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (this.state.viewdatasetby == "graph" ?  "active" : "" ) } viewby="graph">  Graph </div> */}
 
-                        <div className="boldtext mb10 iblock  mr10"> Dataset [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
+                        <div className="boldtext  iblock  mr10"> Dataset [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
                         <div className="iblock pt10">  {this.state.datasetsList[this.state.selecteddataset].description}   </div>
                     </div>
                     {/* <div className="horrule mb10"></div> */}
                     {/* <div className="mt10 mb10">
                           
                     </div> */}
-                    <div className="lightbluehightlight mb10 mt10"> Click an image to search for other similar images. </div>
+                    <div className="lightbluehightlight mb10 "> Click an image to search for other similar images. </div>
                     <div className="  scrollwindow  datasetdivbox">
                         {this.state.viewdatasetby == "all" && datasetimagesList}
                         {this.state.viewdatasetby == "category" && datasetClassImagesList}
