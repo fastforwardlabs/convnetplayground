@@ -13,6 +13,13 @@
     left: 1em; 
 }
 
+.zoombox{
+    position: absolute;
+    bottom: 1em;
+    left: 1em; 
+    border: 1px solid grey;
+}
+
 .legendtitle{
     background: rgba(253, 253, 253, 0.9);
     padding: 5px 0px 5px 5px;

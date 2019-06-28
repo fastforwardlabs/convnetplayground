@@ -272,6 +272,7 @@ class Scene extends Component {
         // console.log( this.width, d3_transform, x,y,z)
         this.camera.position.set(x, y, z);
         // console.log("On zoom ", x, y, z)
+        this.refs.camerazoom.innerHTML = "x: " + this.camera.position.x.toFixed(2) + " y: " + this.camera.position.y.toFixed(2) + " z: " + this.camera.position.z.toFixed(2)
     }
 
     getScaleFromZ(camera_z_position) {
@@ -499,6 +500,10 @@ class Scene extends Component {
                     <div className="mt10">
                         {legendList}
                     </div>
+                </div>
+                <div className="zoombox smalldesc p10">
+                    <div className="iblock mr5 boldtext"> Zoom: </div>
+                    <div className="iblock" ref="camerazoom"> </div>
                 </div>
                 <div
                     style={{ width: '100%', height: '400px' }}

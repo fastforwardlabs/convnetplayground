@@ -228,8 +228,6 @@ class SemanticEx extends Component {
                 this.cycleLayerModel(1)
             }
         }
-
-
     }
 
     componentDidMount() {
@@ -249,6 +247,10 @@ class SemanticEx extends Component {
 
         this.refs["layerscrollbox"].removeEventListener("scroll", this.scrollEndedHandler, false)
         this.refs["modelscrollbox"].removeEventListener("scroll", this.scrollEndedHandler, false)
+
+        if (this.timeout) {
+            clearTimeout(this.timeout)
+        }
     }
 
 
@@ -356,9 +358,13 @@ class SemanticEx extends Component {
         setTimeout(() => {
             self.refs["topresultsbox"].style.opacity = 1;
         }, topTransitionDuration);
-        setTimeout(() => {
+
+        this.timeout = setTimeout(function () {
             this.refs["glowbar"].style.opacity = 0;
-        }, topTransitionDuration * 3.4);
+            this.timeout = null
+        }.bind(this), (topTransitionDuration * 3.4))
+
+
     }
 
 
@@ -607,7 +613,7 @@ class SemanticEx extends Component {
                                 {/* <strong>  {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index}  </strong> */}
                                 {/* <strong> DISTANCE METRIC: </strong>   {this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()} ] */}
                                 ]</span>.
-When you select an image (by clicking it), a neural network looks at the content of all images in our dataset
+When you select an image (by clicking it), a neural network <span className="italics"> looks </span> at the content of all images in our dataset
                             and shows you the  <strong> top {this.state.topx} </strong> most similar ones to the selected image.
                           </div>
                     </div>
@@ -790,9 +796,9 @@ When you select an image (by clicking it), a neural network looks at the content
                     <div ref="topresultsbox" className="sliderboxcontainer transition3s">
                         <div className={" sliderbox topconfig" + (this.state.showtopresults ? " open" : " closed")}>
 
-                            <div ref="glowbar" className="glowbar transition3s mb10"></div>
+                            <div ref="glowbar" className="glowbar transition3s mb5"></div>
                             <div className="flex">
-                                <div className="iblock positionrelative flex1 mr10">
+                                <div className="iblock h100 positionrelative  mr10">
                                     <img src={selectedImagePath} className="mainsimilarityimage rad4  iblock" alt="" />
                                     <div className="mt5  mainsimilaritytitle   lightbluehightlight">
                                         <div className="boldtext iblock mediumdesc mr5"> SELECTED IMAGE  </div>
@@ -803,21 +809,7 @@ When you select an image (by clicking it), a neural network looks at the content
                                     {/* <div> searchimi number {this.state.selectedsimimage}</div> */}
                                 </div>
                                 <div className=" flexfull">
-                                    {/* <div className="flex mb10">
-                                <div className="flexfull"> <div className="mainsimilaritydesc lightbluehightlight p10"> <strong>Top {this.state.topx} results </strong>  with  <strong className="smalldesc">{this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()}</strong> similarity score. </div></div>
-                                <div className="">
-                                    <div className="block p10 greyhighlight   ">
-                                        <div className="iblock mr5"> <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span></div>
-                                        <div className="iblock">
-                                            <div className="smalldesc">  {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()} </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                            </div> */}
-
                                     <div className="scrollwindow layerwindow ">
-
                                         <div className=" iblock mr10 rad3 ">
                                             <div className="pb5 smalldesc "> Search result score </div>
                                             <div className="topscorediv">

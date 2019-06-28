@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import HeaderMessage from "../../components/modals/HeaderMessage"
 import { InlineNotification } from 'carbon-components-react';
 import "./about.css"
 
@@ -35,17 +36,15 @@ class About extends Component {
 
         return (
             <div>
-                <div className="pb10 sectiontitle"> FAQ </div>
-                <div className="horrule"></div>
-                <InlineNotification
-                    title={"Energy Costs for Model Predictions"}
-                    kind={"info"}
-                    subtitle={this.algebraIntro}
-                    style={{ minWidth: '100%', marginBottom: '.5rem' }}
-                />
+                <div className="pb10 sectiontitle"> What is ConvNet Playground! </div>
+                <div className="horrule mb10"></div>
 
-                <div>
-                    Convolutions account for over 90% of all energy requirements of most CNN models.
+                <div className="  p10 lh10">
+                    Convnet Playground -  <i> is a tool for the interactive exploration of Convolutional Neural Networks (Convnets or CNNs)</i>.
+                    It focuses on the use case of <span className="boldtext">"semantic image search"</span>  which allows us search for images by content.
+                    To implement this, a Convolutional Neural Network <span className="italics"> looks </span> at the content of an images
+                    and can find all other images similar to that image.
+
 
                </div>
 

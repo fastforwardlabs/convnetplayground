@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 
 import { Modal } from 'carbon-components-react';
-import OrientationModal from "./modals/OrietnationModal"
+
 
 import "./template.css"
 
@@ -74,10 +74,10 @@ class Main extends Component {
         // document.title = "Image Analysis Explorer | Explore Convolutional Neural Nets for Imagee Analysis";
     }
 
-    toggleOrientationModal(e) {
-        this.setState({ showorientationmodal: !(this.state.showorientationmodal) })
-        // console.log(this.state.showorientationmodal)
-    }
+    // toggleOrientationModal(e) {
+    //     this.setState({ showorientationmodal: !(this.state.showorientationmodal) })
+    //     // console.log(this.state.showorientationmodal)
+    // }
 
 
 
@@ -120,22 +120,7 @@ class Main extends Component {
         return (
             <HashRouter>
                 <AppHeader></AppHeader>
-                {(this.state.showorientationmodal) && <Modal className="orientationmodal"
-                    open={true}
-                    size="lg"
-                    // style={{maxWidth: '1600px', width: '100%'}}
-                    passiveModal={false}
-                    primaryButtonText="Get Started"
-                    secondaryButtonText="Close"
-                    modalHeading="Convnet Playground"
-                    modalLabel="Welcome!"
-                    onRequestSubmit={this.toggleOrientationModal.bind(this)}
-                    ref={(ref) => this.orientationModal = ref}
-                    onRequestClose={this.toggleOrientationModal.bind(this)}
-                >
-                    <OrientationModal></OrientationModal>
 
-                </Modal>}
                 <div className="container-fluid p10">
                     <Route exact path="/" component={mySemanticComponent} />
                     <Route exact path="/models" component={myModalComponent} />

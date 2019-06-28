@@ -353,7 +353,10 @@
         #465298 20px
       );
 }
- 
+
+.italics{
+    font-style: italic;
+}
 
 .moreinfocircle{
     display: inline-block;
