@@ -10,6 +10,7 @@ import Scene from "../../components/three/Scene"
 
 let containerOffset = -80
 let elementOffset = -385
+const topTransitionDuration = 400;
 
 class SemanticEx extends Component {
     constructor(props) {
@@ -350,10 +351,14 @@ class SemanticEx extends Component {
         // this.setState({ showtopresults: true })
         this.setState({ showtopresults: true })
         this.refs["topresultsbox"].style.opacity = 0.75;
+        this.refs["glowbar"].style.opacity = 1;
         let self = this
         setTimeout(() => {
             self.refs["topresultsbox"].style.opacity = 1;
-        }, 400);
+        }, topTransitionDuration);
+        setTimeout(() => {
+            this.refs["glowbar"].style.opacity = 0;
+        }, topTransitionDuration * 3.4);
     }
 
 
@@ -785,7 +790,7 @@ When you select an image (by clicking it), a neural network looks at the content
                     <div ref="topresultsbox" className="sliderboxcontainer transition3s">
                         <div className={" sliderbox topconfig" + (this.state.showtopresults ? " open" : " closed")}>
 
-                            <div className="glowbar mb10"></div>
+                            <div ref="glowbar" className="glowbar transition3s mb10"></div>
                             <div className="flex">
                                 <div className="iblock positionrelative flex1 mr10">
                                     <img src={selectedImagePath} className="mainsimilarityimage rad4  iblock" alt="" />

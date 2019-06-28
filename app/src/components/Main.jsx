@@ -15,6 +15,7 @@ import AppHeader from "./header/AppHeader";
 import Footer from "./footer/Footer";
 import SemanticEx from "../content/semanticex/SemanticEx";
 import ModelEx from "../content/modelex/ModelEx";
+import About from "../content/about/About";
 import Test from "../components/helperfunctions/Test"
 import Scene from "../components/three/Scene"
 // import About from "../sections/About"
@@ -139,7 +140,7 @@ class Main extends Component {
                     <Route exact path="/" component={mySemanticComponent} />
                     <Route exact path="/models" component={myModalComponent} />
                     <Route exact path="/scene" component={mScene} />
-                    <Route exact path="/test" component={Test} />
+                    <Route exact path="/about" component={About} />
 
                 </div>
                 <div id="footer"> <Footer /> </div>
