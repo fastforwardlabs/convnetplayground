@@ -212,7 +212,7 @@ div.bx--modal-container{
     text-align: center; 
     font-size: 1.1em;
     font-weight: bold;
-    z-index: 10000; 
+    z-index: 10; 
     pointer-events: none;
 }
 

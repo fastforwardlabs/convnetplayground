@@ -14,7 +14,7 @@ import {
 } from "react-router-dom";
 
 import "./header.css"
-import Notification20 from '@carbon/icons-react/lib/notification/20';
+// import Notification20 from '@carbon/icons-react/lib/notification/20';
 // import UserAvatar20 from '@carbon/icons-react/lib/user--avatar/20';
 import AppSwitcher20 from '@carbon/icons-react/lib/app-switcher/20';
 
@@ -35,6 +35,7 @@ class AppHeader extends Component {
                         {/* <HeaderMenuItem  element={Link} to="/models" className="navbarlink "> Models</HeaderMenuItem> */}
                         <div className="navbarlinks  "><NavLink exact to="/"> Semantic Search </NavLink></div>
                         <div className="navbarlinks "><NavLink to="/models"> Model Explorer </NavLink></div>
+                        <div className="navbarlinks "><NavLink to="/faq"> FAQ </NavLink></div>
                         {/* <div className="navbarlinks "><NavLink to="/algebra"> Image Algebra </NavLink></div> */}
                         {/* <div className="navbarlinks "><NavLink to="/energy"> Energy Explorer </NavLink></div> */}
                     </HeaderNavigation>

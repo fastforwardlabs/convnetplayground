@@ -584,7 +584,7 @@ class SemanticEx extends Component {
                 </Modal>}
 
                 <div className=" flex   ">
-                    <div className="iblock sectiontitle flexfull   pt4 "> Image Similarity Search </div>
+                    <div className="iblock sectiontitle flexfull pt4 "> Image Similarity Search </div>
                     <div className="flex  ">
                         <div onClick={this.toggleSemanticModal.bind(this)} className="iblock floatright  clickable showmore"> ? More Info  </div>
                     </div>
@@ -853,14 +853,14 @@ When you select an image (by clicking it), a neural network <span className="ita
                 {/* daset div */}
 
                 <div className="">
-                    <div className="horrule mt10"></div>
-                    <div className="mb10">
+                    {/* <div className="horrule mt10"></div> */}
+                    <div className="mb10 mt10">
                         {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greyhighlight clickable unselectable greymoreinfo iblock mr10"}> {this.state.viewalldataset ? " View Images by Category" : "View All Images in Dataset"}   </div> */}
                         {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr5 " + (this.state.viewdatasetby == "all" ?  "active" : "" ) } viewby="all">  All </div> */}
                         {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (this.state.viewdatasetby == "category" ?  "active" : "" ) } viewby="category">  By  Category </div> */}
                         {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (this.state.viewdatasetby == "graph" ?  "active" : "" ) } viewby="graph">  Graph </div> */}
 
-                        <div className="boldtext  iblock  mr10"> Dataset [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
+                        <div className="boldtext sectiontitle  iblock  mr10"> DATASET: [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
                         <div className="iblock pt10">  {this.state.datasetsList[this.state.selecteddataset].description}   </div>
                     </div>
                     {/* <div className="horrule mb10"></div> */}

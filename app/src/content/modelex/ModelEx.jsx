@@ -61,7 +61,7 @@ class ModelEx extends Component {
         this.removeLines()
         let self = this;
         let layers = this.state.modelsList[this.state.selectedmodel].layers
-        let containerOffset = -60
+        let containerOffset = -50
         let elementOffset = -270
         let modelVisible = checkInView(self.refs["modelscrollbox"], self.refs["modelimg" + this.state.selectedmodel], true, containerOffset, elementOffset)
 
@@ -73,8 +73,7 @@ class ModelEx extends Component {
 
             let layerVisible = checkInView(self.refs["layerscrollbox"], self.refs["layerimg" + i], true, containerOffset, elementOffset)
             if (layerVisible && modelVisible) {
-                // console.log("we drawing to", i)
-                let widthConst = 1.5
+                // console.log("we drawing to", i) 
 
                 let line = new LeaderLine(self.refs["modelimg" + self.state.selectedmodel], self.refs["layerimg" + i], {
                     color: self.state.selectedlayer == (i + "") ? blueColor : greyColor,
@@ -90,6 +89,7 @@ class ModelEx extends Component {
 
                 });
                 document.querySelector('.leader-line').style.zIndex = -100
+                animOptions.duration = self.state.selectedlayer == (i + "") ? 800 : 200;
                 line.show("draw", animOptions)
                 self.lineHolder.push({ line: line, index: i })
             }
@@ -112,6 +112,7 @@ class ModelEx extends Component {
                 if (each.index == self.state.selectedlayer) {
                     each.line.hide("none")
                     each.line.color = blueColor
+                    animOptions.duration = self.state.selectedlayer == each.index ? 800 : 200;
                     each.line.show("draw", animOptions)
                     each.line.endSocket = "top"
                 } else {
@@ -178,7 +179,6 @@ class ModelEx extends Component {
         this.LayerScrollTop = 0
         window.addEventListener('resize', this.scrollEndedHandler)
 
-        let self = this
         this.refs["layerscrollbox"].addEventListener("scroll", this.scrollEndedHandler, false)
         this.refs["modelscrollbox"].addEventListener("scroll", this.scrollEndedHandler, false)
     }
@@ -188,7 +188,6 @@ class ModelEx extends Component {
         window.removeEventListener('resize', this.scrollEndedHandler)
         this.removeLines();
 
-        let self = this
         this.refs["layerscrollbox"].removeEventListener("scroll", this.scrollEndedHandler, false)
         this.refs["modelscrollbox"].removeEventListener("scroll", this.scrollEndedHandler, false)
     }
@@ -241,7 +240,6 @@ class ModelEx extends Component {
         window.clearTimeout(this.isScrolling);
         let self = this
         this.isScrolling = setTimeout(function () {
-            console.log('Scrolling has stopped.');
             self.drawLines()
         }, 200);
     }

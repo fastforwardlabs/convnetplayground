@@ -1,4 +1,3 @@
-import React, { Component } from "react";
 
 export function abbreviateString(value, maxLength) {
     if (value.length <= maxLength) {
