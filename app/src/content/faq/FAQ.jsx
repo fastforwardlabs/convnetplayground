@@ -57,21 +57,21 @@ class FAQ extends Component {
                     <div className="flex flexwrap">
                         <div className="flex35 answerarea mr10">
                             <div>
-                                <div> How well does features from a layer capture similarity in a dataset?</div>
-                                <div> <strong>Hint: </strong> Try the UMAP visualization view</div>
-                                <img className="qimg rad4 pt5 " src={process.env.PUBLIC_URL + "/images/umap.jpg"} alt="" />
+                                <div> How well do features from a layer capture similarity in a dataset?</div>
+                                <div> <strong>Hint: </strong> Try the UMAP visualization view.</div>
+                                {/* <img className="qimg rad4 pt5 " src={process.env.PUBLIC_URL + "/images/umap.jpg"} alt="" /> */}
                             </div>
                         </div>
                         <div className="flex35 answerarea mr10">
                             <div>
                                 How do models compare for a given search query?
                                 <br />
-                                <strong>Hint:</strong> You can use the search score metric and compare models option.</div>
+                                <strong>Hint:</strong> Use the search score metric, compare results from each model/layer.</div>
                         </div>
                         <div className="flex3 answerarea">
                             <div> What features are learned by the models in each layer?</div>
-                            <div> <strong>Hint: </strong> Try model explorer view</div>
-                            <img className="qimg rad4 pt5 " src={process.env.PUBLIC_URL + "/images/patterns.jpg"} alt="" />
+                            <div> <strong>Hint: </strong> Try model explorer view.</div>
+                            {/* <img className="qimg rad4 pt5 " src={process.env.PUBLIC_URL + "/images/patterns.jpg"} alt="" /> */}
 
                         </div>
                     </div>
@@ -89,11 +89,11 @@ class FAQ extends Component {
                     show these results based on your selection.
                </div>
 
-                {/* <div className="pb10 sectiontitle">Credits</div> 
+                <div className="pb10 sectiontitle">Credits</div>
                 <div className="lh10 answerarea mb10 pb20">
-                    This project was created by Victor Dibia at Fast Forward Labs.
+                    This project was created by Victor Dibia (<a target="_blank" rel="noopener noreferrer" href="https://twitter.com/vykthur">@vykthur</a>) at Fast Forward Labs.
                     This work builds on many interesting projects and tools aimed at making Neural Networks more accessible
-                    via interactive experiences. Some of these related projects include the &nbsp;
+                    via interactive experiences. Some of these projects include the &nbsp;
                     <a target="_blank" rel="noopener noreferrer" href="https://playground.tensorflow.org">Tensorflow Playgroud,</a> &nbsp;
                     <a target="_blank" rel="noopener noreferrer" href="https://teachablemachine.withgoogle.com">Teachable Machine,</a> &nbsp;
                     <a target="_blank" rel="noopener noreferrer" href="https://transcranial.github.io/keras-js/#/">Keras.js </a> &nbsp; and many others.&nbsp;
@@ -104,7 +104,7 @@ class FAQ extends Component {
                     and <a target="_blank" rel="noopener noreferrer" href="https://www.carbondesignsystem.com/">carbon</a> design system for layout.
                   Thanks to Grant Custer and the rest of the
                     Fast Forward Labs team for the valuable <a target="_blank" rel="noopener noreferrer" href="https://observablehq.com/@bryakas/using-three-js-for-2d-data-visualization">pointers</a>, feedback and guidance!
-               </div> */}
+               </div>
 
 
 

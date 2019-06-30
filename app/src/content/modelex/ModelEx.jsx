@@ -61,8 +61,8 @@ class ModelEx extends Component {
         this.removeLines()
         let self = this;
         let layers = this.state.modelsList[this.state.selectedmodel].layers
-        let containerOffset = -50
-        let elementOffset = -270
+        let containerOffset = -60
+        let elementOffset = -280
         let modelVisible = checkInView(self.refs["modelscrollbox"], self.refs["modelimg" + this.state.selectedmodel], true, containerOffset, elementOffset)
 
         let maxLineWidth = 3.5
