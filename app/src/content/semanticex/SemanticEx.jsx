@@ -621,8 +621,6 @@ When you select an image (by clicking it), a neural network <span className="ita
                     <div className="flex5">
                         <div className="mynotif lh10    instructions lightbluehightlight maxh16">
                             <div className="boldtext pb5 advancedoptionsbox"> Advanced Options</div>
-                            Interested in modifying search configurations (try different datasets, models, layers and distance metrics)
-                            or a UMAP visualization of the features extracted by each model? Turn on advanced options.
                             <div className=" flex">
                                 {/* <div className="mr10 pt10">Advanced options </div> */}
                                 <div>
@@ -637,6 +635,9 @@ When you select an image (by clicking it), a neural network <span className="ita
                                 </div>
 
                             </div>
+                            Interested in modifying search configurations (try different datasets, models, layers and distance metrics)
+                            or a UMAP visualization of the features extracted by each model? Turn on advanced options.
+
 
 
                         </div>
