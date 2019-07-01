@@ -12,11 +12,7 @@ class ModelsModalContent extends Component {
                 9 convolutional neural network models (pretrained on imagenet).
 
                 <br />
-                <br />
-                You can get click <strong>get started</strong> or continue reading to learn more about how the interface works.
-                Click the  [ ? More Info ] button on the top right to show this dialog at any time.
-            
-                
+                 
                  
                 <div className="horrule mb10 pt10"></div>
                 <div className="boldtext"> Convolutional Neural Netwoks</div>

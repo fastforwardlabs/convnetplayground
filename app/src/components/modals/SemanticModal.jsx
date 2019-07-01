@@ -5,17 +5,14 @@ class SemanticModalContent extends Component {
         return (
             <div>
                 <HeaderMessage></HeaderMessage>
+
                 <br />
                 This section of the prototype allows you perform <strong>semantic image search</strong>  using convolutional neural networks.
                 When you select an image (by clicking it), a neural network looks at the content of all
                 images in our dataset and shows you the top most similar ones to the selected image.
 
                 <br />
-                <br />
-                You can get click <strong>get started</strong> or continue reading to learn more about how the interface works.
-                Click the  [ ? More Info ] button on the top right to show this dialog at any time.
 
-                <br />
 
 
                 <div className="horrule mb10 pt10"></div>

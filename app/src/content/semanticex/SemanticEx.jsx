@@ -141,6 +141,7 @@ class SemanticEx extends Component {
 
                     });
                     document.querySelector('.leader-line').style.zIndex = -100
+                    animOptions.duration = 800
                     line.show("draw", animOptions)
                     self.lineHolder.push({ line: line, index: i })
                 }
@@ -612,7 +613,7 @@ class SemanticEx extends Component {
                              <strong> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()}   </strong>
                                 {/* <strong>  {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index}  </strong> */}
                                 {/* <strong> DISTANCE METRIC: </strong>   {this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()} ] */}
-                                ]</span>.
+                                model ]</span>.
 When you select an image (by clicking it), a neural network <span className="italics"> looks </span> at the content of all images in our dataset
                             and shows you the  <strong> top {this.state.topx} </strong> most similar ones to the selected image.
                           </div>
@@ -636,7 +637,7 @@ When you select an image (by clicking it), a neural network <span className="ita
 
                             </div>
                             Interested in modifying search configurations (try different datasets, models, layers and distance metrics)
-                            or a UMAP visualization of the features extracted by each model? Turn on advanced options.
+                            or a UMAP visualization of the features extracted by each layer? Turn on advanced options.
 
 
 
