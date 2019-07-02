@@ -249,9 +249,9 @@ class SemanticEx extends Component {
         this.refs["layerscrollbox"].removeEventListener("scroll", this.scrollEndedHandler, false)
         this.refs["modelscrollbox"].removeEventListener("scroll", this.scrollEndedHandler, false)
 
-        if (this.timeout) {
-            clearTimeout(this.timeout)
-        }
+        // if (this.timeout) {
+        //     clearTimeout(this.timeout)
+        // }
     }
 
 
@@ -351,19 +351,20 @@ class SemanticEx extends Component {
     }
 
     showTopResults() {
+        let self = this
         // this.setState({ showtopresults: true })
         this.setState({ showtopresults: true })
         this.refs["topresultsbox"].style.opacity = 0.75;
-        this.refs["glowbar"].style.opacity = 1;
-        let self = this
+
+        this.refs["glowbar"].classList.add('notransition');
+        this.refs["glowbar"].style.width = "0%";
+
         setTimeout(() => {
             self.refs["topresultsbox"].style.opacity = 1;
-        }, topTransitionDuration);
+            this.refs["glowbar"].classList.remove('notransition');
+            self.refs["glowbar"].style.width = "100%";
 
-        this.timeout = setTimeout(function () {
-            this.refs["glowbar"].style.opacity = 0;
-            this.timeout = null
-        }.bind(this), (topTransitionDuration * 3.4))
+        }, topTransitionDuration);
 
 
     }
@@ -798,8 +799,8 @@ When you select an image (by clicking it), a neural network <span className="ita
                     <div ref="topresultsbox" className="sliderboxcontainer transition3s">
                         <div className={" sliderbox topconfig" + (this.state.showtopresults ? " open" : " closed")}>
 
-                            <div ref="glowbar" className="glowbar transition3s mb5"></div>
-                            <div className="flex">
+                            <div ref="glowbar" className="glowbar transitionw6s mb7 w0"></div>
+                            <div className="flex ">
                                 <div className="iblock h100 positionrelative  mr10">
                                     <img src={selectedImagePath} className="mainsimilarityimage rad4  iblock" alt="" />
                                     <div className="mt5  mainsimilaritytitle   lightbluehightlight">

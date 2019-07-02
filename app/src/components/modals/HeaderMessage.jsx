@@ -9,7 +9,7 @@ class HeaderMessage extends Component {
         return (
             <div>
                 <div className="greyhighlight p10 mb10">
-                    Click the  <strong>[ ? More Info ]</strong> button on the top right to show this dialog at any time.
+                    Click the  [<strong> ? More Info </strong>] link on the top right to show this dialog at any time.
                 </div>
                 Convnet Playground -  <i>a tool for the interactive exploration of Convolutional Neural Networks (Convnets or CNNs)</i> -
                is a research prototype by Cloudera Fast Forward Labs, built to accompany our
