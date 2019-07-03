@@ -126,6 +126,7 @@ class Main extends Component {
                     <Route exact path="/models" component={myModalComponent} />
                     <Route exact path="/scene" component={mScene} />
                     <Route exact path="/faq" component={FAQ} />
+                    <Route exact path="/test" component={Test} />
 
                 </div>
                 <div id="footer"> <Footer /> </div>

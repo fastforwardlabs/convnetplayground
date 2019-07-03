@@ -271,8 +271,15 @@ class SemanticEx extends Component {
         if (this.state.showmodelconfig != prevState.showmodelconfig) {
             let self = this
             if (this.state.showmodelconfig) {
-
                 this.drawLines()
+                console.log(this.state.selectedlayer, this.refs.layerscrollbox.clientHeight)
+                if (this.state.selectedlayer == "7") {
+                    this.refs.layerscrollbox.scrollTo({
+                        top: 100,
+                        left: 0,
+                        behavior: 'smooth'
+                    });
+                }
             } else {
                 this.removeLines()
 
