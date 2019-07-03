@@ -354,16 +354,19 @@ class SemanticEx extends Component {
         let self = this
         // this.setState({ showtopresults: true })
         this.setState({ showtopresults: true })
-        this.refs["topresultsbox"].style.opacity = 0.75;
+        this.refs["topresultsbox"].style.opacity = 0.65;
 
         this.refs["glowbar"].classList.add('notransition');
         this.refs["glowbar"].style.width = "0%";
 
         setTimeout(() => {
-            self.refs["topresultsbox"].style.opacity = 1;
-            this.refs["glowbar"].classList.remove('notransition');
+            self.refs["glowbar"].classList.remove('notransition');
             self.refs["glowbar"].style.width = "100%";
 
+        }, 150);
+
+        setTimeout(() => {
+            self.refs["topresultsbox"].style.opacity = 1;
         }, topTransitionDuration);
 
 
