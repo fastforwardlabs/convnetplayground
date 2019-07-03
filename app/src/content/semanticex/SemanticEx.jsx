@@ -630,7 +630,7 @@ When you select an image (by clicking it), a neural network <span className="ita
                                 {/* <div className="mr10 pt10">Advanced options </div> */}
                                 <div>
                                     <Toggle
-
+                                        id="advancedoptionstoggle"
                                         className='smalldesc'
                                         labelA='Off'
                                         labelB='On'

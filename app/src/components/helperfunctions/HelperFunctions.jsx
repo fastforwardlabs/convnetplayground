@@ -107,7 +107,8 @@ export function checkInView(container, element, partial, containerOffset, elemen
         );
 
         //Return outcome
-        // console.log("cT:", cTop, "cB:", cBottom, "eT:", eTop, "eB:", eBottom, isTotal || isPartial)
+        // console.log("cT:", cTop, "conHei", container.clientHeight, " offset", containerOffset, elementOffset, container.offsetTop)
+        // console.log(element.offsetTop, "eT:", eTop, "cT:", cTop, "eB:", eBottom, "cB:", cBottom, isTotal || isPartial)
         return (isTotal || isPartial);
     } else {
         return false

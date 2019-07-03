@@ -93,7 +93,8 @@ class FAQ extends Component {
                 <div className="lh10 answerarea mb10 pb20">
                     This project was created by Victor Dibia (<a target="_blank" rel="noopener noreferrer" href="https://twitter.com/vykthur">@vykthur</a>) at Fast Forward Labs.
                     This work builds on many interesting projects and tools aimed at making Neural Networks more accessible
-                    via interactive experiences. Some of these projects include the &nbsp;
+                    via interactive experiences. Some of these projects include  &nbsp;
+                    <a target="_blank" rel="noopener noreferrer" href="https://distill.pub/2017/feature-visualization/">Feature Visualization,</a> &nbsp;
                     <a target="_blank" rel="noopener noreferrer" href="https://playground.tensorflow.org">Tensorflow Playgroud,</a> &nbsp;
                     <a target="_blank" rel="noopener noreferrer" href="https://teachablemachine.withgoogle.com">Teachable Machine,</a> &nbsp;
                     <a target="_blank" rel="noopener noreferrer" href="https://transcranial.github.io/keras-js/#/">Keras.js </a> &nbsp; and many others.&nbsp;
@@ -102,9 +103,10 @@ class FAQ extends Component {
                     to visualize features learned by channels in a
                     layer, <a target="_blank" rel="noopener noreferrer" href="https://anseki.github.io/leader-line/">leader-line </a> for drawing svg lines
                     and <a target="_blank" rel="noopener noreferrer" href="https://www.carbondesignsystem.com/">carbon</a> design system for layout.
-                  Thanks to Grant Custer and the rest of the
-                    Fast Forward Labs team for the valuable <a target="_blank" rel="noopener noreferrer" href="https://observablehq.com/@bryakas/using-three-js-for-2d-data-visualization">pointers</a>, feedback and guidance!
-               </div>
+                  Thanks to Grant Custer valuable <a target="_blank" rel="noopener noreferrer" href="https://observablehq.com/@bryakas/using-three-js-for-2d-data-visualization">pointers on Three.js</a> and the rest of the
+                                Fast Forward Labs team for feedback and guidance!
+                     
+                </div>
 
 
 

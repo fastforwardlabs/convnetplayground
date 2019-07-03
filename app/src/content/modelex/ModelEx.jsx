@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { DataTable, Modal } from 'carbon-components-react';
+import { DataTable, Modal, Tooltip } from 'carbon-components-react';
 import ModelsModalContent from "../../components/modals/ModelsModal"
 import { greyColor, blueColor, abbreviateString, makeFriendly, checkInView, animOptions, LeaderLine } from "../../components/helperfunctions/HelperFunctions"
 import "./modelex.css"
@@ -89,7 +89,7 @@ class ModelEx extends Component {
 
                 });
                 document.querySelector('.leader-line').style.zIndex = -100
-                animOptions.duration = self.state.selectedlayer == (i + "") ? 800 : 200;
+                // animOptions.duration = self.state.selectedlayer == (i + "") ? 800 : 200;
                 line.show("draw", animOptions)
                 self.lineHolder.push({ line: line, index: i })
             }
@@ -112,7 +112,7 @@ class ModelEx extends Component {
                 if (each.index == self.state.selectedlayer) {
                     each.line.hide("none")
                     each.line.color = blueColor
-                    animOptions.duration = self.state.selectedlayer == each.index ? 800 : 200;
+                    // animOptions.duration = self.state.selectedlayer == each.index ? 800 : 200;
                     each.line.show("draw", animOptions)
                     each.line.endSocket = "top"
                 } else {
@@ -468,9 +468,30 @@ class ModelEx extends Component {
                     </div>
 
                     <div style={{ zIndex: 100 }} className="">
-                        <div className="mt20 pb10 sectiontitle" > Channel Vizualization </div>
+                        <div className="mt20 pb10 sectiontitle" >
+
+                            <div className="iblock">
+                                Channel Vizualization
+                            </div>
+
+                            <div className="iblock">
+                                <Tooltip
+                                    direction="left"
+                                    triggerText=""
+                                >
+
+                                    <div className="wscore">
+                                        This is an example of an image that "maximally excites" neurons in
+                                    channel <strong> {this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron]}</strong> of this layer.
+                                    Learn more about how this is generated <a href="https://distill.pub/2017/feature-visualization/" target="_blank" rel="noopener noreferrer"> here </a>.
+                                </div>
+
+                                </Tooltip>
+                            </div>
+
+                        </div>
                         <div className="horrule mb10"></div>
-                        <div ref="layerscrollbox" className="  ">
+                        <div className="  ">
                             <img className="enlargedneuron rad4" src={process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron] + ".jpg"} alt="" />
                         </div>
                         <div className="flex flexwrap pr10">
@@ -478,8 +499,8 @@ class ModelEx extends Component {
                                 {/* <div className=" iblock boldtext datasetdescription  p10 greyhighlight"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}</div> */}
                                 <div className=" iblock boldtext datasetdescription  p10 greyhighlight"> Channel : {this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron]}  </div>
                             </div>
-                            <div className="flexfull mt10 ">
-                                <div className="smalldesc viewchanneldesc  iblock pt4"> Select and view  <strong> {neuronImageList.length} </strong>  more channels below </div>
+                            <div className="flexfull mt5 ">
+                                <div className="smalldesc viewchanneldesc  iblock pt4"> View  <strong> {neuronImageList.length} </strong>  more channels from  layer  <strong>  {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index} </strong> below </div>
                                 {/* <div className="smalldesc boldtext pt4"> {abbreviateString(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase(), 26)}: {this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron]} / {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} </div> */}
                                 {/* <div className="smalldesc pt4"> <strong>Type: {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type} </strong> | <span className="smalldesc"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}</span> </div> */}
                                 {/* <div className="smalldesc pt3"> {makeFriendly(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].parametercount)} trainable parameters, {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} channels </div> */}
