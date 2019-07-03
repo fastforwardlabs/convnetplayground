@@ -26,6 +26,10 @@
     height: 16em;
     width: 16em;
 }
+.viewchanneldesc{
+    width: 10em;
+    line-height: 1.2em;
+}
 
 .enlargeddiv{
     /* position: absolute;

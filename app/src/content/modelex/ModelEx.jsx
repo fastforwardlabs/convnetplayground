@@ -447,7 +447,7 @@ class ModelEx extends Component {
                     </div>
 
 
-                    <div style={{ zIndex: 100 }} className="flex6">
+                    <div style={{ zIndex: 100 }} className="flex6 mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Layer </div>
                         <div className="horrule mb10"></div>
                         <div ref="layerscrollbox" className="scrollwindow layerwindow  ">
@@ -466,12 +466,35 @@ class ModelEx extends Component {
                         </div>
 
                     </div>
+
+                    <div style={{ zIndex: 100 }} className="">
+                        <div className="mt20 pb10 sectiontitle" > Channel Vizualization </div>
+                        <div className="horrule mb10"></div>
+                        <div ref="layerscrollbox" className="  ">
+                            <img className="enlargedneuron rad4" src={process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron] + ".jpg"} alt="" />
+                        </div>
+                        <div className="flex flexwrap pr10">
+                            <div className=" mt10  mr10 ">
+                                {/* <div className=" iblock boldtext datasetdescription  p10 greyhighlight"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}</div> */}
+                                <div className=" iblock boldtext datasetdescription  p10 greyhighlight"> Channel : {this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron]}  </div>
+                            </div>
+                            <div className="flexfull mt10 ">
+                                <div className="smalldesc viewchanneldesc  iblock pt4"> Select and view  <strong> {neuronImageList.length} </strong>  more channels below </div>
+                                {/* <div className="smalldesc boldtext pt4"> {abbreviateString(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase(), 26)}: {this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron]} / {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} </div> */}
+                                {/* <div className="smalldesc pt4"> <strong>Type: {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type} </strong> | <span className="smalldesc"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}</span> </div> */}
+                                {/* <div className="smalldesc pt3"> {makeFriendly(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].parametercount)} trainable parameters, {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} channels </div> */}
+                            </div>
+                        </div>
+
+                    </div>
+
+
                 </div>
 
 
                 <div className="mt20 mb10 ">
-                    <div className="sectiontitle iblock mr10"> Visualizations for layer {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index} in {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </div>
-                    <div className="iblock"> A selection of 30 channels in the current layer.</div>
+                    <div className="sectiontitle iblock mr10"> Visualizations  of {neuronImageList.length} Channels  in layer {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index} of {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </div>
+                    <div className="iblock"> A selection of channels in the current layer.</div>
                 </div>
 
                 <div className="horrule mb10"></div>
