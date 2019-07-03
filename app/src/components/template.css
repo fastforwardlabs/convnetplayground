@@ -78,6 +78,9 @@
 .boldtext{
     font-weight: bold;
 }
+.whitetext{
+    color: white;
+}
 /*  Layout Spacing margin, etc */
 .iblock {
     display: inline-block;

@@ -482,8 +482,8 @@ class ModelEx extends Component {
 
                                     <div className="wscore">
                                         This is an example of an image that "maximally excites" neurons in
-                                    channel <strong> {this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron]}</strong> of this layer.
-                                    Learn more about how this is generated <a href="https://distill.pub/2017/feature-visualization/" target="_blank" rel="noopener noreferrer"> here </a>.
+                                    channel <strong> {this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron]}</strong> of layer <strong>{this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index}</strong>  in the <strong>  {this.state.modelsList[this.state.selectedmodel].name} </strong>  model.
+                                    Learn more about how this is generated <a className="whitetext" href="https://distill.pub/2017/feature-visualization/" target="_blank" rel="noopener noreferrer"> here</a>.
                                 </div>
 
                                 </Tooltip>
