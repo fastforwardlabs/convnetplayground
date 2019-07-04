@@ -9,6 +9,8 @@ import tensorflow as tf
 from tensorflow.keras.datasets import cifar100, cifar10
 import os
 import utils.file_utils as f_utils
+import utils.model_utils as m_utils
+import utils.feature_utils as feat_utils
 from PIL import Image
 from shutil import copyfile
 
@@ -166,3 +168,21 @@ def process_dataset_labels():
     f_utils.save_json_file(os.path.join(
         out_path, "datasetdictionary.json"), main_holder)
     tf.logging.info(" >> Fininshed generating class dictionaries")
+
+
+def process_comparisons():
+    sim_base_path = "app/public/assets/semsearch/similarity"
+    dsets = get_supported_datasets()
+    models = m_utils.get_supported_models()
+    # for dataset in dsets:
+    #     for model in models:
+    #         metrics = feat_utils.list_distance_metrics()
+    #         for metric in metrics:
+    #             layers = m_utils.get_model_layer_names(model["name"])
+    #             for layer in layers:
+    #                 print(dataset["name"], model["name"], metric, layer)
+
+    sim_path = os.path.join(sim_base_path, "fashion200",
+                            "vgg16", "cosine", "block1_conv1" + ".json")
+    data = f_utils.load_json_file(sim_path)
+    print(data[:20])

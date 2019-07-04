@@ -110,9 +110,11 @@ def generate_model_viz_details():
 
 # generate_embeddings(50)
 # generate_similarity_metrics()
-generate_model_details()
-generate_model_viz_details()
+# generate_model_details()
+# generate_model_viz_details()
 # visualize_similarity()
+
+d_utils.process_comparisons()
 
 
 # print(m_utils.get_all_model_details())
