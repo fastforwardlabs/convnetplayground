@@ -1,20 +1,77 @@
 import React, { Component } from 'react'
 // import * as LeaderLine from 'leader-line'
 import "./test.css"
-const LeaderLine = window.LeaderLine;
+import { loadJSONData } from "../helperfunctions/HelperFunctions"
+
 class Test extends Component {
     constructor(props) {
         super(props)
 
+        const modelDetails = require('../../assets/semsearch/details.json');
+        const similarityArray = require('../../assets/semsearch/similarity/cifar100/vgg16/cosine/block1_conv1.json');
+        this.datasetdictionary = require('../../assets/semsearch/datasetdictionary.json');
 
         this.state = {
+            topx: 10,
+            selecteddataset: 0,
+            selectedmodel: 5, //modelDetails["models"].length - 1,
+            selectedsimimage: 127,
+            hoversimimage: 0,
+            selectedlayer: modelDetails["models"][5].layers.length - 1,
+            similarityArray: similarityArray,
+            datasetArray: [],
+            datasetsList: modelDetails["datasets"],
+            modelsList: modelDetails["models"],
+            distanceMetricList: modelDetails["metrics"],
+            selectedmetric: 0,
 
         }
 
-        this.lineHolder = []
+
     }
 
-    clearLines() {
+    genGraph(data) {
+        let simArr = this.state.similarityArray[this.state.selectedsimimage].slice(1, this.state.topx + 1)
+        let allDictionary = this.datasetdictionary.dictionary[this.state.datasetsList[this.state.selecteddataset].name]
+        let selectedCat = allDictionary[this.state.selectedsimimage]
+        // console.log(simar.slice(1, this.state.topx + 1))
+        // console.log(this.state.selectedsimimage)
+        let simCount = 0
+        let modelScore = 0
+        let totalScore = 0
+        for (var i in simArr) {
+            if (selectedCat == allDictionary[simArr[i][0]]) {
+                simCount++
+                modelScore += (this.state.topx - i) / this.state.topx
+            }
+            totalScore += (this.state.topx - i) / this.state.topx
+        }
+
+        let weightedScore = (modelScore / totalScore) * 100
+
+        console.log(modelScore, totalScore, weightedScore.toFixed(1))
+        // data.forEach(each => {
+        //     console.log(each)
+        // });
+    }
+
+    updateSimilarity() {
+
+        let similarityPath = process.env.PUBLIC_URL + "/assets/semsearch/similarity/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + this.state.modelsList[this.state.selectedmodel].name + "/" + this.state.distanceMetricList[this.state.selectedmetric] + "/" + this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name + ".json"
+        let loadedJSON = loadJSONData(similarityPath)
+        console.log(similarityPath)
+        let self = this
+        loadedJSON.then(function (data) {
+            if (data) {
+                self.setState({ similarityArray: data })
+                self.genGraph(data[self.state.selectedsimimage + ""])
+
+            }
+        })
+
+    }
+
+    compareModels() {
 
     }
 
@@ -23,82 +80,16 @@ class Test extends Component {
         // this.drawLines()
 
         // console.log(document.querySelector('.leader-line').style.zIndex)
-
-    }
-
-    drawLines(e) {
-        this.removeLines()
-        let self = this;
-        [...Array(5).keys()].forEach(function (each) {
-            let line = new LeaderLine(self.refs.start, self.refs["bx1" + each], {
-                // color: 'red',
-                startPlug: 'square',
-                endPlug: 'circle',
-                path: "fluid",
-                size: 3,
-                // hide: true,
-            });
-            let animOptions = { duration: 1300, timing: 'linear' }
-            // console.log(line)
-            // line.show("draw", animOptions)
-            self.lineHolder.push(line)
-            document.querySelector('.leader-line').style.zIndex = -50000
-        })
-
-        console.log(document.querySelector('.leader-line').childNodes)
-    }
-    removeLines(e) {
-        console.log(this.lineHolder.length)
-        this.lineHolder.forEach(function (each) {
-            each.remove()
-        })
-        this.lineHolder = []
+        this.updateSimilarity()
     }
 
     render() {
 
-        const vals = [...Array(5).keys()]
-
-        this.boxList1 = vals.map((val, index) => {
-            return (
-                <div ref={"bx1" + index} key={"legend" + index}>
-                    <div className="boxer rad4">
-                        {index}
-                    </div>
-                </div>
-            )
-        });
-
-        let boxlist2 = vals.map((val, index) => {
-            let zindex = Math.random() > 0.5 ? -20000 : 200000
-            return (
-                <div style={{ zIndex: zindex }} ref={"bx2" + index} key={"legend" + index}>
-                    <div className="boxer rad4">
-                        {index + " == " + zindex}
-                    </div>
-                </div>
-            )
-        });
 
         return (
             <div>
-                <div className="flex">
-                    <div className=" flex4">
-                        <div ref="start" id="start" className="boxer rad4"></div>
-                        <button onClick={this.drawLines.bind(this)} ref="drawlines"> Draw lines </button>
-                        <button onClick={this.removeLines.bind(this)} ref="removelines"> Remove lines </button>
-                    </div>
-                    <div style={{ zIndex: "unset" }} className=" flex4">
-                        <div className="boxer rad4"></div>
-                        {boxlist2}
-                    </div>
-                    <div id="end" className="pt20 flex2">
-                        <div ref="end" className="boxer rad4"></div>
-                        {this.boxList1}
-                    </div>
-
-                </div>
-
+                test
+                <button onClick={this.compareModels.bind(this)}> Launch Stuff</button>
             </div >
 
         )

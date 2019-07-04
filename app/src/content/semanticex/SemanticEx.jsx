@@ -272,7 +272,7 @@ class SemanticEx extends Component {
             let self = this
             if (this.state.showmodelconfig) {
                 this.drawLines()
-                console.log(this.state.selectedlayer, this.refs.layerscrollbox.clientHeight)
+                // console.log(this.state.selectedlayer, this.refs.layerscrollbox.clientHeight)
                 if (this.state.selectedlayer == "7") {
                     this.refs.layerscrollbox.scrollTo({
                         top: 100,
@@ -320,6 +320,8 @@ class SemanticEx extends Component {
         }
     }
     setSelectedImage(val) {
+        console.log(val);
+
         if (val != this.state.selectedsimimage) {
             this.setState({ selectedsimimage: val })
             this.showTopResults()
