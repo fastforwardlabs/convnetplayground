@@ -81,6 +81,9 @@
 .whitetext{
     color: white;
 }
+.greentext{
+    color: green;
+}
 /*  Layout Spacing margin, etc */
 .iblock {
     display: inline-block;

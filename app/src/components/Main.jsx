@@ -16,7 +16,7 @@ import Footer from "./footer/Footer";
 import SemanticEx from "../content/semanticex/SemanticEx";
 import ModelEx from "../content/modelex/ModelEx";
 import FAQ from "../content/faq/FAQ";
-import Test from "../components/helperfunctions/Test"
+import CompareVisualization from "../components/comparevisualization/CompareVisualization"
 import Scene from "../components/three/Scene"
 // import About from "../sections/About"
 // import Game from "../sections/Game"
@@ -108,6 +108,33 @@ class Main extends Component {
             );
         }
 
+        const myCompareComponent = (props) => {
+            this.modelDetails = require('../assets/semsearch/details.json');
+            this.datasetdictionary = require('../assets/semsearch/datasetdictionary.json');
+
+            return (
+
+                <CompareVisualization
+                    data={{
+                        metric: "cosine",
+                        selectedimage: 127,
+                        numLayers: 8,
+                        numModels: 7,
+                        dataset: "iconic200",
+                        topx: 10,
+                        chartWidth: 280,
+                        chartHeight: 220,
+                        datasetdictionary: this.datasetdictionary,
+                        modelDetails: this.modelDetails
+                    }}
+                />
+            );
+        }
+
+
+
+
+
         const mySemanticComponent = (props) => {
             return (
                 <SemanticEx
@@ -126,7 +153,7 @@ class Main extends Component {
                     <Route exact path="/models" component={myModalComponent} />
                     <Route exact path="/scene" component={mScene} />
                     <Route exact path="/faq" component={FAQ} />
-                    <Route exact path="/test" component={Test} />
+                    <Route exact path="/test" component={myCompareComponent} />
 
                 </div>
                 <div id="footer"> <Footer /> </div>

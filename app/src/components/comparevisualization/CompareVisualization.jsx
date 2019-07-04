@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
 // import * as LeaderLine from 'leader-line'
-import "./test.css"
+// import "./test.css"
 import * as _ from 'lodash'
 import { InlineLoading } from 'carbon-components-react';
 import { loadJSONData } from "../helperfunctions/HelperFunctions"
 import * as d3 from "d3"
 
-class Test extends Component {
+class CompareVisualization extends Component {
     constructor(props) {
         super(props)
 
-        const modelDetails = require('../../assets/semsearch/details.json');
-        this.datasetdictionary = require('../../assets/semsearch/datasetdictionary.json');
+        const modelDetails = this.props.data.modelDetails; // require('../../assets/semsearch/details.json');
+        this.datasetdictionary = this.props.data.datasetdictionary; //require('../../assets/semsearch/datasetdictionary.json');
 
 
 
@@ -59,7 +59,7 @@ class Test extends Component {
 
             // console.log("Total", Object.keys(this.layerScores).length);
             if (Object.keys(this.layerScores).length == this.props.data.numModels) {
-                console.log("All models have been computed");
+                // console.log("All models have been computed");
                 this.setState({ loadingCompare: false })
             }
         }
@@ -112,7 +112,7 @@ class Test extends Component {
         // append the svg object to the body of the page
         // append a 'group' element to 'svg'
         // moves the 'group' element to the top left margin
-        var svg = d3.select("div.d3").append("svg")
+        var svg = d3.select("div.comparevisualizationbox").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
@@ -134,7 +134,39 @@ class Test extends Component {
                 let color = i == layerScores.maxindex ? "green" : "#CDCDCD";
                 // console.log(layerScores.maxindex, d.score, color)
                 return color
+            }).on("mouseover", function () {
+                d3.select(this)
+                    .attr("fill", "#0062FF");
+            })
+            .on("mouseout", function (d, i) {
+                d3.select(this).attr("fill", function () {
+                    let color = i == layerScores.maxindex ? "green" : "#CDCDCD";
+                    // console.log(layerScores.maxindex, d.score, color)
+                    return color
+                });
             });
+
+        svg.selectAll("text")
+            .data(data)
+            .enter()
+            .append("text").text(function (d) {
+                return d.score.toFixed(0);
+            })
+            .attr("class", "boldtext")
+            .attr("x", function (d) { return x(d.index) + 10; })
+            .attr("y", function (d) {
+                return y(d.score) + 14;
+            }).attr("font-family", "sans-serif")
+            .attr("font-size", "9px")
+            .style("text-anchor", "middle")
+            .attr("fill", function (d, i) {
+                let color = i == layerScores.maxindex ? "white" : "black";
+                // console.log(layerScores.maxindex, d.score, color)
+                return color
+            });
+
+
+
 
         // add the x Axis
         var xAxis = d3.axisBottom(x)
@@ -165,7 +197,7 @@ class Test extends Component {
             .attr("y", self.miniChartHeight - margin.bottom + 10)
             .style("text-anchor", "middle")
             .attr("class", "smalldesc")
-            .text("layer index");
+            .text("layer (index)");
 
         //yaxis label
         svg.append("text")
@@ -175,7 +207,7 @@ class Test extends Component {
             .attr("dy", "2em")
             .style("text-anchor", "middle")
             .attr("class", "smalldesc")
-            .text("Search score");
+            .text("search score");
 
 
         function customYAxis(g) {
@@ -193,23 +225,25 @@ class Test extends Component {
 
 
     componentDidMount() {
-
-        // this.drawLines()
-
-        // console.log(document.querySelector('.leader-line').style.zIndex)
         this.compareModels()
-        // this.drawChart()
     }
 
     render() {
-
-
+        let selectedImagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.props.data.dataset + "/" + this.props.data.selectedimage + ".jpg"
         return (
             <div>
-                test
-                <button onClick={this.compareModels.bind(this)}> Launch Stuff</button>
-                <div> Selected Image {this.props.data.selectedimage}</div>
-                <div className="d3 ">
+                <div className="flex mb10">
+                    <div className=" mr10">
+                        <img src={selectedImagePath} className="datasetbox" alt="" />
+                    </div>
+                    <div className="flexfull">
+                        For the current search query (image shown on the left),
+                        the charts below show the search score obtained when we use layers
+                        from <strong> {this.props.data.numModels} </strong> models. In each chart, the <span className="greentext boldtext"> green bar </span>
+                        highlights the layer in that model with the best search score.
+                    </div>
+                </div>
+                <div className="comparevisualizationbox">
                     {this.state.loadingCompare &&
                         <InlineLoading
                             description="Comparing scores for all models .."
@@ -225,4 +259,4 @@ class Test extends Component {
 
 }
 
-export default Test;
+export default CompareVisualization;

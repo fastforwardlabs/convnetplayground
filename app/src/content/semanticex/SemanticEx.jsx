@@ -4,7 +4,7 @@ import { Modal, Toggle, Tooltip } from 'carbon-components-react';
 import "./semanticex.css"
 import SemanticModalContent from "../../components/modals/SemanticModal"
 import { greyColor, blueColor, abbreviateString, loadJSONData, makeFriendly, boundWidth, checkInView, animOptions, LeaderLine } from "../../components/helperfunctions/HelperFunctions"
-
+import CompareVisualization from "../../components/comparevisualization/CompareVisualization"
 import Scene from "../../components/three/Scene"
 
 
@@ -16,6 +16,7 @@ class SemanticEx extends Component {
     constructor(props) {
         super(props);
         const modelDetails = require('../../assets/semsearch/details.json');
+        this.modelDetails = modelDetails;
         this.datasetdictionary = require('../../assets/semsearch/datasetdictionary.json');
 
         // const initialSimilarityPath = "../../assets/semsearch/similarity/" + modelDetails["datasets"][0].name + "/" + modelDetails["models"][0].name + "/" + modelDetails["metrics"][0] + "/" + modelDetails["models"][0].layers[0] + ".json"
@@ -44,7 +45,8 @@ class SemanticEx extends Component {
             showtopresults: false,
             viewdatasetby: "category",
             showadvanced: false,
-            topx: 10
+            topx: 10,
+            showcomparemodal: false
         }
         this.updateSimilarity()
         this.loadDatasetList()
@@ -320,7 +322,7 @@ class SemanticEx extends Component {
         }
     }
     setSelectedImage(val) {
-        console.log(val);
+        // console.log(val);
 
         if (val != this.state.selectedsimimage) {
             this.setState({ selectedsimimage: val })
@@ -349,6 +351,10 @@ class SemanticEx extends Component {
 
     toggleDatasetModal(e) {
         this.setState({ showdatasetmodal: !(this.state.showdatasetmodal) })
+    }
+
+    toggleShowCompare(e) {
+        this.setState({ showcomparemodal: !(this.state.showcomparemodal) })
     }
 
     toggleViewDatasetBy(e) {
@@ -580,6 +586,39 @@ class SemanticEx extends Component {
 
                 </Modal>}
 
+                {(this.state.showcomparemodal) && <Modal className="comparemodal"
+                    open={true}
+                    size="lg"
+                    // style={{maxWidth: '1600px', width: '100%'}}
+                    passiveModal={true}
+                    primaryButtonText="Get Started"
+                    secondaryButtonText="Close"
+                    modalHeading="Compare models"
+                    modalLabel="Compare models"
+                    onRequestSubmit={this.toggleShowCompare.bind(this)}
+                    onRequestClose={this.toggleShowCompare.bind(this)}
+                >
+                    {/* <div className="mb10">
+                        Charts of search score results for the current image using all
+                         models and layers.
+                   </div> */}
+                    <CompareVisualization
+                        data={{
+                            metric: this.state.distanceMetricList[this.state.selectedmetric],
+                            selectedimage: this.state.selectedsimimage,
+                            numLayers: 8,
+                            numModels: this.state.modelsList.length,
+                            dataset: this.state.datasetsList[this.state.selecteddataset].name,
+                            topx: this.state.topx,
+                            chartWidth: 250,
+                            chartHeight: 220,
+                            datasetdictionary: this.datasetdictionary,
+                            modelDetails: this.modelDetails
+                        }}
+                    />
+
+                </Modal>}
+
                 {(this.state.showdatasetmodal) && <Modal className="datasetmodal"
                     open={true}
                     size="lg"
@@ -786,15 +825,22 @@ When you select an image (by clicking it), a neural network <span className="ita
                 {/* show top results panel and content */}
                 {(this.state.showtopresults || this.searchCount > 0) &&
                     <div>
-                        <div onClick={this.toggleTopX.bind(this)} className="unselectable mt10 p10 clickable  flex greymoreinfo">
-                            <div className="iblock flexfull minwidth485"> <strong> {!this.state.showtopresults && <span>&#x25BC;  </span>} {this.state.showtopresults && <span>&#x25B2;  </span>} </strong>
+                        <div className="unselectable mt10    flex ">
+                            <div onClick={this.toggleTopX.bind(this)} className="iblock clickable greymoreinfo flexfull minwidth485 p10"> <strong> {!this.state.showtopresults && <span>&#x25BC;  </span>} {this.state.showtopresults && <span>&#x25B2;  </span>} </strong>
                                 <strong>Top {this.state.topx} results </strong>  based on your search configuration
-                        <span className="smalldesc"> [
-                             <strong> MODEL: </strong> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} |
-                             <strong> LAYER: </strong>  {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index} |
-                            <strong> DISTANCE METRIC: </strong>   {this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()} ]
-                        </span>
+                                <span className="smalldesc"> [
+                                    <strong> MODEL: </strong> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} |
+                                    <strong> LAYER: </strong>  {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index} |
+                                    <strong> DISTANCE METRIC: </strong>   {this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()} ]
+                                </span>
                             </div>
+
+                            <div onClick={this.toggleShowCompare.bind(this)} className={" clickable bluehighlight  p10 h100 " + (this.state.showtopresults ? "" : "")}>
+                                Compare Models
+                            </div>
+
+
+
                             {/* <div className="iblock   ">
                         <div className="iblock mr5"> <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span></div>
                         <div className="iblock">
