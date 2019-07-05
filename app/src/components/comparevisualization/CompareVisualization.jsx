@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import * as LeaderLine from 'leader-line'
-// import "./test.css"
+import "./comparevisualization.css"
 import * as _ from 'lodash'
 import { InlineLoading } from 'carbon-components-react';
 import { loadJSONData } from "../helperfunctions/HelperFunctions"
@@ -23,6 +23,8 @@ class CompareVisualization extends Component {
         this.layerScores = { data: [], maxindex: 0 }
         this.miniChartWidth = this.props.data.chartWidth
         this.miniChartHeight = this.props.data.chartHeight
+        this.overallBestScore = 0
+        this.overallBestModel = ""
     }
 
 
@@ -57,10 +59,29 @@ class CompareVisualization extends Component {
 
             this.drawChart(this.layerScores[model])
 
+            if (maxVal.score > this.overallBestScore) {
+                this.overallBestScore = maxVal.score
+                this.overallBestModel = model
+            }
+
             // console.log("Total", Object.keys(this.layerScores).length);
             if (Object.keys(this.layerScores).length == this.props.data.numModels) {
                 // console.log("All models have been computed");
                 this.setState({ loadingCompare: false })
+                console.log("Overall bases", this.overallBestModel)
+                let backStrokes = document.getElementsByClassName("backstroke" + this.overallBestScore)
+                let textBoxes = document.getElementsByClassName("topmodel" + this.overallBestScore)
+                for (let i = 0; i < backStrokes.length; i++) {
+                    backStrokes[i].setAttribute("stroke", "green")
+                }
+
+                for (let i = 0; i < textBoxes.length; i++) {
+                    // console.log(svgBoxes[i])
+                    // backStrokes[i].setAttribute("stroke", "green")
+                    textBoxes[i].classList.remove("displaynone")
+                }
+
+
             }
         }
 
@@ -98,7 +119,7 @@ class CompareVisualization extends Component {
         let data = layerScores.data
         // const data = [12, 5, 6, 6, 9, 10];
         // const data = [{ sales: 10, salesperson: "lenny" }, { sales: 8.4, salesperson: "harper" }, { sales: 4.5, salesperson: "crass" }, { sales: 2, salesperson: "lago" }];
-        var margin = { top: 25, right: 20, bottom: 40, left: 50 },
+        var margin = { top: 30, right: 30, bottom: 40, left: 45 },
             width = this.miniChartWidth - margin.left - margin.right,
             height = this.miniChartHeight - margin.top - margin.bottom;
 
@@ -115,11 +136,25 @@ class CompareVisualization extends Component {
         var svg = d3.select("div.comparevisualizationbox").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
+            .attr("class", "svgbox" + layerScores.maxvalue)
             .append("g")
             .attr("transform",
                 "translate(" + margin.left + "," + margin.top + ")");
         x.domain(data.map(function (d) { return d.index; }));
         y.domain([0, d3.max(data, function (d) { return d.score; })]);
+
+
+
+
+
+
+
+        // add the y Axis
+        let yAxis = d3.axisRight(y)
+            .tickSize(this.miniChartWidth)
+        svg.append("g")
+            .call(customYAxis);
+
 
         // append the rectangles for the bar chart
         svg.selectAll(".bar")
@@ -144,7 +179,8 @@ class CompareVisualization extends Component {
                     // console.log(layerScores.maxindex, d.score, color)
                     return color
                 });
-            });
+            })
+
 
         svg.selectAll("text")
             .data(data)
@@ -171,41 +207,54 @@ class CompareVisualization extends Component {
 
 
 
+
+
         // add the x Axis
         var xAxis = d3.axisBottom(x)
-        // svg.append("g")
-        //     .attr("transform", "translate(0," + height + ")")
-        //     .call(d3.axisBottom(x));
         svg.append("g")
             .attr("transform", "translate(0," + height + ")")
             .call(customXAxis);
 
 
-        let yAxis = d3.axisRight(y)
-            .tickSize(this.miniChartWidth)
-        // add the y Axis
-        svg.append("g")
-            .call(customYAxis);
+
+
+
+
+
         // chart title
         svg.append("text")
             .attr("x", self.miniChartWidth / 2 - 20)
             .attr("y", -12)
             .style("text-anchor", "middle")
-            .attr("class", "boldtext")
-            .text(layerScores.model + " [best: " + layerScores.maxvalue + "%] ");
+            .attr("class", "boldtext mediumdesc")
+            .text(function () {
+                // let textVal = 
+                return (layerScores.model + " [best: " + layerScores.maxvalue + "%] ").toUpperCase()
+            });
 
         // xaxis label
         svg.append("text")
-            .attr("x", self.miniChartWidth / 2 - 20)
-            .attr("y", self.miniChartHeight - margin.bottom + 10)
+            .attr("x", self.miniChartWidth / 2 - (margin.left + margin.right) / 2)
+            .attr("y", self.miniChartHeight - (margin.bottom + margin.bottom) + 40)
             .style("text-anchor", "middle")
             .attr("class", "smalldesc")
             .text("layer (index)");
 
+        // overallbest label
+        svg.append("text")
+            .attr("x", 0)
+            .attr("y", 0 - 10)
+            .style("text-anchor", "middle")
+            .attr("class", function () {
+                return "boldtext displaynone overallbest smalldesc topmodel" + layerScores.maxvalue
+            })
+            .text("||||TOP");
+
+
         //yaxis label
         svg.append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", 0 - margin.left)
+            .attr("y", -5 - margin.left)
             .attr("x", 0 - (self.miniChartHeight / 2) + (margin.top + margin.bottom) / 2)
             .attr("dy", "2em")
             .style("text-anchor", "middle")
@@ -216,7 +265,7 @@ class CompareVisualization extends Component {
         function customYAxis(g) {
             g.call(yAxis);
             g.select(".domain").remove();
-            g.selectAll(".tick:not(:first-of-type) line").attr("stroke", "#777").attr("stroke-dasharray", "2,2");
+            g.selectAll(".tick:not(:first-of-type) line").attr("stroke", "#777").attr("stroke-dasharray", "2,2").attr("class", " backstroke" + layerScores.maxvalue);
             g.selectAll(".tick text").attr("x", -20).attr("y", -.01)
         }
 
@@ -229,6 +278,7 @@ class CompareVisualization extends Component {
 
     componentDidMount() {
         this.compareModels()
+
     }
 
     render() {
@@ -246,6 +296,11 @@ class CompareVisualization extends Component {
                         highlights the layer(s) in that model with the best search score.
                     </div>
                 </div>
+                {!this.state.loadingCompare &&
+                    <div className="greentext mediumdesc mb10 p10 boldtext">
+                        |||Top : Models whose layers have the highest search score.
+                    </div>
+                }
                 <div className="comparevisualizationbox">
                     {this.state.loadingCompare &&
                         <InlineLoading
@@ -255,6 +310,8 @@ class CompareVisualization extends Component {
                         </InlineLoading>
                     }
                 </div>
+
+
             </div >
 
         )

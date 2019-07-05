@@ -1,0 +1,13 @@
+.zback{
+    z-index: -10000;
+}
+
+.svgbox{
+    border: 1px solid green;
+    margin-left: 5px;
+}
+
+.overallbest{
+    background: rgba(66, 248, 136, 0.801) ;
+   fill: green;
+}

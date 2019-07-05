@@ -610,7 +610,7 @@ class SemanticEx extends Component {
                             numModels: this.state.modelsList.length,
                             dataset: this.state.datasetsList[this.state.selecteddataset].name,
                             topx: this.state.topx,
-                            chartWidth: 280,
+                            chartWidth: 250,
                             chartHeight: 220,
                             datasetdictionary: this.datasetdictionary,
                             modelDetails: this.modelDetails
