@@ -6,6 +6,9 @@ $feature-flags: (
 @import './footer/footer.scss';
 
 
+.bx--modal-content{
+    margin: 0px;
+}
 
 .fadeable{
     opacity: 1;

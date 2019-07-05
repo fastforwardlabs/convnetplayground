@@ -244,12 +244,12 @@ class CompareVisualization extends Component {
         // overallbest label
         svg.append("text")
             .attr("x", 0)
-            .attr("y", 0 - 10)
+            .attr("y", 0 - 14)
             .style("text-anchor", "middle")
             .attr("class", function () {
                 return "boldtext displaynone overallbest smalldesc topmodel" + layerScores.maxvalue
             })
-            .text("||||TOP");
+            .text("*TOP");
 
 
         //yaxis label
@@ -292,14 +292,14 @@ class CompareVisualization extends Component {
                     </div>
                     <div className="flexfull">
                         For the current search query (image shown on the left),
-                        the charts below show the search score obtained when we use layers
-                        from <strong> {this.props.data.numModels} </strong> models. In each chart, the <span className="greentext boldtext"> green bar </span>
-                        highlights the layer(s) in that model with the best search score.
+                        the charts below allows you to <strong>compare search score </strong> results obtained when we use layers
+                        from all <strong> {this.props.data.numModels} </strong> models. The <span className="greentext boldtext"> green bar </span>
+                        highlights the layer(s) in a model with the best search score.
                     </div>
                 </div>
                 {!this.state.loadingCompare &&
                     <div className="greentext mediumdesc mb10 p10 boldtext">
-                        |||Top : Models whose layers have the highest search score.
+                        *TOP : Models whose layers have the highest search score.
                     </div>
                 }
                 <div className="comparevisualizationbox">
@@ -311,6 +311,9 @@ class CompareVisualization extends Component {
                         </InlineLoading>
                     }
                 </div>
+
+                <br />
+                <br />
 
 
             </div >
