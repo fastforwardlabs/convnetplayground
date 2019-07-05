@@ -177,6 +177,18 @@ div.bx--modal-container{
     min-width: 360px;
 }
 
+.greenmoreinfo{
+    background: rgba(37, 161, 72, 1);
+    color: white;
+}
+.greenmoreinfo:hover{
+    background: rgb(34, 153, 68);
+}
+
+.greenmoreinfo:active{
+    background: rgb(27, 110, 49);
+}
+
 .greymoreinfo{
     background: rgba(209, 209, 209, 0.9);
 }

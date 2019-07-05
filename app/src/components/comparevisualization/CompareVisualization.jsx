@@ -192,7 +192,7 @@ class CompareVisualization extends Component {
             .attr("y", -12)
             .style("text-anchor", "middle")
             .attr("class", "boldtext")
-            .text(layerScores.model);
+            .text(layerScores.model + " [best: " + layerScores.maxvalue + "%] ");
 
         // xaxis label
         svg.append("text")
@@ -237,7 +237,7 @@ class CompareVisualization extends Component {
             <div>
                 <div className="flex mb10">
                     <div className=" mr10">
-                        <img src={selectedImagePath} className="datasetbox" alt="" />
+                        <img src={selectedImagePath} className="simiimage" alt="" />
                     </div>
                     <div className="flexfull">
                         For the current search query (image shown on the left),

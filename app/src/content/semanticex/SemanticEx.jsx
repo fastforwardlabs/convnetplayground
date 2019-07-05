@@ -360,9 +360,9 @@ class SemanticEx extends Component {
     toggleViewDatasetBy(e) {
         this.setState({ viewdatasetby: e.target.getAttribute("viewby") })
     }
-    toggleAdvancedOpitions(e) {
+    toggleAdvancedOptions(e) {
         this.setState({ showadvanced: !(this.state.showadvanced) })
-        this.toggleModelConfig()
+        this.setState({ showmodelconfig: true })
     }
 
     showTopResults() {
@@ -683,7 +683,7 @@ When you select an image (by clicking it), a neural network <span className="ita
                                         labelA='Off'
                                         labelB='On'
                                         // onChange action('onChange'),
-                                        onToggle={this.toggleAdvancedOpitions.bind(this)}
+                                        onToggle={this.toggleAdvancedOptions.bind(this)}
                                     ></Toggle>
                                 </div>
 
@@ -835,8 +835,8 @@ When you select an image (by clicking it), a neural network <span className="ita
                                 </span>
                             </div>
 
-                            <div onClick={this.toggleShowCompare.bind(this)} className={" clickable bluehighlight  p10 h100 " + (this.state.showtopresults ? "" : "")}>
-                                Compare Models
+                            <div onClick={this.toggleShowCompare.bind(this)} className={" boldtext greenmoreinfo clickable bluehighlight  p10 h100 " + (this.state.showadvanced ? "" : "displaynone")}>
+                                ? Compare Models
                             </div>
 
 
