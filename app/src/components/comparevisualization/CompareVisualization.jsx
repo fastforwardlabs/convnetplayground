@@ -149,11 +149,7 @@ class CompareVisualization extends Component {
 
 
 
-        // add the y Axis
-        let yAxis = d3.axisRight(y)
-            .tickSize(this.miniChartWidth)
-        svg.append("g")
-            .call(customYAxis);
+
 
 
         // append the rectangles for the bar chart
@@ -205,6 +201,11 @@ class CompareVisualization extends Component {
             });
 
 
+        // add the y Axis
+        let yAxis = d3.axisRight(y)
+            .tickSize(this.miniChartWidth)
+        svg.append("g")
+            .call(customYAxis);
 
 
 
