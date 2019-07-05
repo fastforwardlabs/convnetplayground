@@ -98,7 +98,7 @@ class CompareVisualization extends Component {
         let data = layerScores.data
         // const data = [12, 5, 6, 6, 9, 10];
         // const data = [{ sales: 10, salesperson: "lenny" }, { sales: 8.4, salesperson: "harper" }, { sales: 4.5, salesperson: "crass" }, { sales: 2, salesperson: "lago" }];
-        var margin = { top: 20, right: 20, bottom: 40, left: 50 },
+        var margin = { top: 25, right: 20, bottom: 40, left: 50 },
             width = this.miniChartWidth - margin.left - margin.right,
             height = this.miniChartHeight - margin.top - margin.bottom;
 
@@ -131,7 +131,7 @@ class CompareVisualization extends Component {
             .attr("y", function (d) { return y(d.score); })
             .attr("height", function (d) { return height - y(d.score); })
             .attr("fill", function (d, i) {
-                let color = i == layerScores.maxindex ? "green" : "#CDCDCD";
+                let color = d.score == layerScores.maxvalue ? "green" : "#CDCDCD";
                 // console.log(layerScores.maxindex, d.score, color)
                 return color
             }).on("mouseover", function () {
@@ -153,14 +153,17 @@ class CompareVisualization extends Component {
                 return d.score.toFixed(0);
             })
             .attr("class", "boldtext")
-            .attr("x", function (d) { return x(d.index) + 10; })
+            .attr("x", function (d) {
+                return x(d.index) + 10;
+            })
             .attr("y", function (d) {
-                return y(d.score) + 14;
+                let maxVal = self.miniChartHeight - (margin.top + margin.bottom) - 5
+                return Math.min(maxVal, (y(d.score) + 14));
             }).attr("font-family", "sans-serif")
             .attr("font-size", "9px")
             .style("text-anchor", "middle")
             .attr("fill", function (d, i) {
-                let color = i == layerScores.maxindex ? "white" : "black";
+                let color = d.score == layerScores.maxvalue ? "white" : "black";
                 // console.log(layerScores.maxindex, d.score, color)
                 return color
             });
@@ -183,10 +186,10 @@ class CompareVisualization extends Component {
         // add the y Axis
         svg.append("g")
             .call(customYAxis);
-
+        // chart title
         svg.append("text")
             .attr("x", self.miniChartWidth / 2 - 20)
-            .attr("y", -8)
+            .attr("y", -12)
             .style("text-anchor", "middle")
             .attr("class", "boldtext")
             .text(layerScores.model);
@@ -240,7 +243,7 @@ class CompareVisualization extends Component {
                         For the current search query (image shown on the left),
                         the charts below show the search score obtained when we use layers
                         from <strong> {this.props.data.numModels} </strong> models. In each chart, the <span className="greentext boldtext"> green bar </span>
-                        highlights the layer in that model with the best search score.
+                        highlights the layer(s) in that model with the best search score.
                     </div>
                 </div>
                 <div className="comparevisualizationbox">
