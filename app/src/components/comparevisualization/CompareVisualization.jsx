@@ -68,7 +68,7 @@ class CompareVisualization extends Component {
             if (Object.keys(this.layerScores).length == this.props.data.numModels) {
                 // console.log("All models have been computed");
                 this.setState({ loadingCompare: false })
-                console.log("Overall bases", this.overallBestModel)
+                // console.log("Overall bases", this.overallBestModel)
                 let backStrokes = document.getElementsByClassName("backstroke" + this.overallBestScore)
                 let textBoxes = document.getElementsByClassName("topmodel" + this.overallBestScore)
                 for (let i = 0; i < backStrokes.length; i++) {

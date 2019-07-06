@@ -22,7 +22,9 @@
 .greyhighlight {
     background: rgba(209, 209, 209, 0.9);
 }
-
+.justifycenter{
+    justify-content: center;
+}
 .unselectable {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -284,6 +286,9 @@
 
 .h100{
     height: 100%
+}
+.h100v{
+    height: 100vh;
 }
 .unclickable{
     pointer-events: none;

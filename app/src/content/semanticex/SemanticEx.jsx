@@ -361,8 +361,8 @@ class SemanticEx extends Component {
         this.setState({ viewdatasetby: e.target.getAttribute("viewby") })
     }
     toggleAdvancedOptions(e) {
+        this.setState({ showmodelconfig: !(this.state.showadvanced) })
         this.setState({ showadvanced: !(this.state.showadvanced) })
-        this.setState({ showmodelconfig: true })
     }
 
     showTopResults() {
@@ -386,9 +386,6 @@ class SemanticEx extends Component {
 
 
     }
-
-
-
 
     updateSimilarity() {
 
@@ -826,7 +823,7 @@ When you select an image (by clicking it), a neural network <span className="ita
                 {(this.state.showtopresults || this.searchCount > 0) &&
                     <div>
                         <div className="unselectable mt10    flex ">
-                            <div onClick={this.toggleTopX.bind(this)} className="iblock clickable greymoreinfo flexfull minwidth485 p10"> <strong> {!this.state.showtopresults && <span>&#x25BC;  </span>} {this.state.showtopresults && <span>&#x25B2;  </span>} </strong>
+                            <div onClick={this.toggleTopX.bind(this)} className=" iblock clickable greymoreinfo flexfull minwidth485 p10"> <strong> {!this.state.showtopresults && <span>&#x25BC;  </span>} {this.state.showtopresults && <span>&#x25B2;  </span>} </strong>
                                 <strong>Top {this.state.topx} results </strong>  based on your search configuration
                                 <span className="smalldesc"> [
                                     <strong> MODEL: </strong> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} |
@@ -835,7 +832,7 @@ When you select an image (by clicking it), a neural network <span className="ita
                                 </span>
                             </div>
 
-                            <div onClick={this.toggleShowCompare.bind(this)} className={" boldtext greenmoreinfo clickable bluehighlight  p10 h100 " + (this.state.showadvanced ? "" : "displaynone")}>
+                            <div onClick={this.toggleShowCompare.bind(this)} className={" boldtext greenmoreinfo clickable bluehighlight justifycenter p10 flex flexcolumn " + (this.state.showadvanced ? "" : "displaynone")}>
                                 ? Compare Models
                             </div>
 
