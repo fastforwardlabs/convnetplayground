@@ -47,7 +47,10 @@ class FAQ extends Component {
                 <div className="pb10 sectiontitle pt4"> Q:  So .. What is a Convolutional Neural Network? </div>
                 {/* <div className="horrule mb10"></div> */}
                 <div className="lh10 mb20 answerarea">
-                    I guess the real first question is what is a neural network?
+                    A Convolutional Neural Network (CNN or ConvNet) are a class
+                    of <a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Deep_learning#Deep_neural_networks">deep neural networks </a>  
+                    mostly applied to the task of image analysis.
+                    CNNs learn hierarchical representations - Early layers in a CNN learn low level features (e.g. lines, edges, shapes, colours) while later layers learn high level concepts (e.g eyes, legs, faces, doors etc) depending on the dataset used for training.
                </div>
 
                 <div className="pb10 sectiontitle"> Q: What Questions Can I ask With ConvNet Playground? </div>

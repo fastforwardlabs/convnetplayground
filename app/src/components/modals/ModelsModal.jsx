@@ -40,6 +40,17 @@ class ModelsModalContent extends Component {
                 Note: A layer must be differentiable in order to be visualized using optimization approaches, hence not all layers are visualized.
                 A selection of 30 channels are chosen for convenience.
 
+                
+                <div className="boldtext mt10"> What do the images mean? </div>
+                Each model architecture shown (e.g vgg16, vgg19 etc) have all been pretrained on the imagenet dataset.
+                These images/visualizations represent an example of what the given neurons have  <span className="italics"> learned to look for</span>.
+                They are <span className="italics"> generated </span> using 
+                an interative <a href="https://distill.pub/2017/feature-visualization/" target="_blank" rel="noopener noreferrer"> optimization </a> process which synthesizes input that causes the neurons to have high activation. 
+                The process begins with random noise (an image that looks like 80's tv static).
+
+                This image is then shown to the channel and based its gradients (derivation), the image pixels are updated to arrive at a final image that maximally excites the channel.  
+                Note: While the resulting visualizations may not all be interpretable, we consistently see increasing pattern responses as we progress
+                through the layers in the model.
 
                 <br/>  
                      

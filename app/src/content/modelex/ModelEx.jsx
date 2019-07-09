@@ -408,18 +408,19 @@ class ModelEx extends Component {
                 <div className="flex">
                 <div className="flex5 mr10 mynotif lh10 instructions lightbluehightlight maxh16">
                     <div className="boldtext pb5 advancedoptionsbox"> Optimization Based Feature Visualization </div>
-                    This demo allows you explore visualizations of patterns learned by channels (groups of neurons) in each layer of a  Convolutional Neural Network (pretrained on <strong> imagenet</strong>).
-                    The images shown are created using  <a href="https://distill.pub/2017/feature-visualization/" target="_blank" rel="noopener noreferrer"> optimization based feature visualization </a>
-                    methods which allows us generate images that maximally excite neurons in the given channel.
+                    This demo allows you explore visualizations of patterns learned by channels (groups of neurons) in each layer of a Convolutional Neural Network (pretrained on <strong> imagenet</strong>).
+                    
                     To begin, <strong> click </strong>  on a model, and a layer to view visualizations of selected channels in that layer.
     
                 </div>
                     
                 <div className="flex5 mynotif lh10 instructions lightbluehightlight maxh16">
-                    <div className="boldtext pb5 advancedoptionsbox"> What do these images mean? </div>
-                     An easy way to interpret these images is to think of them as examples of images that most excite channels (groups of neurons) in a layer.
-                     They are created using an interative optimization process which begins with an image of random noise. 
-                     This image is then shown to the channel and based on gradients, the image pixels are pertubated to arrive at a final image that maximally excites the channel.   
+                        <div className="boldtext pb5 advancedoptionsbox"> What do these images mean? </div>
+                    
+                These images/visualizations represent an example of what the given neurons have  <span className="italics"> learned to look for </span>.
+                They are <span className="italics"> generated </span> using 
+                an interative <a href="https://distill.pub/2017/feature-visualization/" target="_blank" rel="noopener noreferrer"> optimization</a> process which synthesizes input that causes the neurons to have high activation. 
+               
                 </div>
                     
                </div>
