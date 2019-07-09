@@ -47,22 +47,57 @@ class FAQ extends Component {
                 <div className="pb10 sectiontitle pt4"> Q:  So .. What is a Convolutional Neural Network? </div>
                 {/* <div className="horrule mb10"></div> */}
                 <div className="lh10 mb20 answerarea">
-                    A Convolutional Neural Network (CNN or ConvNet) are a class
+                    A Convolutional Neural Network (CNN or ConvNet) is a class
                     of <a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Deep_learning#Deep_neural_networks">deep neural networks </a>  
                     mostly applied to the task of image analysis.
-                    CNNs learn hierarchical representations - Early layers in a CNN learn low level features (e.g. lines, edges, shapes, colours) while later layers learn high level concepts (e.g eyes, legs, faces, doors etc) depending on the dataset used for training.
+                    CNNs learn hierarchical representations - early layers in a CNN learn low level features (e.g. lines, edges, shapes, colours) while later layers learn high level concepts (e.g eyes, legs, faces, doors etc) depending on the dataset used for training.
                </div>
 
-                <div className="pb10 sectiontitle"> Q: What Questions Can I ask With ConvNet Playground? </div>
+                <div className="pb10 sectiontitle"> Q: What questions can I ask with ConvNet Playground? </div>
                 {/* <div className="horrule mb10"></div> */}
-                <div className="lh10 mb20 ">
+                <div className="lh10 mb20 answerarea">
 
-                    <div className="flex flexwrap">
+                Convnet playground focuses on  a simple implementation of semantic 
+                    
+                <span className=" italics">
+                 search - given a dataset of existing images, and a new arbitrary image, find a subset of images from the 
+                        dataset that are most similar to the new image.       
+                </span>
+                    
+                To achieve this, we extract features (embeddings) for images in our dataset and compute similarity as the distance between these embeddings.
+                    We perform this using multiple configurations (datasets, models, layers distance metrcis) 
+                    and allow the user to interactively ask questions of the results.
+                    
+    
+                <ul className="pt10 pb10">
+                        <li>
+                            <span className="boldtext"> - How does semantic search (vanilla pretrained models) perform?  </span>
+                            
+                            Explore this with the top search results view and search score metric.
+                            </li>
+                        <li> 
+                            <span className="boldtext"> - How well does each model/layer configuration capture “semantic meaning” for a given dataset?  </span>
+                            Explore this using UMAP embeddings visualization of extracted features. 
+
+                        </li>
+                        <li>
+                            <span className="boldtext"> - For a given search query, how does search performance compare for each model/layer configuration? </span>
+                             Explore this using the compare models view.
+                            </li>
+                        <li></li>
+                    </ul>
+                    
+                    
+                
+                        
+                    
+    
+                    {/* <div className="flex flexwrap">
                         <div className="flex35 answerarea mr10">
                             <div>
                                 <div> How well do features from a layer capture similarity in a dataset?</div>
                                 <div> <strong>Hint: </strong> Try the UMAP visualization view.</div>
-                                {/* <img className="qimg rad4 pt5 " src={process.env.PUBLIC_URL + "/images/umap.jpg"} alt="" /> */}
+                                 
                             </div>
                         </div>
                         <div className="flex35 answerarea mr10">
@@ -74,22 +109,21 @@ class FAQ extends Component {
                         <div className="flex3 answerarea">
                             <div> What features are learned by the models in each layer?</div>
                             <div> <strong>Hint: </strong> Try model explorer view.</div>
-                            {/* <img className="qimg rad4 pt5 " src={process.env.PUBLIC_URL + "/images/patterns.jpg"} alt="" /> */}
-
+                             
                         </div>
-                    </div>
+                    </div> */}
 
 
 
                 </div>
 
 
-                <div className="pb10 sectiontitle">Q:  Does all of this run in Realtime?</div>
+                <div className="pb10 sectiontitle">Q:  Does all of this run in realtime?</div>
                 {/* <div className="horrule mb10 "></div> */}
                 <div className="lh10 answerarea mb20">
                     No. We have precomputed all of the values beforehand. We have extracted features from all images in our dataset
                     using layers from all supported models. We have also precomputed the similarity between each of these features
-                    show these results based on your selection.
+                    show these results based on your selections.
                </div>
 
                 <div className="pb10 sectiontitle">Credits</div>

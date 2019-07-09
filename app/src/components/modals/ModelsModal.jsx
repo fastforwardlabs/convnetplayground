@@ -45,8 +45,9 @@ class ModelsModalContent extends Component {
                 The process begins with random noise (an image that looks like 80's tv static).
 
                 This image is then shown to the channel and based its gradients (derivation), the image pixels are updated to arrive at a final image that maximally excites the channel.  
-                Note: While the resulting visualizations may not all be interpretable, we consistently see increasing pattern responses as we progress
-                through the layers in the model. Read more about visualizations of neurons  <a href="https://distill.pub/2017/feature-visualization/" target="_blank" rel="noopener noreferrer"> here </a> and <a  target="_blank" rel="noopener noreferrer" href="http://yosinski.com/deepvis"></a> here.
+                Note: While the resulting visualizations may not all correspond to identifiable objects/concepts, 
+                we consistently see increasingly complex patterns  as we progress
+                through the layers in the model. Further reading on visualizations of neurons:  <a href="https://distill.pub/2017/feature-visualization/" target="_blank" rel="noopener noreferrer">here</a> and <a  target="_blank" rel="noopener noreferrer" href="http://yosinski.com/deepvis">here</a> .
 
                 <br />  
                 

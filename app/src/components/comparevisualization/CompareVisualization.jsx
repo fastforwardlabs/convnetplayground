@@ -97,7 +97,7 @@ class CompareVisualization extends Component {
                         }
                     });
                 }
-                console.log(bestModels)
+                // console.log(bestModels)
                 this.setState({ bestModels: bestModels })
 
 
