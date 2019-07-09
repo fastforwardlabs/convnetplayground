@@ -17,7 +17,8 @@ class CompareVisualization extends Component {
 
         this.state = {
             modelsList: modelDetails["models"],
-            loadingCompare: true
+            loadingCompare: true,
+            bestModels: []
         }
 
         this.layerScores = { data: [], maxindex: 0 }
@@ -48,6 +49,8 @@ class CompareVisualization extends Component {
 
 
         this.layerScores[model].data.push({ layer: layer.name, index: layer.layer_index, score: weightedScore * 1 })
+
+        // check if we have all layers for current model
         if (this.layerScores[model].data.length == this.props.data.numLayers) {
             this.layerScores[model].data = _.sortBy(this.layerScores[model].data, 'index');
             let maxVal = _.maxBy(this.layerScores[model].data, "score")
@@ -76,10 +79,26 @@ class CompareVisualization extends Component {
                 }
 
                 for (let i = 0; i < textBoxes.length; i++) {
-                    // console.log(svgBoxes[i])
-                    // backStrokes[i].setAttribute("stroke", "green")
                     textBoxes[i].classList.remove("displaynone")
                 }
+
+                // this.layerScores.forEach(each => {
+                //     if (each.data.score = this.overallBestScore) {
+                //         console.log(each.data)
+                //     }
+                // });
+                let bestModels = []
+                for (model in this.layerScores) {
+                    let currentData = this.layerScores[model].data
+                    currentData.forEach(each => {
+                        if (each.score == this.overallBestScore) {
+                            each["model"] = model
+                            bestModels.push(each)
+                        }
+                    });
+                }
+                console.log(bestModels)
+                this.setState({ bestModels: bestModels })
 
 
             }
@@ -230,7 +249,7 @@ class CompareVisualization extends Component {
             .attr("class", "boldtext mediumdesc")
             .text(function () {
                 // let textVal = 
-                return (layerScores.model + " [best: " + layerScores.maxvalue + "%] ").toUpperCase()
+                return (layerScores.model + " [TOP: " + layerScores.maxvalue + "%] ").toUpperCase()
             });
 
         // xaxis label
@@ -249,7 +268,7 @@ class CompareVisualization extends Component {
             .attr("class", function () {
                 return "boldtext displaynone overallbest smalldesc topmodel" + layerScores.maxvalue
             })
-            .text("*TOP");
+            .text("*BEST");
 
 
         //yaxis label
@@ -284,6 +303,12 @@ class CompareVisualization extends Component {
 
     render() {
         let selectedImagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.props.data.dataset + "/" + this.props.data.selectedimage + ".jpg"
+        let bestModelsList = this.state.bestModels.map((best, index) => {
+            // console.log(best)
+            return (
+                <div key={"bestmodel" + index} className="iblock mr5 greentext"> {best.model.toUpperCase()}, </div>
+            )
+        })
         return (
             <div>
                 <div className="flex mb10">
@@ -298,10 +323,12 @@ class CompareVisualization extends Component {
                     </div>
                 </div>
                 {!this.state.loadingCompare &&
-                    <div className="greentext mediumdesc mb10 p10 boldtext">
-                        *TOP : Models whose layers have the highest search score.
+                    <div className=" mediumdesc mb10 boldtext">
+                        Models with *BEST search score - {bestModelsList}.
                     </div>
+                    // <div>{bestModelsList}</div>
                 }
+
                 <div className="comparevisualizationbox">
                     {this.state.loadingCompare &&
                         <InlineLoading

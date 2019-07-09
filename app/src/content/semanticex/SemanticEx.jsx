@@ -45,7 +45,7 @@ class SemanticEx extends Component {
             showtopresults: false,
             viewdatasetby: "category",
             showadvanced: false,
-            topx: 10,
+            topx: 15,
             showcomparemodal: false
         }
         this.updateSimilarity()
@@ -881,7 +881,10 @@ When you select an image (by clicking it), a neural network <span className="ita
 
                                                         <div className="wscore">
                                                             This is the percentage of returned results that belong to the same category
-                                                        as the selected image (weighted by position in the result list). For the current search, <strong>{simCount} / {this.state.topx} results </strong>  are in same category <strong>({selectedCat.toUpperCase()})</strong> .
+                                                        as the selected image (weighted by position in the result list). For the current search,
+                                                        <strong>{simCount} / {this.state.topx} results </strong>  are in same category <strong>({selectedCat.toUpperCase()})</strong>.
+                                                                    Note that this score is conservative - some images may belong to different classes but
+                                                        are <span className="italics"> similar </span> (e.g sedan, beetle, ferrari are <span className="italics">all</span> cars).
                                                         </div>
 
                                                     </Tooltip>

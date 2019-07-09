@@ -32,11 +32,7 @@ class ModelsModalContent extends Component {
 
 <br />
                  {/* An observation of these images show how complexity of learned features increases with deeper layers in the model. */}
-                
-                Channel images are generated using the <a href="https://github.com/tensorflow/lucid/tree/master/lucid" target="_blank" rel="noopener noreferrer" >Lucid Library</a>  which
-                 implements optimization based  <a href="https://distill.pub/2017/feature-visualization/" target="_blank" rel="noopener noreferrer"> feature visualization  </a> for neurons, channels, logits and layers of a neural network. 
-
-                <br />
+                 
                 Note: A layer must be differentiable in order to be visualized using optimization approaches, hence not all layers are visualized.
                 A selection of 30 channels are chosen for convenience.
 
@@ -50,11 +46,16 @@ class ModelsModalContent extends Component {
 
                 This image is then shown to the channel and based its gradients (derivation), the image pixels are updated to arrive at a final image that maximally excites the channel.  
                 Note: While the resulting visualizations may not all be interpretable, we consistently see increasing pattern responses as we progress
-                through the layers in the model.
+                through the layers in the model. Read more about visualizations of neurons  <a href="https://distill.pub/2017/feature-visualization/" target="_blank" rel="noopener noreferrer"> here </a> and <a  target="_blank" rel="noopener noreferrer" href="http://yosinski.com/deepvis"></a> here.
 
-                <br/>  
-                     
+                <br />  
                 
+                <div className="boldtext mt10"> What library is used to create the visualizations? </div>
+                Channel images are generated using the <a href="https://github.com/tensorflow/lucid/tree/master/lucid" target="_blank" rel="noopener noreferrer" >Lucid Library</a>  which
+                 implements optimization based  <a href="https://distill.pub/2017/feature-visualization/" target="_blank" rel="noopener noreferrer"> feature visualization  </a> for neurons, channels, logits and layers of a neural network. 
+
+                 <br /> 
+                 <br /> 
                  
             </div>
         );
