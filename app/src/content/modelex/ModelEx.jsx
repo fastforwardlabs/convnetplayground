@@ -228,6 +228,7 @@ class ModelEx extends Component {
     }
 
     toggleModelsModal(e) {
+        e.preventDefault()
         this.setState({ showmodelorientationmodal: !(this.state.showmodelorientationmodal) })
         // console.log(this.state.showmodelorientationmodal) 
     }
@@ -419,8 +420,10 @@ class ModelEx extends Component {
                     
                 These images/visualizations represent an example of what the given neurons have  <span className="italics"> learned to look for </span>.
                 They are <span className="italics"> generated </span> using 
-                an interative <a href="https://distill.pub/2017/feature-visualization/" target="_blank" rel="noopener noreferrer"> optimization</a> process which synthesizes input that causes the neurons to have high activation. 
-               
+                an interative <a href="https://distill.pub/2017/feature-visualization/" target="_blank" rel="noopener noreferrer"> optimization</a> process which synthesizes input that causes 
+                        the neurons to have high
+                activation.  <a onClick={this.toggleModelsModal.bind(this)} href="">Learn more.</a>
+                       
                 </div>
                     
                </div>

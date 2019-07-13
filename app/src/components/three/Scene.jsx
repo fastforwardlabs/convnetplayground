@@ -78,7 +78,7 @@ class Scene extends Component {
         const height = this.mount.clientHeight
 
         this.fov = 15;
-        this.near = 0.1;
+        this.near = 0.001;
         this.far = 90;
         this.tweenDuration = 800
 

@@ -44,28 +44,32 @@ class FAQ extends Component {
                </div> */}
 
 
-                <div className="pb10 sectiontitle pt4"> Q:  So .. What is a Convolutional Neural Network? </div>
+                <div className="pb10 sectiontitle pt4"> Q:  So .. What are Convolutional Neural Networks? </div>
                 {/* <div className="horrule mb10"></div> */}
                 <div className="lh10 mb20 answerarea">
-                    A Convolutional Neural Network (CNN or ConvNet) is a class
-                    of <a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Deep_learning#Deep_neural_networks">deep neural networks </a>  
+                    Convolutional Neural Networks (CNN or ConvNet) ar a class
+                    of <a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Deep_learning#Deep_neural_networks">deep neural networks</a>  
                     mostly applied to the task of image analysis.
-                    CNNs learn hierarchical representations - early layers in a CNN learn low level features (e.g. lines, edges, shapes, colours) while later layers learn high level concepts (e.g eyes, legs, faces, doors etc) depending on the dataset used for training.
+                    CNNs learn hierarchical representations - early layers in a CNN learn low level features 
+                    (e.g. colours, lines, edges, shapes) while later layers learn high level concepts (e.g eyes, legs, faces, doors etc) 
+                    depending on the dataset used for training. For more information on ConvNets, we
+                    recommend the <a target="_blank" rel="noopener noreferrer" href="http://cs231n.stanford.edu/">CS231n Stanford Course</a> .
                </div>
 
                 <div className="pb10 sectiontitle"> Q: What questions can I ask with ConvNet Playground? </div>
                 {/* <div className="horrule mb10"></div> */}
                 <div className="lh10 mb20 answerarea">
 
-                Convnet playground focuses on  a simple implementation of semantic 
-                    
-                <span className=" italics">
-                 search - given a dataset of existing images, and a new arbitrary image, find a subset of images from the 
+                Convnet playground focuses on  a simple example of 
+                    semantic search using 
+                        
+                neural networks - <span className=" italics">
+                   given a dataset of existing images, and a new arbitrary image (search query), find a subset of images from the 
                         dataset that are most similar to the new image.       
                 </span>
                     
-                To achieve this, we extract features (embeddings) for images in our dataset and compute similarity as the distance between these embeddings.
-                    We perform this using multiple configurations (datasets, models, layers distance metrcis) 
+                In this implementation, we extract features (embeddings) for images in our dataset and compute similarity as the distance between these embeddings.
+                    We perform this using multiple configurations (datasets, models, layers distance metrics) 
                     and allow the user to interactively ask questions of the results.
                     
     
@@ -73,19 +77,30 @@ class FAQ extends Component {
                         <li>
                             <span className="boldtext"> - How does semantic search (vanilla pretrained models) perform?  </span>
                             
+                            Hint: We included a search score to <span className="italics">quantify</span> how well each model works for a given query.  
                             Explore this with the top search results view and search score metric.
                             </li>
                         <li> 
                             <span className="boldtext"> - How well does each model/layer configuration capture “semantic meaning” for a given dataset?  </span>
-                            Explore this using UMAP embeddings visualization of extracted features. 
+                            Hint: A good model should extract embeddings where similar images are close to each other, 
+                            and disimilar images are far from each other. 
+                            You can explore this using the UMAP embeddings visualization view (advanced options). 
 
                         </li>
                         <li>
                             <span className="boldtext"> - For a given search query, how does search performance compare for each model/layer configuration? </span>
-                             Explore this using the compare models view.
+                             Hint: Use  the compare models view  (advanced options).
                             </li>
                         <li></li>
                     </ul>
+                    
+                    <div className=" pb10">
+                        Note that the approach in this prototype (use of features from pretrained models) is relatively simple and 
+                        hence has limitations (scale, matching multiple objects in search query, accuracy). 
+                        In practice, we can extend this work by fine-tuning specialized models for given datasets, 
+                        leveraging additional information (e.g text descriptions, interaction logs, purchase logs etc)
+                        in constructing more meaningful embeddings or using a two stage approach (extract object crops and use as search queries). 
+                    </div>
                     
                     
                 
