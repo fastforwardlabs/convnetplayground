@@ -662,7 +662,7 @@ class SemanticEx extends Component {
                              <strong> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()}   </strong>
                                 {/* <strong>  {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index}  </strong> */}
                                 {/* <strong> DISTANCE METRIC: </strong>   {this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()} ] */}
-                                model ]</span>.
+                                pretrained on imagenet ]</span>.
 When you select an image (by clicking it), a neural network <span className="italics"> looks </span> at the content of all images in our dataset
                             and shows you the  <strong> top {this.state.topx} </strong> most similar ones to the selected image.
                           </div>
@@ -881,9 +881,9 @@ When you select an image (by clicking it), a neural network <span className="ita
 
                                                         <div className="wscore">
                                                             This is the percentage of returned results that belong to the same category
-                                                        as the selected image (weighted by position in the result list). For the current search,
-                                                        <strong>{simCount} / {this.state.topx} results </strong>  are in same category <strong>({selectedCat.toUpperCase()})</strong>.
-                                                                    Note that this score is conservative - some images may belong to different classes but
+                                                        as the selected image (weighted by position in the result list). For the current
+                                                        search, <strong>{simCount} / {this.state.topx} results </strong>  are in same category <strong>({selectedCat.toUpperCase()})</strong>.
+                                                                            Note that this score is conservative - some images may belong to different classes but
                                                         are <span className="italics"> similar </span> (e.g sedan, beetle, ferrari are <span className="italics">all</span> cars).
                                                         </div>
 

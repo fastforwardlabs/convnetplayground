@@ -47,9 +47,9 @@ class FAQ extends Component {
                 <div className="pb10 sectiontitle pt4"> Q:  So .. What are Convolutional Neural Networks? </div>
                 {/* <div className="horrule mb10"></div> */}
                 <div className="lh10 mb20 answerarea">
-                    Convolutional Neural Networks (CNN or ConvNet) ar a class
-                    of <a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Deep_learning#Deep_neural_networks">deep neural networks</a>  
-                    mostly applied to the task of image analysis.
+                    Convolutional Neural Networks (CNN or ConvNet) are a class
+                    of <a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Deep_learning#Deep_neural_networks">deep neural networks</a> mostly 
+                    applied to the task of image analysis.
                     CNNs learn hierarchical representations - early layers in a CNN learn low level features 
                     (e.g. colours, lines, edges, shapes) while later layers learn high level concepts (e.g eyes, legs, faces, doors etc) 
                     depending on the dataset used for training. For more information on ConvNets, we
@@ -60,7 +60,7 @@ class FAQ extends Component {
                 {/* <div className="horrule mb10"></div> */}
                 <div className="lh10 mb20 answerarea">
 
-                Convnet playground focuses on  a simple example of 
+                ConvNet playground focuses on  a simple example of 
                     semantic search using 
                         
                 neural networks - <span className=" italics">
@@ -68,7 +68,7 @@ class FAQ extends Component {
                         dataset that are most similar to the new image.       
                 </span>
                     
-                In this implementation, we extract features (embeddings) for images in our dataset and compute similarity as the distance between these embeddings.
+                &nbsp; In this implementation, we extract features (embeddings) for images in our dataset and compute similarity as the distance between these embeddings.
                     We perform this using multiple configurations (datasets, models, layers distance metrics) 
                     and allow the user to interactively ask questions of the results.
                     
@@ -90,7 +90,11 @@ class FAQ extends Component {
                         <li>
                             <span className="boldtext"> - For a given search query, how does search performance compare for each model/layer configuration? </span>
                              Hint: Use  the compare models view  (advanced options).
-                            </li>
+                        </li>
+                        <li>
+                            <span className="boldtext"> - What type of features/patterns are detected by various layers in a pretrained model? </span>
+                             Hint: Use  the model explorer tab to view examples of patterns learned by  layers in 8 models pretrained on imagenet.
+                        </li>
                         <li></li>
                     </ul>
                     
@@ -144,18 +148,18 @@ class FAQ extends Component {
                 <div className="pb10 sectiontitle">Credits</div>
                 <div className="lh10 answerarea mb10 pb20">
                     This project was created by Victor Dibia (<a target="_blank" rel="noopener noreferrer" href="https://twitter.com/vykthur">@vykthur</a>) at Fast Forward Labs.
-                    This work builds on many interesting projects and tools aimed at making Neural Networks more accessible
-                    via interactive experiences. Some of these projects include  &nbsp;
+                    It builds on many related projects and tools aimed at making Neural Networks more accessible
+                    via interactive experiences. Some of these related projects include  &nbsp;
                     <a target="_blank" rel="noopener noreferrer" href="https://distill.pub/2017/feature-visualization/">Feature Visualization,</a> &nbsp;
                     <a target="_blank" rel="noopener noreferrer" href="https://playground.tensorflow.org">Tensorflow Playgroud,</a> &nbsp;
                     <a target="_blank" rel="noopener noreferrer" href="https://teachablemachine.withgoogle.com">Teachable Machine,</a> &nbsp;
                     <a target="_blank" rel="noopener noreferrer" href="https://transcranial.github.io/keras-js/#/">Keras.js </a> &nbsp; and many others.&nbsp;
-                    This project uses
+                    ConvNet Playground uses
                     the <a target="_blank" rel="noopener noreferrer" href="https://github.com/tensorflow/lucid/tree/master/lucid">lucid</a> and <a target="_blank" rel="noopener noreferrer" href="https://github.com/totti0223/lucid4keras">lucid4keras</a> library
                     to visualize features learned by channels in a
                     layer, <a target="_blank" rel="noopener noreferrer" href="https://anseki.github.io/leader-line/">leader-line </a> for drawing svg lines
                     and <a target="_blank" rel="noopener noreferrer" href="https://www.carbondesignsystem.com/">carbon</a> design system for layout.
-                  Thanks to Grant Custer valuable <a target="_blank" rel="noopener noreferrer" href="https://observablehq.com/@bryakas/using-three-js-for-2d-data-visualization">pointers on Three.js</a> and the rest of the
+                  Thanks to Grant Custer for valuable <a target="_blank" rel="noopener noreferrer" href="https://observablehq.com/@bryakas/using-three-js-for-2d-data-visualization">pointers on Three.js</a> and the rest of the
                                 Fast Forward Labs team for feedback and guidance!
                      
                 </div>

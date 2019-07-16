@@ -25,7 +25,7 @@ class SemanticModalContent extends Component {
 
                 <div className="boldtext mt10"> Extracting Similarity Using Convolutional Networks </div>
                 Semantic search explores the use features extracted (embeddings) from images using layers in a CNN to compute the "similarity" between images.
-                We have precomputed the extracted features from images in 4 datasets, using 8 different CNN models
+                We have precomputed the extracted features from images in 4 datasets, using 7 different CNN models (pretrained on imagenet)
                 and 8 <i>selected layers </i> from each model. We have also computed the similarity
                 between all of these features using 4 different similarity metrics. This demo allows you interactively explore the results of these computations.
                 Start by performing a search (clicking an image).
