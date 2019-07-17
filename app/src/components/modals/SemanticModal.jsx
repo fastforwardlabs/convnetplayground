@@ -76,14 +76,14 @@ class SemanticModalContent extends Component {
                 This in turn offers opportunity to evaluate how various models hand these overlaps.
                 <br />
 
-                <strong> [Fashion200] </strong>  A collection of 200 images (10 categories) of real fashion models from the
-                 <a href="https://www.kaggle.com/paramaggarwal/fashion-product-images-dataset" target="_blank" rel="noopener noreferrer">Kaggle Fashion Product Images Dataset</a> .
+                <strong> [Fashion200] </strong>  A collection of 200 images (10 categories) of real fashion models from
+                the <a href="https://www.kaggle.com/paramaggarwal/fashion-product-images-dataset" target="_blank" rel="noopener noreferrer">Kaggle Fashion Product Images Dataset</a> .
 Images have a max width of 300px. Categories include flipflops, menjeans, menshirt, mentshirt, sandals, sportshoe, womenheels, womenjeans, womentshirt.
                 <br />
 
-                <strong>[TinyImagenet200]</strong>  This dataset contains 64px * 64px images and is a subset (200) of the
-                 <a href="https://tiny-imagenet.herokuapp.com/" target="_blank" rel="noopener noreferrer" >Tiny Imagenet Visual Recognition Challenge dataset.</a>
-                It consists of images from 10 categories (arch, bottle, bridge, bus, face, frog, goldfish, sandals, teapot, tractor).
+                <strong>[TinyImagenet200]</strong>  This dataset contains 64px * 64px images and is a subset (200) of
+                the <a href="https://tiny-imagenet.herokuapp.com/" target="_blank" rel="noopener noreferrer" >Tiny Imagenet Visual Recognition Challenge dataset.</a> It consists of
+                images from 10 categories (arch, bottle, bridge, bus, face, frog, goldfish, sandals, teapot, tractor).
                 <br />
 
                 <strong>[Cifar10] </strong> This is a subset (200 images) of the popular

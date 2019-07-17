@@ -21,7 +21,7 @@
     width: 6.2em; */
 }
 .maxh16{
-    max-height:  11em;
+    max-height:  12em;
     overflow: scroll;
 }
 .mynotif{
@@ -213,6 +213,11 @@ div.bx--modal-container{
     background:  rgba(209, 209, 209, 0.3);
 }
 
+.advancedgreyborder{
+    background:  rgba(209, 209, 209, 0.5);
+    margin: 0px 7px 0px 0px;
+    /* border: 1px solid  rgba(209, 209, 209, 0.9); */
+}
 .advancedoptionsbox{
     /* min-width: 50em; */
 }

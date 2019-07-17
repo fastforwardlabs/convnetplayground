@@ -673,12 +673,12 @@ When you select an image (by clicking it), a neural network <span className="ita
                     <div className="flex5">
                         <div className="mynotif lh10    instructions lightbluehightlight maxh16">
                             <div className="boldtext pb5 advancedoptionsbox"> Advanced Options</div>
-                            <div className=" flex">
+                            <div className="advancedgreyborder rad2 iblock pr10 pl10">
                                 {/* <div className="mr10 pt10">Advanced options </div> */}
-                                <div>
+                                <div className="boldtext">
                                     <Toggle
                                         id="advancedoptionstoggle"
-                                        className='smalldesc'
+                                        className='smalldesc boldtext'
                                         labelA='Off'
                                         labelB='On'
                                         // onChange action('onChange'),
@@ -885,7 +885,7 @@ When you select an image (by clicking it), a neural network <span className="ita
                                                             This is the percentage of returned results that belong to the same category
                                                         as the selected image (weighted by position in the result list). For the current
                                                         search, <strong>{simCount} / {this.state.topx} results </strong>  are in same category <strong>({selectedCat.toUpperCase()})</strong>.
-                                                                                                                                                        Note that this score is conservative - some images may belong to different classes but
+                                                                                                                                                                                                                                                                        Note that this score is conservative - some images may belong to different classes but
                                                         are <span className="italics"> similar </span> (e.g sedan, beetle, ferrari are <span className="italics">all</span> cars).
                                                         </div>
 
@@ -917,13 +917,13 @@ When you select an image (by clicking it), a neural network <span className="ita
 
                 <div className="">
                     {/* <div className="horrule mt10"></div> */}
-                    <div className="mb10 mt10">
+                    <div className="mb10 mt10 ">
                         {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greyhighlight clickable unselectable greymoreinfo iblock mr10"}> {this.state.viewalldataset ? " View Images by Category" : "View All Images in Dataset"}   </div> */}
                         <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr5 " + (this.state.viewdatasetby == "all" ? "active" : "")} viewby="all">  All </div>
                         <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (this.state.viewdatasetby == "category" ? "active" : "")} viewby="category">  By  Category </div>
                         {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (this.state.viewdatasetby == "graph" ? "active" : "")} viewby="graph">  Graph </div> */}
 
-                        <div className="boldtext sectiontitle  iblock  mr10"> DATASET: [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
+                        <div className="boldtext sectiontitle  iblock   h100 mt10  mr10"> DATASET: [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
                         <div className="iblock pt10">  {this.state.datasetsList[this.state.selecteddataset].description}   </div>
                     </div>
                     {/* <div className="horrule mb10"></div> */}

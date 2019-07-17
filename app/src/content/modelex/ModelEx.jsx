@@ -409,7 +409,7 @@ class ModelEx extends Component {
                 <div className="flex">
                 <div className="flex5 mr10 mynotif lh10 instructions lightbluehightlight maxh16">
                     <div className="boldtext pb5 advancedoptionsbox"> Optimization Based Feature Visualization </div>
-                    This demo allows you explore visualizations of patterns learned by channels (groups of neurons) in each layer of a Convolutional Neural Network (pretrained on <strong> imagenet</strong>).
+                    This demo allows you to explore visualizations of patterns learned by channels (groups of neurons) in each layer of a Convolutional Neural Network (pretrained on <strong> imagenet</strong>).
                     
                     To begin, <strong> click </strong>  on a model, and a layer to view visualizations of selected channels in that layer.
     

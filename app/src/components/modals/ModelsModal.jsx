@@ -8,7 +8,7 @@ class ModelsModalContent extends Component {
                 
                 <br/>
         
-                This section of the prototype allows you <strong>view visualizations</strong> of the channels (groups of neurons) across layers in 
+                This section of the prototype allows you to <strong>view visualizations</strong> of the channels (groups of neurons) across layers in 
                 9 convolutional neural network models (pretrained on imagenet).
 
                 <br />

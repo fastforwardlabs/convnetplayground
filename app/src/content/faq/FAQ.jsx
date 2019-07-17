@@ -51,7 +51,7 @@ class FAQ extends Component {
                     of <a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Deep_learning#Deep_neural_networks">deep neural networks</a> mostly 
                     applied to the task of image analysis.
                     CNNs learn hierarchical representations which are useful for multiple tasks - early layers in a CNN learn low level features 
-                    (e.g. colours, lines, edges, shapes) while later layers learn high level concepts (e.g eyes, legs, faces, doors etc) 
+                    (e.g. colours, lines, edges, shapes) while later layers learn high level concepts (e.g eyes, legs, faces, doors, etc.) 
                     depending on the dataset used for training. For more information on ConvNets, we
                     recommend the <a target="_blank" rel="noopener noreferrer" href="http://cs231n.stanford.edu/">CS231n Stanford Course</a> .
                </div>
@@ -83,7 +83,7 @@ class FAQ extends Component {
                         <li> 
                             <span className="boldtext"> - How well does each model/layer configuration capture “semantic meaning” for a given dataset?  </span>
                             Hint: A good model should extract embeddings where similar images are close to each other, 
-                            and disimilar images are far from each other. 
+                            and dissimilar images are far from each other. 
                             You can explore this using the UMAP embeddings visualization view (advanced options). 
 
                         </li>
@@ -103,7 +103,8 @@ class FAQ extends Component {
                         hence has limitations (scale, matching multiple objects in search query, accuracy). 
                         In practice, we can extend this work by fine-tuning specialized models for given datasets, 
                         leveraging additional information (e.g text descriptions, interaction logs, purchase logs etc)
-                        in constructing more meaningful embeddings or using a two stage approach for matching multiple objects the search query (extract object crops and use as search queries). 
+                        in constructing more meaningful embeddings or 
+                        using a two stage approach for matching multiple objects in the search query (extract object crops and use as search queries). 
                     </div>
                     
                     
@@ -142,7 +143,7 @@ class FAQ extends Component {
                 <div className="lh10 answerarea mb20">
                     No. We have precomputed all of the values beforehand. We have extracted features from all images in our dataset
                     using layers from all supported models. We have also precomputed the similarity between each of these features
-                    show these results based on your selections.
+                    and show these results based on your selections.
                </div>
 
                 <div className="pb10 sectiontitle">Credits</div>
@@ -155,7 +156,7 @@ class FAQ extends Component {
                     <a target="_blank" rel="noopener noreferrer" href="https://teachablemachine.withgoogle.com">Teachable Machine,</a> &nbsp;
                     <a target="_blank" rel="noopener noreferrer" href="https://transcranial.github.io/keras-js/#/">Keras.js </a> &nbsp; and many others.&nbsp;
                     ConvNet Playground uses
-                    the <a target="_blank" rel="noopener noreferrer" href="https://github.com/tensorflow/lucid/tree/master/lucid">lucid</a> and <a target="_blank" rel="noopener noreferrer" href="https://github.com/totti0223/lucid4keras">lucid4keras</a> library
+                    the <a target="_blank" rel="noopener noreferrer" href="https://github.com/tensorflow/lucid/tree/master/lucid">lucid</a> and <a target="_blank" rel="noopener noreferrer" href="https://github.com/totti0223/lucid4keras">lucid4keras</a> libraries
                     to visualize features learned by channels in a
                     layer, <a target="_blank" rel="noopener noreferrer" href="https://anseki.github.io/leader-line/">leader-line </a> for drawing svg lines
                     and <a target="_blank" rel="noopener noreferrer" href="https://www.carbondesignsystem.com/">carbon</a> design system for layout.
