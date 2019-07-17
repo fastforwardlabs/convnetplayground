@@ -6,7 +6,7 @@ import SemanticModalContent from "../../components/modals/SemanticModal"
 import { greyColor, blueColor, abbreviateString, loadJSONData, makeFriendly, boundWidth, checkInView, animOptions, LeaderLine } from "../../components/helperfunctions/HelperFunctions"
 import CompareVisualization from "../../components/comparevisualization/CompareVisualization"
 import Scene from "../../components/three/Scene"
-
+import * as _ from 'lodash'
 
 let containerOffset = -80
 let elementOffset = -385
@@ -43,7 +43,7 @@ class SemanticEx extends Component {
             showumap: false,
             showdatasetmodal: false,
             showtopresults: false,
-            viewdatasetby: "category",
+            viewdatasetby: "all",
             showadvanced: false,
             topx: 15,
             showcomparemodal: false
@@ -409,8 +409,8 @@ class SemanticEx extends Component {
         let self = this
         loadedJSON.then(function (data) {
             if (data) {
-
-                self.setState({ datasetArray: data["0"] })
+                let dArray = _.shuffle(data["0"])
+                self.setState({ datasetArray: dArray })
             }
         })
 
@@ -536,7 +536,6 @@ class SemanticEx extends Component {
         }
 
 
-
         let datasetimagesList = this.state.datasetArray.map((alldata, index) => {
             let imagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + alldata[0] + ".jpg"
             // let similarityScore = (alldata[1] * 1).toFixed(3) 
@@ -547,6 +546,9 @@ class SemanticEx extends Component {
             )
             return (returnValue)
         });
+
+        // datasetimagesList = _.shuffle(datasetimagesList)
+        // alert(datasetimagesList.length)
 
         // let datasetSimpleimagesList = this.state.datasetArray.map((alldata, index) => {
         //     let imagePath = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + alldata[0] + ".jpg"
@@ -573,7 +575,7 @@ class SemanticEx extends Component {
                     // style={{maxWidth: '1600px', width: '100%'}}
                     passiveModal={false}
                     primaryButtonText="Get Started"
-                    secondaryButtonText="Close"
+                    // secondaryButtonText=""
                     modalHeading="Semantic Search"
                     modalLabel="ConvNet Playground"
                     onRequestSubmit={this.toggleSemanticModal.bind(this)}
@@ -657,14 +659,14 @@ class SemanticEx extends Component {
 
                         <div className="mynotif h100 lh10 pl  instructions lightbluehightlight maxh16 mr10">
                             <div className="boldtext pb5"> Welcome!</div>
-                            This demo allows you perform <strong> semantic image search </strong> using convolutional neural networks
+                            This demo allows you to perform <strong> semantic image search </strong> using convolutional neural networks
                             <span className="smalldesc"> [
                              <strong> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()}   </strong>
                                 {/* <strong>  {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index}  </strong> */}
                                 {/* <strong> DISTANCE METRIC: </strong>   {this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()} ] */}
-                                pretrained on imagenet ]</span>.
+                                ]</span>.
 When you select an image (by clicking it), a neural network <span className="italics"> looks </span> at the content of all images in our dataset
-                            and shows you the  <strong> top {this.state.topx} </strong> most similar ones to the selected image.
+                            and shows you the  <strong> top {this.state.topx} </strong> most similar images to the selected image.
                           </div>
                     </div>
 
@@ -883,7 +885,7 @@ When you select an image (by clicking it), a neural network <span className="ita
                                                             This is the percentage of returned results that belong to the same category
                                                         as the selected image (weighted by position in the result list). For the current
                                                         search, <strong>{simCount} / {this.state.topx} results </strong>  are in same category <strong>({selectedCat.toUpperCase()})</strong>.
-                                                                            Note that this score is conservative - some images may belong to different classes but
+                                                                                                                                                        Note that this score is conservative - some images may belong to different classes but
                                                         are <span className="italics"> similar </span> (e.g sedan, beetle, ferrari are <span className="italics">all</span> cars).
                                                         </div>
 
@@ -917,9 +919,9 @@ When you select an image (by clicking it), a neural network <span className="ita
                     {/* <div className="horrule mt10"></div> */}
                     <div className="mb10 mt10">
                         {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greyhighlight clickable unselectable greymoreinfo iblock mr10"}> {this.state.viewalldataset ? " View Images by Category" : "View All Images in Dataset"}   </div> */}
-                        {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr5 " + (this.state.viewdatasetby == "all" ?  "active" : "" ) } viewby="all">  All </div> */}
-                        {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (this.state.viewdatasetby == "category" ?  "active" : "" ) } viewby="category">  By  Category </div> */}
-                        {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (this.state.viewdatasetby == "graph" ?  "active" : "" ) } viewby="graph">  Graph </div> */}
+                        <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr5 " + (this.state.viewdatasetby == "all" ? "active" : "")} viewby="all">  All </div>
+                        <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (this.state.viewdatasetby == "category" ? "active" : "")} viewby="category">  By  Category </div>
+                        {/* <div onClick={this.toggleViewDatasetBy.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (this.state.viewdatasetby == "graph" ? "active" : "")} viewby="graph">  Graph </div> */}
 
                         <div className="boldtext sectiontitle  iblock  mr10"> DATASET: [ {this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()} ] </div>
                         <div className="iblock pt10">  {this.state.datasetsList[this.state.selecteddataset].description}   </div>

@@ -50,7 +50,7 @@ class FAQ extends Component {
                     Convolutional Neural Networks (CNN or ConvNet) are a class
                     of <a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Deep_learning#Deep_neural_networks">deep neural networks</a> mostly 
                     applied to the task of image analysis.
-                    CNNs learn hierarchical representations - early layers in a CNN learn low level features 
+                    CNNs learn hierarchical representations which are useful for multiple tasks - early layers in a CNN learn low level features 
                     (e.g. colours, lines, edges, shapes) while later layers learn high level concepts (e.g eyes, legs, faces, doors etc) 
                     depending on the dataset used for training. For more information on ConvNets, we
                     recommend the <a target="_blank" rel="noopener noreferrer" href="http://cs231n.stanford.edu/">CS231n Stanford Course</a> .
@@ -103,7 +103,7 @@ class FAQ extends Component {
                         hence has limitations (scale, matching multiple objects in search query, accuracy). 
                         In practice, we can extend this work by fine-tuning specialized models for given datasets, 
                         leveraging additional information (e.g text descriptions, interaction logs, purchase logs etc)
-                        in constructing more meaningful embeddings or using a two stage approach (extract object crops and use as search queries). 
+                        in constructing more meaningful embeddings or using a two stage approach for matching multiple objects the search query (extract object crops and use as search queries). 
                     </div>
                     
                     
@@ -165,7 +165,8 @@ class FAQ extends Component {
                 </div>
 
 
-
+                <br />
+                <br/><br/>
             </div>
         );
     }

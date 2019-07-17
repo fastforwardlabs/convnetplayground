@@ -88,12 +88,17 @@ class CompareVisualization extends Component {
                 //     }
                 // });
                 let bestModels = []
+                let bestModelsMap = {}
                 for (model in this.layerScores) {
                     let currentData = this.layerScores[model].data
                     currentData.forEach(each => {
                         if (each.score == this.overallBestScore) {
                             each["model"] = model
-                            bestModels.push(each)
+                            if (bestModelsMap[model] == undefined) {
+                                bestModels.push(each)
+                                bestModelsMap[model] = ""
+                            }
+
                         }
                     });
                 }

@@ -335,7 +335,7 @@ class ModelEx extends Component {
                     // style={{maxWidth: '1600px', width: '100%'}}
                     passiveModal={false}
                     primaryButtonText="Get Started"
-                    secondaryButtonText="Close"
+                    // secondaryButtonText="Close"
                     modalHeading="Model Explorer"
                     modalLabel="ConvNet Playground"
                     onRequestSubmit={this.toggleModelsModal.bind(this)}
@@ -418,7 +418,7 @@ class ModelEx extends Component {
                 <div className="flex5 mynotif lh10 instructions lightbluehightlight maxh16">
                         <div className="boldtext pb5 advancedoptionsbox"> What do these images mean? </div>
                     
-                These images/visualizations represent an example of what the given neurons have  <span className="italics"> learned to look for </span>.
+                These images/visualizations represent an <span className="italics">example</span> of what the given neurons in the pretrained model have  <span className="italics"> learned to look for </span>.
                 They are <span className="italics"> generated </span> using 
                 an interative <a href="https://distill.pub/2017/feature-visualization/" target="_blank" rel="noopener noreferrer"> optimization</a> process which synthesizes input that causes 
                         the neurons to have high

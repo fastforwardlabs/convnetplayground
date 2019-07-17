@@ -47,9 +47,9 @@ class AppHeader extends Component {
                         {/* <HeaderGlobalAction aria-label="User Avatar">
                     <UserAvatar20 />
                 </HeaderGlobalAction> */}
-                        <HeaderGlobalAction aria-label="App Switcher">
+                        {/* <HeaderGlobalAction aria-label="App Switcher">
                             <AppSwitcher20 />
-                        </HeaderGlobalAction>
+                        </HeaderGlobalAction> */}
                     </HeaderGlobalBar>
                 </Header>
                 <div> <br /> <br />  <br />  <br /> </div>
