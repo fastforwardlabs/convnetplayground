@@ -114,7 +114,10 @@ def generate_model_viz_details():
 # generate_model_viz_details()
 # visualize_similarity()
 
-d_utils.process_comparisons()
+# d_utils.process_comparisons()
+
+f_utils.compress_files(base_path)
+f_utils.compress_files(base_path_public_models)
 
 
 # print(m_utils.get_all_model_details())
