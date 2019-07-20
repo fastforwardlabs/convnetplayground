@@ -208,12 +208,18 @@ class ModelEx extends Component {
 
     updateNeuronList() {
        
-        let selectedModel = this.state.modelsList[this.state.selectedmodel].name
-        let currentLayers = this.layerList[selectedModel]
-        let selectedlayer = this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name
-        let neuronList = currentLayers[selectedlayer]
-        // console.log("uppy neuron", neuronList)
+        const {model, layer} = this.getSelections(); 
+        let currentLayers = this.layerList[model]
+        let neuronList = currentLayers[layer] 
         this.setState({neuronList: neuronList})
+    }
+
+    getSelections() {
+       
+        return {
+            model: this.state.modelsList[this.state.selectedmodel].name ,
+            layer: this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name ,
+        };
     }
 
     clickModelImage(e) {
@@ -252,16 +258,21 @@ class ModelEx extends Component {
         // console.log(this.state.showmodelorientationmodal) 
     }
 
-    kepressLayer(e) {
-        console.log(e.keyCode)
-    }
-
+ 
     scrollEndedHandler() {
         window.clearTimeout(this.isScrolling);
         let self = this
         this.isScrolling = setTimeout(function () {
             self.drawLines()
         }, 200);
+    }
+
+
+    clickCuratedBox(e) {
+        const {model, layer} = this.getSelections();  
+        let imagesList = this.interestingImages[model][layer][e.target.getAttribute("indexvalue") *1]["images"]
+        console.log(imagesList)
+        this.setState({neuronList: imagesList})
     }
 
 
@@ -316,7 +327,7 @@ class ModelEx extends Component {
                 <div key={ldata + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
                     <div className="datasettitles"> {"layer " + ldata.layer_index} </div>
                     <div className="smalldesc pb5"> {abbreviateString(ldata.name, 11).toLowerCase()} </div>
-                    <img ref={"layerimg" + index} onKeyPress={this.kepressLayer.bind(this)} onClick={this.clickLayerImage.bind(this)} src={imagePath} alt="" className={"datasetbox rad2 " + (this.state.selectedlayer == index ? "active" : "")} indexvalue={index} />
+                    <img ref={"layerimg" + index}   onClick={this.clickLayerImage.bind(this)} src={imagePath} alt="" className={"datasetbox rad2 " + (this.state.selectedlayer == index ? "active" : "")} indexvalue={index} />
                 </div>
             )
         });
@@ -337,12 +348,19 @@ class ModelEx extends Component {
             )
         }); 
 
-        let interestingImagesList = this.interestingImages[selectedModel][selectedlayer] .map((data, index) => {
-            // console.log(data)
+        let interestingImagesList = this.interestingImages[selectedModel][selectedlayer].map((data, index) => {
+            
+            let imagePath = process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + "0" + ".jpg"
+            console.log(imagePath, data)
             return (
-                <div className="iblock mr10 p10  greyhighlight unselectable greymoreinfo clickable" key={"interesting" + index}  >
-                    {data.title}
+                <div onClick={this.clickCuratedBox.bind(this)} className="iblock curatedbox mr10 mb5 clickable" key={"interesting" + index}  indexvalue={index}   >
+                    
+                    <div className="flex">
+                    <img  src={imagePath} alt="" className={"flex curatedboximg rad2 " + (this.state.selectedneuron == index ? "active" : "")} indexvalue={index} pathinfo={imagePath} neuronindex={data} />
+                    <div className="iblock  p10  greyhighlight unselectable greymoreinfo clickable">  {data.title} </div>
 
+
+                    </div>
                 </div>
             )
         });
@@ -485,7 +503,7 @@ class ModelEx extends Component {
                     </div>
 
 
-                    <div style={{ zIndex: 100 }} className="flex6 mr10">
+                    <div style={{ zIndex: 100 }} className="flex4 mr10">
                         <div className="mt20 pb10 sectiontitle" > Select Layer </div>
                         <div className="horrule mb10"></div>
                         <div ref="layerscrollbox" className="scrollwindow layerwindow  ">
@@ -505,7 +523,7 @@ class ModelEx extends Component {
 
                     </div>
 
-                    <div style={{ zIndex: 100 }} className="">
+                    <div style={{ zIndex: 100 }} className="flex2">
                         <div className="mt20 pb10 sectiontitle" >
 
                             <div className="iblock">

@@ -99,3 +99,15 @@
 .neurondivbox{
     max-height: 24em; 
 }
+
+.curatedboximg{
+    height: 2.5em;
+    width: 2.5em;
+}
+
+.curatedboximg:hover{
+   opacity: 0.6;
+}
+.curatedboximg{
+    opacity: 1
+ }

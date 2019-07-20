@@ -197,6 +197,7 @@ def curate_interesting():
     for model in models:
         if model != ".DS_Store":
             layers = os.listdir(os.path.join(models_path, model))
+            layers.sort()
             layer_holder = {}
             for layer in layers:
                 if layer != ".DS_Store":
