@@ -42,6 +42,8 @@ class ModelEx extends Component {
             neuronList: nList,
             showmodelorientationmodal: !this.props.pageviewed,
             showmoremodelinfomodal: false,
+            showneuronsubset: true,
+            numneuronsshow: 30,
 
         }
 
@@ -225,6 +227,10 @@ class ModelEx extends Component {
 
     toggleModelMoreInfoModal(e) {
         this.setState({ showmoremodelinfomodal: !(this.state.showmoremodelinfomodal) })
+    }
+
+    toggleViewNeuronSubset(e) {
+        this.setState({ showneuronsubset: !(this.state.showneuronsubset) })
     }
 
     toggleModelsModal(e) {
@@ -528,8 +534,11 @@ class ModelEx extends Component {
 
 
                 <div className="mt20 mb10 ">
-                    <div className="sectiontitle iblock mr10"> Visualizations  of {neuronImageList.length} Channels  in layer {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index} of {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </div>
-                    <div className="iblock"> A selection of channels in the current layer.</div>
+                    <div onClick={this.toggleViewNeuronSubset.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr5 " + (this.state.showneuronsubset  ? "active" : "")} viewby="all"> Max {Math.min(neuronImageList.length, this.state.numneuronsshow)} </div>
+                    <div onClick={this.toggleViewNeuronSubset.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (!this.state.showneuronsubset ? "active" : "")} viewby="category">  All ({neuronImageList.length}) </div>
+                        
+                    <div className="sectiontitle iblock mr10 mt20"> Visualizations  of {this.state.showneuronsubset ? Math.min(this.state.numneuronsshow, neuronImageList.length) : neuronImageList.length} Channels  in layer {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index} of {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </div>
+                    {/* <div className="iblock"> A selection of channels in the current layer.</div> */}
                 </div>
 
                 <div className="horrule mb10"></div>
@@ -553,7 +562,8 @@ class ModelEx extends Component {
                     <div className="flexfull ">
 
                         <div className=" scrollwindow neurondivbox ">
-                            {neuronImageList}
+                            {this.state.showneuronsubset && neuronImageList.slice(0, Math.min(neuronImageList.length, this.state.numneuronsshow))}
+                            {!this.state.showneuronsubset && neuronImageList }
                         </div>
                     </div>
 
