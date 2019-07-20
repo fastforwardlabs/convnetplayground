@@ -192,18 +192,31 @@ def curate_interesting():
     main_dict = {}
     models_path = "app/public/assets/models"
     models = os.listdir(models_path)
-    sample_objects = [{"title": "colors", "images": [1, 2, 3, 4, 5]}, {
-        "title": "ball", "images": [1, 2, 3, 4, 5]}]
+    models.sort()
+    sample_objects = [
+        {"title": "colors", "images": [
+            {"layer": "", "image": 0}, {"layer": "", "image": 1}]},
+        {"title": "edges", "images": [
+            {"layer": "", "image": 0}, {"layer": "", "image": 1}]},
+        {"title": "textures", "images": [
+            {"layer": "", "image": 0}, {"layer": "", "image": 1}]},
+        {"title": "patterns", "images": [
+            {"layer": "", "image": 0}, {"layer": "", "image": 1}]},
+        {"title": "parts", "images": [
+            {"layer": "", "image": 0}, {"layer": "", "image": 1}]},
+        {"title": "objects", "images": [
+            {"layer": "", "image": 0}, {"layer": "", "image": 1}]},
+    ]
     for model in models:
         if model != ".DS_Store":
-            layers = os.listdir(os.path.join(models_path, model))
-            layers.sort()
-            layer_holder = {}
-            for layer in layers:
-                if layer != ".DS_Store":
-                    layer_holder[layer] = sample_objects
+            # layers = os.listdir(os.path.join(models_path, model))
+            # layers.sort()
+            # layer_holder = {}
+            # for layer in layers:
+            #     if layer != ".DS_Store":
+            #         layer_holder[layer] = sample_objects
 
-        main_dict[model] = layer_holder
+            main_dict[model] = sample_objects
 
     print(main_dict)
     f_utils.save_json_file(

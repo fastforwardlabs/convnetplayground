@@ -34,17 +34,23 @@ class ModelEx extends Component {
 
         let nList = []
 
+        this.curateholder = []
+        this.curatemode = false
+
         this.state = {
             selectedmodel: 0,
             selectedlayer: 0,
             selectedneuron: 0,
+            selectedneuronpath: "",
             modelsList: modelDetails["models"],
             layersList: modelDetailsViz[modelDetails["models"][0].name],
             neuronList: nList,
             showmodelorientationmodal: !this.props.pageviewed,
             showmoremodelinfomodal: false,
-            showneuronsubset: true,
+            showneuronsubset: false,
             numneuronsshow: 30,
+            showcurated: false,
+            curatedList: []
 
         }
 
@@ -170,6 +176,11 @@ class ModelEx extends Component {
             this.cycleLayerModel(1)
         }
 
+        if (event.keyCode == 81) {
+            this.curatemode ? document.getElementsByTagName("body")[0].style.cursor = "grab" : document.getElementsByTagName("body")[0].style.cursor = "wait";
+            this.curatemode = !this.curatemode
+        }
+
     }
 
     componentDidMount() {
@@ -184,7 +195,15 @@ class ModelEx extends Component {
 
         this.refs["layerscrollbox"].addEventListener("scroll", this.scrollEndedHandler, false)
         this.refs["modelscrollbox"].addEventListener("scroll", this.scrollEndedHandler, false)
-        this.updateNeuronList()
+         
+
+        const { model, layer } = this.getSelections(); 
+        let currentLayers = this.layerList[model]
+        let neuronList = currentLayers[layer] 
+        this.setState({neuronList: neuronList})
+        
+        let imagePath = process.env.PUBLIC_URL + "/assets/models/" + model + "/" + layer + "/" + neuronList[0] + ".jpg"
+        this.setState({selectedneuronpath: imagePath })
     }
 
     componentWillUnmount() {
@@ -198,11 +217,14 @@ class ModelEx extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (this.state.selectedmodel !== prevState.selectedmodel) {
-            this.drawLines()
+            this.drawLines() 
         }
         if (this.state.selectedlayer !== prevState.selectedlayer) {
             this.recolorLines()
+        }
+        if (this.state.selectedmodel !== prevState.selectedmodel || this.state.selectedlayer !== prevState.selectedlayer) {
             this.updateNeuronList()
+            this.setState({ showcurated: false })
         }
     }
 
@@ -226,6 +248,7 @@ class ModelEx extends Component {
         this.setState({ selectedmodel: e.target.getAttribute("indexvalue") })
         this.setState({ selectedlayer: 0 })
         this.lastclicked = "model"
+        this.curateholder = []
     }
 
     clickLayerImage(e) {
@@ -239,8 +262,19 @@ class ModelEx extends Component {
 
         // this.setState({selectedneuronpath: e.target.getAttribute("pathinfo")  })
         this.setState({ selectedneuron: e.target.getAttribute("indexvalue") })
+        this.setState({selectedneuronpath: e.target.getAttribute("pathinfo")})
         this.lastclicked = "neuron"
 
+
+        // delete curation mode 
+        if (this.curatemode) {
+            const { model, layer } = this.getSelections();  
+            let val = { layer: layer, layerindex: this.state.selectedlayer, image: e.target.getAttribute("neuronindex") }
+            this.curateholder.push(val)
+            this.refs["curateholder"].innerHTML =  JSON.stringify(this.curateholder)
+    
+        }
+       
     }
 
 
@@ -270,9 +304,14 @@ class ModelEx extends Component {
 
     clickCuratedBox(e) {
         const {model, layer} = this.getSelections();  
-        let imagesList = this.interestingImages[model][layer][e.target.getAttribute("indexvalue") *1]["images"]
+        let imagesList = this.interestingImages[model][e.target.getAttribute("indexvalue") *1]["images"]
         console.log(imagesList)
-        this.setState({neuronList: imagesList})
+        this.setState({showcurated: true})
+        this.setState({curatedList: imagesList})
+    }
+
+    clickCuratedNeuronImage(e) {
+        this.setState({selectedneuronpath: e.target.getAttribute("pathinfo")})
     }
 
 
@@ -339,7 +378,6 @@ class ModelEx extends Component {
 
         let neuronImageList = this.state.neuronList.map((ldata, index) => {
             let imagePath = process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + ldata + ".jpg"
-          
             return (
                 <div key={ldata + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
                     <div className="datasettitles"> Channel {ldata}</div>
@@ -348,23 +386,35 @@ class ModelEx extends Component {
             )
         }); 
 
-        let interestingImagesList = this.interestingImages[selectedModel][selectedlayer].map((data, index) => {
+        let curatedNeuronList = this.state.curatedList.map((ldata, index) => {
+            let imagePath = process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + ldata["layer"] + "/" + ldata["image"] + ".jpg"
+            return (
+                <div key={ "curatedbox" + index} className="iblock datasetfullbox clickable mb10 ">
+                    <div className="boldtext smalldesc mb2">Channel {ldata["image"]}</div>
+                    <div className="smalldesc mb2"> Layer {ldata["layerindex"]}  </div>
+                    <img onClick={this.clickCuratedNeuronImage.bind(this)} src={imagePath} alt="" className={"curatedneuronbox rad2 " + (this.state.selectedneuron == index ? "active" : "")} indexvalue={index} pathinfo={imagePath} neuronindex={ldata["image"]} />
+                </div>
+            )
+        }); 
+
+
+        let interestingImagesList  = this.interestingImages[selectedModel].map((data, index) => {
             
-            let imagePath = process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + "0" + ".jpg"
-            console.log(imagePath, data)
+            let imagePath = process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + data["images"][0]["layer"] + "/" + data["images"][0]["image"] + ".jpg"
+            // console.log(imagePath, data["images"][0])
             return (
                 <div onClick={this.clickCuratedBox.bind(this)} className="iblock curatedbox mr10 mb5 clickable" key={"interesting" + index}  indexvalue={index}   >
                     
-                    <div className="flex">
+                    <div className="flex unclickable">
                     <img  src={imagePath} alt="" className={"flex curatedboximg rad2 " + (this.state.selectedneuron == index ? "active" : "")} indexvalue={index} pathinfo={imagePath} neuronindex={data} />
-                    <div className="iblock  p10  greyhighlight unselectable greymoreinfo clickable">  {data.title} </div>
+                    <div className="iblock  p10  greyhighlight  greymoreinfo ">  {data.title} </div>
 
 
                     </div>
                 </div>
             )
         });
-        // console.log(this.interestingImages[selectedModel][selectedlayer]  )
+        // console.log(this.interestingImages[selectedModel] )
 
         // console.log(this.state.modelsList[this.state.selectedmodel].all_layers)
 
@@ -516,7 +566,7 @@ class ModelEx extends Component {
                             </div>
                             <div className="flexfull ">
                                 {/* <div className="smalldesc boldtext pt4"> Layer [ {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index}  of {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].totallayers}  ] {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type} </div> */}
-                                <div className="smalldesc pt4"> <strong>Type: {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type} </strong> | <span className="smalldesc"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}</span> </div>
+                                <div className="smalldesc pt4"> <strong>Type: {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type} </strong> | <span className="smalldesc"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toLowerCase()}</span> </div>
                                 <div className="smalldesc pt3"> {makeFriendly(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].parametercount)} trainable parameters, {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} channels </div>
                             </div>
                         </div>
@@ -528,10 +578,7 @@ class ModelEx extends Component {
 
                             <div className="iblock">
                                 Curated Examples
-                            </div>
-
-                           
-
+                            </div> 
                             <div className="iblock">
                                 <Tooltip
                                     direction="left"
@@ -551,7 +598,7 @@ class ModelEx extends Component {
 
                         </div>
                         <div className="horrule mb10"></div>
-                        <div className="  ">
+                        <div className="scrollwindow layerwindow ">
                             {/* <img className="enlargedneuron rad4" src={process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron] + ".jpg"} alt="" /> */}
                             <div>
                                 {interestingImagesList}
@@ -565,8 +612,20 @@ class ModelEx extends Component {
 
                 </div>
 
+                <div ref="curateholder"></div>
 
-                <div className="mt20 mb10 ">
+                {/* Curated images box */}
+                <div  className={"mt20 mb10 " + (this.state.showcurated ? "" : "displaynone") }>
+                <div className="sectiontitle iblock mr10 mt20 mb10"> Visualizations  of curated layers </div>
+                <div className="horrule mb10"></div>
+
+                    <div className="scrollwindow neurondivbox ">
+                        {curatedNeuronList}
+                    </div>
+                </div>
+                
+                {/* All layer visualizations box */}
+                <div className= {"mt20 mb10 " + (this.state.showcurated ? "displaynone" : "") } >
                     <div onClick={this.toggleViewNeuronSubset.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr5 " + (this.state.showneuronsubset  ? "active" : "")} viewby="all"> Max {Math.min(neuronImageList.length, this.state.numneuronsshow)} </div>
                     <div onClick={this.toggleViewNeuronSubset.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (!this.state.showneuronsubset ? "active" : "")} viewby="category">  All ({neuronImageList.length}) </div>
                         
@@ -588,16 +647,17 @@ class ModelEx extends Component {
 
                             <div onClick={this.twitterShare.bind(this)} className="mb10" > <div className="twitterbutton unselectable p10 clickable  flex greymoreinfo" href=""> Share on twitter </div> </div>
                             <div className="boldtext enlargeddesc mb5  smalldesc">{abbreviateString(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase(), 26)}: {this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron]} / {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} </div>
-                            <img className="enlargedneuron rad4" src={process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron] + ".jpg"} alt="" />
+                            <img className="enlargedneuron rad4" src={this.state.selectedneuronpath} alt="" />
 
                         </div>
                     </div>
-                    <div className="flexfull ">
-
-                        <div className=" scrollwindow neurondivbox ">
+                    <div className="flexfull "> 
+                        <div className="scrollwindow neurondivbox ">
                             {this.state.showneuronsubset && neuronImageList.slice(0, Math.min(neuronImageList.length, this.state.numneuronsshow))}
                             {!this.state.showneuronsubset && neuronImageList }
                         </div>
+
+                        
                     </div>
 
                 </div>
