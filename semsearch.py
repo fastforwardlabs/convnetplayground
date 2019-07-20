@@ -116,8 +116,10 @@ def generate_model_viz_details():
 
 # d_utils.process_comparisons()
 
-f_utils.compress_files(base_path)
-f_utils.compress_files(base_path_public_models)
+# f_utils.compress_files(base_path)
+# f_utils.compress_files(base_path_public_models)
+
+d_utils.curate_interesting()
 
 
 # print(m_utils.get_all_model_details())

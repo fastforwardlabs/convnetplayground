@@ -186,3 +186,24 @@ def process_comparisons():
                             "vgg16", "cosine", "block1_conv1" + ".json")
     data = f_utils.load_json_file(sim_path)
     print(data[:20])
+
+
+def curate_interesting():
+    main_dict = {}
+    models_path = "app/public/assets/models"
+    models = os.listdir(models_path)
+    sample_objects = [{"title": "colors", "images": [1, 2, 3, 4, 5]}, {
+        "title": "ball", "images": [1, 2, 3, 4, 5]}]
+    for model in models:
+        if model != ".DS_Store":
+            layers = os.listdir(os.path.join(models_path, model))
+            layer_holder = {}
+            for layer in layers:
+                if layer != ".DS_Store":
+                    layer_holder[layer] = sample_objects
+
+        main_dict[model] = layer_holder
+
+    print(main_dict)
+    f_utils.save_json_file(
+        "app/src/assets/models/interesting1.json", main_dict)

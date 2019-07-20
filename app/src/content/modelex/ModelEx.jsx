@@ -30,6 +30,7 @@ class ModelEx extends Component {
 
         const modelDetailsViz = require('../../assets/models/models.json');
         const modelDetails = require('../../assets/models/model_details.json');
+        this.interestingImages = require('../../assets/models/interesting.json');
 
         let nList = []
 
@@ -183,6 +184,7 @@ class ModelEx extends Component {
 
         this.refs["layerscrollbox"].addEventListener("scroll", this.scrollEndedHandler, false)
         this.refs["modelscrollbox"].addEventListener("scroll", this.scrollEndedHandler, false)
+        this.updateNeuronList()
     }
 
     componentWillUnmount() {
@@ -200,7 +202,18 @@ class ModelEx extends Component {
         }
         if (this.state.selectedlayer !== prevState.selectedlayer) {
             this.recolorLines()
+            this.updateNeuronList()
         }
+    }
+
+    updateNeuronList() {
+       
+        let selectedModel = this.state.modelsList[this.state.selectedmodel].name
+        let currentLayers = this.layerList[selectedModel]
+        let selectedlayer = this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name
+        let neuronList = currentLayers[selectedlayer]
+        // console.log("uppy neuron", neuronList)
+        this.setState({neuronList: neuronList})
     }
 
     clickModelImage(e) {
@@ -307,28 +320,33 @@ class ModelEx extends Component {
                 </div>
             )
         });
-        let selectedModel = this.state.modelsList[this.state.selectedmodel].name
-        let currentLayers = this.layerList[selectedModel]
+        let selectedModel = this.state.modelsList[this.state.selectedmodel].name 
         let selectedlayer = this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name
-        let neuronList = currentLayers[selectedlayer]
-
+        
         // this.state.neuronList = neuronList
         // this.setState({neuronList: neuronList })
 
-        let neuronImageList
-        if (neuronList) {
-            neuronImageList = currentLayers[selectedlayer].map((ldata, index) => {
-                let imagePath = process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + ldata + ".jpg"
-                // console.log(imagePath)
-                let neuronIndex = ldata.split(".")[0]
-                return (
-                    <div key={ldata + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
-                        <div className="datasettitles"> Channel {neuronIndex}</div>
-                        <img onClick={this.clickNeuronImage.bind(this)} src={imagePath} alt="" className={"neuronbox rad2 " + (this.state.selectedneuron == index ? "active" : "")} indexvalue={index} pathinfo={imagePath} neuronindex={neuronIndex} />
-                    </div>
-                )
-            });
-        }
+        let neuronImageList = this.state.neuronList.map((ldata, index) => {
+            let imagePath = process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + ldata + ".jpg"
+          
+            return (
+                <div key={ldata + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
+                    <div className="datasettitles"> Channel {ldata}</div>
+                    <img onClick={this.clickNeuronImage.bind(this)} src={imagePath} alt="" className={"neuronbox rad2 " + (this.state.selectedneuron == index ? "active" : "")} indexvalue={index} pathinfo={imagePath} neuronindex={ldata} />
+                </div>
+            )
+        }); 
+
+        let interestingImagesList = this.interestingImages[selectedModel][selectedlayer] .map((data, index) => {
+            // console.log(data)
+            return (
+                <div className="iblock mr10 p10  greyhighlight unselectable greymoreinfo clickable" key={"interesting" + index}  >
+                    {data.title}
+
+                </div>
+            )
+        });
+        // console.log(this.interestingImages[selectedModel][selectedlayer]  )
 
         // console.log(this.state.modelsList[this.state.selectedmodel].all_layers)
 
@@ -491,8 +509,10 @@ class ModelEx extends Component {
                         <div className="mt20 pb10 sectiontitle" >
 
                             <div className="iblock">
-                                Channel Vizualization
+                                Curated Examples
                             </div>
+
+                           
 
                             <div className="iblock">
                                 <Tooltip
@@ -501,9 +521,11 @@ class ModelEx extends Component {
                                 >
 
                                     <div className="wscore">
-                                        This is an example of an image that "maximally excites" neurons in
-                                    channel <strong> {this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron]}</strong> of layer <strong>{this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index}</strong>  in the <strong>  {this.state.modelsList[this.state.selectedmodel].name} </strong>  model.
-                                    Learn more about how this is generated <a className="whitetext" href="https://distill.pub/2017/feature-visualization/" target="_blank" rel="noopener noreferrer"> here</a>.
+                                        The images below are a <span className="italics, boldtext">manually curated</span> list of examples where the 
+                                        visualization of channels are human interpretable.
+                                        {/* This is an example of an image that "maximally excites" neurons in
+                                    channel <strong> {this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron]}</strong> of layer <strong>{this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index}</strong>  in the <strong>  {this.state.modelsList[this.state.selectedmodel].name} </strong>  model. */}
+                                    Learn more about how the images are generated <a className="whitetext" href="https://distill.pub/2017/feature-visualization/" target="_blank" rel="noopener noreferrer"> here</a>.
                                 </div>
 
                                 </Tooltip>
@@ -512,20 +534,13 @@ class ModelEx extends Component {
                         </div>
                         <div className="horrule mb10"></div>
                         <div className="  ">
-                            <img className="enlargedneuron rad4" src={process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron] + ".jpg"} alt="" />
-                        </div>
-                        <div className="flex flexwrap pr10">
-                            <div className=" mt10  mr10 ">
-                                {/* <div className=" iblock boldtext datasetdescription  p10 greyhighlight"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}</div> */}
-                                <div className=" iblock boldtext datasetdescription  p10 greyhighlight"> Channel : {this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron]}  </div>
-                            </div>
-                            <div className="flexfull mt5 ">
-                                <div className="smalldesc viewchanneldesc  iblock pt4"> View  <strong> {neuronImageList.length} </strong>  more channels from  layer  <strong>  {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index} </strong> below </div>
-                                {/* <div className="smalldesc boldtext pt4"> {abbreviateString(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase(), 26)}: {this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron]} / {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} </div> */}
-                                {/* <div className="smalldesc pt4"> <strong>Type: {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type} </strong> | <span className="smalldesc"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}</span> </div> */}
-                                {/* <div className="smalldesc pt3"> {makeFriendly(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].parametercount)} trainable parameters, {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} channels </div> */}
+                            {/* <img className="enlargedneuron rad4" src={process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron] + ".jpg"} alt="" /> */}
+                            <div>
+                                {interestingImagesList}
                             </div>
                         </div>
+
+                        
 
                     </div>
 
