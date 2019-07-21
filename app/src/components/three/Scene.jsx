@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import * as THREE from 'three'
 import * as _ from 'lodash'
 import * as d3 from 'd3'
-// import { InlineLoading } from 'carbon-components-react';
+import { InlineLoading } from 'carbon-components-react';
 import * as TWEEN from '@tweenjs/tween.js'
 import { loadJSONData, ColorArrayRGB } from "../../components/helperfunctions/HelperFunctions"
 import "./scene.css"
@@ -24,17 +24,13 @@ class Scene extends Component {
             model: this.props.data.model,
             layer: this.props.data.layer,
             layerindex: this.props.data.layerindex,
-            highlightedindex: 0
+            highlightedindex: 0,
+            mountingStuff: true,
         }
 
         this.setSelected = this.props.setselected
 
-        this.circle_sprite = new THREE.TextureLoader().load(
-            "images/circle-sprite.png",
-            function (texture) { },
-            function (xhr) { console.log((xhr.loaded / xhr.total * 100) + '% loaded'); },
-            function (xhr) { console.log('An error happened'); }
-        )
+
     }
     componentDidUpdate(prevProps, prevState) {
         // console.log("showing both values",prevProps.data, this.props.data)
@@ -89,6 +85,12 @@ class Scene extends Component {
             width / height,
             this.near,
             this.far
+        )
+        this.circle_sprite = new THREE.TextureLoader().load(
+            "images/circle-sprite.png",
+            function (texture) { },
+            function (xhr) { console.log((xhr.loaded / xhr.total * 100) + '% loaded'); },
+            function (xhr) { console.log('An error happened'); }
         )
         const renderer = new THREE.WebGLRenderer({ antialias: true })
         const geometry = new THREE.BoxGeometry(1000, 1000, 1000)
@@ -154,6 +156,10 @@ class Scene extends Component {
         this.hoverContainer = new THREE.Object3D()
         this.scene.add(this.hoverContainer);
 
+        // setTimeout(() => {
+
+        // }, 3000);
+        this.setState({ mountingStuff: false })
 
     }
 
@@ -483,33 +489,46 @@ class Scene extends Component {
                 </div>
             )
         });
+
         return (
             <div className=" positionrelative"
                 style={{ width: '100%', height: '400px' }}
             >
-                <div ref={(tooltipbox) => { this.tooltipbox = tooltipbox }} className="tooltip">
-                    <div className="tooltiptitle" ref={(tooltip) => { this.tooltip = tooltip }}> - </div>
-                    <img className="tooltipimg rad2" ref={(tooltipimg) => { this.tooltipimg = tooltipimg }} src={"/assets/semsearch/datasets/" + this.state.dataset + "/0.jpg"} alt="" />
-                </div>
-                <div className="chartdescription">
-                    <div className=""> Dataset: {this.state.dataset.toUpperCase()} </div>
-                    <div className="charttitle boldtext pt2 "> Model: <span > {this.state.model.toUpperCase()} </span> Model </div>
-                    <div className="charttitle pt2"> Layer: {this.state.layerindex}  [ {this.state.layer} ]   </div>
-                </div>
-                <div className="legendbox ">
-                    <div className="legendtitle boldtext "> Categories </div>
-                    <div className="mt10">
-                        {legendList}
+                {this.state.mountingStuff &&
+                    <div className="mb10">
+                        <InlineLoading
+                            description="loading UMAP Visualization"
+                        >
+
+                        </InlineLoading>
                     </div>
+                }
+                <div className="positionrelative">
+                    <div ref={(tooltipbox) => { this.tooltipbox = tooltipbox }} className="tooltip">
+                        <div className="tooltiptitle" ref={(tooltip) => { this.tooltip = tooltip }}> - </div>
+                        <img className="tooltipimg rad2" ref={(tooltipimg) => { this.tooltipimg = tooltipimg }} src={"/assets/semsearch/datasets/" + this.state.dataset + "/0.jpg"} alt="" />
+                    </div>
+                    <div className="chartdescription">
+                        <div className=""> Dataset: {this.state.dataset.toUpperCase()} </div>
+                        <div className="charttitle boldtext pt2 "> Model: <span > {this.state.model.toUpperCase()} </span> Model </div>
+                        <div className="charttitle pt2"> Layer: {this.state.layerindex}  [ {this.state.layer} ]   </div>
+                    </div>
+                    <div className="legendbox ">
+                        <div className="legendtitle boldtext "> Categories </div>
+                        <div className="mt10">
+                            {legendList}
+                        </div>
+                    </div>
+                    <div className="zoombox smalldesc p10">
+                        <div className="iblock mr5 boldtext"> Zoom: </div>
+                        <div className="iblock" ref="camerazoom"> </div>
+                    </div>
+                    <div
+                        style={{ width: '100%', height: '400px' }}
+                        ref={(mount) => { this.mount = mount }}
+                    />
+
                 </div>
-                <div className="zoombox smalldesc p10">
-                    <div className="iblock mr5 boldtext"> Zoom: </div>
-                    <div className="iblock" ref="camerazoom"> </div>
-                </div>
-                <div
-                    style={{ width: '100%', height: '400px' }}
-                    ref={(mount) => { this.mount = mount }}
-                />
             </div>
         )
     }

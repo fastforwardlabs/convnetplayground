@@ -7,7 +7,7 @@ import { registerGAEvent, greyColor, blueColor, abbreviateString, loadJSONData, 
 import CompareVisualization from "../../components/comparevisualization/CompareVisualization"
 import Scene from "../../components/three/Scene"
 import * as _ from 'lodash'
-
+// import * as THREE from 'three'
 
 
 let containerOffset = -80
@@ -30,10 +30,10 @@ class SemanticEx extends Component {
 
         this.state = {
             selecteddataset: 0,
-            selectedmodel: 5, //modelDetails["models"].length - 1,
+            selectedmodel: 6, //modelDetails["models"].length - 1,
             selectedsimimage: 0,
             hoversimimage: 0,
-            selectedlayer: modelDetails["models"][5].layers.length - 1,
+            selectedlayer: modelDetails["models"][6].layers.length - 1,
             selectedmetric: 0,
             similarityArray: similarityArray,
             datasetArray: [],
@@ -91,6 +91,7 @@ class SemanticEx extends Component {
     }
 
     getNextVisibleLayer(selectedLayer) {
+        elementOffset = -1 * this.refs["modelscrollbox"].offsetTop - 30
         let layerVisible = checkInView(this.refs["layerscrollbox"], this.refs["layerimg" + selectedLayer], true, containerOffset, elementOffset)
         if (layerVisible) {
             console.log(selectedLayer, " is available, returning ")
@@ -107,6 +108,10 @@ class SemanticEx extends Component {
             this.removeLines()
             let self = this;
             let layers = this.state.modelsList[this.state.selectedmodel].layers
+
+
+            elementOffset = -1 * self.refs["modelscrollbox"].offsetTop - 30
+            // console.log("offsettop", self.refs["modelscrollbox"].offsetTop)
 
             // let visibleModel = this.getNextVisible(this.state.selectedmodel)
             // if (visibleModel != this.state.selectedmodel) {
@@ -463,7 +468,7 @@ class SemanticEx extends Component {
 
             return (
                 <div ref={"modelimgbox" + index} key={mdata.name + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
-                    <div className="datasettitles"> {mdata.name.toUpperCase()}</div>
+                    <div className="datasettitles"> {abbreviateString(mdata.name.toUpperCase(), 11)}</div>
                     <div className="smalldesc pb5">{mdata.numlayers} layers </div>
                     <img ref={"modelimg" + index} onClick={this.clickModelImage.bind(this)} src={imagePath} alt="" className={"datasetbox rad2 " + (this.state.selectedmodel == index ? "active" : "")} indexvalue={index} />
                 </div>
@@ -693,7 +698,7 @@ When you select an image (by clicking it), a neural network <span className="ita
                     </div>
 
                     <div className="flex5">
-                        <div className="mynotif lh10    instructions lightbluehightlight maxh16">
+                        <div className="mynotif lh10  h100  instructions lightbluehightlight maxh16">
                             <div className="boldtext pb5 advancedoptionsbox"> Advanced Options</div>
                             <div className="advancedgreyborder rad2 iblock pr10 pl10">
                                 {/* <div className="mr10 pt10">Advanced options </div> */}
@@ -907,7 +912,7 @@ When you select an image (by clicking it), a neural network <span className="ita
                                                             This is the percentage of returned results that belong to the same category
                                                         as the selected image (weighted by position in the result list). For the current
                                                         search, <strong>{simCount} / {this.state.topx} results </strong>  are in same category <strong>({selectedCat.toUpperCase()})</strong>.
-                                                                                                                                                                                                                                                                                                                                                                Note that this score is conservative - some images may belong to different classes but
+                                                                                                                                                                                                                                                                                                                                                                                                                    Note that this score is conservative - some images may belong to different classes but
                                                         are <span className="italics"> similar </span> (e.g sedan, beetle, ferrari are <span className="italics">all</span> cars).
                                                         </div>
 

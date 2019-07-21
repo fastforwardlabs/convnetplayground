@@ -9,14 +9,36 @@ import utils.file_utils as f_utils
 import utils.model_utils as m_utils
 from scipy import spatial
 import json
+from keras import backend as K
+from skimage.io import imread
+
+from efficientnet import center_crop_and_resize, preprocess_input as effpreprocess
+from tensorflow.keras.preprocessing import image as imageprep
 
 
 def get_features(image_path, model, preprocess_input):
-    img = image.load_img(image_path, target_size=(224, 224))
-    img_data = image.img_to_array(img)
+    # image_size = model.input_shape[1]
+    # # img = image.load_img(image_path, target_size=(456, 456))
+    # # img_data = image.img_to_array(img)
+    # # img_data = np.expand_dims(img_data, axis=0)
+    # # # if ("efficient" not in model.name):
+    # # img_data = preprocess_input(img_data)
+    # loaded_image = imread(image_path)
+    # img = center_crop_and_resize(loaded_image, image_size=image_size)
+    # img_data = effpreprocess(img)
+    # img_data = np.expand_dims(img_data, axis=0)
+    # # if ("efficient" not in model.name):
+
+    # extracted_feature = model.predict(img_data)
+
+    image_size = model.input_shape[1]
+    img = imageprep.load_img(image_path, target_size=(image_size, image_size))
+    img = imageprep.img_to_array(img)
+    img_data = preprocess_input(img)
     img_data = np.expand_dims(img_data, axis=0)
-    img_data = preprocess_input(img_data)
+
     extracted_feature = model.predict(img_data)
+
     del img, img_data  # free up memory
     return extracted_feature
 

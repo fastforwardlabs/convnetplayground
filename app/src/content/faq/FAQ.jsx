@@ -152,7 +152,7 @@ class FAQ extends Component {
                     It builds on many related projects and tools aimed at making Neural Networks more accessible
                     via interactive experiences. Some of these related projects include  &nbsp;
                     <a target="_blank" rel="noopener noreferrer" href="https://distill.pub/2017/feature-visualization/">Feature Visualization,</a> &nbsp;
-                    <a target="_blank" rel="noopener noreferrer" href="https://playground.tensorflow.org">Tensorflow Playgroud,</a> &nbsp;
+                    <a target="_blank" rel="noopener noreferrer" href="https://playground.tensorflow.org">Tensorflow Playground,</a> &nbsp;
                     <a target="_blank" rel="noopener noreferrer" href="https://teachablemachine.withgoogle.com">Teachable Machine,</a> &nbsp;
                     <a target="_blank" rel="noopener noreferrer" href="https://transcranial.github.io/keras-js/#/">Keras.js </a> &nbsp; and many others.&nbsp;
                     ConvNet Playground uses

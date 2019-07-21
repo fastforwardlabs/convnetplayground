@@ -24,7 +24,8 @@ class ModelsModalContent extends Component {
                  <div className="boldtext mt10"> Interpretability via Visualizations </div>
                  Interpretable models are models we can "understand". One way to achieve this is to visualize the features learned by 
                  neurons (or groups of neurons) in the model. In this section of the prototype, we present visualizations 
-                 from 30 random channels (groups of neurons) from layers in 9 different models (vgg16, vgg19, mobilenet,  mobilenetv2, xception,  resnet50, inceptionv3, densenet121, nasnetmobile).
+                 from 30 random channels (groups of neurons) from layers in several models 
+                 (vgg16, vgg19, mobilenet,  mobilenetv2, efficientnetb0, xception,  resnet50, inceptionv3, densenet121, nasnetmobile).
                  
                 
                  {/* <img className="mt10 w100" src={process.env.PUBLIC_URL + "/assets/semsearch/images/model.gif"} alt="" />

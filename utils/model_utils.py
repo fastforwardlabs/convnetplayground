@@ -16,8 +16,13 @@ import utils.file_utils as f_utils
 import keras
 
 from tensorflow.keras.models import Model
+from keras.models import Model as KModel
 from tensorflow.keras.applications.vgg16 import VGG16
 import numpy as np
+from efficientnet import EfficientNetB0, EfficientNetB5
+from keras import backend as K
+
+from efficientnet import center_crop_and_resize, preprocess_input as effpreprocess
 
 
 def get_model(model_name="vgg16"):
@@ -40,17 +45,23 @@ def get_model(model_name="vgg16"):
         return (tf.keras.applications.densenet.DenseNet121(weights="imagenet", include_top=False), tf.keras.applications.densenet.preprocess_input)
     elif (model_name == "inceptionv3"):
         return (tf.keras.applications.inception_v3.InceptionV3(weights="imagenet", include_top=False), tf.keras.applications.inception_v3.preprocess_input)
+    elif (model_name == "efficientnetb0"):
+        return (EfficientNetB0(weights='imagenet', include_top=False), effpreprocess)
+    elif (model_name == "efficientnetb5"):
+        return (EfficientNetB5(weights='imagenet', include_top=False), effpreprocess)
 
 
 def get_supported_models():
     model_architectures = [
-        {"name": "vgg16"},
-        {"name": "vgg19"},
-        {"name": "resnet50"},
-        {"name": "mobilenet"},
-        {"name": "xception"},
-        {"name": "densenet121"},
-        {"name": "inceptionv3"},
+        # {"name": "vgg16"},
+        # {"name": "vgg19"},
+        # {"name": "resnet50"},
+        # {"name": "mobilenet"},
+        # {"name": "xception"},
+        # {"name": "densenet121"},
+        # {"name": "inceptionv3"},
+        {"name": "efficientnetb0"},
+        {"name": "efficientnetb5"},
     ]
     return model_architectures
 
@@ -123,12 +134,20 @@ def get_model_layer_names(model_name):
     elif (model_name == "inceptionv3"):
         layer_list = ["conv2d_1", "conv2d_3",  "conv2d_23", "mixed6",
                       "conv2d_54", "conv2d_75", "conv2d_86",  "mixed10"]
+    elif (model_name == "efficientnetb0"):
+        layer_list = ["conv2d_1", "conv2d_5",  "conv2d_10", "conv2d_18",
+                      "conv2d_29", "conv2d_38", "conv2d_59", "conv2d_65"]
+    elif (model_name == "efficientnetb5"):
+        layer_list = ["conv2d_1", "conv2d_15",  "conv2d_50", "conv2d_78",
+                      "conv2d_99", "conv2d_100", "conv2d_130",  "conv2d_155"]
 
     return layer_list
 
 
 def get_intermediate_models(model, layer_list):
     intermediate_model_list = []
+    if ("efficient" in model.name):
+        Model = KModel
     for layer_name in layer_list:
         intermediate_model = Model(
             inputs=model.input, outputs=model.get_layer(layer_name).output)
@@ -159,6 +178,8 @@ def get_model_viz_details(model_params):
         dir_path = os.path.join(model_params["model_dir"], model_name)
         f_utils.mkdir(dir_path)
         layer_list = os.listdir(dir_path)
+        if (".DS_Store" in layer_list):
+            layer_list.remove(".DS_Store")
         # layer_list.sort()
         layer_array = []
         all_layer_array = []
@@ -169,6 +190,7 @@ def get_model_viz_details(model_params):
         for layer in layer_list:
             if layer in model_layers_dict:
                 layer_array.append(model_layers_dict[layer])
+            # if (layer)
             neuron_list = os.listdir(os.path.join(dir_path, layer))
             neuron_list = [x.split(".")[0] for x in neuron_list]
 

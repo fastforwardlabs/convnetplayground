@@ -1,3 +1,4 @@
+from keras import backend as K
 import tensorflow as tf
 from utils import dataset_utils as d_utils
 from utils import model_utils as m_utils
@@ -36,7 +37,8 @@ def generate_embeddings(dataset_params):
     model_details = m_utils.get_supported_models()
     similarity_metrics = feat_utils.list_distance_metrics()
     for model_detail in model_details:
-        tf.logging.info(" >>   >>> " + model_detail["name"] + " >>   >>> ")
+        tf.logging.info(
+            " >>   >>> " + model_detail["name"] + " >>   >>> ")
         dataset_input_path = os.path.join(
             base_path_public, dataset_params["path"])
         model_params = {"name": model_detail["name"]}
@@ -98,13 +100,14 @@ def generate_model_viz_details():
     m_utils.get_model_viz_details(model_params)
 
 
-# start_time = datetime.now()
-# supported_datasets = d_utils.get_supported_datasets()
-# for dataset in supported_datasets:
-#     dataset_params = {"name": dataset["name"],   "path": os.path.join(base_path_public,
-#                                                                       "datasets/" + dataset["name"]), "dataset_size": 200}
-#     generate_embeddings(dataset_params)
-# print("Time taken:", datetime.now() - start_time)
+start_time = datetime.now()
+supported_datasets = d_utils.get_supported_datasets()
+for dataset in supported_datasets:
+    K.clear_session()
+    dataset_params = {"name": dataset["name"],   "path": os.path.join(base_path_public,
+                                                                      "datasets/" + dataset["name"]), "dataset_size": 200}
+    generate_embeddings(dataset_params)
+print("Time taken:", datetime.now() - start_time)
 
 # d_utils.rename_files(os.path.join(base_path_public, "datasets/tinyimagenet"))
 
@@ -119,7 +122,7 @@ def generate_model_viz_details():
 # f_utils.compress_files(base_path)
 # f_utils.compress_files(base_path_public_models)
 
-d_utils.curate_interesting()
+# d_utils.curate_interesting()
 
 
 # print(m_utils.get_all_model_details())

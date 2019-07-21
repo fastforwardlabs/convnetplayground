@@ -70,7 +70,8 @@ class ModelEx extends Component {
         let self = this;
         let layers = this.state.modelsList[this.state.selectedmodel].layers
         let containerOffset = -60
-        let elementOffset = -280
+        let elementOffset = -1 * self.refs["modelscrollbox"].offsetTop - 30
+        // console.log("offsettop", self.refs["modelscrollbox"].offsetTop)
         let modelVisible = checkInView(self.refs["modelscrollbox"], self.refs["modelimg" + this.state.selectedmodel], true, containerOffset, elementOffset)
 
         let maxLineWidth = 3.5
@@ -277,10 +278,10 @@ class ModelEx extends Component {
     clickModelImage(e) {
         registerGAEvent("modelexplorer","modelchange", this.state.modelsList[e.target.getAttribute("indexvalue")].name, this.componentLoadedTime)
         this.setState({ selectedmodel: e.target.getAttribute("indexvalue") }, () => { 
-            this.setState({ selectedlayer: 0 }, () => {
-                this.updateNeuronList()
-                
-              })
+            
+        })
+        this.setState({ selectedlayer: 0 }, () => {
+            this.updateNeuronList() 
         })
        
         this.lastclicked = "model"
@@ -290,7 +291,9 @@ class ModelEx extends Component {
         this.setState({ selectedlayer: e.target.getAttribute("indexvalue") }, () => {
             this.updateNeuronList() 
         })
-        this.setState({ selectedneuron: 0 })
+        this.setState({ selectedneuron: 0 }, () => {
+           
+        })
         this.lastclicked = "layer"
     }
 
@@ -365,7 +368,7 @@ class ModelEx extends Component {
             return (
 
                 <div ref={"modelimgbox" + index} key={mdata.name + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
-                    <div className="datasettitles"> {mdata.name.toUpperCase()}</div>
+                    <div className="datasettitles"> {abbreviateString(mdata.name.toUpperCase(), 10)}</div>
                     <div className="smalldesc pb5">{mdata.numlayers} layers </div>
 
                     <img ref={"modelimg" + index} onClick={this.clickModelImage.bind(this)} src={imagePath} alt="" className={"datasetbox rad2 " + (this.state.selectedmodel == index ? "active" : "")} indexvalue={index} />
