@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactGA from 'react-ga';
 import {
     Route,
     HashRouter,
@@ -26,7 +27,8 @@ import Scene from "../components/three/Scene"
 import { createBrowserHistory } from 'history';
 
 
-// ReactGA.initialize("UA-131578973-1")
+ReactGA.initialize("UA-53030428-17")
+ReactGA.pageview(window.location.pathname + window.location.search);
 const history = createBrowserHistory({
     basename: "", // The base URL of the app (see below)
     forceRefresh: false, // Set true to force full page refreshes
@@ -54,6 +56,8 @@ function updateLh(location) {
 
 history.listen(location => {
     updateLh(location)
+    ReactGA.set({ page: location.hash })
+    ReactGA.pageview(location.hash)
 });
 
 

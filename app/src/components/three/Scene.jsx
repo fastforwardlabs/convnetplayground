@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import * as THREE from 'three'
 import * as _ from 'lodash'
 import * as d3 from 'd3'
+// import { InlineLoading } from 'carbon-components-react';
 import * as TWEEN from '@tweenjs/tween.js'
 import { loadJSONData, ColorArrayRGB } from "../../components/helperfunctions/HelperFunctions"
 import "./scene.css"

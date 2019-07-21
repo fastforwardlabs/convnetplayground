@@ -21,7 +21,7 @@ class FAQ extends Component {
     }
 
     componentDidMount() {
-        document.title = "ConvNet Playground | About ";
+        document.title = "ConvNet Playground | FAQ ";
     }
 
     clickDatasetImage() {

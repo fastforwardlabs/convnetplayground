@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { DataTable, Modal, Tooltip } from 'carbon-components-react';
 import ModelsModalContent from "../../components/modals/ModelsModal"
-import { greyColor, blueColor, abbreviateString, makeFriendly, checkInView, animOptions, LeaderLine } from "../../components/helperfunctions/HelperFunctions"
+import {registerGAEvent, greyColor, blueColor, abbreviateString, makeFriendly, checkInView, animOptions, LeaderLine } from "../../components/helperfunctions/HelperFunctions"
 import "./modelex.css"
 
 const {
@@ -177,18 +177,14 @@ class ModelEx extends Component {
 
     }
 
-    componentDidMount() {
-         
-        
+    componentDidMount() { 
         let self = this
         document.title = "ConvNet Playground | Model Explorer";
 
         // Load query string parameters if available
 
-        const queryString = require('query-string'); 
-        console.log(this.props.location)
-       
-        if (this.props.location.includes("model")) {
+        const queryString = require('query-string');  
+        if (this.props.location.includes("channel")) {
             const { model, layer, channel } = queryString.parse(this.props.location);
             console.log("query string", model, layer, channel, self.state.modelsList.length)
             
@@ -216,10 +212,8 @@ class ModelEx extends Component {
                         
                     }); 
                    
-                    // break;
-                }
-                
-               
+                    break;
+                } 
             };
         }
       
@@ -233,18 +227,21 @@ class ModelEx extends Component {
         this.refs["layerscrollbox"].addEventListener("scroll", this.scrollEndedHandler, false)
         this.refs["modelscrollbox"].addEventListener("scroll", this.scrollEndedHandler, false)
 
-       
+        //timer on when component mounted
+        this.componentLoadedTime = (new Date()).getTime()
     }
 
     updateNeuronList() { 
        
-        this.setState({neuronList:this.getNeuronList()})
+        this.setState({ neuronList: this.getNeuronList() })
+        // console.log("updateNeuronList called")
     }
 
     getNeuronList() {
         const {model, layer} = this.getSelections(); 
         let currentLayers = this.layerList[model]
         let neuronList = currentLayers[layer] 
+        // console.log(neuronList)
         return neuronList
     }
 
@@ -268,24 +265,31 @@ class ModelEx extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (this.state.selectedmodel !== prevState.selectedmodel) {
             this.drawLines()
+           
+            
         }
         if (this.state.selectedlayer !== prevState.selectedlayer) {
-            this.recolorLines()
+            this.recolorLines() 
         }
-
-        if (this.state.selectedmodel !== prevState.selectedmodel || this.state.selectedlayer !== prevState.selectedlayer) {
-            this.updateNeuronList()
-        }
+ 
     }
 
     clickModelImage(e) {
-        this.setState({ selectedmodel: e.target.getAttribute("indexvalue") })
-        this.setState({ selectedlayer: 0 })
+        registerGAEvent("modelexplorer","modelchange", this.state.modelsList[e.target.getAttribute("indexvalue")].name, this.componentLoadedTime)
+        this.setState({ selectedmodel: e.target.getAttribute("indexvalue") }, () => { 
+            this.setState({ selectedlayer: 0 }, () => {
+                this.updateNeuronList()
+                
+              })
+        })
+       
         this.lastclicked = "model"
     }
 
     clickLayerImage(e) {
-        this.setState({ selectedlayer: e.target.getAttribute("indexvalue") })
+        this.setState({ selectedlayer: e.target.getAttribute("indexvalue") }, () => {
+            this.updateNeuronList() 
+        })
         this.setState({ selectedneuron: 0 })
         this.lastclicked = "layer"
     }
@@ -310,6 +314,7 @@ class ModelEx extends Component {
 
     toggleModelsModal(e) {
         e.preventDefault()
+        registerGAEvent("modelexplorer","modelmodal", this.state.showmodelorientationmodal ? "close" : "open", this.componentLoadedTime)
         this.setState({ showmodelorientationmodal: !(this.state.showmodelorientationmodal) })
         // console.log(this.state.showmodelorientationmodal) 
     }
@@ -368,8 +373,7 @@ class ModelEx extends Component {
             )
         });
 
-        let selectedModel = this.state.modelsList[this.state.selectedmodel].name
-        let currentLayers = this.layerList[selectedModel]
+        let selectedModel = this.state.modelsList[this.state.selectedmodel].name 
         let selectedlayer = this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name
          
         let layerImageList = this.state.modelsList[this.state.selectedmodel].layers.map((ldata, index) => {
@@ -390,7 +394,7 @@ class ModelEx extends Component {
 
         // this.state.neuronList = neuronList
         // this.setState({neuronList: neuronList })
-
+        // console.log(this.state.neuronList)
         let neuronImageList = this.state.neuronList.map((ldata, index) => {
             let imagePath = process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + ldata + ".jpg"
           

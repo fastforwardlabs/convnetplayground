@@ -3,10 +3,12 @@ import { Modal, Toggle, Tooltip } from 'carbon-components-react';
 // import Notification20 from '@carbon/icons-react/lib/notification/20';
 import "./semanticex.css"
 import SemanticModalContent from "../../components/modals/SemanticModal"
-import { greyColor, blueColor, abbreviateString, loadJSONData, makeFriendly, boundWidth, checkInView, animOptions, LeaderLine } from "../../components/helperfunctions/HelperFunctions"
+import { registerGAEvent, greyColor, blueColor, abbreviateString, loadJSONData, makeFriendly, boundWidth, checkInView, animOptions, LeaderLine } from "../../components/helperfunctions/HelperFunctions"
 import CompareVisualization from "../../components/comparevisualization/CompareVisualization"
 import Scene from "../../components/three/Scene"
 import * as _ from 'lodash'
+
+
 
 let containerOffset = -80
 let elementOffset = -385
@@ -58,6 +60,8 @@ class SemanticEx extends Component {
 
         this.keyFunction = this.keyFunction.bind(this);
         this.scrollEndedHandler = this.scrollEndedHandler.bind(this)
+
+
 
     }
 
@@ -240,6 +244,10 @@ class SemanticEx extends Component {
         document.addEventListener("keydown", this.keyFunction, false);
         this.refs["layerscrollbox"].addEventListener("scroll", this.scrollEndedHandler, false)
         this.refs["modelscrollbox"].addEventListener("scroll", this.scrollEndedHandler, false)
+
+
+        //timer on when component mounted
+        this.componentLoadedTime = (new Date()).getTime()
     }
 
 
@@ -290,27 +298,32 @@ class SemanticEx extends Component {
     }
 
     clickDatasetImage(e) {
+        registerGAEvent("semanticsearch", "datasetchange", this.state.datasetsList[e.target.getAttribute("indexvalue")].name, this.componentLoadedTime)
         this.setState({ selecteddataset: e.target.getAttribute("indexvalue") })
         // this.setState({ selectedmodel: 0 })
         this.lastclicked = "dataset"
     }
 
     clickModelImage(e) {
+        registerGAEvent("semanticsearch", "modelchange", this.state.modelsList[e.target.getAttribute("indexvalue")].name, this.componentLoadedTime)
         this.setState({ selectedmodel: e.target.getAttribute("indexvalue") })
         // this.setState({ selectedlayer: 0 })
         this.lastclicked = "model"
     }
 
     clickLayerImage(e) {
+        registerGAEvent("semanticsearch", "layerchange", this.state.datasetsList[this.state.selecteddataset].name + "," + this.state.modelsList[this.state.selectedmodel].layers[e.target.getAttribute("indexvalue")].name, this.componentLoadedTime)
         this.setState({ selectedlayer: e.target.getAttribute("indexvalue") })
         this.lastclicked = "layer"
     }
 
     clickMetricImage(e) {
+        registerGAEvent("semanticsearch", "metricchange", this.state.distanceMetricList[e.target.getAttribute("indexvalue")], this.componentLoadedTime)
         this.setState({ selectedmetric: e.target.getAttribute("indexvalue") })
     }
 
     clickSimilarImage(e) {
+        registerGAEvent("semanticsearch", "searchquery", this.state.datasetsList[this.state.selecteddataset].name + "," + e.target.getAttribute("indexvalue"), this.componentLoadedTime)
         this.setSelectedImage(e.target.getAttribute("indexvalue"))
     }
 
@@ -332,7 +345,11 @@ class SemanticEx extends Component {
     }
 
     toggleSemanticModal(e) {
+
+        registerGAEvent("semanticsearch", "semanticmodal", this.state.showorientationmodal ? "close" : "open", this.componentLoadedTime)
         this.setState({ showorientationmodal: !(this.state.showorientationmodal) })
+
+
     }
 
 
@@ -342,6 +359,7 @@ class SemanticEx extends Component {
     }
 
     toggleUMAPView(e) {
+        registerGAEvent("semanticsearch", "umapviewe", this.state.showumap ? "close" : "open", this.componentLoadedTime)
         this.setState({ showumap: !(this.state.showumap) })
     }
 
@@ -354,6 +372,7 @@ class SemanticEx extends Component {
     }
 
     toggleShowCompare(e) {
+        registerGAEvent("semanticsearch", "comparemodels", this.state.showcomparemodal ? "off" : "on", this.componentLoadedTime)
         this.setState({ showcomparemodal: !(this.state.showcomparemodal) })
     }
 
@@ -361,6 +380,7 @@ class SemanticEx extends Component {
         this.setState({ viewdatasetby: e.target.getAttribute("viewby") })
     }
     toggleAdvancedOptions(e) {
+        registerGAEvent("semanticsearch", "advancedoptions", this.state.showadvanced ? "off" : "on", this.componentLoadedTime)
         this.setState({ showmodelconfig: !(this.state.showadvanced) })
         this.setState({ showadvanced: !(this.state.showadvanced) })
     }
@@ -415,6 +435,8 @@ class SemanticEx extends Component {
         })
 
     }
+
+
 
 
 
@@ -885,7 +907,7 @@ When you select an image (by clicking it), a neural network <span className="ita
                                                             This is the percentage of returned results that belong to the same category
                                                         as the selected image (weighted by position in the result list). For the current
                                                         search, <strong>{simCount} / {this.state.topx} results </strong>  are in same category <strong>({selectedCat.toUpperCase()})</strong>.
-                                                                                                                                                                                                                                                                        Note that this score is conservative - some images may belong to different classes but
+                                                                                                                                                                                                                                                                                                                                                                Note that this score is conservative - some images may belong to different classes but
                                                         are <span className="italics"> similar </span> (e.g sedan, beetle, ferrari are <span className="italics">all</span> cars).
                                                         </div>
 
