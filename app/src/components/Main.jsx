@@ -104,6 +104,7 @@ class Main extends Component {
                 <ModelEx
                     pageviewed={linkHolder[window.location.hash] > 0 ? true : false}
                     lh={linkHolder}
+                    location={window.location.hash.replace("/models?", "")}
                 />
             );
         }

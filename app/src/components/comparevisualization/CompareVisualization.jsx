@@ -311,7 +311,7 @@ class CompareVisualization extends Component {
         let bestModelsList = this.state.bestModels.map((best, index) => {
             // console.log(best)
             return (
-                <div key={"bestmodel" + index} className="iblock mr5 greentext"> {best.model.toUpperCase()}, </div>
+                <div key={"bestmodel" + index} className="iblock mr5 greentext"> {best.model.toUpperCase() + "[" + best.score + "]"}, </div>
             )
         })
         return (
