@@ -23,8 +23,9 @@
 }
 
 .enlargedneuron{
-    height: 16em;
-    width: 16em;
+    height: 15.3em;
+    width: 15.3em;
+    border: 1px solid lightgray;
 }
 .viewchanneldesc{
     width: 10em;
@@ -61,7 +62,7 @@
 }
 
 .scrollwindowmodel{
-    max-height: 17.8em; 
+    max-height: 16.66em;
 }
 
 .scrollwindow::-webkit-scrollbar {

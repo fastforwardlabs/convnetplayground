@@ -100,21 +100,21 @@ def generate_model_viz_details():
     m_utils.get_model_viz_details(model_params)
 
 
-start_time = datetime.now()
-supported_datasets = d_utils.get_supported_datasets()
-for dataset in supported_datasets:
-    K.clear_session()
-    dataset_params = {"name": dataset["name"],   "path": os.path.join(base_path_public,
-                                                                      "datasets/" + dataset["name"]), "dataset_size": 200}
-    generate_embeddings(dataset_params)
-print("Time taken:", datetime.now() - start_time)
+# start_time = datetime.now()
+# supported_datasets = d_utils.get_supported_datasets()
+# for dataset in supported_datasets:
+#     K.clear_session()
+#     dataset_params = {"name": dataset["name"],   "path": os.path.join(base_path_public,
+#                                                                       "datasets/" + dataset["name"]), "dataset_size": 200}
+#     generate_embeddings(dataset_params)
+# print("Time taken:", datetime.now() - start_time)
 
 # d_utils.rename_files(os.path.join(base_path_public, "datasets/tinyimagenet"))
 
 # generate_embeddings(50)
 # generate_similarity_metrics()
-# generate_model_details()
-# generate_model_viz_details()
+generate_model_details()
+generate_model_viz_details()
 # visualize_similarity()
 
 # d_utils.process_comparisons()

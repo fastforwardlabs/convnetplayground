@@ -75,7 +75,7 @@ class FAQ extends Component {
     
                 <ul className="pt10 pb10">
                         <li>
-                            <span className="boldtext"> - How does semantic search (vanilla pretrained models) perform?  </span>
+                            <span className="boldtext"> - How does semantic search (with pretrained models) perform?  </span>
                             
                             Hint: We included a search score to <span className="italics">quantify</span> how well each model works for a given query.  
                             Explore this with the top search results view and search score metric.
@@ -142,7 +142,7 @@ class FAQ extends Component {
                 {/* <div className="horrule mb10 "></div> */}
                 <div className="lh10 answerarea mb20">
                     No. We have precomputed all of the values beforehand. We have extracted features from all images in our dataset
-                    using layers from all supported models. We have also precomputed the similarity between each of these features
+                    using layers (intermediate models) from all supported models. We have also precomputed the similarity between each of these features
                     and show these results based on your selections.
                </div>
 
@@ -160,6 +160,8 @@ class FAQ extends Component {
                     to visualize features learned by channels in a
                     layer, <a target="_blank" rel="noopener noreferrer" href="https://anseki.github.io/leader-line/">leader-line </a> for drawing svg lines
                     and <a target="_blank" rel="noopener noreferrer" href="https://www.carbondesignsystem.com/">carbon</a> design system for layout.
+                    Pre trained models used in this project are sourced from the <a target="_blank" rel="noopener noreferrer" href="https://keras.io/applications/">Keras applications</a>  module, 
+                    efficientnets implementation from <a target="_blank" rel="noopener noreferrer" href="https://github.com/qubvel/efficientnet">here</a>. 
                   Thanks to Grant Custer for valuable <a target="_blank" rel="noopener noreferrer" href="https://observablehq.com/@bryakas/using-three-js-for-2d-data-visualization">pointers on Three.js</a> and the rest of the
                                 Fast Forward Labs team for feedback and guidance!
                      

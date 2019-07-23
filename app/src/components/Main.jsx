@@ -58,7 +58,7 @@ history.listen(location => {
     updateLh(location)
     // ReactGA.set({ page: location.hash })
     ReactGA.pageview(location.hash)
-    console.log("react ga sent", location.hash)
+    // console.log("react ga sent", location.hash)
 });
 
 

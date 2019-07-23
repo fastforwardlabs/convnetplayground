@@ -14,6 +14,7 @@ from scipy import spatial
 import json
 import utils.file_utils as f_utils
 import keras
+import pandas as pd
 
 from tensorflow.keras.models import Model
 from keras.models import Model as KModel
@@ -53,13 +54,13 @@ def get_model(model_name="vgg16"):
 
 def get_supported_models():
     model_architectures = [
-        # {"name": "vgg16"},
-        # {"name": "vgg19"},
-        # {"name": "resnet50"},
-        # {"name": "mobilenet"},
-        # {"name": "xception"},
-        # {"name": "densenet121"},
-        # {"name": "inceptionv3"},
+        {"name": "vgg16"},
+        {"name": "vgg19"},
+        {"name": "resnet50"},
+        {"name": "mobilenet"},
+        {"name": "xception"},
+        {"name": "densenet121"},
+        {"name": "inceptionv3"},
         {"name": "efficientnetb0"},
         {"name": "efficientnetb5"},
     ]
@@ -78,6 +79,15 @@ def get_all_layer_details(model, layer_list):
     return detailed_layer_list
 
 
+def count_intermediate_params(model_details, layer):
+    sump = 0
+    for key, vaalue in model_details.items():
+        sump = sump + model_details[key]["parametercount"]
+        if layer == model_details[key]["name"]:
+            break
+    return sump
+
+
 def get_all_model_details():
     model_architectures = get_supported_models()
     model_details = []
@@ -88,16 +98,28 @@ def get_all_model_details():
         layer_array = []
         model_layers_dict = layer_details[model_detail["name"]]
         layer_names = get_model_layer_names(model_detail["name"])
+
+        sumparams = 0
+        for key, value in model_layers_dict.items():
+            sumparams = sumparams + model_layers_dict[key]["parametercount"]
+        # print(model_detail["name"], sumparams)
+
         for layer in layer_names:
             if layer in model_layers_dict:
-                layer_array.append(model_layers_dict[layer])
+                layer_val = model_layers_dict[layer]
+                layer_val["modelparameters"] = count_intermediate_params(
+                    model_layers_dict, layer)
+                layer_array.append(layer_val)
+                # print(layer_val)
         layer_array = sorted(layer_array, key=lambda i: i["layer_index"])
+        layer_param_count = sum([r["parametercount"] for r in layer_array])
+        # break
 
         # model, preprocess = get_model(model_name=model_detail["name"])
         # layer_names = get_model_layer_names(model_detail["name"])
         model_details.append(
-            {"name": model_detail["name"], "layers": layer_array, "numlayers": len(model_layers_dict)})
-    model_details = sorted(model_details, key=lambda i: i["numlayers"])
+            {"name": model_detail["name"], "modelparameters": sumparams, "layers": layer_array, "numlayers": len(model_layers_dict)})
+    model_details = sorted(model_details, key=lambda i: i["modelparameters"])
     return model_details
 
 
@@ -175,6 +197,10 @@ def get_model_viz_details(model_params):
         detail_holder = {}
         model_layers_dict = layer_details[model_name]
 
+        sumparams = 0
+        for key, value in model_layers_dict.items():
+            sumparams = sumparams + model_layers_dict[key]["parametercount"]
+
         dir_path = os.path.join(model_params["model_dir"], model_name)
         f_utils.mkdir(dir_path)
         layer_list = os.listdir(dir_path)
@@ -189,7 +215,10 @@ def get_model_viz_details(model_params):
             all_layer_array.append(rowval)
         for layer in layer_list:
             if layer in model_layers_dict:
-                layer_array.append(model_layers_dict[layer])
+                layer_val = model_layers_dict[layer]
+                layer_val["modelparameters"] = count_intermediate_params(
+                    model_layers_dict, layer)
+                layer_array.append(layer_val)
             # if (layer)
             neuron_list = os.listdir(os.path.join(dir_path, layer))
             neuron_list = [x.split(".")[0] for x in neuron_list]
@@ -197,12 +226,15 @@ def get_model_viz_details(model_params):
             neuron_list.sort(key=float)
             detail_holder[layer] = neuron_list
         layer_array = sorted(layer_array, key=lambda i: i["layer_index"])
+        layer_param_count = sum([r["parametercount"] for r in layer_array])
+        print(model_name, layer_param_count)
+        # break
         all_layer_array = sorted(
             all_layer_array, key=lambda i: i["layer_index"])
-        model_holder.append({"name": model_name, "layers": layer_array, "numlayers": len(
+        model_holder.append({"name": model_name, "layers": layer_array, "modelparameters": sumparams, "numlayers": len(
             model_layers_dict), "all_layers": all_layer_array})
         all_detail_holder[model_name] = detail_holder
-    model_holder = sorted(model_holder, key=lambda i: i["numlayers"])
+    model_holder = sorted(model_holder, key=lambda i: i["modelparameters"])
     model_holder = {"models": model_holder}
     f_utils.save_json_file(
         "app/src/assets/models/model_details.json", model_holder)

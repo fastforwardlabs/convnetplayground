@@ -59,11 +59,13 @@ class SemanticModalContent extends Component {
 
                 <div className="boldtext mt10"> Models and Layers</div>
                 We provide results from 8 models (vgg16, vgg19, mobilenet, efficientnetb0, xception, resnet50, inceptionv3, densenet121)
-                and a selection of 8 layers from each model. We show only 8 layers mainly to reduce the viewer's cognitive burden
-                (showing more will be unweidly and difficult to visually compare).
-                However, the selection of <span className="italics">which</span> layers to show is guided by the following - first we focus on convolutional layers with trainable parameters
-                and we include the first and last convolutional layer in each model, and select a random sample of 6 convolutional layers in between.
-                The models are presented in order of increasing complexity (number of layers)
+                and a selection intermediate models using 8 layers from each model. We use only 8 layers mainly to reduce the viewer's cognitive burden
+                and enable easy visual comparisons.
+                However, the selection of <span className="italics">which</span> layers to use is guided by the
+                following - first we focus on convolutional layers with trainable parameters
+                and we include the first and last convolutional layer in each model. Finally, we
+                select a random sample of 6 convolutional layers in between.
+                The models are presented in order of increasing complexity (number of parameters)
                 and show marked differences in their ability to generate features that correctly identify similar images.
 
                 <div className="boldtext mt10"> Distance Metric </div>

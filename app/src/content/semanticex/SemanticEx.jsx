@@ -26,14 +26,14 @@ class SemanticEx extends Component {
         // require('../../assets/semsearch/similarity/cifar100/vgg16/cosine/block5_pool.json');
         // console.log(similarityArray)
 
-
+        const defaultModel = 4
 
         this.state = {
             selecteddataset: 0,
-            selectedmodel: 6, //modelDetails["models"].length - 1,
+            selectedmodel: defaultModel, //modelDetails["models"].length - 1,
             selectedsimimage: 0,
             hoversimimage: 0,
-            selectedlayer: modelDetails["models"][6].layers.length - 1,
+            selectedlayer: modelDetails["models"][defaultModel].layers.length - 1,
             selectedmetric: 0,
             similarityArray: similarityArray,
             datasetArray: [],
@@ -449,10 +449,11 @@ class SemanticEx extends Component {
     render() {
         let datasetImageList = this.state.datasetsList.map((dsdata, index) => {
             let iconPath = process.env.PUBLIC_URL + "/assets/semsearch/images/" + dsdata.icon
-
+            // console.log(dsdata)
             return (
                 <div key={dsdata.name + "fullbox" + index} className="iblock datasetfullbox clickable mb10">
                     <div className="datasettitles"> {dsdata.name.toUpperCase()}</div>
+                    <div className="smalldesc pb5">{dsdata.size} images </div>
                     <img onClick={this.clickDatasetImage.bind(this)} src={iconPath} alt="" className={"datasetbox rad2 " + (this.state.selecteddataset == index ? "active" : "")} indexvalue={index} />
                 </div>
             )
@@ -469,7 +470,7 @@ class SemanticEx extends Component {
             return (
                 <div ref={"modelimgbox" + index} key={mdata.name + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
                     <div className="datasettitles"> {abbreviateString(mdata.name.toUpperCase(), 11)}</div>
-                    <div className="smalldesc pb5">{mdata.numlayers} layers </div>
+                    <div className="smalldesc pb5">{makeFriendly(mdata["modelparameters"])} params. </div>
                     <img ref={"modelimg" + index} onClick={this.clickModelImage.bind(this)} src={imagePath} alt="" className={"datasetbox rad2 " + (this.state.selectedmodel == index ? "active" : "")} indexvalue={index} />
                 </div>
             )
@@ -485,7 +486,7 @@ class SemanticEx extends Component {
                 <div key={ldata + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
                     <div className="datasettitles"> {"layer " + ldata.layer_index} </div>
                     {/* {abbreviateString(ldata.name, 11).toLowerCase()}  */}
-                    <div className="smalldesc pb5"> {abbreviateString(ldata.name, 11).toLowerCase()} </div>
+                    <div className="smalldesc pb5"> {makeFriendly(ldata.modelparameters)} params</div>
                     <img ref={"layerimg" + index} onClick={this.clickLayerImage.bind(this)} src={imagePath} alt="" className={"datasetbox rad2 " + (this.state.selectedlayer == index ? "active" : "")} indexvalue={index} />
                 </div>
             )
@@ -494,7 +495,8 @@ class SemanticEx extends Component {
         let metricImageList = this.state.distanceMetricList.map((metric, index) => {
             return (
                 <div key={metric + "fullbox" + index} className=" positionrelative iblock datasetfullbox clickable mb10 ">
-                    <div className="datasettitles"> {abbreviateString(metric, 11).toLowerCase()} </div>
+                    <div className="datasettitles"> {abbreviateString(metric, 11).toUpperCase()} </div>
+                    <div className="smalldesc pb5"> distance</div>
                     <div className="metrictitle positionabsolute"> {abbreviateString(metric, 3).toUpperCase()}</div>
                     <img onClick={this.clickMetricImage.bind(this)} src={require("../../images/bgwhite.png")} alt="" className={"datasetbox rad2 " + (this.state.selectedmetric == index ? "active" : "")} indexvalue={index} />
                 </div>
@@ -687,7 +689,7 @@ class SemanticEx extends Component {
                         <div className="mynotif h100 lh10 pl  instructions lightbluehightlight maxh16 mr10">
                             <div className="boldtext pb5"> Welcome!</div>
                             This demo allows you to perform <strong> semantic image search </strong> using convolutional neural networks
-                            <span className="smalldesc"> [
+                            <span className=""> [
                              <strong> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()}   </strong>
                                 {/* <strong>  {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index}  </strong> */}
                                 {/* <strong> DISTANCE METRIC: </strong>   {this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()} ] */}
@@ -768,8 +770,8 @@ When you select an image (by clicking it), a neural network <span className="ita
                                 {datasetImageList}
                             </div>
                             <div className="">
-                                <div className=" iblock boldtext  boldtext datasetdescription mr10  p10 greyhighlight">{this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()}</div>
-                                <div onClick={this.toggleDatasetModal.bind(this)} className="iblock p10 greyhighlight clickable unselectable greymoreinfo mt10"> ? More Info </div>
+                                <div className=" iblock boldtext  boldtext datasetdescription mr10 mb5  p10 greyhighlight">{this.state.datasetsList[this.state.selecteddataset].name.toUpperCase()}</div>
+                                <div onClick={this.toggleDatasetModal.bind(this)} className="iblock p10 greyhighlight clickable unselectable greymoreinfo"> ? More Info </div>
                             </div>
 
                         </div>
@@ -779,10 +781,40 @@ When you select an image (by clicking it), a neural network <span className="ita
                             <div ref="modelscrollbox" className="datasetselectdiv scrollwindow layerwindow">
                                 {modelImageList}
                             </div>
-                            <div className=" iblock boldtext datasetdescription  p10 greyhighlight">{this.state.modelsList[this.state.selectedmodel].name.toUpperCase()}</div>
+                            <div className="flex flexwrap pr10">
+                                <div className="  mr10 ">
+                                    {/* <div className=" iblock boldtext datasetdescription  p10 greyhighlight"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}</div> */}
+                                    <div className=" iblock boldtext datasetdescription  p10 greyhighlight">{this.state.modelsList[this.state.selectedmodel].name.toUpperCase()}</div>
+                                </div>
+                                <div className="flexfull ">
+                                    {/* <div className="smalldesc boldtext pt4"> Layer [ {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index}  of {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].totallayers}  ] {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type} </div> */}
+                                    <div className="smalldesc pt4"> <strong> {makeFriendly(this.state.modelsList[this.state.selectedmodel].modelparameters)} Parameters  </strong>  </div>
+                                    <div className="smalldesc pt3"> {this.state.modelsList[this.state.selectedmodel].numlayers} layers  </div>
+                                </div>
+                            </div>
+
                         </div>
-                        <div style={{ zIndex: 100 }} className="flex3  ">
-                            <div className=" pb10 sectiontitle" > Select Layer </div>
+                        <div style={{ zIndex: 100 }} className="flex3 pr10 ">
+                            <div className="pb8 sectiontitle " >
+                                <div className="iblock">
+                                    Select Layer
+                                </div>
+
+                                <div className="iblock ">
+                                    <Tooltip
+                                        direction="left"
+                                        triggerText=""
+                                    >
+
+                                        <div className="wscore">
+                                            We construct <span className="italics">intermediate models</span> from the main model at each of
+                                            these layers. Each intermediate model has less parameters than the full model
+                                            and is used for feature extraction.
+                                        </div>
+
+                                    </Tooltip>
+                                </div>
+                            </div>
                             <div className="horrule mb10"></div>
                             <div ref="layerscrollbox" className="scrollwindow layerwindow  mr10">
                                 <div className="windowcontent"> {layerImageList} </div>
@@ -794,15 +826,33 @@ When you select an image (by clicking it), a neural network <span className="ita
                                 </div>
                                 <div className="flexfull ">
                                     {/* <div className="smalldesc boldtext pt4"> Layer [ {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index}  of {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].totallayers}  ] {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type} </div> */}
-                                    <div className="smalldesc pt4"> <strong>Type: {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type} </strong> | <span className="smalldesc"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}</span> </div>
-                                    <div className="smalldesc pt3"> {makeFriendly(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].parametercount)} trainable parameters, {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} channels </div>
+                                    <div className="smalldesc pt4"> <strong>Type: {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].type} </strong> | <span className="smalldesc"> {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase()}  </span> </div>
+                                    <div className="smalldesc pt3"> {makeFriendly(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].modelparameters)} model parameters </div>
                                 </div>
                             </div>
 
                         </div>
 
                         <div className="flex2">
-                            <div className=" pb10 sectiontitle" > Distance Metric </div>
+                            <div className="pb8 sectiontitle " >
+                                <div className="iblock">
+                                    Distance Metric
+                                    </div>
+
+                                <div className="iblock ">
+                                    <Tooltip
+                                        direction="left"
+                                        triggerText=""
+                                    >
+
+                                        <div className="wscore">
+                                            The distance metric used to compute similarity between extracted features.
+                                            </div>
+
+                                    </Tooltip>
+                                </div>
+                            </div>
+
                             <div className="horrule mb10"></div>
                             <div className="scrollwindow layerwindow ">
                                 <div className="windowcontent"> {metricImageList} </div>
@@ -912,7 +962,7 @@ When you select an image (by clicking it), a neural network <span className="ita
                                                             This is the percentage of returned results that belong to the same category
                                                         as the selected image (weighted by position in the result list). For the current
                                                         search, <strong>{simCount} / {this.state.topx} results </strong>  are in same category <strong>({selectedCat.toUpperCase()})</strong>.
-                                                                                                                                                                                                                                                                                                                                                                                                                    Note that this score is conservative - some images may belong to different classes but
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Note that this score is conservative - some images may belong to different classes but
                                                         are <span className="italics"> similar </span> (e.g sedan, beetle, ferrari are <span className="italics">all</span> cars).
                                                         </div>
 

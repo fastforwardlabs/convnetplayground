@@ -186,6 +186,9 @@ class ModelEx extends Component {
 
         const queryString = require('query-string');  
         if (this.props.location.includes("channel")) {
+
+            // hide orientation model
+            this.setState({showmodelorientationmodal: false})
             const { model, layer, channel } = queryString.parse(this.props.location);
             console.log("query string", model, layer, channel, self.state.modelsList.length)
             
@@ -299,7 +302,8 @@ class ModelEx extends Component {
 
 
     clickNeuronImage(e) {
-
+        const {model, layer} = this.getSelections(); 
+        registerGAEvent("modelexplorer","channelselect", model + "," + layer + "," + e.target.getAttribute("indexvalue") , this.componentLoadedTime)
         // this.setState({selectedneuronpath: e.target.getAttribute("pathinfo")  })
         this.setState({ selectedneuron: e.target.getAttribute("indexvalue") })
         this.lastclicked = "neuron"
@@ -312,6 +316,7 @@ class ModelEx extends Component {
     }
 
     toggleViewNeuronSubset(e) {
+       
         this.setState({ showneuronsubset: !(this.state.showneuronsubset) })
     }
 
@@ -369,7 +374,7 @@ class ModelEx extends Component {
 
                 <div ref={"modelimgbox" + index} key={mdata.name + "fullbox" + index} className="iblock datasetfullbox clickable mb10 ">
                     <div className="datasettitles"> {abbreviateString(mdata.name.toUpperCase(), 10)}</div>
-                    <div className="smalldesc pb5">{mdata.numlayers} layers </div>
+                    <div className="smalldesc pb5">{makeFriendly(mdata["modelparameters"])} params. </div>
 
                     <img ref={"modelimg" + index} onClick={this.clickModelImage.bind(this)} src={imagePath} alt="" className={"datasetbox rad2 " + (this.state.selectedmodel == index ? "active" : "")} indexvalue={index} />
                 </div>
@@ -568,7 +573,7 @@ class ModelEx extends Component {
                     </div>
 
                     <div style={{ zIndex: 100 }} className="">
-                        <div className="mt20 pb10 sectiontitle" >
+                        <div className="mt20 pb8 sectiontitle" >
 
                             <div className="iblock">
                                 Channel Vizualization
@@ -614,8 +619,8 @@ class ModelEx extends Component {
 
 
                 <div className="mt20 mb10 ">
-                    <div onClick={this.toggleViewNeuronSubset.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr5 " + (this.state.showneuronsubset  ? "active" : "")} viewby="all"> Max {Math.min(neuronImageList.length, this.state.numneuronsshow)} </div>
-                    <div onClick={this.toggleViewNeuronSubset.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (!this.state.showneuronsubset ? "active" : "")} viewby="category">  All ({neuronImageList.length}) </div>
+                    <div onClick={this.toggleViewNeuronSubset.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr5 " + (this.state.showneuronsubset  ? "active" : "")} viewby="all"> Top {Math.min(neuronImageList.length, this.state.numneuronsshow)} Channels </div>
+                    <div onClick={this.toggleViewNeuronSubset.bind(this)} className={"p10 greytab greyhighlight clickable unselectable greymoreinfo iblock mr10 " + (!this.state.showneuronsubset ? "active" : "")} viewby="category">  All Channels ({neuronImageList.length}) </div>
                         
                     <div className="sectiontitle iblock mr10 mt20"> Visualizations  of {this.state.showneuronsubset ? Math.min(this.state.numneuronsshow, neuronImageList.length) : neuronImageList.length} Channels  in layer {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].layer_index} of {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </div>
                     {/* <div className="iblock"> A selection of channels in the current layer.</div> */}
