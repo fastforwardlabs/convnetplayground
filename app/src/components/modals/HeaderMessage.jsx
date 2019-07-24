@@ -13,7 +13,7 @@ class HeaderMessage extends Component {
                 </div>
                 Convnet Playground -  <i>a tool for the interactive exploration of Convolutional Neural Networks (Convnets or CNNs)</i> -
                is a research prototype by Cloudera Fast Forward Labs, built to accompany our
-                report on <a href="#" target="_blank" rel="noopener noreferrer" > Deep Learning for Image Analysis</a>.
+                report on <a href="https://blog.fastforwardlabs.com/2019/07/22/new-research-deep-learning-for-image-analysis.html" target="_blank" rel="noopener noreferrer" > Deep Learning for Image Analysis</a>.
                 {/* More about this report is described in our blog post. */}
 
 

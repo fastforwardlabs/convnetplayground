@@ -110,6 +110,7 @@ def get_all_model_details():
                 layer_val["modelparameters"] = count_intermediate_params(
                     model_layers_dict, layer)
                 layer_array.append(layer_val)
+
                 # print(layer_val)
         layer_array = sorted(layer_array, key=lambda i: i["layer_index"])
         layer_param_count = sum([r["parametercount"] for r in layer_array])
@@ -219,6 +220,7 @@ def get_model_viz_details(model_params):
                 layer_val["modelparameters"] = count_intermediate_params(
                     model_layers_dict, layer)
                 layer_array.append(layer_val)
+
             # if (layer)
             neuron_list = os.listdir(os.path.join(dir_path, layer))
             neuron_list = [x.split(".")[0] for x in neuron_list]
@@ -227,7 +229,7 @@ def get_model_viz_details(model_params):
             detail_holder[layer] = neuron_list
         layer_array = sorted(layer_array, key=lambda i: i["layer_index"])
         layer_param_count = sum([r["parametercount"] for r in layer_array])
-        print(model_name, layer_param_count)
+        print(model_name, sumparams)
         # break
         all_layer_array = sorted(
             all_layer_array, key=lambda i: i["layer_index"])

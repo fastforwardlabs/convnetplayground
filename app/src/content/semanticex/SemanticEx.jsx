@@ -343,10 +343,18 @@ class SemanticEx extends Component {
         // console.log(val);
 
         if (val != this.state.selectedsimimage) {
-            this.setState({ selectedsimimage: val })
+            this.setState({ selectedsimimage: val }, () => {
+                // console.log(this.incorrectResults)
+                this.incorrectResults.forEach(each => {
+                    // console.log(this.refs["outersimbar" + each[0]])
+                    this.refs["outersimbar" + each[0]].className = "outersimbarorange"
+                });
+            })
             this.showTopResults()
         }
         this.searchCount++
+
+
     }
 
     toggleSemanticModal(e) {
@@ -447,6 +455,7 @@ class SemanticEx extends Component {
 
 
     render() {
+        let self = this
         let datasetImageList = this.state.datasetsList.map((dsdata, index) => {
             let iconPath = process.env.PUBLIC_URL + "/assets/semsearch/images/" + dsdata.icon
             // console.log(dsdata)
@@ -538,7 +547,7 @@ class SemanticEx extends Component {
                 <div key={alldata[0] + "winper"} className="iblock similarityfullbox mr5 mb5 positionrelative">
                     <div className="smalldesc mb5">dst: {makeFriendly((1 * similarityScore).toFixed(2))} </div>
                     <img key={alldata[0] + "image" + alldata[0]} onMouseOver={this.hoverSimilarImage.bind(this)} onClick={this.clickSimilarImage.bind(this)} src={imagePath} alt="" className={"simiimage clickable rad2 "} indexvalue={alldata[0]} />
-                    <div className="outersimbar">
+                    <div className="outersimbar" ref={"outersimbar" + alldata[0]}>
                         <div className="innersimbar" style={{ width: (boundWidth(similarityScore) * 100) + "%" }}></div>
                     </div>
                     <div className="similarityscorebox">{makeFriendly(similarityScore)} </div>
@@ -556,13 +565,29 @@ class SemanticEx extends Component {
         let simCount = 0
         let modelScore = 0
         let totalScore = 0
+        this.incorrectResults = []
         for (var i in simArr) {
+
             if (selectedCat == allDictionary[simArr[i][0]]) {
                 simCount++
                 modelScore += (this.state.topx - i) / this.state.topx
+            } else {
+
+                this.incorrectResults.push(simArr[i])
             }
             totalScore += (this.state.topx - i) / this.state.topx
         }
+
+
+        // let outBars = document.getElementsByClassName("outersimbar")
+        // for (let i = 0; i < outBars.length; i++) {
+        //     if (incorrectResults.includes(outBars[i].id)) {
+        //         console.log(outBars[i].id)
+        //         outBars[i].className = ""
+        //         outBars[i].style.height = "10px"
+        //     }
+
+        // }
 
 
         let datasetimagesList = this.state.datasetArray.map((alldata, index) => {
@@ -962,7 +987,7 @@ When you select an image (by clicking it), a neural network <span className="ita
                                                             This is the percentage of returned results that belong to the same category
                                                         as the selected image (weighted by position in the result list). For the current
                                                         search, <strong>{simCount} / {this.state.topx} results </strong>  are in same category <strong>({selectedCat.toUpperCase()})</strong>.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Note that this score is conservative - some images may belong to different classes but
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Note that this score is conservative - some images may belong to different classes but
                                                         are <span className="italics"> similar </span> (e.g sedan, beetle, ferrari are <span className="italics">all</span> cars).
                                                         </div>
 

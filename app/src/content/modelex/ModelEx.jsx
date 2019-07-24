@@ -145,15 +145,15 @@ class ModelEx extends Component {
     cycleLayerModel(val) {
         if (this.lastclicked == "model") {
             let newState = this.getNextVal((this.state.selectedmodel * 1 + val), this.state.modelsList.length);// Math.max((this.state.selectedmodel*1 + val) % this.state.modelsList.length, 0) 
-            console.log(newState)
+             
             if (!(isNaN(newState))) {
-                this.setState({ selectedmodel: newState })
+               this.updateModelState(newState)
             }
 
         } else if (this.lastclicked == "layer") {
             let newState = this.getNextVal((this.state.selectedlayer * 1 + val), this.state.modelsList[this.state.selectedmodel].layers.length)
             if (!(isNaN(newState))) {
-                this.setState({ selectedlayer: newState })
+                this.updateLayerState(newState)
             }
 
         } else if (this.lastclicked == "neuron") {
@@ -278,25 +278,33 @@ class ModelEx extends Component {
  
     }
 
-    clickModelImage(e) {
-        registerGAEvent("modelexplorer","modelchange", this.state.modelsList[e.target.getAttribute("indexvalue")].name, this.componentLoadedTime)
-        this.setState({ selectedmodel: e.target.getAttribute("indexvalue") }, () => { 
-            
-        })
-        this.setState({ selectedlayer: 0 }, () => {
-            this.updateNeuronList() 
-        })
-       
-        this.lastclicked = "model"
+    updateModelState(val) { 
+            this.setState({ selectedlayer: 0 }, () => {
+                this.setState({ selectedmodel: val }, () => { 
+                    this.updateNeuronList() 
+                })
+                
+           }) 
+          
     }
 
-    clickLayerImage(e) {
-        this.setState({ selectedlayer: e.target.getAttribute("indexvalue") }, () => {
+    updateLayerState(val) {
+        this.setState({ selectedlayer: val }, () => {
             this.updateNeuronList() 
         })
         this.setState({ selectedneuron: 0 }, () => {
            
         })
+    }
+
+    clickModelImage(e) {
+        registerGAEvent("modelexplorer","modelchange", this.state.modelsList[e.target.getAttribute("indexvalue")].name, this.componentLoadedTime)
+        this.updateModelState(e.target.getAttribute("indexvalue") )
+        this.lastclicked = "model"
+    }
+
+    clickLayerImage(e) {
+        this.updateLayerState(e.target.getAttribute("indexvalue"))
         this.lastclicked = "layer"
     }
 
@@ -348,7 +356,7 @@ class ModelEx extends Component {
         let modelname = this.state.modelsList[this.state.selectedmodel].name
         let layer = this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name
         let fflurl = "http://convnetplayground.fastforwardlabs.com/#/models?model=" + modelname + "&layer=" + layer + "&channel=" + neuron
-        let url = "https://twitter.com/intent/tweet?url=" + encodeURIComponent(fflurl) + "&via=" + "ffl" + "&text=" + encodeURIComponent("A visualization of neuron " + neuron + " in the " + layer + " layer  of a " + modelname + " model. Interested in visualizations of layers in a CNN or an implementation of image search? Visit the #convnetplayground prototype.");
+        let url = "https://twitter.com/intent/tweet?url=" + encodeURIComponent(fflurl) + "&via=" + "fastforwardlabs" + "&text=" + encodeURIComponent("A visualization of channel " + neuron + " in the " + layer + " layer  of a " + modelname + " model. View more visualizationss of CNNs and an interactive visualization of semantic image search in the #convnetplayground prototype.");
 
         window.open(url, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600')
     }

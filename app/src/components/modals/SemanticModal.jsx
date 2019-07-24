@@ -58,7 +58,7 @@ class SemanticModalContent extends Component {
 
 
                 <div className="boldtext mt10"> Models and Layers</div>
-                We provide results from 8 models (vgg16, vgg19, mobilenet, efficientnetb0, xception, resnet50, inceptionv3, densenet121)
+                We provide results from 9 models (vgg16, vgg19, mobilenet, efficientnetb0,efficientnetb5, xception, resnet50, inceptionv3, densenet121)
                 and a selection intermediate models using 8 layers from each model. We use only 8 layers mainly to reduce the viewer's cognitive burden
                 and enable easy visual comparisons.
                 However, the selection of <span className="italics">which</span> layers to use is guided by the

@@ -121,6 +121,11 @@
     height: 4px;
 }
 
+.outersimbarorange{
+    height: 4px;
+    background: rgba(231, 151, 3, 0.753);
+}
+
 .innersimbar{
     background: #0062FF;
     height: 4px;

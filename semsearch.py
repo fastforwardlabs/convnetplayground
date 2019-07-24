@@ -113,14 +113,14 @@ def generate_model_viz_details():
 
 # generate_embeddings(50)
 # generate_similarity_metrics()
-generate_model_details()
-generate_model_viz_details()
+# generate_model_details()
+# generate_model_viz_details()
 # visualize_similarity()
 
 # d_utils.process_comparisons()
 
 # f_utils.compress_files(base_path)
-# f_utils.compress_files(base_path_public_models)
+f_utils.compress_files(base_path_public_models)
 
 # d_utils.curate_interesting()
 
