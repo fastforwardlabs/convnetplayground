@@ -431,6 +431,7 @@ class ModelEx extends Component {
                 {(this.state.showmodelorientationmodal) && <Modal className="orientationmodal"
                     open={true}
                     size="lg"
+                    aria-label="Model Modal"
                     // style={{maxWidth: '1600px', width: '100%'}}
                     passiveModal={false}
                     primaryButtonText="Get Started"

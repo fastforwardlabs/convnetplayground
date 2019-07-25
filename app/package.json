@@ -5,8 +5,8 @@
     "dependencies": {
         "@carbon/icons-react": "^10.2.0",
         "@tweenjs/tween.js": "^17.4.0",
-        "carbon-components": "^10.2.0",
-        "carbon-components-react": "^7.2.0",
+        "carbon-components": "^10.4.1",
+        "carbon-components-react": "^7.4.1",
         "d3": "^5.9.7",
         "gh-pages": "^2.0.1",
         "lodash": "^4.17.15",

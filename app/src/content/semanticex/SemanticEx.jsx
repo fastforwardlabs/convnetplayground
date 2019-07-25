@@ -626,6 +626,7 @@ class SemanticEx extends Component {
                 {(this.state.showorientationmodal) && <Modal className="orientationmodal"
                     open={true}
                     size="lg"
+                    aria-label="Semantic Search Modal"
                     // style={{maxWidth: '1600px', width: '100%'}}
                     passiveModal={false}
                     primaryButtonText="Get Started"
@@ -642,6 +643,7 @@ class SemanticEx extends Component {
                 {(this.state.showcomparemodal) && <Modal className="comparemodal"
                     open={true}
                     size="lg"
+                    aria-label="Compare Models Modal"
                     // style={{maxWidth: '1600px', width: '100%'}}
                     passiveModal={true}
                     primaryButtonText="Get Started"
@@ -675,6 +677,7 @@ class SemanticEx extends Component {
                 {(this.state.showdatasetmodal) && <Modal className="datasetmodal"
                     open={true}
                     size="lg"
+                    aria-label="Dataset Modal"
                     // style={{maxWidth: '1600px', width: '100%'}}
                     passiveModal={true}
                     primaryButtonText="Get Started"
@@ -727,12 +730,12 @@ When you select an image (by clicking it), a neural network <span className="ita
                     <div className="flex5">
                         <div className="mynotif lh10  h100  instructions lightbluehightlight maxh16">
                             <div className="boldtext pb5 advancedoptionsbox"> Advanced Options</div>
-                            <div className="advancedgreyborder rad2 iblock pr10 pl10">
+                            <div className="advancedgreyborder rad2 iblock pr10 pl10 ">
                                 {/* <div className="mr10 pt10">Advanced options </div> */}
-                                <div className="boldtext">
+                                <div className="boldtext mr20">
                                     <Toggle
                                         id="advancedoptionstoggle"
-                                        className='smalldesc boldtext'
+                                        className='smalldesc boldtext mr10'
                                         labelA='Off'
                                         labelB='On'
                                         // onChange action('onChange'),
@@ -987,7 +990,7 @@ When you select an image (by clicking it), a neural network <span className="ita
                                                             This is the percentage of returned results that belong to the same category
                                                         as the selected image (weighted by position in the result list). For the current
                                                         search, <strong>{simCount} / {this.state.topx} results </strong>  are in same category <strong>({selectedCat.toUpperCase()})</strong>.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Note that this score is conservative - some images may belong to different classes but
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Note that this score is conservative - some images may belong to different classes but
                                                         are <span className="italics"> similar </span> (e.g sedan, beetle, ferrari are <span className="italics">all</span> cars).
                                                         </div>
 
