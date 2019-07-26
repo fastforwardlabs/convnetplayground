@@ -40,7 +40,7 @@ class SemanticEx extends Component {
             datasetsList: modelDetails["datasets"],
             modelsList: modelDetails["models"],
             distanceMetricList: modelDetails["metrics"],
-            showorientationmodal: !this.props.pageviewed,
+            showorientationmodal: false, //!this.props.pageviewed,
             showmodelconfig: false,
             showumap: false,
             showdatasetmodal: false,
@@ -253,6 +253,8 @@ class SemanticEx extends Component {
 
         //timer on when component mounted
         this.componentLoadedTime = (new Date()).getTime()
+        this.setState({ showorientationmodal: !this.props.pageviewed })
+        // this.state.showorientationmodal = !this.props.pageviewed,
     }
 
 
@@ -348,6 +350,7 @@ class SemanticEx extends Component {
                 this.incorrectResults.forEach(each => {
                     // console.log(this.refs["outersimbar" + each[0]])
                     this.refs["outersimbar" + each[0]].className = "outersimbarorange"
+                    this.refs["innersimbar" + each[0]].className = "innersimbarorange"
                 });
             })
             this.showTopResults()
@@ -548,7 +551,7 @@ class SemanticEx extends Component {
                     <div className="smalldesc mb5">dst: {makeFriendly((1 * similarityScore).toFixed(2))} </div>
                     <img key={alldata[0] + "image" + alldata[0]} onMouseOver={this.hoverSimilarImage.bind(this)} onClick={this.clickSimilarImage.bind(this)} src={imagePath} alt="" className={"simiimage clickable rad2 "} indexvalue={alldata[0]} />
                     <div className="outersimbar" ref={"outersimbar" + alldata[0]}>
-                        <div className="innersimbar" style={{ width: (boundWidth(similarityScore) * 100) + "%" }}></div>
+                        <div className="innersimbar" ref={"innersimbar" + alldata[0]} style={{ width: (boundWidth(similarityScore) * 100) + "%" }}></div>
                     </div>
                     <div className="similarityscorebox">{makeFriendly(similarityScore)} </div>
                     {/* <div>{ "w:" + boundWidth(similarityScore)*100  }</div> */}
@@ -623,8 +626,8 @@ class SemanticEx extends Component {
             <div className="mainsemanticdiv">
 
 
-                {(this.state.showorientationmodal) && <Modal className="orientationmodal"
-                    open={true}
+                {<Modal className="orientationmodal"
+                    open={this.state.showorientationmodal ? true : false}
                     size="lg"
                     aria-label="Semantic Search Modal"
                     // style={{maxWidth: '1600px', width: '100%'}}
@@ -640,8 +643,8 @@ class SemanticEx extends Component {
 
                 </Modal>}
 
-                {(this.state.showcomparemodal) && <Modal className="comparemodal"
-                    open={true}
+                {<Modal className="comparemodal"
+                    open={this.state.showcomparemodal ? true : false}
                     size="lg"
                     aria-label="Compare Models Modal"
                     // style={{maxWidth: '1600px', width: '100%'}}
@@ -657,7 +660,7 @@ class SemanticEx extends Component {
                         Charts of search score results for the current image using all
                          models and layers.
                    </div> */}
-                    <CompareVisualization
+                    {this.state.showcomparemodal && <CompareVisualization
                         data={{
                             metric: this.state.distanceMetricList[this.state.selectedmetric],
                             selectedimage: this.state.selectedsimimage,
@@ -670,12 +673,12 @@ class SemanticEx extends Component {
                             datasetdictionary: this.datasetdictionary,
                             modelDetails: this.modelDetails
                         }}
-                    />
+                    />}
 
                 </Modal>}
 
-                {(this.state.showdatasetmodal) && <Modal className="datasetmodal"
-                    open={true}
+                {<Modal className="datasetmodal"
+                    open={this.state.showdatasetmodal ? true : false}
                     size="lg"
                     aria-label="Dataset Modal"
                     // style={{maxWidth: '1600px', width: '100%'}}
@@ -687,8 +690,10 @@ class SemanticEx extends Component {
                     onRequestSubmit={this.toggleDatasetModal.bind(this)}
                     onRequestClose={this.toggleDatasetModal.bind(this)}
                 >
-                    <div className=" mb10">{this.state.datasetsList[this.state.selecteddataset].description}  </div>
-                    {datasetClassImagesList}
+                    {this.state.showdatasetmodal && <div>
+                        <div className=" mb10">{this.state.datasetsList[this.state.selecteddataset].description}  </div>
+                        {datasetClassImagesList}
+                    </div>}
 
                 </Modal>}
 
@@ -990,7 +995,7 @@ When you select an image (by clicking it), a neural network <span className="ita
                                                             This is the percentage of returned results that belong to the same category
                                                         as the selected image (weighted by position in the result list). For the current
                                                         search, <strong>{simCount} / {this.state.topx} results </strong>  are in same category <strong>({selectedCat.toUpperCase()})</strong>.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Note that this score is conservative - some images may belong to different classes but
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Note that this score is conservative - some images may belong to different classes but
                                                         are <span className="italics"> similar </span> (e.g sedan, beetle, ferrari are <span className="italics">all</span> cars).
                                                         </div>
 

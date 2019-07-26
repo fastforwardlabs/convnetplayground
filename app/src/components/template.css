@@ -1,5 +1,7 @@
 body{
     min-width: 800px;
+    border: 300px solid green;
+    height: 100%;
 }
 .headericon{
     height: 1.9em;
@@ -474,3 +476,23 @@ body{
 	}
 }
  
+.badtaste{
+    background: #23D5AB;
+    height: 500px;
+    border: 3px solid black;
+    widows: 100%;
+}
+
+.container-fluid{
+    height: 110%;
+}
+
+.root{
+    /* border: 5px solid green; */
+    height: 100%;
+    display: block;
+}
+html {
+    height: 100%;
+}
+     

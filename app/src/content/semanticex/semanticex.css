@@ -123,11 +123,17 @@
 
 .outersimbarorange{
     height: 4px;
-    background: rgba(231, 151, 3, 0.753);
+    background:  rgb(255, 166,0, 0.5);
 }
 
 .innersimbar{
     background: #0062FF;
+    height: 4px;
+}
+
+
+.innersimbarorange{
+    background: rgb(255, 166, 0);
     height: 4px;
 }
 
@@ -180,6 +186,7 @@ div.bx--modal-container{
 }
 .mainsemanticdiv{
     min-width: 360px;
+    /* border: 1px solid black; */
 }
 
 .greenmoreinfo{

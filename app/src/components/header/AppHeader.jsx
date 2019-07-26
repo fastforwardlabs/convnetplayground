@@ -40,7 +40,18 @@ class AppHeader extends Component {
 
     headerPanelBlur() {
         this.setState({ showpanel: false })
-        console.log("blur")
+        // console.log("blur")
+    }
+
+    checkCurrentRoute(route) {
+        console.log(window.location.hash, route)
+        if (window.location.hash == route) {
+            return true
+        }
+    }
+    switcherClick(e) {
+        // console.log(e.target)
+        // e.target.blur()
     }
 
     render() {
@@ -80,17 +91,13 @@ class AppHeader extends Component {
                     <HeaderPanel aria-label="Header Panel" onBlur={this.headerPanelBlur.bind(this)} expanded={this.state.showpanel} >
                         <Switcher ref="switchermenu" role="menu" aria-label="Switcher Container">
 
-                            <SwitcherItem ref="faqbutton" aria-label="Link 1" href="#/" > Semantic Search</SwitcherItem>
-                            <SwitcherItem ref="faqbutton" aria-label="Link 1" href="#/models" > Model Explorer</SwitcherItem>
+                            <SwitcherItem onClick={this.switcherClick.bind(this)} aria-label="Link 1" isSelected={this.checkCurrentRoute("#/")} href="#/" > Semantic Search</SwitcherItem>
+                            <SwitcherItem onClick={this.switcherClick.bind(this)} aria-label="Link 1" isSelected={this.checkCurrentRoute("#/models")} href="#/models" > Model Explorer</SwitcherItem>
+
+                            <SwitcherItem onClick={this.switcherClick.bind(this)} aria-label="Link 1" isSelected={this.checkCurrentRoute("#/faq")} href="#/faq" >FAQ</SwitcherItem>
                             <SwitcherDivider />
-                            <SwitcherItem ref="faqbutton" aria-label="Link 1" href="#/faq" >FAQ</SwitcherItem>
-                            <SwitcherDivider />
-                            {/* <SwitcherItem href="#" aria-label="Link 2">
-                                Link 2
-                            </SwitcherItem>
-                            <SwitcherItem href="#" aria-label="Link 3">
-                                Link 3
-                            </SwitcherItem> */}
+                            <SwitcherItem onClick={this.switcherClick.bind(this)} aria-label="Link 1" isSelected={this.checkCurrentRoute("#/faq")} href="https://blog.fastforwardlabs.com/2019/07/22/new-research-deep-learning-for-image-analysis.html" target="_blank" rel="noopener noreferrer" >Blog Post</SwitcherItem>
+
 
                         </Switcher>
                     </HeaderPanel>

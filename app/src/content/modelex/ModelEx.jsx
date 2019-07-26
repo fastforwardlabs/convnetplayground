@@ -46,7 +46,7 @@ class ModelEx extends Component {
             modelsList: modelDetails["models"],
             layersList: modelDetailsViz[modelDetails["models"][0].name],
             neuronList: neuronList,
-            showmodelorientationmodal: !this.props.pageviewed,
+            showmodelorientationmodal: false,
             showmoremodelinfomodal: false,
             showneuronsubset: true,
             numneuronsshow: 30,
@@ -181,6 +181,8 @@ class ModelEx extends Component {
     componentDidMount() { 
         let self = this
         document.title = "ConvNet Playground | Model Explorer";
+
+        this.setState({showmodelorientationmodal:!this.props.pageviewed})
 
         // Load query string parameters if available
 
@@ -428,8 +430,8 @@ class ModelEx extends Component {
         return (
 
             <div>
-                {(this.state.showmodelorientationmodal) && <Modal className="orientationmodal"
-                    open={true}
+                { <Modal className="orientationmodal"
+                    open={ this.state.showmodelorientationmodal? true : false}
                     size="lg"
                     aria-label="Model Modal"
                     // style={{maxWidth: '1600px', width: '100%'}}
@@ -441,12 +443,12 @@ class ModelEx extends Component {
                     onRequestSubmit={this.toggleModelsModal.bind(this)}
                     onRequestClose={this.toggleModelsModal.bind(this)}
                 >
-                    <ModelsModalContent></ModelsModalContent>
+                    {this.state.showmodelorientationmodal && <ModelsModalContent></ModelsModalContent>}
 
                 </Modal>}
 
                 {(this.state.showmoremodelinfomodal) && <Modal className="orientationmodal"
-                    open={true}
+                    open={this.state.showmoremodelinfomodal?true:false}
                     size="lg"
                     // style={{maxWidth: '1600px', width: '100%'}}
                     passiveModal={true}
@@ -457,7 +459,7 @@ class ModelEx extends Component {
                     onRequestSubmit={this.toggleModelMoreInfoModal.bind(this)}
                     onRequestClose={this.toggleModelMoreInfoModal.bind(this)}
                 >
-                    <div>
+                    {this.state.showmoremodelinfomodal && <div>
                         <DataTable
                             rows={this.state.modelsList[this.state.selectedmodel].all_layers}
                             headers={headers}
@@ -486,7 +488,7 @@ class ModelEx extends Component {
                                 </TableContainer>
                             )}
                         />
-                    </div>
+                    </div>}
 
                 </Modal>}
 
