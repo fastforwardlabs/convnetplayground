@@ -96,7 +96,7 @@ class AppHeader extends Component {
 
                             <SwitcherItem onClick={this.switcherClick.bind(this)} aria-label="Link 1" isSelected={this.checkCurrentRoute("#/faq")} href="#/faq" >FAQ</SwitcherItem>
                             <SwitcherDivider />
-                            <SwitcherItem onClick={this.switcherClick.bind(this)} aria-label="Link 1" isSelected={this.checkCurrentRoute("#/faq")} href="https://blog.fastforwardlabs.com/2019/07/22/new-research-deep-learning-for-image-analysis.html" target="_blank" rel="noopener noreferrer" >Blog Post</SwitcherItem>
+                            <SwitcherItem onClick={this.switcherClick.bind(this)} aria-label="Link 1" isSelected={this.checkCurrentRoute("#/blogexternal")} href="https://blog.fastforwardlabs.com/2019/07/22/new-research-deep-learning-for-image-analysis.html" target="_blank" rel="noopener noreferrer" >Blog Post</SwitcherItem>
 
 
                         </Switcher>

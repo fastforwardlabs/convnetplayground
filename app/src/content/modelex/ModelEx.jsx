@@ -46,7 +46,7 @@ class ModelEx extends Component {
             modelsList: modelDetails["models"],
             layersList: modelDetailsViz[modelDetails["models"][0].name],
             neuronList: neuronList,
-            showmodelorientationmodal: false,
+            showmodelorientationmodal: !this.props.pageviewed,
             showmoremodelinfomodal: false,
             showneuronsubset: true,
             numneuronsshow: 30,
@@ -182,7 +182,7 @@ class ModelEx extends Component {
         let self = this
         document.title = "ConvNet Playground | Model Explorer";
 
-        this.setState({showmodelorientationmodal:!this.props.pageviewed})
+        // this.setState({showmodelorientationmodal:!this.props.pageviewed})
 
         // Load query string parameters if available
 
