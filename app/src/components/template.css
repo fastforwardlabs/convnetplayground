@@ -313,7 +313,7 @@ body{
 }
 
 .flexcolumn{
-    flex-direction: column
+    flex-direction: column;
 }
 
 .flex {
@@ -484,7 +484,7 @@ body{
 }
 
 .container-fluid{
-    height: 110%;
+    /* height: 100%; */
 }
 
 .root{

@@ -843,6 +843,10 @@ When you select an image (by clicking it), a neural network <span className="ita
                                             We construct <span className="italics">intermediate models</span> from the main model at each of
                                             these layers. Each intermediate model has less parameters than the full model
                                             and is used for feature extraction.
+                                            {/* <div class="bx--tooltip__footer">
+                                                <a href="#" class="bx--link">Learn More</a>
+                                                <button onClick={this.toggleSemanticModal.bind(this)} class="bx--btn bx--btn--primary bx--btn--sm" type="button">More Info</button>
+                                            </div> */}
                                         </div>
 
                                     </Tooltip>
@@ -995,7 +999,7 @@ When you select an image (by clicking it), a neural network <span className="ita
                                                             This is the percentage of returned results that belong to the same category
                                                         as the selected image (weighted by position in the result list). For the current
                                                         search, <strong>{simCount} / {this.state.topx} results </strong>  are in same category <strong>({selectedCat.toUpperCase()})</strong>.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Note that this score is conservative - some images may belong to different classes but
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Note that this score is conservative - some images may belong to different classes but
                                                         are <span className="italics"> similar </span> (e.g sedan, beetle, ferrari are <span className="italics">all</span> cars).
                                                         </div>
 

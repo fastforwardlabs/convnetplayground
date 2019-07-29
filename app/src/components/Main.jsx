@@ -16,6 +16,7 @@ import AppHeader from "./header/AppHeader";
 import Footer from "./footer/Footer";
 import SemanticEx from "../content/semanticex/SemanticEx";
 import ModelEx from "../content/modelex/ModelEx";
+import ModelPatterns from "../content/modelpatterns/ModelPatterns"
 import FAQ from "../content/faq/FAQ";
 import CompareVisualization from "../components/comparevisualization/CompareVisualization"
 import Scene from "../components/three/Scene"
@@ -154,11 +155,12 @@ class Main extends Component {
             <HashRouter>
                 <AppHeader></AppHeader>
 
-                <div className="container-fluid p10">
+                <div className="container-fluid p10 h100">
                     <Route exact path="/" component={mySemanticComponent} />
                     <Route exact path="/models" component={myModalComponent} />
                     <Route exact path="/scene" component={mScene} />
                     <Route exact path="/faq" component={FAQ} />
+                    <Route exact path="/patterns" component={ModelPatterns} />
                     <Route exact path="/test" component={myCompareComponent} />
 
                 </div>

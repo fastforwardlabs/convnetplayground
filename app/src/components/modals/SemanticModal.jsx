@@ -69,7 +69,7 @@ class SemanticModalContent extends Component {
                 and show marked differences in their ability to generate features that correctly identify similar images.
 
                 <div className="boldtext mt10"> Distance Metric </div>
-                We provide results that from the use of 4 different distance metrics in measuring the similarity between
+                We provide results from the use of 4 different distance metrics in measuring the similarity between
                 features extracted from all images in each dataset. These include cosine, euclidean, squared euclidean and minkowsi distances.
                 <br /> Hint: Cosine works best.
 
