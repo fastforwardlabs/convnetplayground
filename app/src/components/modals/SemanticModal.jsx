@@ -47,13 +47,15 @@ class SemanticModalContent extends Component {
 
 
                 The <strong> search results score </strong>  is the percentage of returned results that belong to the same category
-                as the selected image, weighted by position in the result list i.e correct results that are ranked top of the
-                           result list get more points compared to correct results at the end of the list.
+                as the selected image, weighted by its position in the result list i.e. correct results that are ranked at the top of the
+                           result list, get more points compared to correct results at the end of the list.
                 For example, for a search query which is an image of a Banana, the search score will be 100%
                 if all returned images all belong to the same category  (Bananas).
                 Note that this score is conservative - some images may belong to different classes
                 but are <span className="italics"> also similar </span> (e.g sedan, beetle, ferrari are <span className="italics">all</span> cars).
                 The search score can be used to easily compare  the performance of each search configuration.
+
+
 
 
 
