@@ -160,8 +160,8 @@ class FAQ extends Component {
                     to visualize features learned by channels in a
                     layer, <a target="_blank" rel="noopener noreferrer" href="https://anseki.github.io/leader-line/">leader-line </a> for drawing svg lines
                     and <a target="_blank" rel="noopener noreferrer" href="https://www.carbondesignsystem.com/">carbon</a> design system for layout.
-                    Pre trained models used in this project are sourced from the <a target="_blank" rel="noopener noreferrer" href="https://keras.io/applications/">Keras applications</a>  module, 
-                    efficientnets implementation from <a target="_blank" rel="noopener noreferrer" href="https://github.com/qubvel/efficientnet">here</a>. 
+                    Pre-trained models used in this project are sourced from the <a target="_blank" rel="noopener noreferrer" href="https://keras.io/applications/">Keras applications</a>  module, 
+                    EfficientNets implementation from <a target="_blank" rel="noopener noreferrer" href="https://github.com/qubvel/efficientnet">here</a>. 
                   Thanks to Grant Custer for valuable <a target="_blank" rel="noopener noreferrer" href="https://observablehq.com/@bryakas/using-three-js-for-2d-data-visualization">pointers on Three.js</a> and the rest of the
                                 Fast Forward Labs team for feedback and guidance!
                      

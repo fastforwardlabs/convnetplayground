@@ -522,7 +522,7 @@ class ModelEx extends Component {
                     
                 These images/visualizations represent an <span className="italics">example</span> of what the given neurons in the pretrained model have  <span className="italics"> learned to look for </span>.
                 They are <span className="italics"> generated </span> using 
-                an interative <a href="https://distill.pub/2017/feature-visualization/" target="_blank" rel="noopener noreferrer"> optimization</a> process which synthesizes input that causes 
+                an iterative <a href="https://distill.pub/2017/feature-visualization/" target="_blank" rel="noopener noreferrer"> optimization</a> process which synthesizes input that causes 
                         the neurons to have high
                 activation.  <a onClick={this.toggleModelsModal.bind(this)} href="">Learn more.</a>
                        
@@ -649,7 +649,7 @@ class ModelEx extends Component {
 
 
 
-                            <div onClick={this.twitterShare.bind(this)} className="mb10" > <div className="twitterbutton unselectable p10 clickable  flex greymoreinfo" href=""> Share on twitter </div> </div>
+                            <div onClick={this.twitterShare.bind(this)} className="mb10" > <div className="twitterbutton unselectable p10 clickable  flex greymoreinfo" href=""> Share on Twitter </div> </div>
                             <div className="boldtext enlargeddesc mb5  smalldesc">{abbreviateString(this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name.toUpperCase(), 26)}: {this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron]} / {this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].numneurons} </div>
                             <img className="enlargedneuron rad4" src={process.env.PUBLIC_URL + "/assets/models/" + selectedModel + "/" + selectedlayer + "/" + this.layerList[this.state.modelsList[this.state.selectedmodel].name][this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name][this.state.selectedneuron] + ".jpg"} alt="" />
 

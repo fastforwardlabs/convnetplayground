@@ -160,7 +160,7 @@ class Main extends Component {
                     <Route exact path="/models" component={myModalComponent} />
                     <Route exact path="/scene" component={mScene} />
                     <Route exact path="/faq" component={FAQ} />
-                    <Route exact path="/patterns" component={ModelPatterns} />
+                    {/* <Route exact path="/patterns" component={ModelPatterns} /> */}
                     <Route exact path="/test" component={myCompareComponent} />
 
                 </div>
