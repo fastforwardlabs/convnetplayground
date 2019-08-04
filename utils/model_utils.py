@@ -15,6 +15,8 @@ import json
 import utils.file_utils as f_utils
 import keras
 import pandas as pd
+# import utils.feature_utils as feat_utils
+# import utils.dataset_utils as d_utils
 
 from tensorflow.keras.models import Model
 from keras.models import Model as KModel
@@ -243,3 +245,25 @@ def get_model_viz_details(model_params):
 
     f_utils.save_json_file(model_params["output_path"], all_detail_holder)
     tf.logging.info("  >> Finished saving model and layer details")
+
+
+def get_class_details(dataset_name):
+    class_details_path = os.path.join(
+        "app/public/assets/semsearch/datasets", dataset_name, "classes.json")
+    class_details = f_utils.load_json_file(class_details_path)
+    class_dict = {}
+    for row in class_details:
+        class_dict[list(row.keys())[0]] = row[list(row.keys())[0]]
+    return class_dict
+
+
+def compute_performance(sim_list, main_image, class_details):
+    main_image_class = class_details[main_image]
+    model_score = 0
+    total_score = 0
+    for i, row in enumerate(sim_list):
+        # print(main_image_class, class_details[sim_list[i][0]])
+        if (main_image_class == class_details[sim_list[i][0]]):
+            model_score = model_score + (len(sim_list) - i) / len(sim_list)
+        total_score = total_score + (len(sim_list) - i) / len(sim_list)
+    return (model_score/total_score)

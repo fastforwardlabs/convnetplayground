@@ -5,6 +5,7 @@ import "./semanticex.css"
 import SemanticModalContent from "../../components/modals/SemanticModal"
 import { registerGAEvent, greyColor, blueColor, abbreviateString, loadJSONData, makeFriendly, boundWidth, checkInView, animOptions, LeaderLine } from "../../components/helperfunctions/HelperFunctions"
 import CompareVisualization from "../../components/comparevisualization/CompareVisualization"
+import CompareAllVisualization from "../../components/comparevisualization/CompareAllVisualization"
 import Scene from "../../components/three/Scene"
 import * as _ from 'lodash'
 // import * as THREE from 'three'
@@ -40,7 +41,7 @@ class SemanticEx extends Component {
             datasetsList: modelDetails["datasets"],
             modelsList: modelDetails["models"],
             distanceMetricList: modelDetails["metrics"],
-            showorientationmodal: !this.props.pageviewed,
+            showorientationmodal: false, // !this.props.pageviewed,
             showmodelconfig: false,
             showumap: false,
             showdatasetmodal: false,
@@ -48,7 +49,8 @@ class SemanticEx extends Component {
             viewdatasetby: "all",
             showadvanced: false,
             topx: 15,
-            showcomparemodal: false
+            showcomparemodal: false,
+            showcompareallmodels: true,
         }
         this.updateSimilarity()
         this.loadDatasetList()
@@ -57,12 +59,8 @@ class SemanticEx extends Component {
         this.lineHolder = []
         this.lastclicked = "dataset"
 
-
         this.keyFunction = this.keyFunction.bind(this);
         this.scrollEndedHandler = this.scrollEndedHandler.bind(this)
-
-
-
     }
 
     scrollEndedHandler() {
@@ -278,6 +276,10 @@ class SemanticEx extends Component {
             this.showTopResults()
             this.searchCount++
 
+            // if (this.state.showcompareallmodels) {
+            //     this.updateCompareAllModels()
+            // }
+
         }
         if (this.state.selectedmodel !== prevState.selectedmodel) {
             this.drawLines()
@@ -425,6 +427,7 @@ class SemanticEx extends Component {
 
     updateSimilarity() {
 
+
         let similarityPath = process.env.PUBLIC_URL + "/assets/semsearch/similarity/" + this.state.datasetsList[this.state.selecteddataset].name + "/" + this.state.modelsList[this.state.selectedmodel].name + "/" + this.state.distanceMetricList[this.state.selectedmetric] + "/" + this.state.modelsList[this.state.selectedmodel].layers[this.state.selectedlayer].name + ".json"
         let loadedJSON = loadJSONData(similarityPath)
         // console.log(similarityPath)    
@@ -437,6 +440,7 @@ class SemanticEx extends Component {
         })
 
     }
+
 
     loadDatasetList() {
 
@@ -777,6 +781,8 @@ When you select an image (by clicking it), a neural network <span className="ita
 
                     </div>
 
+
+                    {/* Configuration drawer */}
                     {<div style={{ zIndex: 500 }} className={"flex modelconfigdiv p10 " + (this.state.showmodelconfig ? "" : " displaynone")} >
                         <div className="flex2 mr10">
                             <div className=" pb10 sectiontitle" >
@@ -901,6 +907,9 @@ When you select an image (by clicking it), a neural network <span className="ita
                     </div>}
 
 
+
+
+
                     {/* show umap panel and content */}
                     <div style={{ zIndex: 100 }} onClick={this.toggleUMAPView.bind(this)} className="unselectable mt10 p10 clickable  flex greymoreinfo">
                         <div className="iblock flexfull minwidth485"> <strong> {!this.state.showumap && <span>&#x25BC;  </span>} {this.state.showumap && <span>&#x25B2;  </span>} </strong> Visualization of Embeddings (UMAP) for Extracted Features </div>
@@ -930,6 +939,22 @@ When you select an image (by clicking it), a neural network <span className="ita
                             </Scene>
                         </div>
                     }
+
+                </div>
+
+                {/* All dataset compare panel */}
+                <div className="mt10 border p10">
+                    <CompareAllVisualization
+                        data={{
+                            metric: this.state.distanceMetricList[this.state.selectedmetric],
+                            model: this.state.modelsList[this.state.selectedmodel].name,
+                            dataset: this.state.datasetsList[this.state.selecteddataset].name,
+                            layers: this.state.modelsList[this.state.selectedmodel].layers,
+                            chartWidth: 250,
+                            chartHeight: 220,
+                            dml: this.state.datasetsList[this.state.selecteddataset].name + this.state.modelsList[this.state.selectedmodel].name + this.state.distanceMetricList[this.state.selectedmetric]
+                        }}
+                    />
 
                 </div>
 
@@ -999,7 +1024,7 @@ When you select an image (by clicking it), a neural network <span className="ita
                                                             This is the percentage of returned results that belong to the same category
                                                         as the selected image (weighted by position in the result list). For the current
                                                         search, <strong>{simCount} / {this.state.topx} results </strong>  are in same category <strong>({selectedCat.toUpperCase()})</strong>.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Note that this score is conservative - some images may belong to different classes but
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Note that this score is conservative - some images may belong to different classes but
                                                         are <span className="italics"> similar </span> (e.g sedan, beetle, ferrari are <span className="italics">all</span> cars).
                                                         </div>
 

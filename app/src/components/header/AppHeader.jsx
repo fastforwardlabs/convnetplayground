@@ -44,7 +44,7 @@ class AppHeader extends Component {
     }
 
     checkCurrentRoute(route) {
-        console.log(window.location.hash, route)
+        // console.log(window.location.hash, route)
         if (window.location.hash == route) {
             return true
         }

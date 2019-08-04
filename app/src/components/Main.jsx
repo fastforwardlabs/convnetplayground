@@ -18,7 +18,7 @@ import SemanticEx from "../content/semanticex/SemanticEx";
 import ModelEx from "../content/modelex/ModelEx";
 import ModelPatterns from "../content/modelpatterns/ModelPatterns"
 import FAQ from "../content/faq/FAQ";
-import CompareVisualization from "../components/comparevisualization/CompareVisualization"
+import CompareAllVisualization from "../components/comparevisualization/CompareAllVisualization"
 import Scene from "../components/three/Scene"
 // import About from "../sections/About"
 // import Game from "../sections/Game"
@@ -121,7 +121,7 @@ class Main extends Component {
 
             return (
 
-                <CompareVisualization
+                <CompareAllVisualization
                     data={{
                         metric: "cosine",
                         selectedimage: 127,

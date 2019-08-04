@@ -100,6 +100,60 @@ def generate_model_viz_details():
     m_utils.get_model_viz_details(model_params)
 
 
+def compute_scores():
+    model_name = "vgg16"
+    dataset_name = "iconic200"
+    metric_name = "cosine"
+    layer_name = "block1_conv1"
+    topx = 15
+
+    sim_base_path = "app/public/assets/semsearch/similarity"
+    score_base_path = "app/public/assets/semsearch/scores"
+
+    similarity_metrics = feat_utils.list_distance_metrics()
+
+    model_architectures = m_utils.get_supported_models()
+    dataset_details = d_utils.get_supported_datasets()
+    dataset_result_holder = {}
+    for dataset_detail in dataset_details:
+        dataset_name = dataset_detail["name"]
+        model_result_holder = {}
+        for model_detail in model_architectures:
+            model_name = model_detail["name"]
+            metric_holder = {}
+            for metric_name in similarity_metrics:
+                layer_names = m_utils.get_model_layer_names(model_name)
+                layer_score_holder = {}
+                score_path = os.path.join(score_base_path, dataset_name,
+                                          model_name)
+                f_utils.mkdir(score_path)
+                score_path = os.path.join(score_path, metric_name + ".json")
+
+                for layer_name in layer_names:
+                    class_details = m_utils.get_class_details(dataset_name)
+                    sim_path = os.path.join(sim_base_path, dataset_name,
+                                            model_name, metric_name, layer_name + ".json")
+
+                    print(sim_path)
+                    sim_details = f_utils.load_json_file(sim_path)
+                    model_score_per_image_holder = []
+                    for i in range(len(sim_details)):
+                        main_image = str(i)
+                        each_sim = sim_details[main_image][1:topx + 1]
+                        model_score = m_utils.compute_performance(
+                            each_sim, main_image, class_details)
+                        model_score_per_image_holder.append(model_score*100)
+
+                    # model_score_per_image_holder
+                    layer_score_holder[layer_name] = model_score_per_image_holder
+
+                metric_holder[metric_name] = layer_score_holder
+                f_utils.save_json_file(score_path, layer_score_holder)
+            model_result_holder[model_name] = metric_holder
+        dataset_result_holder[dataset_name] = model_result_holder
+    print("Score generation complete")
+    score_save_path = "app/src/assets/semsearch/modelscores.json"
+    f_utils.save_json_file(score_save_path, dataset_result_holder)
 # start_time = datetime.now()
 # supported_datasets = d_utils.get_supported_datasets()
 # for dataset in supported_datasets:
@@ -120,7 +174,7 @@ def generate_model_viz_details():
 # d_utils.process_comparisons()
 
 # f_utils.compress_files(base_path)
-f_utils.compress_files(base_path_public_models)
+# f_utils.compress_files(base_path_public_models)
 
 # d_utils.curate_interesting()
 
@@ -129,3 +183,7 @@ f_utils.compress_files(base_path_public_models)
 # d_utils.process_dataset(os.path.join(base_path_public, "datasets/fashion200"))
 
 # d_utils.process_dataset_labels()
+
+
+# Generate all model comparison scores
+compute_scores()
