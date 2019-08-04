@@ -35,3 +35,9 @@
 .displayinvisible{
     visibility: hidden;
 }
+
+.loadingdiv{
+    /* position: absolute; */
+    /* top: 15px;
+    left: 10px; */
+}

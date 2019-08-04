@@ -29,13 +29,16 @@ class CompareAllVisualization extends Component {
 
     loadAllModelComp() {
         let self = this
-        this.refs["comparevisualizationbox"].innerHTML = ""
+        this.refs["comparevisualizationbox"].style.opacity = 0.0;
+        // 
+
         self.setState({ loadingCompare: true })
         let scorePath = process.env.PUBLIC_URL + "/assets/semsearch/scores/" + this.state.data.dataset + "/" + this.state.data.model + "/" + this.state.data.metric + ".json";
         let loadedJSON = loadJSONData(scorePath)
 
         loadedJSON.then(function (data) {
             if (data) {
+                self.refs["comparevisualizationbox"].innerHTML = ""
                 // console.log(self.props.data.selectedimage + "")
                 // console.log(self.state)
                 // self.genGraphData(data[self.props.data.selectedimage + ""], layer, model.name)
@@ -61,6 +64,8 @@ class CompareAllVisualization extends Component {
                 mbox.appendChild(mainimg)
                 mbox.appendChild(mboxtitle)
                 self.refs["comparevisualizationbox"].append(mbox)
+
+                self.refs["comparevisualizationbox"].style.opacity = 1;
 
             }
         })
@@ -233,16 +238,20 @@ class CompareAllVisualization extends Component {
                 </div>
 
 
-                {this.state.loadingCompare &&
-                    <InlineLoading
-                        description="Generating scores for intermediate models"
-                    >
 
-                    </InlineLoading>
-                }
-                <div ref="comparevisualizationbox" className="comparevisualizationbox">
+                <div ref="comparevisualizationbox" className="comparevisualizationbox compareallvizbox transition3s">
 
                 </div>
+
+                {this.state.loadingCompare &&
+                    <div className="loadingdiv">
+                        <InlineLoading
+                            description="Generating scores for intermediate models"
+                        >
+
+                        </InlineLoading>
+                    </div>
+                }
 
                 {/* <div id="mainimagebox" className="maincomparebox positionrelative iblock ">
                     <img id="mainimage" className="maincompareimg rad2 iblock" src="assets/semsearch/datasets/iconic200/0.jpg" alt="" />
