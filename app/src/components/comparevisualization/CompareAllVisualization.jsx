@@ -22,6 +22,8 @@ class CompareAllVisualization extends Component {
         this.miniChartHeight = this.props.data.chartHeight
         this.overallBestScore = 0
         this.overallBestModel = ""
+
+
     }
 
 
@@ -47,23 +49,23 @@ class CompareAllVisualization extends Component {
                 });
                 self.setState({ loadingCompare: false })
 
-                let mbox = document.createElement("div");
-                mbox.setAttribute("class", "maincomparebox positionrelative iblock displayinvisible");
-                mbox.setAttribute("id", "mainimagebox")
+                // let mbox = document.createElement("div");
+                // mbox.setAttribute("class", "maincomparebox positionrelative iblock displayinvisible");
+                // mbox.setAttribute("id", "mainimagebox")
 
-                let mboxtitle = document.createElement("div");
-                mboxtitle.setAttribute("class", "maincomparetitle pt5 mediumdesc");
-                mboxtitle.setAttribute("id", "mainimagetitle")
-                // mboxtitle.innerHTML = "Bingo"
+                // let mboxtitle = document.createElement("div");
+                // mboxtitle.setAttribute("class", "maincomparetitle pt5 mediumdesc");
+                // mboxtitle.setAttribute("id", "mainimagetitle")
+                // // mboxtitle.innerHTML = "Bingo"
 
 
-                let mainimg = document.createElement("img");
-                mainimg.setAttribute("src", "assets/semsearch/datasets/iconic200/0.jpg");
-                mainimg.setAttribute("class", "maincompareimg rad2 iblock");
-                mainimg.setAttribute("id", "mainimage")
-                mbox.appendChild(mainimg)
-                mbox.appendChild(mboxtitle)
-                self.refs["comparevisualizationbox"].append(mbox)
+                // let mainimg = document.createElement("img");
+                // mainimg.setAttribute("src", "assets/semsearch/datasets/iconic200/0.jpg");
+                // mainimg.setAttribute("class", "maincompareimg rad2 iblock");
+                // mainimg.setAttribute("id", "mainimage")
+                // mbox.appendChild(mainimg)
+                // mbox.appendChild(mboxtitle)
+                // self.refs["comparevisualizationbox"].append(mbox)
 
                 self.refs["comparevisualizationbox"].style.opacity = 1;
 
@@ -72,6 +74,8 @@ class CompareAllVisualization extends Component {
     }
 
     drawChart(layerScores, layer_name) {
+        this.componetOffsetLeft = this.refs["componentbox"].offsetLeft
+        this.componetOffsetTop = this.refs["componentbox"].offsetTop
         let self = this
         let data = layerScores
         let lightgreen = "rgba(0, 128, 0, 0.795)"
@@ -115,14 +119,21 @@ class CompareAllVisualization extends Component {
                 return grey + Math.max(d / 100, 0.3) + ")"
             })
             .on("mouseover", function (d, i) {
+                var x = d3.event.pageX - self.componetOffsetLeft
+                x = d3.event.pageX + 200 < window.innerWidth ? x : x - 200 - self.componetOffsetLeft - 10
+                var y = d3.event.pageY - self.componetOffsetTop
+                // console.log(d3.event.pageX + 200, window.innerWidth)
                 d3.select(this).attr("fill", "#0062FF");
-                document.getElementById("mainimagebox").classList.remove("displayinvisible")
+
+                document.getElementById("mainimagebox").style.left = x + "px"
+                document.getElementById("mainimagebox").style.top = y + "px"
+                document.getElementById("mainimagebox").classList.remove("displaynone")
                 document.getElementById("mainimage").src = base_img_path + i + ".jpg"
-                document.getElementById("mainimagetitle").innerHTML = "Image " + i + " in <strong> " + self.state.data.dataset + " </strong> dataset"
+                document.getElementById("mainimagetitle").innerHTML = "Image " + i + ", <strong> " + d.toFixed(2) + "%  </strong> "
             })
             .on("mouseout", function (d, i) {
                 d3.select(this).attr("fill", grey + Math.max(d / 100, 0.3));
-                document.getElementById("mainimagebox").classList.add("displayinvisible")
+                document.getElementById("mainimagebox").classList.add("displaynone")
             })
 
 
@@ -209,6 +220,9 @@ class CompareAllVisualization extends Component {
         // this.compareModels()
         this.loadAllModelComp()
 
+
+
+
     }
     componentDidUpdate(prevProps, prevState) {
         // console.log("fire update event", this.props.data.dml)
@@ -227,7 +241,14 @@ class CompareAllVisualization extends Component {
     render() {
 
         return (
-            <div className="positionrelative">
+            <div ref="componentbox" className="positionrelative">
+                <div id="mainimagebox" className="maincomparebox positionabsolute displaynone">
+                    <div id="mainimagetitle" className="maincomparetitle"></div>
+                    <img id="mainimage" className="maincompareimg rad2 iblock" src="assets/semsearch/datasets/iconic200/0.jpg" alt="" />
+
+                </div>
+
+
                 <div className="flex mb10">
 
                     <div className="flexfull mb5 mt5">
@@ -253,10 +274,6 @@ class CompareAllVisualization extends Component {
                     </div>
                 }
 
-                {/* <div id="mainimagebox" className="maincomparebox positionrelative iblock ">
-                    <img id="mainimage" className="maincompareimg rad2 iblock" src="assets/semsearch/datasets/iconic200/0.jpg" alt="" />
-                    <div id="mainimagetitle" className="">bingo</div>
-                </div> */}
 
 
             </div >

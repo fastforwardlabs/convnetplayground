@@ -3,13 +3,16 @@ ReactGA.initialize("UA-53030428-17")
 
 export function registerGAEvent(componentName, eventCategory, eventAction, componentLoadTime) {
     let eventTime = (new Date()).getTime() - componentLoadTime
-    // console.log("GA", eventCategory, eventTime, eventAction, componentName)
-    ReactGA.event({
-        category: eventCategory,
-        action: eventAction,
-        value: eventTime,
-        label: componentName
-    });
+    if (window.location.hostname != "localhost") {
+        console.log("GA", eventCategory, eventTime, eventAction, componentName)
+        ReactGA.event({
+            category: eventCategory,
+            action: eventAction,
+            value: eventTime,
+            label: componentName
+        });
+    }
+
 }
 
 export function abbreviateString(value, maxLength) {
