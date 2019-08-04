@@ -41,7 +41,7 @@ class SemanticEx extends Component {
             datasetsList: modelDetails["datasets"],
             modelsList: modelDetails["models"],
             distanceMetricList: modelDetails["metrics"],
-            showorientationmodal: false, // !this.props.pageviewed,
+            showorientationmodal: this.props.pageviewed,
             showmodelconfig: false,
             showumap: false,
             showdatasetmodal: false,
@@ -50,7 +50,7 @@ class SemanticEx extends Component {
             showadvanced: false,
             topx: 15,
             showcomparemodal: false,
-            showcompareallmodels: true,
+            showcompareallmodels: false,
         }
         this.updateSimilarity()
         this.loadDatasetList()
@@ -401,6 +401,11 @@ class SemanticEx extends Component {
         registerGAEvent("semanticsearch", "advancedoptions", this.state.showadvanced ? "off" : "on", this.componentLoadedTime)
         this.setState({ showmodelconfig: !(this.state.showadvanced) })
         this.setState({ showadvanced: !(this.state.showadvanced) })
+    }
+
+    toggleAllCompareView() {
+        registerGAEvent("semanticsearch", "allcompare", this.state.showcompareallmodels ? "close" : "open", this.componentLoadedTime)
+        this.setState({ showcompareallmodels: !(this.state.showcompareallmodels) })
     }
 
     showTopResults() {
@@ -907,6 +912,35 @@ When you select an image (by clicking it), a neural network <span className="ita
                     </div>}
 
 
+                    {/* All dataset compare panel */}
+                    <div style={{ zIndex: 100 }} onClick={this.toggleAllCompareView.bind(this)} className="unselectable mt10 p10 clickable  flex greymoreinfo">
+                        <div className="iblock flexfull minwidth485"> <strong> {!this.state.showcompareallmodels && <span>&#x25BC;  </span>} {this.state.showcompareallmodels && <span>&#x25B2;  </span>} </strong> Compare Models </div>
+                        <div className="iblock   ">
+                            <div className="iblock mr5"> <span className="boldtext"> {this.state.modelsList[this.state.selectedmodel].name.toUpperCase()} </span></div>
+                            <div className="iblock">
+                                <div className="smalldesc">   {this.state.distanceMetricList[this.state.selectedmetric].toUpperCase()} DISTANCE  </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    {(this.state.showcompareallmodels) &&
+                        <div className="modelconfigdiv comparediv p10">
+                            <CompareAllVisualization
+                                data={{
+                                    metric: this.state.distanceMetricList[this.state.selectedmetric],
+                                    model: this.state.modelsList[this.state.selectedmodel].name,
+                                    dataset: this.state.datasetsList[this.state.selecteddataset].name,
+                                    layers: this.state.modelsList[this.state.selectedmodel].layers,
+                                    chartWidth: 290,
+                                    chartHeight: 220,
+                                    dml: this.state.datasetsList[this.state.selecteddataset].name + this.state.modelsList[this.state.selectedmodel].name + this.state.distanceMetricList[this.state.selectedmetric]
+                                }}
+                            />
+
+                        </div>
+
+                    }
 
 
 
@@ -940,23 +974,11 @@ When you select an image (by clicking it), a neural network <span className="ita
                         </div>
                     }
 
-                </div>
 
-                {/* All dataset compare panel */}
-                <div className="mt10 border p10">
-                    <CompareAllVisualization
-                        data={{
-                            metric: this.state.distanceMetricList[this.state.selectedmetric],
-                            model: this.state.modelsList[this.state.selectedmodel].name,
-                            dataset: this.state.datasetsList[this.state.selecteddataset].name,
-                            layers: this.state.modelsList[this.state.selectedmodel].layers,
-                            chartWidth: 250,
-                            chartHeight: 220,
-                            dml: this.state.datasetsList[this.state.selecteddataset].name + this.state.modelsList[this.state.selectedmodel].name + this.state.distanceMetricList[this.state.selectedmetric]
-                        }}
-                    />
 
                 </div>
+
+
 
 
                 {/* top results */}
@@ -1024,7 +1046,7 @@ When you select an image (by clicking it), a neural network <span className="ita
                                                             This is the percentage of returned results that belong to the same category
                                                         as the selected image (weighted by position in the result list). For the current
                                                         search, <strong>{simCount} / {this.state.topx} results </strong>  are in same category <strong>({selectedCat.toUpperCase()})</strong>.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Note that this score is conservative - some images may belong to different classes but
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Note that this score is conservative - some images may belong to different classes but
                                                         are <span className="italics"> similar </span> (e.g sedan, beetle, ferrari are <span className="italics">all</span> cars).
                                                         </div>
 

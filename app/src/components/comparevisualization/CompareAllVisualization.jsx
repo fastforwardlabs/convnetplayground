@@ -37,12 +37,30 @@ class CompareAllVisualization extends Component {
         loadedJSON.then(function (data) {
             if (data) {
                 // console.log(self.props.data.selectedimage + "")
-                console.log(self.state)
+                // console.log(self.state)
                 // self.genGraphData(data[self.props.data.selectedimage + ""], layer, model.name)
                 self.state.data.layers.forEach(each => {
                     self.drawChart(data[each.name], each.layer_index)
                 });
                 self.setState({ loadingCompare: false })
+
+                let mbox = document.createElement("div");
+                mbox.setAttribute("class", "maincomparebox positionrelative iblock displayinvisible");
+                mbox.setAttribute("id", "mainimagebox")
+
+                let mboxtitle = document.createElement("div");
+                mboxtitle.setAttribute("class", "maincomparetitle pt5 mediumdesc");
+                mboxtitle.setAttribute("id", "mainimagetitle")
+                // mboxtitle.innerHTML = "Bingo"
+
+
+                let mainimg = document.createElement("img");
+                mainimg.setAttribute("src", "assets/semsearch/datasets/iconic200/0.jpg");
+                mainimg.setAttribute("class", "maincompareimg rad2 iblock");
+                mainimg.setAttribute("id", "mainimage")
+                mbox.appendChild(mainimg)
+                mbox.appendChild(mboxtitle)
+                self.refs["comparevisualizationbox"].append(mbox)
 
             }
         })
@@ -53,6 +71,7 @@ class CompareAllVisualization extends Component {
         let data = layerScores
         let lightgreen = "rgba(0, 128, 0, 0.795)"
         let grey = "rgba(117, 117, 117,"
+        let base_img_path = process.env.PUBLIC_URL + "/assets/semsearch/datasets/" + this.state.data.dataset + "/";
         // const data = [12, 5, 6, 6, 9, 10];
         // const data = [{ sales: 10, salesperson: "lenny" }, { sales: 8.4, salesperson: "harper" }, { sales: 4.5, salesperson: "crass" }, { sales: 2, salesperson: "lago" }];
         var margin = { top: 30, right: 5, bottom: 40, left: 45 },
@@ -90,13 +109,15 @@ class CompareAllVisualization extends Component {
             .attr("fill", function (d) {
                 return grey + Math.max(d / 100, 0.3) + ")"
             })
-            .on("mouseover", function () {
-                d3.select(this)
-                    .attr("fill", "#0062FF");
+            .on("mouseover", function (d, i) {
+                d3.select(this).attr("fill", "#0062FF");
+                document.getElementById("mainimagebox").classList.remove("displayinvisible")
+                document.getElementById("mainimage").src = base_img_path + i + ".jpg"
+                document.getElementById("mainimagetitle").innerHTML = "Image " + i + " in <strong> " + self.state.data.dataset + " </strong> dataset"
             })
             .on("mouseout", function (d, i) {
-                d3.select(this)
-                    .attr("fill", grey + Math.max(d / 100, 0.3));
+                d3.select(this).attr("fill", grey + Math.max(d / 100, 0.3));
+                document.getElementById("mainimagebox").classList.add("displayinvisible")
             })
 
 
@@ -121,11 +142,12 @@ class CompareAllVisualization extends Component {
         svg.append("text")
             .attr("x", self.miniChartWidth / 2 - 20)
             .attr("y", -12)
+            .attr("class", "mediumdesc boldtext")
             .style("text-anchor", "middle")
-            .attr("class", "boldtext mediumdesc")
             .text(function () {
-                // let textVal = 
-                return ("Layer " + layer_name).toUpperCase()
+                let textVal = "<div><span class='boldtext mediumdesc'>" + "Layer " + layer_name + "</span> <span class='smalldesc'> " + _.mean(layerScores).toFixed(2) + " </span> </div>"
+
+                return "Layer " + layer_name + " [ Mean: " + _.mean(layerScores).toFixed(2) + " ]"
             });
 
         // xaxis label
@@ -142,7 +164,7 @@ class CompareAllVisualization extends Component {
         //     .attr("y", 0 - 14)
         //     .style("text-anchor", "middle")
         //     .attr("class", function () {
-        //         return "boldtext displaynone overallbest smalldesc topmodel" + layerScores.maxvalue
+        //         return "boldtext displayinvisible overallbest smalldesc topmodel" + layerScores.maxvalue
         //     })
         //     .text("*BEST");
 
@@ -186,7 +208,7 @@ class CompareAllVisualization extends Component {
     componentDidUpdate(prevProps, prevState) {
         // console.log("fire update event", this.props.data.dml)
         if (this.props.data.dml !== prevProps.data.dml) {
-            console.log("things have changed", this.props.data)
+            // console.log("things have changed", this.props.data)
             this.setState({ data: this.props.data }, () => {
                 this.loadAllModelComp()
             })
@@ -200,10 +222,12 @@ class CompareAllVisualization extends Component {
     render() {
 
         return (
-            <div>
+            <div className="positionrelative">
                 <div className="flex mb10">
 
-                    <div className="flexfull">
+                    <div className="flexfull mb5 mt5">
+                        The charts below summarize the similarity search score achieved by each intermediate model in <strong>{this.state.data.model}</strong> for
+                         each of the 200 images in the <strong> {this.state.data.dataset} </strong> dataset.
 
                     </div>
                 </div>
@@ -211,7 +235,7 @@ class CompareAllVisualization extends Component {
 
                 {this.state.loadingCompare &&
                     <InlineLoading
-                        description="Comparing scores for all models .."
+                        description="Generating scores for intermediate models"
                     >
 
                     </InlineLoading>
@@ -220,8 +244,10 @@ class CompareAllVisualization extends Component {
 
                 </div>
 
-                <br />
-                <br />
+                {/* <div id="mainimagebox" className="maincomparebox positionrelative iblock ">
+                    <img id="mainimage" className="maincompareimg rad2 iblock" src="assets/semsearch/datasets/iconic200/0.jpg" alt="" />
+                    <div id="mainimagetitle" className="">bingo</div>
+                </div> */}
 
 
             </div >

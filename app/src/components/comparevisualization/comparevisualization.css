@@ -11,3 +11,27 @@
     background: rgba(66, 248, 136, 0.801) ;
    fill: green;  
 }
+
+.maincompareimg{
+    height: 150px; 
+    width: 200px;
+    object-fit: cover;
+    margin: 0px 0px 40px 0px;
+    border-bottom: 4px #0062FF solid;
+    
+    /* width: 5em;  */
+}
+
+.maincomparebox{ 
+   height: 100%;
+   margin: 0px 0px 0px 15px;
+}
+
+.maincomparetitle{
+   position: absolute;
+   top: 155px
+}
+
+.displayinvisible{
+    visibility: hidden;
+}

@@ -184,6 +184,9 @@ div.bx--modal-container{
     background:  rgba(209, 209, 209, 0.3);
    
 }
+.comparediv{
+    min-height: 400px;;
+}
 .mainsemanticdiv{
     min-width: 360px;
     /* border: 1px solid black; */
