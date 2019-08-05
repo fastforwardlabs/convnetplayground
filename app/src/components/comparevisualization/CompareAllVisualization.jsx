@@ -23,6 +23,7 @@ class CompareAllVisualization extends Component {
         this.overallBestScore = 0
         this.overallBestModel = ""
 
+        this.colorPalette = ["0,86,77", "56,60,74", "141,38,99", "37,37,37", "175,4,4", "0,102,102", "23,34,59", "62,100,255", "39,170,128", "148,56,85"]
 
     }
 
@@ -115,10 +116,15 @@ class CompareAllVisualization extends Component {
             .attr("width", x.bandwidth())
             .attr("y", function (d) { return y(d); })
             .attr("height", function (d) { return height - y(d); })
-            .attr("fill", function (d) {
+            .attr("fill", function (d, i) {
+                let opacity = Math.max(d / 100, 0.3)
+                let colorIndex = Math.floor(i / 20)
+                let color = "rgba(" + self.colorPalette[colorIndex] + "," + opacity + ")"
+                console.log(color)
                 return grey + Math.max(d / 100, 0.3) + ")"
             })
             .on("mouseover", function (d, i) {
+                d3.select(this).attr("width", 4);
                 var x = d3.event.pageX - self.componetOffsetLeft
                 x = d3.event.pageX + 200 < window.innerWidth ? x : x - 200 - self.componetOffsetLeft - 10
                 var y = d3.event.pageY - self.componetOffsetTop
@@ -132,6 +138,7 @@ class CompareAllVisualization extends Component {
                 document.getElementById("mainimagetitle").innerHTML = "Image " + i + ", <strong> " + d.toFixed(2) + "%  </strong> "
             })
             .on("mouseout", function (d, i) {
+                d3.select(this).attr("width", x.bandwidth());
                 d3.select(this).attr("fill", grey + Math.max(d / 100, 0.3));
                 document.getElementById("mainimagebox").classList.add("displaynone")
             })
@@ -147,12 +154,12 @@ class CompareAllVisualization extends Component {
 
         var ticks = d3.select(".svgbox" + layer_name).selectAll(".tick text");
         ticks.attr("class", function (d, i) {
-            if (i % 30 != 0) d3.select(this).remove();
+            if (i % 20 != 0) d3.select(this).remove();
         });
 
         var lines = d3.select(".svgbox" + layer_name).selectAll(".tick line");
         lines.attr("class", function (d, i) {
-            if (i % 30 != 0) d3.select(this).remove();
+            if (i % 20 != 0) d3.select(this).remove();
         });
         // chart title
         svg.append("text")
@@ -251,7 +258,7 @@ class CompareAllVisualization extends Component {
 
                 <div className="flex mb10">
 
-                    <div className="flexfull mb5 mt5">
+                    <div className="flexfull mb5 mt5 lh10">
                         The charts below summarize the similarity search score achieved by each intermediate model in <strong>{this.state.data.model}</strong> for
                          each of the 200 images in the <strong> {this.state.data.dataset} </strong> dataset.
 

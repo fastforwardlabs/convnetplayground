@@ -41,7 +41,7 @@ class SemanticEx extends Component {
             datasetsList: modelDetails["datasets"],
             modelsList: modelDetails["models"],
             distanceMetricList: modelDetails["metrics"],
-            showorientationmodal: this.props.pageviewed,
+            showorientationmodal: !this.props.pageviewed,
             showmodelconfig: false,
             showumap: false,
             showdatasetmodal: false,
@@ -1046,7 +1046,7 @@ When you select an image (by clicking it), a neural network <span className="ita
                                                             This is the percentage of returned results that belong to the same category
                                                         as the selected image (weighted by position in the result list). For the current
                                                         search, <strong>{simCount} / {this.state.topx} results </strong>  are in same category <strong>({selectedCat.toUpperCase()})</strong>.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Note that this score is conservative - some images may belong to different classes but
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Note that this score is conservative - some images may belong to different classes but
                                                         are <span className="italics"> similar </span> (e.g sedan, beetle, ferrari are <span className="italics">all</span> cars).
                                                         </div>
 
