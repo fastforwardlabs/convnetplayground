@@ -3,8 +3,9 @@ import React, { Component } from 'react'
 import "./comparevisualization.css"
 import * as _ from 'lodash'
 import { InlineLoading } from 'carbon-components-react';
-import { loadJSONData } from "../helperfunctions/HelperFunctions"
+import { loadJSONData, ColorArray } from "../helperfunctions/HelperFunctions"
 import * as d3 from "d3"
+import { Color } from 'three';
 
 class CompareAllVisualization extends Component {
     constructor(props) {
@@ -24,7 +25,7 @@ class CompareAllVisualization extends Component {
         this.overallBestModel = ""
 
         this.colorPalette = ["0,86,77", "56,60,74", "141,38,99", "37,37,37", "175,4,4", "0,102,102", "23,34,59", "62,100,255", "39,170,128", "148,56,85"]
-
+        this.palette = ColorArray()
     }
 
 
@@ -120,7 +121,7 @@ class CompareAllVisualization extends Component {
                 let opacity = Math.max(d / 100, 0.3)
                 let colorIndex = Math.floor(i / 20)
                 let color = "rgba(" + self.colorPalette[colorIndex] + "," + opacity + ")"
-                console.log(color)
+                // console.log(color)
                 return grey + Math.max(d / 100, 0.3) + ")"
             })
             .on("mouseover", function (d, i) {
@@ -129,7 +130,8 @@ class CompareAllVisualization extends Component {
                 x = d3.event.pageX + 200 < window.innerWidth ? x : x - 200 - self.componetOffsetLeft - 10
                 var y = d3.event.pageY - self.componetOffsetTop
                 // console.log(d3.event.pageX + 200, window.innerWidth)
-                d3.select(this).attr("fill", "#0062FF");
+                let fillColor = self.palette[Math.floor(i / 20)]
+                d3.select(this).attr("fill", fillColor);
 
                 document.getElementById("mainimagebox").style.left = x + "px"
                 document.getElementById("mainimagebox").style.top = y + "px"
@@ -142,6 +144,7 @@ class CompareAllVisualization extends Component {
                 d3.select(this).attr("fill", grey + Math.max(d / 100, 0.3));
                 document.getElementById("mainimagebox").classList.add("displaynone")
             })
+
 
 
 
@@ -220,6 +223,24 @@ class CompareAllVisualization extends Component {
             g.call(xAxis);
             g.select(".domain").remove();
         }
+
+        layerScores.forEach((each, i) => {
+
+            if (i % 20 == 0) {
+                // console.log("start", (Math.floor(i / 20)) * (width / 10), "end")
+                let x1 = (Math.floor(i / 20)) * (width / 10)
+                let x2 = x1 + width / 10
+                svg.append("line")
+                    .attr("x1", x1)
+                    .attr("x2", x2)
+                    .attr("y1", height)
+                    .attr("y2", height)
+                    .attr("stroke-width", 2)
+                    .attr("stroke", this.palette[Math.floor(i / 20)])
+            }
+        });
+
+        // .attr("stroke-dasharray", "8,8");
     }
 
 
@@ -235,6 +256,7 @@ class CompareAllVisualization extends Component {
         // console.log("fire update event", this.props.data.dml)
         if (this.props.data.dml !== prevProps.data.dml) {
             // console.log("things have changed", this.props.data)
+            console.log(this.props.data.classLabels)
             this.setState({ data: this.props.data }, () => {
                 this.loadAllModelComp()
             })
@@ -246,6 +268,22 @@ class CompareAllVisualization extends Component {
 
 
     render() {
+        let classHolder = []
+        for (let i = 0; i < 200; i += 20) {
+            classHolder.push({ label: this.props.data.classLabels[i], color: this.palette[Math.floor(i / 20)] })
+        }
+
+        console.log(classHolder)
+
+        let legendImageList = classHolder.map((data, index) => {
+            return (
+                <div key={"labelrow" + index} className="">
+                    <div style={{ borderLeft: "4px solid " + data.color }} className="legbox mediumdesc">{data.label}</div>
+
+                </div>
+            )
+        })
+
 
         return (
             <div ref="componentbox" className="positionrelative">
@@ -256,19 +294,30 @@ class CompareAllVisualization extends Component {
                 </div>
 
 
+
                 <div className="flex mb10">
 
                     <div className="flexfull mb5 mt5 lh10">
                         The charts below summarize the similarity search score achieved by each intermediate model in <strong>{this.state.data.model}</strong> for
                          each of the 200 images in the <strong> {this.state.data.dataset} </strong> dataset.
-
                     </div>
+                </div>
+
+                <div className="">
+
                 </div>
 
 
 
-                <div ref="comparevisualizationbox" className="comparevisualizationbox compareallvizbox transition3s">
-
+                <div className="flex">
+                    <div ref="comparevisualizationbox" className=" flexfull comparevisualizationbox compareallvizbox transition3s">
+                    </div>
+                    <div>
+                        {/* <div className="legheader"> Legend </div> */}
+                        <div>
+                            {legendImageList}
+                        </div>
+                    </div>
                 </div>
 
                 {this.state.loadingCompare &&

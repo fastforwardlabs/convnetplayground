@@ -47,10 +47,10 @@ class SemanticEx extends Component {
             showdatasetmodal: false,
             showtopresults: false,
             viewdatasetby: "all",
-            showadvanced: false,
+            showadvanced: true,
             topx: 15,
             showcomparemodal: false,
-            showcompareallmodels: false,
+            showcompareallmodels: true,
         }
         this.updateSimilarity()
         this.loadDatasetList()
@@ -572,7 +572,7 @@ class SemanticEx extends Component {
         let simArr = this.state.similarityArray[this.state.selectedsimimage].slice(1, this.state.topx + 1)
         let allDictionary = this.datasetdictionary.dictionary[this.state.datasetsList[this.state.selecteddataset].name]
         let selectedCat = allDictionary[this.state.selectedsimimage]
-        // console.log(simar.slice(1, this.state.topx + 1))
+        // console.log(allDictionary)
         // console.log(this.state.selectedsimimage)
         let simCount = 0
         let modelScore = 0
@@ -934,6 +934,7 @@ When you select an image (by clicking it), a neural network <span className="ita
                                     layers: this.state.modelsList[this.state.selectedmodel].layers,
                                     chartWidth: 290,
                                     chartHeight: 220,
+                                    classLabels: allDictionary,
                                     dml: this.state.datasetsList[this.state.selecteddataset].name + this.state.modelsList[this.state.selectedmodel].name + this.state.distanceMetricList[this.state.selectedmetric]
                                 }}
                             />
@@ -1046,7 +1047,7 @@ When you select an image (by clicking it), a neural network <span className="ita
                                                             This is the percentage of returned results that belong to the same category
                                                         as the selected image (weighted by position in the result list). For the current
                                                         search, <strong>{simCount} / {this.state.topx} results </strong>  are in same category <strong>({selectedCat.toUpperCase()})</strong>.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Note that this score is conservative - some images may belong to different classes but
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Note that this score is conservative - some images may belong to different classes but
                                                         are <span className="italics"> similar </span> (e.g sedan, beetle, ferrari are <span className="italics">all</span> cars).
                                                         </div>
 
