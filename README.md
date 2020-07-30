@@ -1,4 +1,4 @@
-# ConveNet Playground
+# ConvNet Playground
 
 > A prototype that allows you explore how convolutional neural network models. It covers areas like feature extraction and semantic search (image retrieval), visualizations of internal components of CNNs etc.
 
